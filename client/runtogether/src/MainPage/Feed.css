@@ -1,0 +1,87 @@
+.body {
+    margin-bottom: 70px;
+}
+
+.card {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.card-header {
+    display: flex;
+    height: 60px;
+}
+
+.card-header-left {
+    width: 50%;
+    display: flex;
+}
+
+.card-header-right {
+    width: 50%;
+    display: inline-block;
+}
+
+.share-btn {
+    text-align: right;
+    line-height: 38px;
+    font-size: 20px;
+    float: right;
+}
+
+.profile-img {
+    width: 25%;
+    height: 40px;
+    border-radius: 100%;
+    background-image: url(./권태윤.png);
+    background-size: cover;
+}
+
+.nickname {
+    height: 40px;
+    line-height: 38px;
+    margin-left: 3%;
+    font-weight: bold;
+}
+
+.post-image {
+    border-radius: 20px;
+    width: 90%;
+    height: 200px;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-image: url(./공원1.jpg);
+    background-size: cover;
+}
+
+.title {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.content {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 7px;
+    font-size: 13px;
+}
+
+.like-comment {
+    width: 90%;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: right;
+    height: 30px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.like, .comment{
+    margin: 2%;
+}
