@@ -1,4 +1,4 @@
-package com.runstory.domain.notificationtable;
+package com.runstory.domain.notification;
 
 
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ public class Notification{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     @Comment("알림 아이디")
     private long AlarmId;
     @Column(length = 50, nullable = false)

@@ -1,4 +1,4 @@
-package com.runstory.domain.hashtagtable;
+package com.runstory.domain.hashtag;
 
 
 import javax.persistence.Column;
@@ -16,7 +16,7 @@ import org.hibernate.annotations.DynamicInsert;
 public class HashTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     @Comment("해시태그아이디")
     private long HashtagId;
     @Column(length = 50, nullable = false)

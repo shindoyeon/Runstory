@@ -1,4 +1,4 @@
-package com.runstory.domain.qnatable;
+package com.runstory.domain.qna;
 
 
 import java.time.LocalDateTime;
@@ -17,10 +17,9 @@ import org.hibernate.annotations.DynamicInsert;
 public class QNA{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     @Comment("질문아이디")
     private long InquiryId;
-    @Column(length = 50, nullable = false)
     @Comment("유저아이디")
     private long UserId;
     @Column(length = 50, nullable = false)
