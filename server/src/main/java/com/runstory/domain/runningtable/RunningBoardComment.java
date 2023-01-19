@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import lombok.Data;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Data
@@ -14,8 +15,14 @@ public class RunningBoardComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long runningCommentId;
+
+    @Comment("댓글 내용")
     private String content;
+
+    @Comment("생성일자")
     private LocalDateTime regDate;
+
+    @Comment("변경일자")
     private LocalDateTime updateDate;
 
     @PrePersist
