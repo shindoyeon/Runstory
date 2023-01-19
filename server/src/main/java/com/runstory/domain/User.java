@@ -33,17 +33,15 @@ public class User {
     private int age;
     @Column(name="SOCIAL_ID")
     private String socialId;
-    @Column(name="ACCESS-TOKEN")
+    @Column(name="ACCESS_TOKEN")
     private String accessToken;
-    @Column(name="REFRESH-TOKEN")
+    @Column(name="REFRESH_TOKEN")
     private String refreshToken;
     @Column(name="ROLE")
     private int role;
     @Column(name="LEVEL")
     private int level;
-    @Column(name="EXPERIENCE")
     private int experience;
-    @Column(name="PROFILE_IMG_FILE_PATH")
     private String profileImgFilePath;
     private String profileImgFileName;
     private int regType;
