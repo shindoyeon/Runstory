@@ -13,7 +13,7 @@ import org.hibernate.annotations.Comment;
 public class RunningDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long runningId;
+    private long id;
     
     @Comment("인원유형(0:남자만, 1:여자만, 2:상관없음)")
     private int GenderType;
