@@ -11,7 +11,6 @@ import lombok.Setter;
 @Data
 public class User {
     @Id
-    @Column(name="USER_ID")
     private String userId;
     @Column(name="USER_PWD")
     private String userPwd;
@@ -22,7 +21,7 @@ public class User {
     @Column(name="EMAIL_AUTH")
     private boolean emailAuth;
 
-    @Column(name="PHOONE_NUM")
+    @Column(name="PHONE_NUM")
     private String phoneNum;
 
     @Column(name="GENDER")
