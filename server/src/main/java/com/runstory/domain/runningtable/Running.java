@@ -1,4 +1,4 @@
-package com.runstory.domain;
+package com.runstory.domain.runningtable;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class RunningList {
+public class Running {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long runningId;

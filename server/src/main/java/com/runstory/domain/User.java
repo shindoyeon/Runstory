@@ -11,7 +11,6 @@ import lombok.Setter;
 @Data
 public class User {
     @Id
-    @Column(name="USER_ID")
     private String userId;
     @Column(name="USER_PWD")
     private String userPwd;
@@ -22,7 +21,7 @@ public class User {
     @Column(name="EMAIL_AUTH")
     private boolean emailAuth;
 
-    @Column(name="PHOONE_NUM")
+    @Column(name="PHONE_NUM")
     private String phoneNum;
 
     @Column(name="GENDER")
@@ -33,9 +32,9 @@ public class User {
     private int age;
     @Column(name="SOCIAL_ID")
     private String socialId;
-    @Column(name="ACCESS-TOKEN")
+    @Column(name="ACCESS_TOKEN")
     private String accessToken;
-    @Column(name="REFRESH-TOKEN")
+    @Column(name="REFRESH_TOKEN")
     private String refreshToken;
     @Column(name="ROLE")
     private int role;
