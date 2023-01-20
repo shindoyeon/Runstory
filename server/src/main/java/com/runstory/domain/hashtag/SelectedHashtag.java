@@ -7,6 +7,7 @@ import com.runstory.domain.running.Running;
 import com.runstory.domain.user.entity.User;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,28 +36,27 @@ public class SelectedHashtag {
     @Comment("선택된 해시태그 아이디")
     private List<HashTag> hashTags = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "hashtag_id",
         foreignKey = @ForeignKey(name = "fk_selected_hashtag_to_hashtag"))
-    @Column(nullable = false)
     @Comment("해시태그 아이디")
     private HashTag hashtag;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",
         foreignKey = @ForeignKey(name = "fk_selected_hashtag_to_user"))
     @Column(length = 50)
     @Comment("유저아이디")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id",
         foreignKey = @ForeignKey(name = "fk_selected_hashtag_to_feed"))
     @Column(length = 50)
     @Comment("게시글아이디")
     private Feed feed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "running_id",
         foreignKey = @ForeignKey(name = "fk_selected_hashtag_to_running"))
     @Comment("러닝아이디")

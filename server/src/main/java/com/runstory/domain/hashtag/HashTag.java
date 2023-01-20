@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Data;
 import org.hibernate.annotations.Comment;
@@ -29,7 +28,7 @@ public class HashTag {
     private List<SelectedHashtag> selectedHashTags = new ArrayList<>();
     @Column(length = 50, nullable = false)
     @Comment("해시태그명")
-    private String HashtagName;
+    private String hashtagName;
 
 
 
