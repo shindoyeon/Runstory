@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +33,6 @@ public class RunningBoardComment {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name= "running_id")
+    @JoinColumn(name= "running_id", foreignKey = @ForeignKey(name="fk_runningboardcomment_to_running"))
     private Running running;
 }
