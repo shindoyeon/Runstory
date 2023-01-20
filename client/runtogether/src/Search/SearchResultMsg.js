@@ -6,7 +6,7 @@ import './SearchResultMsg.css'
 const SearchResultMsg = () => {
     return (
         <div className="search-result-msg">
-            "ㅇㅇㅇ" 에 대한 검색 결과입니다
+            "tang_tang" 에 대한 검색 결과입니다
         </div>
     );
 }

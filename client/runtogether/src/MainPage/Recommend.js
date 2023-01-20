@@ -19,8 +19,7 @@ const Recommend = () => {
         infinite: false,
         speed: 200,
         slidesToShow: 1,
-        slidesToScroll: 1,
-        width: '90vw'
+        slidesToScroll: 1
       };
       
       return (

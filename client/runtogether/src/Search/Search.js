@@ -9,6 +9,7 @@ import SearchPageMsg from './SearchPageMsg';
 import SearchBar from './SearchBar';
 import SearchResultMsg from './SearchResultMsg';
 import FeedSearchResult from './FeedSearchResult'
+import UserSearchResult from './UserSearchResult'
 
 function Search() {
   return (
@@ -18,7 +19,8 @@ function Search() {
         <SearchPageMsg></SearchPageMsg>
         <SearchBar></SearchBar>
         <SearchResultMsg></SearchResultMsg>
-        <FeedSearchResult></FeedSearchResult>
+        {/* <FeedSearchResult></FeedSearchResult> */}
+        <UserSearchResult></UserSearchResult>
         <Footer></Footer>
       </div>
     </ChakraProvider>
