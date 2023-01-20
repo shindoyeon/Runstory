@@ -85,4 +85,8 @@ public class Running {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningBoardComment> runningboardcomments = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
+    private List<RunningUser> runningusers = new ArrayList<>();
 }

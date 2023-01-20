@@ -1,5 +1,9 @@
 package com.runstory.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.runstory.domain.running.RunningUser;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 import com.runstory.domain.user.RegType;
@@ -75,4 +79,8 @@ public class User {
     @Comment("회원정보수정일자")
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime updatedate;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<RunningUser> runningusers = new ArrayList<>();
 }
