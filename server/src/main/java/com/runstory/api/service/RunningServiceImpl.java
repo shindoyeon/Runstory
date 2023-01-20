@@ -13,7 +13,7 @@ public class RunningServiceImpl implements RunningService{
 
     @Override // 버튼을 클릭했을 때 상세내용을 보내는 방식
     public RunningListDTO findrunningInfo(Long id){
-        Running runnings = runningrepository.findAllById(1L);
+        Running runnings = runningrepository.findAllById(id);
         RunningListDTO runningInfo = new RunningListDTO(
             runnings.getId(),
             runnings.getImgPathFile(),
