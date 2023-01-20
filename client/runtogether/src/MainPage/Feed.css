@@ -6,7 +6,7 @@
     width: 90%;
     margin: 0 auto;
     margin-bottom: 15px;
-    margin-top: 15px;
+    margin-top: 30px;
 }
 
 .card-header {
@@ -75,7 +75,8 @@
     width: 90%;
     margin: 0 auto;
     display: inline-block;
-    text-align: right;
+    /* text-align: right; */
+    /* margin-left: 10%; */
     height: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -83,5 +84,5 @@
 }
 
 .like, .comment{
-    margin: 2%;
+    margin: 3%;
 }

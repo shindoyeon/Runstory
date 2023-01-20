@@ -8,7 +8,8 @@ import {
     ChakraProvider,
     theme,
     Card, // chakra-ui의 Card로 피드 하나를 구성할 것임 
-    CardHeader
+    CardHeader,
+    Image
   } from '@chakra-ui/react';
 
 const Feed = () => {
@@ -20,7 +21,12 @@ const Feed = () => {
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header'> 
                         <div className='card-header-left'>
-                            <div className='profile-img'></div>
+                            <Image
+                                borderRadius='full'
+                                boxSize='40px'
+                                src='https://bit.ly/dan-abramov'
+                                alt='Dan Abramov'
+                            />
                             <div className='nickname'>taeyoon_kk</div>
                         </div>
                         <div className='card-header-right'>
@@ -34,12 +40,12 @@ const Feed = () => {
                             <div className='title'>오운완</div>
                             {/* 내용 */}
                             <div className='feed-content'>내일 같이 운동하실 분 계신가요????</div>
-                    </div>
-                    {/* 좋아요 및 댓글 버튼 */}
-                    <div className='like-comment'>
+                    <div className='like-comment feed-content'>
                         <FontAwesomeIcon className='like' icon={faHeart} />
                         <FontAwesomeIcon className='comment' icon={faComment} />
                     </div>
+                    </div>
+                    {/* 좋아요 및 댓글 버튼 */}
                 </Card>
                 <Card className='card'>
                     <CardHeader className='card-header'>

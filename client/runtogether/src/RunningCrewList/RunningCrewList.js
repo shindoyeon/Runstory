@@ -5,8 +5,8 @@ import {
 } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import BetweenBodyFooter from '../common/BetweenBodyFooter';
-import Swiper from './Swiper'
+// import BetweenBodyFooter from '../common/BetweenBodyFooter';
+// import Swiper from './Swiper'
 import GpsFilter from './GpsFilter';
 import LastDayFilter from './LastDayFilter';
 import HashTagFilter1 from './HashTagFilter1';
@@ -21,15 +21,15 @@ function RunningCrewList() {
         <Header></Header>
         <RunningCrewPageMsg></RunningCrewPageMsg>
         <GpsFilter></GpsFilter>
-        <Swiper></Swiper>
+        {/* <Swiper></Swiper> */}
         <LastDayFilter></LastDayFilter>
-        <Swiper></Swiper>
+        {/* <Swiper></Swiper> */}
         <HashTagFilter1></HashTagFilter1>
-        <Swiper></Swiper>
+        {/* <Swiper></Swiper> */}
         <HashTagFilter2></HashTagFilter2>
-        <Swiper></Swiper>
+        {/* <Swiper></Swiper> */}
         <HashTagFilter3></HashTagFilter3>
-        <Swiper></Swiper>
+        {/* <Swiper></Swiper> */}
         <Footer className='footer'></Footer>
       </div>
     </ChakraProvider>
