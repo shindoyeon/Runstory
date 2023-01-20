@@ -6,7 +6,7 @@ import {
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 // import BetweenBodyFooter from '../common/BetweenBodyFooter';
-// import Swiper from './Swiper'
+import Swiper from './Swiper'
 import GpsFilter from './GpsFilter';
 import LastDayFilter from './LastDayFilter';
 import HashTagFilter1 from './HashTagFilter1';
@@ -21,7 +21,7 @@ function RunningCrewList() {
         <Header></Header>
         <RunningCrewPageMsg></RunningCrewPageMsg>
         <GpsFilter></GpsFilter>
-        {/* <Swiper></Swiper> */}
+        <Swiper></Swiper>
         <LastDayFilter></LastDayFilter>
         {/* <Swiper></Swiper> */}
         <HashTagFilter1></HashTagFilter1>

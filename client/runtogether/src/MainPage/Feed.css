@@ -86,3 +86,7 @@
 .like, .comment{
     margin: 3%;
 }
+
+.like:active{
+    transform: scale(1.2);
+}

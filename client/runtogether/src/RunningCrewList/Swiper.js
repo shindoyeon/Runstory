@@ -17,7 +17,6 @@ const Swiper = () => {
         speed: 200,
         slidesToShow: 1,
         slidesToScroll: 1,
-        width: '90vw'
       };
     return (
         <div className='swiper-slide'>

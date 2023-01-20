@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@chakra-ui/react": "^2.4.8",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -10,6 +11,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "framer-motion": "^6.5.1",
     "react-dropzone": "^14.2.3",
+    "react-icons": "^4.7.1",
     "react-redux": "^8.0.5",
     "react-slick": "^0.29.0",
     "redux": "^4.2.0",
