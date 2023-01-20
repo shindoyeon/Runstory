@@ -25,7 +25,7 @@ const Footer = () => {
                   </div>
                   
                 {/* </Link> */}
-                <div className='navigate'><FontAwesomeIcon icon={faCompass} /></div>
+                <Link to="/search"><div className='navigate'><FontAwesomeIcon icon={faCompass} /></div></Link>
                 <div className='my-page'><FontAwesomeIcon icon={faUser} /></div>
                 <Collapse in={isOpen} animateOpacity className='collapse'>
                   <ButtonGroup className='btn-group'>
@@ -47,7 +47,6 @@ const Footer = () => {
                     </ButtonGroup>
                 </Collapse>
             </header>
-            
         </ChakraProvider>
       );
 }

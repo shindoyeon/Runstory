@@ -8,8 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 // import SwiperCore, { Navigation, Pagination } from "swiper";
 // import "swiper/css"; //basic
 import './Recommend.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
 
 
 
@@ -25,7 +25,7 @@ const Recommend = () => {
       
       return (
         <div className='swiper-slide'>
-        <Slider {...settings}>
+        <Slider {...settings} className='slide'>
           <div className='slide'>
           <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
           </div>
