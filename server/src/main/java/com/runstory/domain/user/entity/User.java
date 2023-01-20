@@ -1,8 +1,9 @@
-package com.runstory.domain.user;
+package com.runstory.domain.user.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+import com.runstory.domain.user.RegType;
+import com.runstory.domain.user.RoleType;
 import lombok.Data;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
@@ -12,9 +13,11 @@ import java.time.LocalDateTime;
 @Data
 @DynamicInsert
 public class User {
-    @Id
-    @Column(length = 50)
-    @Comment("아이디")
+    @Id @GeneratedValue
+    private long userSeq;
+
+    @Column(length = 50, unique=true, nullable = false)
+    @Comment("사용자아이디")
     private String userId;
     @Comment("비밀번호")
     @Column(length = 50, nullable = false)
@@ -41,21 +44,19 @@ public class User {
     @Comment("나이")
     @Column(nullable = false)
     private int age;
-    @Comment("소셜아이디")
-    @Column(length = 50, nullable = false)
-    private String socialId;
 
+    @Comment("토큰")
     @Column(length = 100, nullable = false)
-    private String accessToken;
-    @Column(length = 100, nullable = false)
-    private String refreshToken;
-    @Comment("역할(0: 일반사용자, 1: 관리자)")
-    @Column(columnDefinition = "int default 0", nullable = false)
-    private int role;
+    private String token;
+
+    @Comment("역할(USER: 일반사용자, ADMIN: 관리자)")
+    @Column(length = 30)
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
     @Comment("레벨")
     @Column(columnDefinition = "int default 1", nullable = false)
     private int level;
-    @Comment("발걸음수(레벨이 상승하면 경험치 0으로 리셋됨)")
+    @Comment("발걸음수(레벨이 상승하면 경험치 0으로 리셋)")
     @Column(columnDefinition = "int default 0", nullable = false)
     private int experience;
     @Comment("프로필이미지경로")
@@ -64,9 +65,10 @@ public class User {
     @Comment("프로필이미지파일명")
     @Column(length = 500, nullable = false)
     private String profileImgFileName;
-    @Comment("회원가입유형(0: 일반회원가입, 1: 카카오)")
+    @Comment("LOCAL: 일반회원가입, KAKAO: 카카오, GOOGLE: 구글, NAVER: 네이버")
     @Column(nullable = false)
-    private int regType;
+    @Enumerated(EnumType.STRING)
+    private RegType regType;
     @Comment("회원가입일자")
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime regdate;
