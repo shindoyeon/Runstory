@@ -1,12 +1,12 @@
 import React from 'react';
 import './Filter.css';
 
-const HashTagFilter2 = () => {
+const FilterName = (props) => {
     return (
         <div className='filter-box'>
-            <p className='filter'># 뒷풀이_있음</p>
+            <p className='filter'>{props.name}</p>
         </div>
     );
 }
 
-export default HashTagFilter2;
+export default FilterName;

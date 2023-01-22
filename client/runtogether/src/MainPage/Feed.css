@@ -47,7 +47,7 @@
 }
 
 .post-image {
-    border-radius: 20px;
+    border-radius: 10px;
     width: 90%;
     height: 200px;
     margin: 0 auto;
@@ -72,15 +72,17 @@
 }
 
 .like-comment {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     display: inline-block;
     /* text-align: right; */
     /* margin-left: 10%; */
+    text-align: right;
     height: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
     font-weight: bold;
+    margin-right: 3%;
 }
 
 .like, .comment{

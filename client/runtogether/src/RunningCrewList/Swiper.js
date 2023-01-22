@@ -7,41 +7,31 @@ import "./Swiper.css"
 // import 'swiper/swiper-bundle.min.css'
 // import 'swiper/swiper.min.css'
 // import 'swiper/swiper-bundle.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
 
 const Swiper = () => {
-    const settings = {
-        dots: false,
-        infinite: false,
-        speed: 200,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      };
-    return (
-        <div className='swiper-slide'>
-        <Slider {...settings}>
-        <div className='slide'>
-        <div className='imgs'><div className='img'>
-            </div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-        </div>
-        <div className='slide'>
-        <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-        </div>
-        <div className='slide'>
+  const settings = {
+    // dots: false,
+    // infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    infinite: false
+  };
 
-        <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-        </div>
-        <div className='slide'>
-        <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-        </div>
-        <div className='slide'>
-        <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-        </div>
-        <div className='slide'>
-        <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-        </div>
-      </Slider>
+    return (
+      // <div className='slide-div'>
+      // </div>`
+      <div className='silde-div'>
+        {/* <Slider>
+
+        </Slider> */}
+      {/* <Slider {...settings} className='slider'>
+        <div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div>
+        <div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div>
+        <div className='img'></div><div className='img'></div>
+      </Slider> */}
       </div>
     );
 }

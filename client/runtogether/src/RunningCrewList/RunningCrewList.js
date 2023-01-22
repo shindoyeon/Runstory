@@ -6,33 +6,27 @@ import {
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 // import BetweenBodyFooter from '../common/BetweenBodyFooter';
-import Swiper from './Swiper'
-import GpsFilter from './GpsFilter';
-import LastDayFilter from './LastDayFilter';
-import HashTagFilter1 from './HashTagFilter1';
-import HashTagFilter2 from './HashTagFilter2';
-import HashTagFilter3 from './HashTagFilter3';
+// import Swiper from './Swiper'
+import FilterName from './FilterName';
 import RunningCrewPageMsg from './RunningCrewPageMsg';
 
 function RunningCrewList() {
   return (
-    <ChakraProvider theme={theme} className='body'>
-      <div className='body'>
+      <div>
         <Header></Header>
         <RunningCrewPageMsg></RunningCrewPageMsg>
-        <GpsFilter></GpsFilter>
-        <Swiper></Swiper>
-        <LastDayFilter></LastDayFilter>
+        <FilterName name="# 근처에_있는"></FilterName>
         {/* <Swiper></Swiper> */}
-        <HashTagFilter1></HashTagFilter1>
+        <FilterName name="# 오늘_모집_마감"></FilterName>
         {/* <Swiper></Swiper> */}
-        <HashTagFilter2></HashTagFilter2>
+        <FilterName name="# 사용자_해시태그_1"></FilterName>
         {/* <Swiper></Swiper> */}
-        <HashTagFilter3></HashTagFilter3>
+        <FilterName name="# 사용자_해시태그_2"></FilterName>
         {/* <Swiper></Swiper> */}
-        <Footer className='footer'></Footer>
+        <FilterName name="# 사용자_해시태그_3"></FilterName>
+        {/* <Swiper></Swiper> */}
+        <Footer></Footer>
       </div>
-    </ChakraProvider>
   );
 }
 

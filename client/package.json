@@ -12,6 +12,7 @@
     "framer-motion": "^6.5.1",
     "react-dropzone": "^14.2.3",
     "react-icons": "^4.7.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-redux": "^8.0.5",
     "react-slick": "^0.29.0",
     "redux": "^4.2.0",
