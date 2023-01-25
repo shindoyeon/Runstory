@@ -3,7 +3,6 @@ import './Feed.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
 import { faShare, faHeart } from "@fortawesome/free-solid-svg-icons"; // 공유 버튼
 import { faComment } from "@fortawesome/free-regular-svg-icons"; // 하트(좋아요), 댓글 버튼
-
 import {
     Card, // chakra-ui의 Card로 피드 하나를 구성할 것임 
     CardHeader,
@@ -16,662 +15,40 @@ import {
     ModalBody,
     ModalFooter,
     useDisclosure,
-    FormControl,
     Input,
     Button,
     CardBody,
+    ChakraProvider,
   } from '@chakra-ui/react';
-import { Form } from 'react-router-dom';
 
 const Feed = () => {
+    const handleMoreBtn = i => {
+        let copyArray = [...arr]; // 
+        copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, content: copyArray[i].content, isLiked: copyArray[i].isLiked, contentClosed: !copyArray[i].contentClosed}
+        setArr ( copyArray );
+    }
+
     const feeds = [
         {   
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
+            content: "오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? ",
+            isLiked: true,
+            contentClosed: false
         },
-        {
-            author: "songheew",
+        {   
+            author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
+            content: "오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? ",
+            isLiked: false,
+            contentClosed: false
         },
         {   
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
             content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
-        },
-        {   
-            author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
-            isLiked: false
-        },
-        {
-            author: "songheew",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "천천히 산책해요~",
-            isLiked: false
-        },
-        {
-            author: "doyeon_shin",
-            profileImg: "https://bit.ly/dan-abramov",
-            content: "운동! 운동!",
-            isLiked: false
+            isLiked: false,
+            contentClosed: false
         },
     ]
 
@@ -696,9 +73,17 @@ const Feed = () => {
     };
 
 
+    const clickShare = i => {
+        let text = "작성자: " + arr[i].author + "\n글내용: " + arr[i].content;
+        console.log(text)
+        // setFeedInfo(text);
+        // console.log(feedInfo)
+    }
+
     return (
         <div className='body'>
-            <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal' scrollBehavior='inside'>
+            <ChakraProvider height='5vh'>
+            <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal' scrollBehavior='inside' height={'10vh'}>
                 <ModalOverlay />
                 <ModalContent>
                 <ModalHeader>댓글</ModalHeader>
@@ -714,7 +99,7 @@ const Feed = () => {
                                         src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
                                         alt='Dan Abramov'
                                     />
-                                    <div className='nickname'>songheew</div>
+                                    <div className='comment-nickname'>songheew</div>
                                 </div>
                                 <div className='comment-content'>좋은 사진이네요~좋은 사진이네요~좋은 사진이네요~좋은 사진이네요~좋은 사진이네요~좋은 사진이네요~좋은 사진이네요~좋은 사진이네요~좋은 사진이네요~</div>
                             </CardBody>
@@ -728,7 +113,7 @@ const Feed = () => {
                                         src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
                                         alt='Dan Abramov'
                                     />
-                                    <div className='nickname'>songheew</div>
+                                    <div className='comment-nickname'>songheew</div>
                                 </div>
                                 <div className='comment-content'>좋은 사진이네요~</div>
                             </CardBody>
@@ -742,7 +127,7 @@ const Feed = () => {
                                         src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
                                         alt='Dan Abramov'
                                     />
-                                    <div className='nickname'>songheew</div>
+                                    <div className='comment-nickname'>songheew</div>
                                 </div>
                                 <div className='comment-content'>좋은 사진이네요~</div>
                             </CardBody>
@@ -756,7 +141,7 @@ const Feed = () => {
                                         src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
                                         alt='Dan Abramov'
                                     />
-                                    <div className='nickname'>songheew</div>
+                                    <div className='comment-nickname'>songheew</div>
                                 </div>
                                 <div className='comment-content'>좋은 사진이네요~</div>
                             </CardBody>
@@ -770,7 +155,7 @@ const Feed = () => {
                                         src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
                                         alt='Dan Abramov'
                                     />
-                                    <div className='nickname'>songheew</div>
+                                    <div className='comment-nickname'>songheew</div>
                                 </div>
                                 <div className='comment-content'>좋은 사진이네요~</div>
                             </CardBody>
@@ -789,6 +174,7 @@ const Feed = () => {
                 </ModalFooter>
                 </ModalContent>
             </Modal>
+            </ChakraProvider>
             {arr.map((item, idx) => {
                 return (
                 <>
@@ -805,23 +191,21 @@ const Feed = () => {
                             <div className='nickname'>{item.author}</div>
                         </div>
                         <div className='card-header-right'>
-                            <div className='share-btn'><FontAwesomeIcon icon={faShare} /></div>
+                            <button className='share-btn'><FontAwesomeIcon icon={faShare} onClick={() => {clickShare(idx)}}/></button>
                         </div>
                     </CardHeader>
                     {/* 피드 내용 */}
                     <div className='card-body'>
                         <div className='post-image'></div>
-                            {/* 제목 */}
-                            <div className='title'>오운완</div>
                             {/* 내용 */}
-                            <div className='feed-content'>{item.content}</div>
+                            <div className={item.contentClosed?'feed-content-open':'feed-content'} onClick={() => handleMoreBtn(idx)}>{item.content}</div>
                     <div className='like-comment feed-content'> 
                         {item.isLiked ?
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={()=> {
+                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '20px', fontWeight: 'bold'}} onClick={()=> {
                             clickLike(idx)}}/> :	//꽉차있는 하트를 return
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '25px'}} onClick={()=> {
+                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '20px'}} onClick={()=> {
                             clickLike(idx)}}/>}
-                        <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '25px'}} onClick={onOpen}/>
+                        <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '20px'}} onClick={onOpen}/>
                     </div>
                 </div>
                     {/* 좋아요 및 댓글 버튼 */}

@@ -7,7 +7,6 @@ import {
   } from '@chakra-ui/react';
 
 const SearchBar = () => {
-
     return (
         <div className="search-input">
             <Menu closeOnSelect={true}>
