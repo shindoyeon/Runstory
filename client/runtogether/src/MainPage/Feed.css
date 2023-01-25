@@ -33,15 +33,14 @@
 
 .profile-img {
     width: 25%;
-    height: 40px;
     border-radius: 100%;
     background-image: url(./권태윤.png);
     background-size: cover;
 }
 
 .nickname {
-    height: 40px;
-    line-height: 38px;
+    height: 30px;
+    line-height: 30px;
     margin-left: 3%;
     font-weight: bold;
 }
@@ -91,4 +90,22 @@
 
 .like:active{
     transform: scale(1.2);
+}
+
+.modal {
+    width: 90%;
+}
+
+.comment-content {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.comment-form {
+    width: 100%;
+    text-align: center;
+}
+
+.comment-input {
+    width: 100%;
 }

@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  ChakraProvider,
-  theme,
-} from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 // import BetweenBodyFooter from '../common/BetweenBodyFooter';

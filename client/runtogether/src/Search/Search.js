@@ -8,7 +8,7 @@ import Footer from '../common/Footer';
 import SearchPageMsg from './SearchPageMsg';
 import SearchBar from './SearchBar';
 import SearchResultMsg from './SearchResultMsg';
-import FeedSearchResult from './FeedSearchResult'
+// import FeedSearchResult from './FeedSearchResult'
 import UserSearchResult from './UserSearchResult'
 
 function Search() {
