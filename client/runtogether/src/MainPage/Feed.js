@@ -110,7 +110,7 @@ const Feed = () => {
                                     <Image
                                         borderRadius='full'
                                         boxSize='30px'
-                                        src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
+                                        src='https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66113e2bd2b7407c8202a97d2241a96625'
                                         alt='Dan Abramov'
                                     />
                                     <div className='comment-nickname'>songheew</div>
