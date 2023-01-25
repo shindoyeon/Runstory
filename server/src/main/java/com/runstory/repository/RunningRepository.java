@@ -1,4 +1,4 @@
-package com.runstory.api.repository.running;
+package com.runstory.repository;
 
 import com.runstory.domain.running.Running;
 import java.util.List;

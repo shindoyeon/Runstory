@@ -1,4 +1,4 @@
-package com.runstory.api.Response.running;
+package com.runstory.api.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor // 생성자 생성
 @NoArgsConstructor
 @Builder
-public class RunningListDTO {
+public class RunningListDto {
     private long id;
     private String imgPathFile;
     private String imgFileName;
