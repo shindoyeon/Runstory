@@ -27,7 +27,7 @@ public class ChatMessage {
 
     @Comment("관련 채팅 방")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_id", foreignKey = @ForeignKey(name="fk_chat_room_id_chat_room_chat_room_id"))
+    @JoinColumn(name = "chat_room_id", foreignKey = @ForeignKey(name="fk_chat_message_chat_room_id_chat_room_chat_room_id"))
     private ChatRoom chatRoom;
 
     @Comment("사용자 아이디")
