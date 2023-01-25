@@ -16,11 +16,11 @@ public class User_Block {
     private Long blockId;
     @Comment("차단하는 사용자 아이디")
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_user_id_user_user_id"))
+    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name="fk_user_id_user_block_user"))
     private User user;
 
     @Comment("차단당한 사용자 아이디")
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="blocked_user_id", foreignKey = @ForeignKey(name="fk_blocked_user_id_user_user_id"))
+    @JoinColumn(name="blocked_user_id", foreignKey = @ForeignKey(name="fk_blocked_user_id_user_block_user"))
     private User blocked;
 }

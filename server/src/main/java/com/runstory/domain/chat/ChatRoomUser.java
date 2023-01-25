@@ -25,12 +25,12 @@ public class ChatRoomUser {
 
     @Comment("채팅 방 아이디")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_id",foreignKey = @ForeignKey(name="fk_chat_room_id_chat_room_chat_room_id"))
+    @JoinColumn(name = "chat_room_id",foreignKey = @ForeignKey(name="fk_chat_room_id_chat_room_user_chat_room"))
     private ChatRoom chatRoom;
 
     @Comment("사용자 아이디")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",foreignKey = @ForeignKey(name="fk_user_id_user_user_id"))
+    @JoinColumn(name = "user_id",foreignKey = @ForeignKey(name="fk_user_id_chat_room_user_user"))
     private User user;
 
     @Comment("등록일자")
