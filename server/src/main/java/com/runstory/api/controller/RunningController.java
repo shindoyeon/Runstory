@@ -1,10 +1,9 @@
 package com.runstory.api.controller;
 
-import com.runstory.api.service.RunningService;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import com.runstory.service.RunningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
