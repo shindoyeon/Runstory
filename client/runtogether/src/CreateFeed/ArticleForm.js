@@ -30,7 +30,7 @@ const ArticleForm = () => {
 
     const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
         event.preventDefault();
-        alert(`작성된 내용: ${content}, 공개범위: ${value}, IMG: ${event.target.files[0].name}`); // 데이터 잘 들어왔는지 확인용!!!
+        alert(`작성된 내용: ${content}, 공개범위: ${value}`); // 데이터 잘 들어왔는지 확인용!!!
     };
 
     const handleButtonClick = e => {
