@@ -1,6 +1,7 @@
 package com.runstory.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.running.RunningUser;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,4 +84,7 @@ public class User {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<RunningUser> runningusers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<ChatRoomUser> rooms = new ArrayList<>();
 }
