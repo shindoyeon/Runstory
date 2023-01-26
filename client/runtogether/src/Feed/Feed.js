@@ -7,13 +7,15 @@ import {
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import FeedPersonalButton from './FeedPersonalButton';
+import Profile from './Profile';
 
 function Feed() {
   return (
     <ChakraProvider theme={theme}>
       <div>
         <Header></Header>
-        <FeedPersonalButton></FeedPersonalButton>
+          <FeedPersonalButton></FeedPersonalButton>
+          <Profile></Profile>
         <Footer></Footer>
       </div>
     </ChakraProvider>
