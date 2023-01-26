@@ -19,9 +19,9 @@ import lombok.Data;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 
-@Entity
+/*@Entity
 @Data
-@DynamicInsert
+@DynamicInsert*/
 public class RunningHashtag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

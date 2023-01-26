@@ -44,6 +44,21 @@ public class SelectedHashtag {
     @Column(length=30, nullable = false)
     @Comment("해시태그 종류")
     private String hashtagType;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",
+        foreignKey = @ForeignKey(name = "fk_running_hashtag_to_running"))
+    @Comment("러닝아이디")
+    private Running runningId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "feed_id",
+        foreignKey = @ForeignKey(name = "fk_feed_hashtag_to_feed"))
+    @Comment("피드아이디")
+    private Feed feedId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",
+        foreignKey = @ForeignKey(name = "fk_user_hashtag_to_user"))
+    @Comment("유저아이디")
+    private User userId;
 
 
 
