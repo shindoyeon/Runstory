@@ -1,15 +1,10 @@
-package com.runstory.api.controller.running;
+package com.runstory.api.controller;
 
-import com.runstory.api.Response.running.RunningListDTO;
-import com.runstory.api.service.RunningService;
-import com.runstory.domain.running.Running;
-import com.runstory.api.repository.running.RunningRepository;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
+
+import com.runstory.service.RunningService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

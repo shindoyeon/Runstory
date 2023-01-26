@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 public class User {
     @Id @GeneratedValue
-    private long userSeq;
+    private Long userSeq;
 
     @Column(length = 50, unique=true, nullable = false)
     @Comment("사용자아이디")
@@ -54,7 +54,7 @@ public class User {
     private String token;
 
     @Comment("역할(USER: 일반사용자, ADMIN: 관리자)")
-    @Column(length = 30)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
     @Comment("레벨")
