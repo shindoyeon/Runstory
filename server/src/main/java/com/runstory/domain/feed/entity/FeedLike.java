@@ -1,4 +1,4 @@
-package com.runstory.domain.feed;
+package com.runstory.domain.feed.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

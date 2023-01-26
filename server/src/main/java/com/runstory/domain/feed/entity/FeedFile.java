@@ -1,4 +1,4 @@
-package com.runstory.domain.feed;
+package com.runstory.domain.feed.entity;
 
 import javax.persistence.*;
 
