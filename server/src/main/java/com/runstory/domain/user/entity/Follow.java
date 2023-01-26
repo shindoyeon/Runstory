@@ -18,10 +18,10 @@ public class Follow {
     private Long followId;
     @Comment("팔로워")
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="from_user_id", foreignKey = @ForeignKey(name="fk_from_user_id_user_user_id"))
+    @JoinColumn(name="from_user_id")
     private User from;
     @Comment("팔로잉")
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="to_user_id", foreignKey = @ForeignKey(name="fk_to_user_id_user_user_id"))
+    @JoinColumn(name="to_user_id")
     private User to;
 }
