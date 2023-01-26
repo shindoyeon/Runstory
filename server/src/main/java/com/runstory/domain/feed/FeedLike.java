@@ -14,8 +14,8 @@ public class FeedLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long feedLikeId;
-    private long feedId;
+    private Long feedLikeId;
+    private Long feedId;
     @Column(length = 50)
     private String userId;
     @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
