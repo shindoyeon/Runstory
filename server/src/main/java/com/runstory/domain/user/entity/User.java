@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @DynamicInsert
 public class User {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSeq;
 
     @Column(length = 50, unique=true, nullable = false)
@@ -75,10 +75,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RegType regType;
     @Comment("회원가입일자")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
     @Comment("회원정보수정일자")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedate;
 
     @JsonManagedReference

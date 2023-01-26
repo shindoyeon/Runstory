@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,12 +24,12 @@ public class ChatRoomUser {
 
     @Comment("채팅 방 아이디")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_id",foreignKey = @ForeignKey(name="fk_chat_room_id_chat_room_chat_room_id"))
+    @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 
     @Comment("사용자 아이디")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",foreignKey = @ForeignKey(name="fk_user_id_user_user_id"))
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Comment("등록일자")
