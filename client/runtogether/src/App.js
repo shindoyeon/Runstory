@@ -8,7 +8,9 @@ import MainPage from './MainPage/MainPage'
 import RunningCrewList from './RunningCrewList/RunningCrewList'
 import CreateFeed from './CreateFeed/CreateFeed';
 import RecruitCrew from './RecruitCrew/RecruitCrew';
-import Search from './Search/Search'
+import Search from './Search/Search';
+import Notice from './Notice/Notice';
+import DrawMap from './DrawMap/DrawMap';
 import "./App.css";
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
           <Route path='/running-crew-list' element={<RunningCrewList />} />
           <Route path='/create-running-crew' element={<RecruitCrew />} />
           <Route path='/search' element={<Search />} />
+          <Route path='/notice' element={<Notice />} />
+          <Route path='/draw-map' element={<DrawMap />} />
         </Routes>
       </BrowserRouter>
       {/* <MainPage></MainPage> */}
