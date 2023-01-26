@@ -1,0 +1,14 @@
+.map-container {
+    line-height: 100vh;
+}
+
+.map {
+    line-height: 100vh;
+}
+
+.temp {
+    width: 100%;
+    height: 30%;
+    margin-top: 100px;
+    background-color: aqua;
+}
