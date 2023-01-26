@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @DynamicInsert
 public class User {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSeq;
 
     @Column(length = 50, unique=true, nullable = false)
@@ -51,7 +51,7 @@ public class User {
     private int age;
 
     @Comment("토큰")
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String token;
 
     @Comment("역할(USER: 일반사용자, ADMIN: 관리자)")
@@ -65,20 +65,20 @@ public class User {
     @Column(columnDefinition = "int default 0", nullable = false)
     private int experience;
     @Comment("프로필이미지경로")
-    @Column(length = 500, nullable = false)
+    @Column(length = 500)//, nullable = false)
     private String profileImgFilePath;
     @Comment("프로필이미지파일명")
-    @Column(length = 500, nullable = false)
+    @Column(length = 500)//, nullable = false)
     private String profileImgFileName;
     @Comment("LOCAL: 일반회원가입, KAKAO: 카카오, GOOGLE: 구글, NAVER: 네이버")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RegType regType;
     @Comment("회원가입일자")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
     @Comment("회원정보수정일자")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedate;
 
     @JsonManagedReference
