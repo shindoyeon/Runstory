@@ -1,18 +1,14 @@
 package com.runstory.domain.chat;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-import javax.print.attribute.standard.MediaSize.NA;
 import lombok.Data;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
@@ -27,7 +23,7 @@ public class ChatMessage {
 
     @Comment("관련 채팅 방")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_id", foreignKey = @ForeignKey(name="fk_chat_message_chat_room_id_chat_room_chat_room_id"))
+    @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 
     @Comment("사용자 아이디")
