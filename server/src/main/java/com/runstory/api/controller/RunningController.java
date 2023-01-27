@@ -7,12 +7,7 @@ import java.util.Map;
 import com.runstory.service.RunningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -38,7 +33,7 @@ public class RunningController {
     }
 
 
-    @PostMapping("/running")
+    @PostMapping("")
     public ResponseEntity<?> createRunningCrew(@RequestBody RunningCrewReqDto runningCrewReqDto) throws  Exception{
         Map<String, Object> result = new HashMap<>();
         try {
@@ -47,6 +42,20 @@ public class RunningController {
             return ResponseEntity.ok().body(result);
         }catch (Exception E){
             return ResponseEntity.status(500).body("크루가 정상적으로 생성되지 못했습니다.");
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> RunningMain(@RequestParam("latitude") float latitude, @RequestParam("longtitude") float longtitude) throws Exception{
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("statuscode", "200");
+            result.put("message", "게시글 작성 성공.");
+            result.put("success", "true");
+            result.put("first_data", "ss");
+            return ResponseEntity.ok().body(result);
+        }catch (Exception E){
+            return ResponseEntity.status(500).body("메인페이지가 정상적으로 불러오지 않습니다.");
         }
     }
 }
