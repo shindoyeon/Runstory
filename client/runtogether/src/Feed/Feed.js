@@ -23,3 +23,6 @@ function Feed() {
 }
 
 export default Feed;
+
+// 컴포넌트 : 프로필사진 및 변경 
+// 내부 
