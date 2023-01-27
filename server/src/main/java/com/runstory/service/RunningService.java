@@ -1,8 +1,10 @@
 package com.runstory.service;
 
-import com.runstory.api.response.RunningListDto;
+import com.runstory.api.request.RunningCrewReqDto;
+import com.runstory.api.response.RunninginfoResDto;
 
 public interface RunningService {
-    RunningListDto findrunningInfo(Long id);
+    RunninginfoResDto findRunningInfo(Long id);
 
+    long createRunningCrew(RunningCrewReqDto runningCrewReqDto);
 }
