@@ -3,8 +3,6 @@ import {
     Image, Card, CardBody, CardFooter, CardHeader
   } from '@chakra-ui/react';
 import './UserSearchResult.css'
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 
 const UserSearchResult = () => {
     return (
@@ -12,12 +10,13 @@ const UserSearchResult = () => {
            <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
                 <CardHeader>
                     <Image
-                                        boxSize='50px'
-                                        objectFit='cover'
-                                        src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
-                                        alt='Dan Abramov'
-                                        borderRadius={100}
-                                    />
+                        boxSize='50px'
+                        objectFit='contain'
+                        object-position='top'
+                        src='https://image.ajunews.com/content/image/2022/09/08/20220908144348563350.png'
+                        alt='no image'
+                        borderRadius='50%'
+                    />
                 </CardHeader>
                 <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
                     tang_tang
@@ -31,12 +30,12 @@ const UserSearchResult = () => {
             <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
                 <CardHeader>
                     <Image
-                                        boxSize='50px'
-                                        objectFit='cover'
-                                        src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
-                                        alt='Dan Abramov'
-                                        borderRadius={100}
-                                    />
+                        boxSize='50px'
+                        objectFit='cover'
+                        src='https://image.ajunews.com/content/image/2022/09/08/20220908144348563350.png'
+                        alt='no image'
+                        borderRadius={100}
+                    />
                 </CardHeader>
                 <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
                     tang_tang
@@ -50,12 +49,12 @@ const UserSearchResult = () => {
             <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
                 <CardHeader>
                     <Image
-                                        boxSize='50px'
-                                        objectFit='cover'
-                                        src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
-                                        alt='Dan Abramov'
-                                        borderRadius={100}
-                                    />
+                         boxSize='50px'
+                         objectFit='cover'
+                         src='https://image.ajunews.com/content/image/2022/09/08/20220908144348563350.png'
+                         alt='no image'
+                         borderRadius={100}
+                    />
                 </CardHeader>
                 <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
                     tang_tang

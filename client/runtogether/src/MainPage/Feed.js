@@ -30,6 +30,7 @@ const Feed = () => {
 
     const feeds = [
         {   
+            id: 1,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
             content: "오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? ",
@@ -37,6 +38,7 @@ const Feed = () => {
             contentClosed: false
         },
         {   
+            id: 2,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
             content: "오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? ",
@@ -44,6 +46,7 @@ const Feed = () => {
             contentClosed: false
         },
         {   
+            id: 3,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
             content: "오늘 운동어떄요?",
@@ -58,7 +61,7 @@ const Feed = () => {
 
     const clickLike = i => {
           let copyArray = [...arr]; // 
-          copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, content: copyArray[i].content, isLiked: !copyArray[i].isLiked,}
+          copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, content: copyArray[i].content, isLiked: !copyArray[i].isLiked, contentClosed: copyArray[i].contentClosed}
           setArr ( copyArray );
     }
 
@@ -177,7 +180,7 @@ const Feed = () => {
             </ChakraProvider>
             {arr.map((item, idx) => {
                 return (
-                <div width='100%' margin='0 auto'>
+                <div width='100%' margin='0 auto' key={idx}>
                 <Card className='card'>
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header'> 

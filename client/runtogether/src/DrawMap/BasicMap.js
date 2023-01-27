@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './BasicMap.css';
-import {Map, DrawingManager, drawingMode, Circle, selectOverlay} from 'react-kakao-maps-sdk'
+import _ from "lodash";
 // import {
 //     Image, Card, CardBody, CardFooter, CardHeader
 //   } from '@chakra-ui/react';
@@ -8,77 +8,46 @@ import {Map, DrawingManager, drawingMode, Circle, selectOverlay} from 'react-kak
 // import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 
 function BasicMap() {
-    const kakao = window.kakao;
-    // const [kakaoMap, setKakaoMap] = useState()
-    const [curLatitude, setCurLatitude] = useState(33.450701)
-    const [curLongtitude, setCurLongtitude] = useState(126.570667)
-    const [position, setPosition] = useState()
+  const Tmapv2 = window.Tmapv2;
+
+  // const [curLatitude, setCurLatitude] = useState(33.450701)
+  // const [curLongtitude, setCurLongtitude] = useState(126.570667)
+
+  // const [position, setPosition] = useState()
+
+
+  useEffect(() => {
     var container = document.getElementById('map');
-    const managerRef = useRef(null);
-
-    // function selectOverlay(type) {
-    //   const manager = managerRef.current
-    //   manager.cancel()
-    //   manager.select(type)
-    // }
-    
-  //   // const infowindow = new kakao.maps.InfoWindow({zIndex:1});
-  //   console.log("HI")
-    useEffect(()=>{
-      var container = document.getElementById('map');
-      // 현재 위치 기준으로 지도의 중심을 설정
-        navigator.geolocation.getCurrentPosition(function(pos) {
-        setCurLatitude(pos.coords.latitude)
-        setCurLongtitude(pos.coords.longitude)
-        var options = {
-          center: new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-          level: 2
-        };
-        var kakaoMap = new kakao.maps.Map(container, options);
-        kakaoMap.relayout();
-        setPosition(kakaoMap)
-      });
-      
-    }, [])
-    
-    
-
-  //   kakao.maps.event.addListener(container, 'click', function(mouseEvent) {        
-  //     // 마커가 표시될 위치입니다 
-  //     const latlng = mouseEvent.latLng;
-  //     var markerPosition  = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng()); 
-  //     console.log(markerPosition)
-  //     // 마커를 생성합니다
-  //     var marker = new kakao.maps.Marker({
-  //         position: markerPosition
-  //     });
-  //     marker.setMap(kakaoMap);
-  // });
-    
-
-    function panTo() {
-      // 이동할 위도 경도 위치를 생성합니다 
-      
-      // let initPosition = new kakao.maps.LatLng(curLatitude, curLongtitude);
-      // console.log(curLatitude, curLongtitude)
-      // console.log(initPosition)
-      // // 지도 중심을 부드럽게 이동시킵니다
-      // // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-      // kakaoMap.setCenter(initPosition);            
-  }  
-
+    var options = {
+      center: new Tmapv2.LatLng(37.566481622437934,126.98502302169841),
+      zoom: 15
+    };
+    var tmap = new Tmapv2.Map(container, options);
+  //   var polyline = new Tmapv2.Polyline({
+  //    path: [],
+  //    strokeColor: "#dd00dd",	// 라인 색상
+  //    strokeWeight: 6,	// 라인 두께
+  //    map: tmap	// 지도 객체
+  //  });
+  }, []);
   
 
-
-       
-      return (
-        <div>
-          {position}
-        	<div id="map" style={{width:"86%", height:"40vh", margin: "0 auto", marginTop: "60px", border: "3px solid black"}}></div> 
-          <button onClick={panTo}>현재 위치</button>
+  return (
+    <div>
+      {/* <div
+      id="TMapApp"
+      style={{
+        height: "40vh",
+        width: "90%",
+        margin: "0 auto",
+        marginTop: "60px",
+      }}
+    /> */}
+          {/* {position} */}
+        	<div id="map" style={{width:"95%", height:"40vh", margin: "0 auto", marginTop: "60px", border: "2px solid black" }}></div> 
+          {/* <button onClick={panTo}>현재 위치</button> */}
         </div>
-     
-    )
-  }
-  
-  export default BasicMap;
+  );
+}
+
+export default BasicMap;

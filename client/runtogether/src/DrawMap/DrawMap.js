@@ -6,12 +6,12 @@ import {
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BasicMap from './BasicMap'
-import BasicMap2 from './BasicMap2';
+// import BasicMap2 from './BasicMap2';
 // import MapInWeb from './MapInWeb';
 
 function DrawMap() {
     return (
-        <ChakraProvider theme={theme}>
+        // <ChakraProvider theme={theme}>
           <div>
             <Header></Header>
             <BasicMap></BasicMap>
@@ -19,7 +19,7 @@ function DrawMap() {
             {/* <MapInWeb></MapInWeb> */}
             <Footer></Footer>
           </div>
-        </ChakraProvider>
+        // </ChakraProvider>
       );
 }
 

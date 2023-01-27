@@ -9,10 +9,10 @@ const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <StrictMode style={{margin: '0 auto'}}>
+  <>
     <ColorModeScript />
     <App />
-  </StrictMode>,
+  </>,
   document.getElementById('root')
 );
 

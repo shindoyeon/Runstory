@@ -10,7 +10,7 @@ import "./Swiper.css"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
 
-const Swiper = () => {
+const Swiper = (props) => {
   const settings = {
     dots: false,
     infinite: false,
@@ -23,22 +23,28 @@ const Swiper = () => {
       <div className='swiper-slide'>
           <Slider {...settings} className='slide'>
             <div className='slide'>
-            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+              <div className='imgs'>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+              </div>
             </div>
             <div className='slide'>
-            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+              <div className='imgs'>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+              </div>
             </div>
             <div className='slide'>
-            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-            </div>
-            <div className='slide'>
-            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-            </div>
-            <div className='slide'>
-            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-            </div>
-            <div className='slide'>
-            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+              <div className='imgs'>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+              </div>
             </div>
           </Slider>
       </div>
