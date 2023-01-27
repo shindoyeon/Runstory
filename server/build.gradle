@@ -34,6 +34,8 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
+    // Email 인증
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     // Spring Security
     implementation "org.springframework.boot:spring-boot-starter-security"
