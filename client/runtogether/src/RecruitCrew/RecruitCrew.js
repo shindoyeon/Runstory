@@ -8,7 +8,7 @@ import Footer from '../common/Footer';
 import BetweenBodyFooter from '../common/BetweenBodyFooter';
 import RecruitCrewPageMsg from './RecruitCrewPageMsg';
 import ImgUpload from './ImgUpload';
-import HashTag from './HashTag';
+import HashTag from '../CreateFeed/HashTag';
 import ArticleForm from './ArticleForm';
 
 function RecruitCrew() {

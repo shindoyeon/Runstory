@@ -33,7 +33,7 @@ const Feed = () => {
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
             content: "오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? ",
-            isLiked: true,
+            isLiked: false,
             contentClosed: false
         },
         {   
@@ -81,12 +81,12 @@ const Feed = () => {
     }
 
     return (
-        <div className='body'>
+        <div className='entire-feed'>
             <ChakraProvider height='5vh'>
             <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal' scrollBehavior='inside' height={'10vh'}>
                 <ModalOverlay />
                 <ModalContent>
-                <ModalHeader>댓글</ModalHeader>
+                <ModalHeader size='xs'>댓글</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody border='2px' borderColor='gray.200'>
                     <div className="comments">
@@ -163,7 +163,7 @@ const Feed = () => {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <form margin='0 auto' justifyContent={'space-evenly'} textAlign={'center'} className='comment-form'
+                    <form margin='0 auto' textAlign={'center'} className='comment-form'
                     onSubmit={handleSubmit}>
                         <Input className='comment-input' placeholder='댓글을 입력해주세요' type='text' size='xs' width={'80%'}
                         name='comment'
@@ -177,7 +177,7 @@ const Feed = () => {
             </ChakraProvider>
             {arr.map((item, idx) => {
                 return (
-                <>
+                <div width='100%' margin='0 auto'>
                 <Card className='card'>
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header'> 
@@ -210,7 +210,7 @@ const Feed = () => {
                 </div>
                     {/* 좋아요 및 댓글 버튼 */}
             </Card>
-        </>
+        </div>
                 );
             })}
         </div>

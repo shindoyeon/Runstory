@@ -29,7 +29,7 @@ const NoticeList = () => {
             content: '님이 팔로우하셨습니다.'
         },
     ]
-    const [arr, setArr] = React.useState(notices)
+    const [arr] = React.useState(notices)
     return (
         <div className="notice-list">
             {arr.map((item, idx) => {

@@ -5,14 +5,18 @@ import {
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import Map from './Map';
+import BasicMap from './BasicMap'
+import BasicMap2 from './BasicMap2';
+// import MapInWeb from './MapInWeb';
 
 function DrawMap() {
     return (
         <ChakraProvider theme={theme}>
           <div>
             <Header></Header>
-            <Map></Map>
+            <BasicMap></BasicMap>
+            {/* <BasicMap2></BasicMap2> */}
+            {/* <MapInWeb></MapInWeb> */}
             <Footer></Footer>
           </div>
         </ChakraProvider>

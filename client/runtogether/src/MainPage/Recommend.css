@@ -1,15 +1,9 @@
-/* element.style {
-    width: 90%;
-} */
-/* .slick-list {
-    display: hidden;
-    overflow: none;
-} */
-
 .swiper-slide {
-    width: 90%;
+    width: 111%;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
     margin: 0 auto;
-    height: 100%;
     border-bottom: 1px solid #d9d9d9;
     border-top: 1px solid #d9d9d9;
     line-height: 100%;
@@ -32,7 +26,6 @@
     background-size: cover;
     width: 22%;
     border-radius: 10px;
-    margin-top: 1%;
+    /* margin-top: 1%; */
     height: 90px;
 }
-

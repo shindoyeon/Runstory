@@ -1,9 +1,12 @@
-.body {
+.entire-feed {
+    width: 100%;
+    margin: 0 auto;
     margin-bottom: 70px;
+    /* text-align: center; */
+    margin-left: 5%;
 }
 
 .card {
-    width: 90%;
     margin: 0 auto;
     margin-bottom: 15px;
     margin-top: 30px;
@@ -81,13 +84,6 @@
     margin: 0 auto;
     margin-top: 7px;
     font-size: 12px;
-    font-weight: light;
-    /* overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical; */
     line-height: 1.5;
 }
 
@@ -95,13 +91,10 @@
     width: 100%;
     margin: 0 auto;
     display: inline-block;
-    /* text-align: right; */
-    /* margin-left: 10%; */
     text-align: left;
     height: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
-    font-weight: bold;
     margin-left: 3%;
 }
 
