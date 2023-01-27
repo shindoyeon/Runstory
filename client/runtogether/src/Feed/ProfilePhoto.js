@@ -4,7 +4,7 @@ import imgfile from './권태윤.png';
 // import './Profile.css';
 // import Pro from "Users\SSAFY\Desktop\S08P12A806\client\runtogether\src\Feed\권태윤.png";
 
-const Profile = () => {
+const ProfilePhoto = () => {
   return(
     <div>
       <Image
@@ -18,4 +18,4 @@ const Profile = () => {
     </div>  
   )
 }
-export default Profile;
+export default ProfilePhoto;
