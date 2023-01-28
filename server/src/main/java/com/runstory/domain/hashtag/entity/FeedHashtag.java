@@ -1,7 +1,6 @@
 package com.runstory.domain.hashtag.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.runstory.domain.feed.Feed;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -15,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.runstory.domain.feed.entity.Feed;
 import org.hibernate.annotations.Comment;
 
 /*@Entity
