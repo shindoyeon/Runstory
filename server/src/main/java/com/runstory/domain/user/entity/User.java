@@ -25,7 +25,8 @@ public class User {
     @Comment("사용자아이디")
     private String userId;
     @Comment("비밀번호")
-    @Column(length = 50, nullable = false)
+//    @Column(length = 50, nullable = false)
+    @Column(length = 1000, nullable = false) //암호화하면 글자수가 길어짐
     private String userPwd;
     @Comment("이름")
     @Column(length = 30, nullable = false)

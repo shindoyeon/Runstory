@@ -23,11 +23,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity //기본적인 Web 보안을 활성화한다.
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private SsafyUserDetailService ssafyUserDetailService;
     
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private UserService userService;
     
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean

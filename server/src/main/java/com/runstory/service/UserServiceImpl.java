@@ -16,17 +16,15 @@ public class UserServiceImpl implements UserService {
 //	@Autowired
 //	UserRepositorySupport userRepositorySupport;
 
-//	@Autowired PasswordEncoder passwordEncoder;
+	@Autowired UserRepository userRepository;
+	@Autowired PasswordEncoder passwordEncoder;
 
-	@Autowired
-	UserRepository userRepository;
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
 		User user = new User();
 		user.setUserId(userRegisterInfo.getUserId());
-		user.setUserPwd(userRegisterInfo.getUserPwd());
-		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
-//		user.setUserPwd(passwordEncoder.encode(userRegisterInfo.getUserPwd()));
+		//보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
+		user.setUserPwd(passwordEncoder.encode(userRegisterInfo.getUserPwd()));
 		user.setUserName(userRegisterInfo.getUserName());
 		user.setUserNickname(userRegisterInfo.getUserNickname());
 		user.setEmailAuth(userRegisterInfo.isEmailAuth());
@@ -40,10 +38,11 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-//	@Override
-//	public User getUserByUserId(String userId) {
-//		// 디비에 유저 정보 조회 (userId 를 통한 조회).
+	@Override
+	public User getUserByUserId(String userId) {
+		// 디비에 유저 정보 조회 (userId 를 통한 조회).
+		User user = userRepository.findByUserId(userId);
 //		User user = userRepositorySupport.findUserByUserId(userId).get();
-//		return user;
-//	}
+		return user;
+	}
 }

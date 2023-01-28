@@ -8,5 +8,5 @@ import com.runstory.domain.user.entity.User;
  */
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
-//	User getUserByUserId(String userId);
+	User getUserByUserId(String userId);
 }

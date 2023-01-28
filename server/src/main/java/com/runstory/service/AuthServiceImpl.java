@@ -1,5 +1,7 @@
 package com.runstory.service;
 
+import com.runstory.domain.user.entity.User;
+import com.runstory.repository.UserRepository;
 import java.util.Random;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -38,8 +40,8 @@ public class AuthServiceImpl implements AuthService{
         msgg+= ePw+"</strong><div><br/> ";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
-        message.setFrom(new InternetAddress("tyoon97@gmail.com","taeyoon"));//보내는 사람
-        System.out.println("메시지 : "+message.getContent());
+        message.setFrom(new InternetAddress("admin@Runstory.com","RunStory"));//보내는 사람
+//        System.out.println("메시지 : "+message.getContent());
         return message;
     }
 
@@ -72,7 +74,7 @@ public class AuthServiceImpl implements AuthService{
         // TODO Auto-generated method stub
         MimeMessage message = createMessage(to);
         try{//예외처리
-            System.out.println("전송 : "+message.getContent());
+//            System.out.println("전송 : "+message.getContent());
             emailSender.send(message);
         }catch(MailException es){
             es.printStackTrace();
