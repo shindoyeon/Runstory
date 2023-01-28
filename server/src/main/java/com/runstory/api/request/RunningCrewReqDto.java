@@ -1,22 +1,17 @@
 package com.runstory.api.request;
 
 import com.runstory.domain.running.GenderType;
-import com.runstory.domain.user.entity.User;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Comment;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RunningCrewReqDto {
     private String imgPathFile;
     private String imgFileName;

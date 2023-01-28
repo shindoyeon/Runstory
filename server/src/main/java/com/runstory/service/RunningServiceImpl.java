@@ -1,7 +1,7 @@
 package com.runstory.service;
 
 import com.runstory.api.request.RunningCrewReqDto;
-import com.runstory.api.response.RunningMainGPSResDto;
+import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunninginfoResDto;
 import com.runstory.domain.running.Running;
 import com.runstory.domain.running.RunningDetail;
@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 @Service
@@ -60,7 +62,6 @@ public class RunningServiceImpl implements RunningService {
                 .endLatitude(runningCrewReqDto.getEndLatitude())
                 .distance(runningCrewReqDto.getDistance())
                 .build();
-        System.out.println(running);
         insertCrewRepository.save(running);
 
         RunningDetail runningDetail = RunningDetail.builder()
@@ -79,17 +80,29 @@ public class RunningServiceImpl implements RunningService {
     @Autowired
     RunningMainRepository runningMainRepository;
     @Override
-    public ArrayList<RunningMainGPSResDto> selectRunningCrewGPS(float longitude, float latitude){
-        ArrayList<Running> runninglist = runningMainRepository.findAll(); // 데이터 전체를 들고온다.
-        ArrayList<RunningMainGPSResDto> result = new ArrayList<RunningMainGPSResDto>();
+    public ArrayList<RunningMainResDto> selectRunningCrewGPS(float longitude, float latitude){
+        ArrayList<Running> runninglist = runningMainRepository.findByIsFinished(false); // 데이터 전체를 들고온다.
+        ArrayList<RunningMainResDto> result = new ArrayList<RunningMainResDto>();
+        LocalDate seoulNow = LocalDate.now(ZoneId.of("Asia/Seoul")); // 현재 서울의 시간을 보여준다.
         for (Running running: runninglist){
-            if (running.getStartLatitude() - latitude < 0.01 && running.getStartLongitude() - longitude < 0.01){
-                RunningMainGPSResDto runningMainGPSResDto = RunningMainGPSResDto.builder()
+            int year = running.getStartTime().getYear();
+            int day = running.getStartTime().getDayOfYear();
+            if (Math.abs(running.getStartLatitude() - latitude) < 0.01 && Math.abs(running.getStartLongitude() - longitude) < 0.01){
+                RunningMainResDto runningMainResDto = RunningMainResDto.builder()
                         .id(running.getId())
                         .imgFileName(running.getImgFileName())
                         .imgPathFile(running.getImgPathFile())
+                        .type("GPS")
                         .build();
-                result.add(runningMainGPSResDto);
+                result.add(runningMainResDto);
+            }else if (day == seoulNow.getDayOfYear() && year == seoulNow.getYear()){
+                RunningMainResDto runningMainResDto = RunningMainResDto.builder()
+                        .id(running.getId())
+                        .imgFileName(running.getImgFileName())
+                        .imgPathFile(running.getImgPathFile())
+                        .type("today")
+                        .build();
+                result.add(runningMainResDto);
             }
         }
         return result;

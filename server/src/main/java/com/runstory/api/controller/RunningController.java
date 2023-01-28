@@ -23,25 +23,26 @@ public class RunningController {
 
         try {
             result.put("statuscode", "200");
-            result.put("message", "게시글 작성 성공.");
+            result.put("message", "This is good");
             result.put("success", "true");
             result.put("data",runningservice.findRunningInfo(runningid));
             return ResponseEntity.ok().body(result);
         }catch(Exception E) {
-            return  ResponseEntity.status(500).body("해당 게시글은 없습니다.");
+            return  ResponseEntity.status(500).body("Running-Info-Error");
         }
     }
 
 
     @PostMapping("")
     public ResponseEntity<?> createRunningCrew(@RequestBody RunningCrewReqDto runningCrewReqDto) throws  Exception{
+        System.out.println("CREATE");
         Map<String, Object> result = new HashMap<>();
         try {
             result.put("running", runningservice.createRunningCrew(runningCrewReqDto));
             result.put("result", "크루 생성 완료!");
             return ResponseEntity.ok().body(result);
         }catch (Exception E){
-            return ResponseEntity.status(500).body("크루가 정상적으로 생성되지 못했습니다.");
+            return ResponseEntity.status(500).body("Crew-Create-Error");
         }
     }
 
@@ -53,9 +54,10 @@ public class RunningController {
             result.put("message", "게시글 작성 성공.");
             result.put("success", "true");
             result.put("first_data", runningservice.selectRunningCrewGPS(latitude, longtitude));
+            result.put("second_data", "ss");
             return ResponseEntity.ok().body(result);
         }catch (Exception E){
-            return ResponseEntity.status(500).body("메인페이지가 정상적으로 불러오지 않습니다.");
+            return ResponseEntity.status(500).body("Main-Page-Error");
         }
     }
 }

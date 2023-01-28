@@ -33,6 +33,6 @@ public class RunningBoardComment {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name= "running_id", foreignKey = @ForeignKey(name="fk_runningboardcomment_to_running"))
+    @JoinColumn(name= "running_id")
     private Running running;
 }
