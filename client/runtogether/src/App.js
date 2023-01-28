@@ -4,11 +4,12 @@ import {
   theme,
 } from '@chakra-ui/react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import MainPage from './MainPage/MainPage'
-import RunningCrewList from './RunningCrewList/RunningCrewList'
+import MainPage from './MainPage/MainPage';
+import RunningCrewList from './RunningCrewList/RunningCrewList';
 import CreateFeed from './CreateFeed/CreateFeed';
 import RecruitCrew from './RecruitCrew/RecruitCrew';
-import Search from './Search/Search'
+import Search from './Search/Search';
+import Feed from './Feed/Feed';
 import "./App.css";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path='/running-crew-list' element={<RunningCrewList />} />
           <Route path='/create-running-crew' element={<RecruitCrew />} />
           <Route path='/search' element={<Search />} />
+          <Route path='/feed' element={<Feed />} />
         </Routes>
       </BrowserRouter>
       {/* <MainPage></MainPage> */}
