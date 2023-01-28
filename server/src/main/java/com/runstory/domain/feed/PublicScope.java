@@ -1,4 +1,4 @@
-package com.runstory.domain.feed.entity;
+package com.runstory.domain.feed;
 
 public enum PublicScope {
     PUBLIC, FRIEND, PRIVATE
