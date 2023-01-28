@@ -2,7 +2,7 @@ package com.runstory.domain.feed.dto;
 
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedFile;
-import com.runstory.domain.feed.entity.PublicScope;
+import com.runstory.domain.feed.PublicScope;
 import com.runstory.domain.user.dto.UserDto;
 import lombok.Data;
 
