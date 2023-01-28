@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.runstory.domain.user.entity.User;
 import lombok.Data;
 import org.hibernate.annotations.Comment;

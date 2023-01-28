@@ -15,7 +15,6 @@ public class FeedService {
     private final FeedRepository feedRepository;
 
     public List<Feed> find(){
-        List<Feed> feeds = feedRepository.findAll();
         return feedRepository.findAll();
     }
 }
