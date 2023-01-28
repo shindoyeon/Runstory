@@ -1,7 +1,6 @@
 package com.runstory.domain.hashtag.entity;
 
-
-import com.runstory.domain.feed.Feed;
+import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.running.Running;
 import com.runstory.domain.user.entity.User;
