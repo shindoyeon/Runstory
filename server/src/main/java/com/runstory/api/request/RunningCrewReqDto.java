@@ -43,5 +43,5 @@ public class RunningCrewReqDto {
     private boolean hasDog;
 
     // SelectedHashTag에 들어가기 위한 dto
-    private List<Integer> hastag;
+    private List<Long> hastag;
 }

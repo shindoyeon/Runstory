@@ -4,15 +4,14 @@ import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunninginfoResDto;
 import com.runstory.domain.hashtag.HashtagType;
+import com.runstory.domain.hashtag.dto.HashtagDto;
 import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
+import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.Running;
 import com.runstory.domain.running.RunningDetail;
 import com.runstory.domain.running.dto.RunningDto;
-import com.runstory.repository.InsertCrewDetailRepository;
-import com.runstory.repository.InsertCrewRepository;
-import com.runstory.repository.RunningMainRepository;
-import com.runstory.repository.RunningRepository;
+import com.runstory.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +47,12 @@ public class RunningServiceImpl implements RunningService {
     @Autowired
     private InsertCrewDetailRepository insertCrewDetailRepository;
 
+    @Autowired
+    private HashtagRepository hashtagRepository;
+
+    @Autowired
+    private SelectedHashtagRepository selectedHashtagRepository;
+
     @Override
     @Transactional
     public long createRunningCrew(RunningCrewReqDto runningCrewReqDto){
@@ -80,14 +85,20 @@ public class RunningServiceImpl implements RunningService {
         insertCrewDetailRepository.save(runningDetail);
 
         // RunningHashTag
-        for (int hashtagId : runningCrewReqDto.getHastag()){
+        for (Long hashtagId : runningCrewReqDto.getHastag()){
             // HashTag 관련 Repository 필요
+            Hashtag hashtag = hashtagRepository.findByHashtagId(hashtagId);
+//            HashtagDto hashtagDto = HashtagDto.builder()
+//                    .hashtagName(hashtag.getHashtagName())
+//                    .build();
             SelectedHashtag selectedHashtag = SelectedHashtag.builder()
                     .hashtagType(HashtagType.RUNNING)
                     .running(running)
-                    .hashtag()
+                    .hashtag(hashtag)
                     .build();
+            selectedHashtagRepository.save(selectedHashtag);
         }
+
         return running.getId();
     }
 
@@ -118,7 +129,7 @@ public class RunningServiceImpl implements RunningService {
                         .build();
                 result.add(runningMainResDto);
             }
-            // HashTag를 가져와서 확인 (위의 것과 중복되도 상관 X)
+            // HashTag_id에 따라 HashTagTable을 들고와서 List를 확인
 //            for (SelectedHashtag selectedHashtag : running.getSelectedHashtags()){
 //                if (selectedHashtag.getRunning() != null){
 //
