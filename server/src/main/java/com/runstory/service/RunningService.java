@@ -12,5 +12,5 @@ public interface RunningService {
     long createRunningCrew(RunningCrewReqDto runningCrewReqDto);
 
     // For MainPages
-    ArrayList<RunningMainResDto> selectRunningCrewGPS(float longitude, float latitude);
+    ArrayList<RunningMainResDto> selectRunningCrew(float longitude, float latitude);
 }

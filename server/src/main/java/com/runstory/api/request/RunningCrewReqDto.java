@@ -1,8 +1,14 @@
 package com.runstory.api.request;
 
+import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.hashtag.HashtagType;
+import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.running.GenderType;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.runstory.domain.running.Running;
+import com.runstory.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,4 +41,7 @@ public class RunningCrewReqDto {
     private int minAge;
     private int maxAge;
     private boolean hasDog;
+
+    // SelectedHashTag에 들어가기 위한 dto
+    private List<Integer> hastag;
 }
