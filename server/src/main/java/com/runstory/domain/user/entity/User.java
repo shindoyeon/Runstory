@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSeq;
-
     @Column(length = 50, unique=true, nullable = false)
     @Comment("사용자아이디")
     private String userId;
@@ -37,7 +36,7 @@ public class User {
     private String userNickname;
     @Comment("이메일인증여부(TRUE: 이메일인증성공, FALSE: 이메일인증실패)")
     @Column(columnDefinition = "boolean default false", nullable = false)
-    private boolean emailAuth;
+    private Boolean emailAuth;
 
     @Comment("전화번호")
     @Column(length = 50, nullable = false)
@@ -82,14 +81,10 @@ public class User {
     @Comment("회원정보수정일자")
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedate;
-
-    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<RunningUser> runningusers = new ArrayList<>();
-
     @OneToMany(mappedBy = "user")
     private List<ChatRoomUser> rooms = new ArrayList<>();
-
     @OneToMany(mappedBy = "user")
     private  List<Feed> feeds = new ArrayList<>();
 }
