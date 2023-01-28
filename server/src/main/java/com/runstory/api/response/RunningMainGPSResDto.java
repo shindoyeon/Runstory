@@ -6,5 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class RunningMainGPSResDto {
-
+    private long id;
+    private String imgPathFile;
+    private String imgFileName;
 }

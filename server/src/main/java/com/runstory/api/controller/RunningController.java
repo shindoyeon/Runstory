@@ -46,13 +46,13 @@ public class RunningController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> RunningMain(@RequestParam("latitude") float latitude, @RequestParam("longtitude") float longtitude) throws Exception{
+    public ResponseEntity<?> RunningMain(@RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude) throws Exception{
         Map<String, Object> result = new HashMap<>();
         try {
             result.put("statuscode", "200");
             result.put("message", "게시글 작성 성공.");
             result.put("success", "true");
-            result.put("first_data", "ss");
+            result.put("first_data", runningservice.selectRunningCrewGPS(latitude, longtitude));
             return ResponseEntity.ok().body(result);
         }catch (Exception E){
             return ResponseEntity.status(500).body("메인페이지가 정상적으로 불러오지 않습니다.");
