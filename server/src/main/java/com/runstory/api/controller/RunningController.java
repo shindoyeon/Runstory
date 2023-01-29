@@ -54,7 +54,6 @@ public class RunningController {
             result.put("message", "게시글 작성 성공.");
             result.put("success", "true");
             result.put("first_data", runningservice.selectRunningCrew(latitude, longtitude));
-            result.put("second_data", "ss");
             return ResponseEntity.ok().body(result);
         }catch (Exception E){
             return ResponseEntity.status(500).body("Main-Page-Error");

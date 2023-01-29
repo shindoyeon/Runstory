@@ -88,9 +88,6 @@ public class RunningServiceImpl implements RunningService {
         for (Long hashtagId : runningCrewReqDto.getHastag()){
             // HashTag 관련 Repository 필요
             Hashtag hashtag = hashtagRepository.findByHashtagId(hashtagId);
-//            HashtagDto hashtagDto = HashtagDto.builder()
-//                    .hashtagName(hashtag.getHashtagName())
-//                    .build();
             SelectedHashtag selectedHashtag = SelectedHashtag.builder()
                     .hashtagType(HashtagType.RUNNING)
                     .running(running)
@@ -129,7 +126,9 @@ public class RunningServiceImpl implements RunningService {
                         .build();
                 result.add(runningMainResDto);
             }
+            // User의 HashTag를 받아와서 확인하는 방법이 필요하므로 도연님하고 확인 후에 진행해야 한다.
             // HashTag_id에 따라 HashTagTable을 들고와서 List를 확인
+            // User의 HashTag를 먼저 확인(해당 사용자의 HashTag)
 //            for (SelectedHashtag selectedHashtag : running.getSelectedHashtags()){
 //                if (selectedHashtag.getRunning() != null){
 //
