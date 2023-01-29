@@ -5,15 +5,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
+import com.runstory.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +32,7 @@ public class Running {
     @Column(length = 500, nullable = false)
     @Comment("이미지파일")
     private String imgPathFile;
+
 
     @Column(length = 500, nullable = false)
     @Comment("이미지이름")
@@ -95,10 +91,13 @@ public class Running {
     @Comment("거리")
     private float distance;
 
+//    @ManyToOne // 작성자의 user가 있어야함.
+//    private User user;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningBoardComment> runningboardcomments = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "running") // 참가하는 인원
     private List<RunningUser> runningusers = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")

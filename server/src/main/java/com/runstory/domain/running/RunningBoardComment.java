@@ -31,7 +31,6 @@ public class RunningBoardComment {
     @Comment("변경일자")
     private LocalDateTime updatedate;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name= "running_id")
     private Running running;

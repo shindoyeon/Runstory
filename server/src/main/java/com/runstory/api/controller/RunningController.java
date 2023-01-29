@@ -17,13 +17,12 @@ public class RunningController {
     private RunningService runningservice;
 
 
-    @GetMapping("/main/info/{runningid}")
+    @GetMapping("/info/{runningid}")
     public ResponseEntity<?> view(@PathVariable Long runningid) throws Exception{
         Map<String, Object> result = new HashMap<>();
 
         try {
             result.put("statuscode", "200");
-            result.put("message", "This is good");
             result.put("success", "true");
             result.put("data",runningservice.findRunningInfo(runningid));
             return ResponseEntity.ok().body(result);
@@ -57,6 +56,19 @@ public class RunningController {
             return ResponseEntity.ok().body(result);
         }catch (Exception E){
             return ResponseEntity.status(500).body("Main-Page-Error");
+        }
+    }
+
+    @GetMapping("/detail/{runningid}") // 상세페이지를 Read
+    public ResponseEntity<?> runningdetail(@PathVariable Long runningid) throws Exception{
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("statuscode", "200");
+            result.put("success", "true");
+            result.put("data",runningservice.findRunningDetail(runningid));
+            return ResponseEntity.ok().body(result);
+        }catch(Exception E) {
+            return  ResponseEntity.status(500).body("Running-Info-Error");
         }
     }
 }

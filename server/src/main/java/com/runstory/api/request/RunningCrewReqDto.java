@@ -44,4 +44,5 @@ public class RunningCrewReqDto {
 
     // SelectedHashTag에 들어가기 위한 dto
     private List<Long> hastag;
+
 }

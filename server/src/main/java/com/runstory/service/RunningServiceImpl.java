@@ -1,16 +1,16 @@
 package com.runstory.service;
 
 import com.runstory.api.request.RunningCrewReqDto;
+import com.runstory.api.response.RunningDetailResDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunninginfoResDto;
 import com.runstory.domain.hashtag.HashtagType;
-import com.runstory.domain.hashtag.dto.HashtagDto;
-import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.Running;
+import com.runstory.domain.running.RunningBoardComment;
 import com.runstory.domain.running.RunningDetail;
-import com.runstory.domain.running.dto.RunningDto;
+import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -45,7 +44,7 @@ public class RunningServiceImpl implements RunningService {
     private InsertCrewRepository insertCrewRepository;
 
     @Autowired
-    private InsertCrewDetailRepository insertCrewDetailRepository;
+    private RunningDetailRepository runningDetailRepository;
 
     @Autowired
     private HashtagRepository hashtagRepository;
@@ -53,9 +52,11 @@ public class RunningServiceImpl implements RunningService {
     @Autowired
     private SelectedHashtagRepository selectedHashtagRepository;
 
+
     @Override
     @Transactional
     public long createRunningCrew(RunningCrewReqDto runningCrewReqDto){
+        // User user 현재 유저를 들고와야한다.
         Running running = Running.builder()
                 .imgFileName(runningCrewReqDto.getImgFileName())
                 .imgPathFile(runningCrewReqDto.getImgPathFile())
@@ -70,6 +71,7 @@ public class RunningServiceImpl implements RunningService {
                 .endLongitude(runningCrewReqDto.getEndLongitude())
                 .endLatitude(runningCrewReqDto.getEndLatitude())
                 .distance(runningCrewReqDto.getDistance())
+                // .user() // 생성자 필요
                 .build();
         insertCrewRepository.save(running);
 
@@ -82,7 +84,7 @@ public class RunningServiceImpl implements RunningService {
                 .maxAge(runningCrewReqDto.getMaxAge())
                 .hasDog(runningCrewReqDto.isHasDog())
                 .build();
-        insertCrewDetailRepository.save(runningDetail);
+        runningDetailRepository.save(runningDetail);
 
         // RunningHashTag
         for (Long hashtagId : runningCrewReqDto.getHastag()){
@@ -136,5 +138,41 @@ public class RunningServiceImpl implements RunningService {
 //            }
         }
         return result;
+    }
+
+    @Override
+    public RunningDetailResDto findRunningDetail(Long id){
+        Running running = runningrepository.getById(id);
+        RunningDetail runningDetail = runningDetailRepository.getById(id);
+        RunningDetailResDto runningDetailResDto = RunningDetailResDto.builder()
+                .imgPathFile(running.getImgPathFile())
+                .imgFileName(running.getImgFileName())
+                .crewName(running.getCrewName())
+                .runningContent(running.getRunningContent())
+                .startLocation(running.getStartLocation())
+                .endLocation(running.getEndLocation())
+                .startTime(running.getStartTime())
+                .endTime(running.getEndTime())
+                .regdate(running.getRegdate())
+                .distance(running.getDistance())
+                .genderType(runningDetail.getGenderType())
+                .man(runningDetail.getMan())
+                .women(runningDetail.getWomen())
+                .total(runningDetail.getTotal())
+                .minAge(runningDetail.getMinAge())
+                .maxAge(runningDetail.getMaxAge())
+                .hasDog(runningDetail.isHasDog())
+                .build();
+
+        // Comment 기능 추가
+        for (RunningBoardComment runningBoardComment : running.getRunningboardcomments()){
+            RunningBoardCommentDto runningBoardCommentDto = RunningBoardCommentDto.builder()
+                    .content(runningBoardComment.getContent())
+                    .regdate(runningBoardComment.getRegdate())
+                    .updatedate(runningBoardComment.getUpdatedate())
+                    .build();
+            runningDetailResDto.getRunningBoardCommentDto().add(runningBoardCommentDto);
+        }
+        return runningDetailResDto;
     }
 }
