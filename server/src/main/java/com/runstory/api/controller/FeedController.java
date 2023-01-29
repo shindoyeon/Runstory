@@ -1,7 +1,7 @@
 package com.runstory.api.controller;
 
 import com.runstory.api.response.ApiResponse;
-import com.runstory.api.response.FeedResDto;
+import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.user.dto.FollowDto;
 import com.runstory.domain.user.entity.Follow;
@@ -9,9 +9,7 @@ import com.runstory.service.FeedService;
 import com.runstory.service.FollowService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,17 +28,18 @@ public class FeedController {
     private final FollowService followService;
 
 //    @GetMapping("")
-    public  ResponseEntity<List<FeedResDto>> getFeedAll(HttpServletRequest request){
+    public  ResponseEntity<List<SimpleFeedResDto>> getFeedAll(HttpServletRequest request){
         List<FeedDto> feeds = feedService.findAll();
-        List<FeedResDto> result = feeds.stream().map(f->new FeedResDto(f)).collect(Collectors.toList());
+        List<SimpleFeedResDto> result = feeds.stream().map(f->new SimpleFeedResDto(f)).collect(Collectors.toList());
         return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("")
     @ApiOperation(value = "사용자 피드 조회", notes = "공개 범위에 따라 피드 조회")
     public ResponseEntity<?> getUserFeed(@RequestParam Long userId, @RequestParam Boolean isMe, HttpServletRequest request){
+        System.out.println(userId+" "+isMe);
         List<FeedDto> feedDtos = feedService.findByUserId(1L, userId, isMe);
-        List<FeedResDto> result= feedDtos.stream().map(f->new FeedResDto(f)).collect(Collectors.toList());
+        List<SimpleFeedResDto> result= feedDtos.stream().map(f->new SimpleFeedResDto(f)).collect(Collectors.toList());
 
         return ResponseEntity.ok().body(result);
     }
@@ -69,7 +68,7 @@ public class FeedController {
     @PostMapping("/follow/{followUserId}")
     @ApiOperation(value = "사용자 팔로우")
     public ApiResponse<?> followUser(@PathVariable Long followUserId, HttpServletRequest request){
-        Follow follow = followService.saveFollow(4L, followUserId);
+        Follow follow = followService.saveFollow(1L, followUserId);
 
         if(follow==null)
             return ApiResponse.success("data","false");
