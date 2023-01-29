@@ -1,6 +1,7 @@
 package com.runstory.domain.user.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -10,6 +11,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Data
+@NoArgsConstructor
 @DynamicInsert
 public class Follow {
 
@@ -24,4 +26,9 @@ public class Follow {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="to_user_id")
     private User to;
+
+    public Follow(User from, User to) {
+        this.from = from;
+        this.to = to;
+    }
 }
