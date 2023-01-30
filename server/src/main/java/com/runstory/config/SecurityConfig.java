@@ -1,6 +1,7 @@
 package com.runstory.config;
 
 //import com.runstory.common.auth.JwtAuthenticationFilter;
+import com.runstory.common.auth.JwtAuthenticationFilter;
 import com.runstory.common.auth.SsafyUserDetailService;
 import com.runstory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SsafyUserDetailService ssafyUserDetailService;
     
-//    @Autowired
-//    private UserService userService;
+    @Autowired
+    private UserService userService;
     
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    // static 추가하니 순환참조 해결됨
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -59,9 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()// rest api이므로 csrf 보안이 필요없으므로 disable처리.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
                 .and()
-//                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정
-                .antMatchers("/api/v1/users/me").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
+                .antMatchers("/user").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
     	        	    .anyRequest().permitAll()
                 .and().cors();
     }

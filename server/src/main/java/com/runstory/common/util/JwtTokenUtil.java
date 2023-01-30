@@ -24,17 +24,21 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class JwtTokenUtil {
-    private static String secretKey;
+    private static String secretKey1;
+    private static String secretKey2;
     private static Integer expirationTime;
+    private static Integer expirationRefreshTime;
 
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String ISSUER = "ssafy.com";
     
     @Autowired
-	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime) {
-		this.secretKey = secretKey;
+	public JwtTokenUtil(@Value("${jwt.secret1}") String secretKey1, @Value("${jwt.secret2}") String secretKey2,@Value("${jwt.expiration}") Integer expirationTime, @Value("${jwt.expirationRefresh}") Integer expirationRefreshTime) {
+		this.secretKey1 = secretKey1;
+        this.secretKey2 = secretKey2;
 		this.expirationTime = expirationTime;
+        this.expirationRefreshTime = expirationRefreshTime;
 	}
     
 	public void setExpirationTime() {
@@ -42,21 +46,36 @@ public class JwtTokenUtil {
     		JwtTokenUtil.expirationTime = expirationTime;
 	}
 
+    public void setExpirationRefreshTime() {
+        //JwtTokenUtil.expirationTime = Integer.parseInt(expirationTime);
+        JwtTokenUtil.expirationRefreshTime = expirationRefreshTime;
+    }
+
 	public static JWTVerifier getVerifier() {
         return JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
+                .require(Algorithm.HMAC512(secretKey1.getBytes()))
                 .withIssuer(ISSUER)
                 .build();
     }
-    
-    public static String getToken(String userId) {
-    		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+
+    public static String getAccessToken(String userId) {
+        Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
         return JWT.create()
-                .withSubject(userId)
-                .withExpiresAt(expires)
-                .withIssuer(ISSUER)
-                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+            .withSubject(userId)
+            .withExpiresAt(expires)
+            .withIssuer(ISSUER)
+            .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+            .sign(Algorithm.HMAC512(secretKey1.getBytes()));
+    }
+
+    public static String getRefreshToken(String userId) {
+        Date expires = JwtTokenUtil.getTokenExpiration(expirationRefreshTime);
+        return JWT.create()
+            .withSubject(userId)
+            .withExpiresAt(expires)
+            .withIssuer(ISSUER)
+            .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+            .sign(Algorithm.HMAC512(secretKey2.getBytes()));
     }
 
     public static String getToken(Instant expires, String userId) {
@@ -65,7 +84,7 @@ public class JwtTokenUtil {
                 .withExpiresAt(Date.from(expires))
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+                .sign(Algorithm.HMAC512(secretKey1.getBytes()));
     }
     
     public static Date getTokenExpiration(int expirationTime) {
@@ -75,7 +94,7 @@ public class JwtTokenUtil {
 
     public static void handleError(String token) {
         JWTVerifier verifier = JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
+                .require(Algorithm.HMAC512(secretKey1.getBytes()))
                 .withIssuer(ISSUER)
                 .build();
 

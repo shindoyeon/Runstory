@@ -53,7 +53,7 @@ public class User {
     private int age;
 
     @Comment("토큰")
-    @Column(length = 100)
+    @Column(length = 300)
     private String token;
 
     @Comment("역할(USER: 일반사용자, ADMIN: 관리자)")
