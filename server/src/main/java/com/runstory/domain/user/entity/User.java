@@ -87,4 +87,5 @@ public class User {
     private List<ChatRoomUser> rooms = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private  List<Feed> feeds = new ArrayList<>();
+
 }

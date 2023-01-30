@@ -1,6 +1,7 @@
 // Default 넣을 떄 nullable-false X
 package com.runstory.domain.running;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -54,11 +55,12 @@ public class Running {
     @Comment("러닝끝나는위치")
     private String endLocation;
 
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP",nullable = false) // datetime(6)에서 datetime으로 변경됨
     @Comment("시작시간")
     private LocalDateTime startTime;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
     @Comment("끝나는시간")
     private LocalDateTime endTime;

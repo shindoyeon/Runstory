@@ -1,17 +1,17 @@
 package com.runstory.service;
 
 import com.runstory.api.request.RunningCrewReqDto;
-import com.runstory.api.response.RunningDetailResDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunninginfoResDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.Running;
-import com.runstory.domain.running.RunningBoardComment;
 import com.runstory.domain.running.RunningDetail;
-import com.runstory.domain.running.dto.RunningBoardCommentDto;
+import com.runstory.api.response.RunningDetailSumDto;
+import com.runstory.domain.user.entity.User;
 import com.runstory.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class RunningServiceImpl implements RunningService {
-    @Autowired
-    RunningRepository runningrepository;
+
+    private final RunningRepository runningrepository;
+    private final RunningDetailRepository runningDetailRepository;
+    private final HashtagRepository hashtagRepository;
+    private final SelectedHashtagRepository selectedHashtagRepository;
+    private final UserRepository userRepository;
 
     @Override // 버튼을 클릭했을 때 상세내용을 보내는 방식
     public RunninginfoResDto findRunningInfo(Long id){
@@ -40,23 +47,9 @@ public class RunningServiceImpl implements RunningService {
         return runningInfo;
     }
 
-    @Autowired
-    private InsertCrewRepository insertCrewRepository;
-
-    @Autowired
-    private RunningDetailRepository runningDetailRepository;
-
-    @Autowired
-    private HashtagRepository hashtagRepository;
-
-    @Autowired
-    private SelectedHashtagRepository selectedHashtagRepository;
-
-
     @Override
     @Transactional
-    public long createRunningCrew(RunningCrewReqDto runningCrewReqDto){
-        // User user 현재 유저를 들고와야한다.
+    public long createRunningCrew(RunningCrewReqDto runningCrewReqDto){// User user 현재 유저를 들고와야한다.
         Running running = Running.builder()
                 .imgFileName(runningCrewReqDto.getImgFileName())
                 .imgPathFile(runningCrewReqDto.getImgPathFile())
@@ -73,7 +66,7 @@ public class RunningServiceImpl implements RunningService {
                 .distance(runningCrewReqDto.getDistance())
                 // .user() // 생성자 필요
                 .build();
-        insertCrewRepository.save(running);
+        runningrepository.save(running);
 
         RunningDetail runningDetail = RunningDetail.builder()
                 .genderType(runningCrewReqDto.getGenderType())
@@ -101,11 +94,9 @@ public class RunningServiceImpl implements RunningService {
         return running.getId();
     }
 
-    @Autowired
-    RunningMainRepository runningMainRepository;
     @Override
     public ArrayList<RunningMainResDto> selectRunningCrew(float longitude, float latitude){
-        ArrayList<Running> runninglist = runningMainRepository.findByIsFinished(false); // 데이터 전체를 들고온다.
+        ArrayList<Running> runninglist = runningrepository.findByIsFinished(false); // 데이터 전체를 들고온다.
         ArrayList<RunningMainResDto> result = new ArrayList<>(); // 결과값을 넣기 위한 ArrayList
         LocalDate seoulNow = LocalDate.now(ZoneId.of("Asia/Seoul")); // 현재 서울의 시간을 보여준다.
         for (Running running: runninglist){
@@ -128,6 +119,15 @@ public class RunningServiceImpl implements RunningService {
                         .build();
                 result.add(runningMainResDto);
             }
+
+            User user = userRepository.getByUserId("ssss"); // 유저가 없는 경우를 추가해서 넣어준다.
+            System.out.println(user);
+//            List<SelectedHashtag> hashtags = selectedHashtagRepository.findAllByUser(user);
+//            System.out.println(hashtags);
+//            for (SelectedHashtag hashtag : hashtags){ // 유저 각각의 해시태그들을 가져온다.
+//            }
+
+
             // User의 HashTag를 받아와서 확인하는 방법이 필요하므로 도연님하고 확인 후에 진행해야 한다.
             // HashTag_id에 따라 HashTagTable을 들고와서 List를 확인
             // User의 HashTag를 먼저 확인(해당 사용자의 HashTag)
@@ -141,38 +141,19 @@ public class RunningServiceImpl implements RunningService {
     }
 
     @Override
-    public RunningDetailResDto findRunningDetail(Long id){
+    public RunningDetailSumDto findRunningDetail(Long id){
         Running running = runningrepository.getById(id);
         RunningDetail runningDetail = runningDetailRepository.getById(id);
-        RunningDetailResDto runningDetailResDto = RunningDetailResDto.builder()
-                .imgPathFile(running.getImgPathFile())
-                .imgFileName(running.getImgFileName())
-                .crewName(running.getCrewName())
-                .runningContent(running.getRunningContent())
-                .startLocation(running.getStartLocation())
-                .endLocation(running.getEndLocation())
-                .startTime(running.getStartTime())
-                .endTime(running.getEndTime())
-                .regdate(running.getRegdate())
-                .distance(running.getDistance())
-                .genderType(runningDetail.getGenderType())
-                .man(runningDetail.getMan())
-                .women(runningDetail.getWomen())
-                .total(runningDetail.getTotal())
-                .minAge(runningDetail.getMinAge())
-                .maxAge(runningDetail.getMaxAge())
-                .hasDog(runningDetail.isHasDog())
-                .build();
-
-        // Comment 기능 추가
-        for (RunningBoardComment runningBoardComment : running.getRunningboardcomments()){
-            RunningBoardCommentDto runningBoardCommentDto = RunningBoardCommentDto.builder()
-                    .content(runningBoardComment.getContent())
-                    .regdate(runningBoardComment.getRegdate())
-                    .updatedate(runningBoardComment.getUpdatedate())
-                    .build();
-            runningDetailResDto.getRunningBoardCommentDto().add(runningBoardCommentDto);
-        }
-        return runningDetailResDto;
+        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail);
+        return runningDetailSumDto;
     }
+
+//    @Override
+//    public RunningDetailSumDto updateRunningDetail(Long id, RunningDetailSumDto runningDetailSumDto){
+//        Running running = runningrepository.getById(id);
+//        RunningDetail runningDetail = runningDetailRepository.getById(id);
+//        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail);
+//
+//        return runningDetailSumDto;
+//    }
 }

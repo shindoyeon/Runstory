@@ -34,4 +34,5 @@ public class RunningDto {
     private LocalDateTime regdate;
     private Boolean isFinished;
     private float distance;
+    
 }

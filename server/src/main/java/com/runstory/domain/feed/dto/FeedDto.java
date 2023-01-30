@@ -28,5 +28,6 @@ public class FeedDto {
         this.publicScope=feed.getPublicScope();
         this.regdate=feed.getRegdate();
         this.updatedate=feed.getUpdatedate();
+
     }
 }

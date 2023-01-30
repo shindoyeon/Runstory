@@ -4,6 +4,7 @@ import com.runstory.api.request.RunningCrewReqDto;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.service.RunningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -69,6 +70,18 @@ public class RunningController {
             return ResponseEntity.ok().body(result);
         }catch(Exception E) {
             return  ResponseEntity.status(500).body("Running-Info-Error");
+        }
+    }
+
+    @PutMapping("/detail/{runningid}")
+    public ResponseEntity<?> runningchange(@PathVariable Long runningid, @RequestBody RunningDetailSumDto runningDetailSumDto) throws Exception{
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("statuscode", "200");
+            result.put("message", "Runnging Change Success");
+            return ResponseEntity.ok().body(result);
+        }catch (Exception E){
+            return ResponseEntity.status(500).body("Running-Info-Update-Error");
         }
     }
 }

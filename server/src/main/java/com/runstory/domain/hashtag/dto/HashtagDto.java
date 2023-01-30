@@ -16,5 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class HashtagDto {
+    private Long hashtagId;
     private String hashtagName;
 }

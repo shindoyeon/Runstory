@@ -1,9 +1,9 @@
 package com.runstory.service;
 
 import com.runstory.api.request.RunningCrewReqDto;
-import com.runstory.api.response.RunningDetailResDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunninginfoResDto;
+import com.runstory.api.response.RunningDetailSumDto;
 
 import java.util.ArrayList;
 
@@ -18,5 +18,9 @@ public interface RunningService {
     ArrayList<RunningMainResDto> selectRunningCrew(float longitude, float latitude);
 
     // DetailPage
-    RunningDetailResDto findRunningDetail(Long id);
+    RunningDetailSumDto findRunningDetail(Long id);
+
+    // ChangePage
+//    RunningDetailSumDto updateRunningDetail(Long id);
+
 }
