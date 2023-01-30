@@ -1,6 +1,8 @@
 package com.runstory.domain.feed.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 import com.runstory.domain.user.entity.User;
@@ -31,4 +33,7 @@ public class FeedComment {
     @Comment("등록일자")
     @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedComment")
+    private List<FeedRecomment> feedRecomments = new ArrayList<>();
 }

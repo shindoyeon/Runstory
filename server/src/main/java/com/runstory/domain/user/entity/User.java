@@ -86,6 +86,6 @@ public class User {
     private List<RunningUser> runningusers = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private List<ChatRoomUser> rooms = new ArrayList<>();
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private  List<Feed> feeds = new ArrayList<>();
 }
