@@ -38,7 +38,7 @@ const Footer = () => {
                           피드 작성하기
                         </Button>
                       </Link>
-                      <Link to='/'>
+                      <Link to='/draw-map'>
                         <Button size='sm' className='map-draw' bg='#F4EBEB'>
                           지도 그리기
                         </Button>

@@ -19,31 +19,31 @@ const Recommend = () => {
         infinite: false,
         speed: 200,
         slidesToShow: 1,
-        slidesToScroll: 1
+        slidesToScroll: 1,
       };
       
       return (
         <div className='swiper-slide'>
-        <Slider {...settings} className='slide'>
-          <div className='slide'>
-          <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-          </div>
-          <div className='slide'>
-          <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-          </div>
-          <div className='slide'>
-          <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-          </div>
-          <div className='slide'>
-          <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-          </div>
-          <div className='slide'>
-          <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-          </div>
-          <div className='slide'>
-          <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
-          </div>
-        </Slider>
+          <Slider {...settings} className='slide'>
+            <div className='slide'>
+            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+            </div>
+            <div className='slide'>
+            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+            </div>
+            <div className='slide'>
+            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+            </div>
+            <div className='slide'>
+            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+            </div>
+            <div className='slide'>
+            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+            </div>
+            <div className='slide'>
+            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+            </div>
+          </Slider>
       </div>
 
         // <Swiper>

@@ -10,28 +10,43 @@ import "./Swiper.css"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
 
-const Swiper = () => {
+const Swiper = (props) => {
   const settings = {
-    // dots: false,
-    // infinite: false,
-    speed: 500,
+    dots: false,
+    infinite: false,
+    speed: 200,
     slidesToShow: 1,
-    slidesToScroll: 1,
-    infinite: false
+    slidesToScroll: 1
   };
 
     return (
-      // <div className='slide-div'>
-      // </div>`
-      <div className='silde-div'>
-        {/* <Slider>
-
-        </Slider> */}
-      {/* <Slider {...settings} className='slider'>
-        <div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div>
-        <div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div>
-        <div className='img'></div><div className='img'></div>
-      </Slider> */}
+      <div className='swiper-slide'>
+          <Slider {...settings} className='slide'>
+            <div className='slide'>
+              <div className='imgs'>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+              </div>
+            </div>
+            <div className='slide'>
+              <div className='imgs'>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+              </div>
+            </div>
+            <div className='slide'>
+              <div className='imgs'>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+                <div className='img'></div>
+              </div>
+            </div>
+          </Slider>
       </div>
     );
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class FeedFileDto {
     private Long feedFileId;
+    private Long feedId;
     private String filePath;
     private String fileName;
 

@@ -7,9 +7,8 @@ import {
   } from '@chakra-ui/react';
 
 const SearchBar = () => {
-
     return (
-        <div className="search-input">
+        <form className="search-input">
             <Menu closeOnSelect={true}>
                 <MenuButton size="sm" as={Button} ms={3}>
                     검색 조건 ▼
@@ -32,7 +31,7 @@ const SearchBar = () => {
                 />
                 <Input type='text' width='80%' variant='flushed' placeholder='검색어를 입력해주세요' />
             </InputGroup> */}
-        </div>
+        </form>
     );
 }
 
