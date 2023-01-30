@@ -33,10 +33,8 @@ public class AuthController {
 
     @Autowired
     AuthService authService;
-
     @Autowired
     UserService userService;
-
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -57,25 +55,47 @@ public class AuthController {
         if(password.length() >= 50){
             // 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
             return ResponseEntity.status(401)
-                .body(UserLoginPostResDto.of(401, "Invalid Password", null));
+                .body(UserLoginPostResDto.of(401, "Invalid Password", null,null));
         }
 
         User user = userService.getUserByUserId(userId);
         if(user == null){
             // 존재하지 않는 사용자인 경우
             return ResponseEntity.status(404)
-                .body(UserLoginPostResDto.of(404, "존재하지 않는 회원입니다.", null));
+                .body(UserLoginPostResDto.of(404, "존재하지 않는 회원입니다.", null,null));
         }
 
         // 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
         if (passwordEncoder.matches(password, user.getUserPwd())) {
             // 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
-            return ResponseEntity.ok(
-                UserLoginPostResDto.of(200, "Success", JwtTokenUtil.getToken(userId)));
+
+            String accessToken = JwtTokenUtil.getAccessToken((userId));
+            String refreshToken = JwtTokenUtil.getRefreshToken((userId));
+
+            System.out.println("Access Token : "+accessToken);
+            System.out.println("Refresh Token : "+refreshToken);
+            //refreshToken DB에 저장
+            boolean isSaved = userService.isTokenSaved(userId,refreshToken);
+            if(!isSaved){
+                return ResponseEntity.ok(UserLoginPostResDto.of(500, "토큰 저장 실패", null,null));
+            }
+            return ResponseEntity.ok(UserLoginPostResDto.of(200, "Success", accessToken, refreshToken));
         }
         // 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
         return ResponseEntity.status(401)
-            .body(UserLoginPostResDto.of(401, "Invalid Password", null));
+            .body(UserLoginPostResDto.of(401, "Invalid Password", null,null));
+    }
+
+    @PostMapping("/logout")
+    @ApiOperation(value = "로그아웃", notes = "<strong>아이디와 패스워드</strong>를 통해 로그아웃 한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공", response = UserLoginPostResDto.class),
+        @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+        @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
+        @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    public ResponseEntity<UserLoginPostResDto> logout(){
+        return null;
     }
 
     @GetMapping("/email")
