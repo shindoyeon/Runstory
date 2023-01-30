@@ -7,7 +7,7 @@ import {
 import { Button, Collapse, useDisclosure } from '@chakra-ui/react'
 import "./Footer.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUserGroup, faCirclePlus, faCompass, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faUserGroup, faCirclePlus, faMagnifyingGlass, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -25,8 +25,7 @@ const Footer = () => {
                   </div>
                   
                 {/* </Link> */}
-                <Link to="/search"><div className='navigate'><FontAwesomeIcon icon={faCompass} /></div></Link>
-                <div className='my-page'><FontAwesomeIcon icon={faUser} /></div>
+                <Link to="/search"><div className='navigate'><FontAwesomeIcon icon={faMagnifyingGlass} /></div></Link>
                 <Collapse in={isOpen} animateOpacity className='collapse'>
                   <ButtonGroup className='btn-group'>
                       <Link to='/create-running-crew'>
@@ -46,6 +45,9 @@ const Footer = () => {
                       </Link>
                     </ButtonGroup>
                 </Collapse>
+                <Link to='/feed'> 
+                  <div className='my-page'><FontAwesomeIcon icon={faUser} /></div>
+                </Link>
             </header>
         </ChakraProvider>
       );
