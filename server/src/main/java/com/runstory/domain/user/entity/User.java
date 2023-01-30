@@ -1,6 +1,9 @@
 package com.runstory.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.runstory.domain.chat.ChatRoomUser;
+import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.running.RunningUser;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +20,8 @@ import java.time.LocalDateTime;
 @Data
 @DynamicInsert
 public class User {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSeq;
-
     @Column(length = 50, unique=true, nullable = false)
     @Comment("사용자아이디")
     private String userId;
@@ -34,7 +36,7 @@ public class User {
     private String userNickname;
     @Comment("이메일인증여부(TRUE: 이메일인증성공, FALSE: 이메일인증실패)")
     @Column(columnDefinition = "boolean default false", nullable = false)
-    private boolean emailAuth;
+    private Boolean emailAuth;
 
     @Comment("전화번호")
     @Column(length = 50, nullable = false)
@@ -50,7 +52,7 @@ public class User {
     private int age;
 
     @Comment("토큰")
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String token;
 
     @Comment("역할(USER: 일반사용자, ADMIN: 관리자)")
@@ -64,23 +66,25 @@ public class User {
     @Column(columnDefinition = "int default 0", nullable = false)
     private int experience;
     @Comment("프로필이미지경로")
-    @Column(length = 500, nullable = false)
+    @Column(length = 500)//, nullable = false)
     private String profileImgFilePath;
     @Comment("프로필이미지파일명")
-    @Column(length = 500, nullable = false)
+    @Column(length = 500)//, nullable = false)
     private String profileImgFileName;
     @Comment("LOCAL: 일반회원가입, KAKAO: 카카오, GOOGLE: 구글, NAVER: 네이버")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RegType regType;
     @Comment("회원가입일자")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
     @Comment("회원정보수정일자")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedate;
-
-    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<RunningUser> runningusers = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<ChatRoomUser> rooms = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private  List<Feed> feeds = new ArrayList<>();
 }

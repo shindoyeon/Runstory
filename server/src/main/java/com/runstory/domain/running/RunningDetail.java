@@ -2,22 +2,30 @@ package com.runstory.domain.running;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Data
+@Getter
+@DynamicInsert
+@DynamicUpdate
+@Builder
 public class RunningDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(columnDefinition = "int default 0", nullable = false)
-    @Comment("인원유형(0:남자만, 1:여자만, 2:상관없음)")
-    private int genderType;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GenderType genderType;
 
     @Column(columnDefinition = "int default 0", nullable = false)
     @Comment("남자 인원")

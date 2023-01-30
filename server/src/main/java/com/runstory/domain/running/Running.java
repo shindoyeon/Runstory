@@ -1,3 +1,4 @@
+// Default 넣을 떄 nullable-false X
 package com.runstory.domain.running;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -12,11 +13,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Data
+@Getter
+@DynamicInsert
+@DynamicUpdate
+@NoArgsConstructor // 이거 꼭 써야한다.
+@AllArgsConstructor
+@Builder
 public class Running {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,7 +82,7 @@ public class Running {
     @Comment("끝나는 위도")
     private float endLatitude;
 
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     @Comment("생성일자")
     private LocalDateTime regdate;
 
