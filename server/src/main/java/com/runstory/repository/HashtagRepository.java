@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
     List<Hashtag> findAll();
+    Hashtag findHashtagByHashtagId(Long hashtagId);
 
 }

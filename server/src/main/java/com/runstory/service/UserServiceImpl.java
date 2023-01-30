@@ -4,7 +4,12 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
 import com.runstory.api.response.UserInfoDto;
+import com.runstory.domain.hashtag.HashtagType;
+import com.runstory.domain.hashtag.entity.Hashtag;
+import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.entity.User;
+import com.runstory.repository.HashtagRepository;
+import com.runstory.repository.SelectedHashtagRepository;
 import com.runstory.repository.UserRepository;
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +31,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired UserRepository userRepository;
 	@Autowired PasswordEncoder passwordEncoder;
+	@Autowired HashtagRepository hashtagRepository;
+	@Autowired SelectedHashtagRepository selectedHashtagRepository;
 
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
@@ -42,13 +49,21 @@ public class UserServiceImpl implements UserService {
 		user.setAge(userRegisterInfo.getAge());
 		user.setRoleType(userRegisterInfo.getRoleType());
 		user.setRegType(userRegisterInfo.getRegType());
+		userRepository.save(user);
+		List<String> list = userRegisterInfo.getHashtags();
+		for(String id : list){
+			Long hashtagId = (long) Integer.parseInt(id);
+			System.out.println("전달할 hashtagId : "+hashtagId);
+			Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
+			SelectedHashtag selectedHashtag = new SelectedHashtag();
+			System.out.println("해시태그 아이디는 : "+hashtag.getHashtagId());
 
-//		List<Integer> list = userRegisterInfo.getHashtags();
-//		for(int i : list){
-//			System.out.println("리스트 : "+i);
-//		}
-
-		return userRepository.save(user);
+			selectedHashtag.setHashtag(hashtag);
+			selectedHashtag.setUser(user);
+			selectedHashtag.setHashtagType(HashtagType.valueOf("USER"));
+			selectedHashtagRepository.save(selectedHashtag);
+		}
+		return user;
 	}
 
 	@Override

@@ -32,6 +32,6 @@ public class UserRegisterPostReq extends BaseResponseBody {
 	RegType regType;
 	String profileImgFilePath;
 	String profileImgFileName;
-	List<Integer> hashtags;
+	List<String> hashtags;
 	MultipartFile profileImg;
 }
