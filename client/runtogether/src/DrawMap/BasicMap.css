@@ -1,50 +1,29 @@
-.map-container {
-    line-height: 100vh;
-}
-
-.map {
-    line-height: 100vh;
-}
-
-.temp {
-    width: 100%;
-    height: 30%;
-    margin-top: 100px;
-    background-color: aqua;
-}
-
-.place-search-bar {
-    display: inline-block;
-    margin-top: 10px;
-    text-align: left;
-    margin-left: 7%;
-    width: 100%;
-}
-
-.info {
-    padding:5px;
-    font-size:12px;
-}
-
-.visible-btn {
-    margin-left: 5%;
-    margin-top: 10px;
-    font-size: 15px;
+.save-btn {
+    margin-right: 2.5%;
+    margin-top: 2%;
     color: #6A6A6A;
-    background-color: #EEB6B6;
-    display: inline-block;
-    padding: 0 10px;
+    background-color:#CBD9E7;
     text-align: center;
+    display: inline-block;
+    padding: 2px 10px;
+    float: right;
     border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 13px;
 }
 
-.init-btn {
-    margin-top: 10px;
-    font-size: 15px;
+.del-btn {
+    margin-right: 2.5%;
+    margin-top: 2%;
     color: #6A6A6A;
-    background-color: #EEB6B6;
-    display: inline-block;
-    padding: 0 10px;
+    background-color:#CBD9E7;
     text-align: center;
+    display: inline-block;
+    padding: 2px 10px;
+    float: right;
     border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 13px;
 }
