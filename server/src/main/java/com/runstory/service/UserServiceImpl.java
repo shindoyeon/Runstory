@@ -170,6 +170,26 @@ public class UserServiceImpl implements UserService {
 		user.setProfileImgFilePath(path);
 		user.setProfileImgFileName(imageFileName);
 		userRepository.save(user);
+	}
+	@Override
+	public void changeUserHashtage(String userId, List<String> list) {
+		User user = userRepository.findByUserId(userId);
 
+		//기존 해시태그 삭제
+		selectedHashtagRepository.deleteSelectedHashtagByUserId(user.getUserSeq());
+
+		// 새로운 해시태그 추가
+		for(String id : list){
+			Long hashtagId = (long) Integer.parseInt(id);
+			System.out.println("전달할 hashtagId : "+hashtagId);
+			Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
+			SelectedHashtag selectedHashtag = new SelectedHashtag();
+			System.out.println("해시태그 아이디는 : "+hashtag.getHashtagId());
+
+			selectedHashtag.setHashtag(hashtag);
+			selectedHashtag.setUser(user);
+			selectedHashtag.setHashtagType(HashtagType.valueOf("USER"));
+			selectedHashtagRepository.save(selectedHashtag);
+		}
 	}
 }

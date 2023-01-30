@@ -4,6 +4,8 @@ import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
 import com.runstory.api.response.UserInfoDto;
 import com.runstory.domain.user.entity.User;
+import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -21,4 +23,6 @@ public interface UserService {
 	void deleteUser(String userId);
 	void changeUserInfo(String type, String userId,String value);
 	void changeUserImage(boolean isRegistered, String userId, MultipartFile image);
+	@Transactional
+	void changeUserHashtage(String userId, List<String> list);
 }

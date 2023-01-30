@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiResponses;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import javax.websocket.server.PathParam;
 import javax.xml.transform.Source;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -220,11 +221,32 @@ public class UserController {
 		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 
-		userService.changeUserInfo("address", userId,userRegisterPostReq.getAddress());
+		userService.changeUserInfo("hashtag", userId,userRegisterPostReq.getAddress());
 
 		return ResponseEntity.ok(BaseResponseBody.of(200,"성공"));
 	}
 
+	@PutMapping("/hashtag")
+	@ApiOperation(value = "주소 변경", notes = "회원의 주소 변경")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+		@ApiResponse(code = 401, message = "인증 실패"),
+		@ApiResponse(code = 404, message = "사용자 없음"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> changeHashtags(@ApiIgnore Authentication authentication, @RequestBody UserRegisterPostReq userRegisterPostReq) {
+		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		String userId = userDetails.getUsername();
+
+		List<String> list = userRegisterPostReq.getHashtags();
+		for(String str : list){
+			System.out.println("컨트롤러  :"+str);
+		}
+
+		userService.changeUserHashtage(userId,userRegisterPostReq.getHashtags());
+
+		return ResponseEntity.ok(BaseResponseBody.of(200,"성공"));
+	}
 	@PutMapping("/profileimg")
 	@ApiOperation(value = "프로필 이미지 변경", notes = "회원의 프로필 이미지 변경")
 	@ApiResponses({
