@@ -29,7 +29,7 @@ public class FeedComment {
     private User user;
     @Comment("댓글 내용")
     @Column(length = 500)
-    private String cotent;
+    private String content;
     @Comment("등록일자")
     @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;

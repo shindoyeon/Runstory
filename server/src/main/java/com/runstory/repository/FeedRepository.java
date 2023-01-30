@@ -12,4 +12,7 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
     @Query("select f from Feed f where f.user.userSeq= :userId")
     List<Feed> findByUserId(Long userId);
 
+    @Query("select f from Feed f where f.feedId= : feedId")
+    List<Feed> findByFeedId(Long feedId);
+
 }

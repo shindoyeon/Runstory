@@ -1,26 +1,35 @@
 package com.runstory.service;
 
+import com.runstory.api.request.FeedRequestDto;
+import com.runstory.api.response.FeedResponseDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.repository.FeedRepository;
 import com.runstory.repository.FeedRepositoryCustom;
 import com.runstory.repository.FollowRepository;
+import com.runstory.repository.SelectedHashtagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class FeedService {
+    @Autowired
     private final FeedRepository feedRepository;
     private final FeedRepositoryCustom feedRepositoryCustom;
     private final FollowRepository followRepository;
+
+    private final SelectedHashtagRepository selectedHashtagRepository;
+
 
     public List<FeedDto> findAll(){
         List<Feed> feeds = feedRepository.findAll();
@@ -50,4 +59,39 @@ public class FeedService {
         return result;
     }
 
+
+    public Feed addFeed(Long userSeq, FeedRequestDto feed){
+        // 기본 설정
+        // User user = userRepository.findById(feed.getUserId()).get(); filesystem 사용할때
+
+        Feed feedEntity = Feed.builder()
+            //.user(feed.userSeq()) 유저 seq 추가시
+            .content(feed.getContent())
+            .publicScope(feed.getPublicScope())
+            //.regdate(LocalDateTime.parse(sdf.format(timestamp)))
+            //.selectedHashTag(feed.getSelectedHashTag()) 해시태그 dto 추가시
+            .build();
+        // 연결
+
+
+        Feed nowfeed = feedRepository.save(feedEntity);
+
+        return nowfeed;
+    }
+
+
+    public Feed updateFeed(Long feedId, Feed feed){
+
+        Feed feedUpdated = feedRepository.findById(feedId).orElse(null);
+
+
+        return feed;
+
+    }
+@Transactional
+    public void deleteFeed(Long feedId) {
+        feedRepository.deleteById(feedId);
+        selectedHashtagRepository.deleteById(feedId);
+    }
 }
+
