@@ -3,9 +3,6 @@ package com.runstory.api.response;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Getter
 @RequiredArgsConstructor
 public class ApiResponse<T> {
@@ -19,30 +16,27 @@ public class ApiResponse<T> {
     private final static String INVALID_ACCESS_TOKEN = "유효하지 않은 access token.";
     private final static String INVALID_REFRESH_TOKEN = "유효하지 않은 refresh token.";
     private final static String NOT_EXPIRED_TOKEN_YET = "만료되지 않은 토큰 입니다";
+    private final int statusCode;
+    private final String message;
+    private final T data;
 
-    private final ApiResponseHeader header;
-    private final Map<String, T> body;
-
-    public static <T> ApiResponse<T> success(String name, T body) {
-        Map<String, T> map = new HashMap<>();
-        map.put(name, body);
-
-        return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE), map);
+    public static <T> ApiResponse<T> success(T body) {
+        return new ApiResponse(SUCCESS, SUCCESS_MESSAGE, body);
     }
 
     public static <T> ApiResponse<T> fail() {
-        return new ApiResponse(new ApiResponseHeader(FAILED, FAILED_MESSAGE), null);
+        return new ApiResponse(FAILED, FAILED_MESSAGE, null);
     }
 
     public static <T> ApiResponse<T> invalidAccessToken() {
-        return new ApiResponse(new ApiResponseHeader(FAILED, INVALID_ACCESS_TOKEN), null);
+        return new ApiResponse(FAILED, INVALID_ACCESS_TOKEN, null);
     }
 
     public static <T> ApiResponse<T> invalidRefreshToken() {
-        return new ApiResponse(new ApiResponseHeader(FAILED, INVALID_REFRESH_TOKEN), null);
+        return new ApiResponse(FAILED, INVALID_REFRESH_TOKEN, null);
     }
 
     public static <T> ApiResponse<T> notExpiredTokenYet() {
-        return new ApiResponse(new ApiResponseHeader(FAILED, NOT_EXPIRED_TOKEN_YET), null);
+        return new ApiResponse(FAILED, NOT_EXPIRED_TOKEN_YET, null);
     }
 }

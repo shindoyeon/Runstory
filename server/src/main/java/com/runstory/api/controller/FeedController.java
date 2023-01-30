@@ -71,21 +71,21 @@ public class FeedController {
         Follow follow = followService.saveFollow(1L, followUserId);
 
         if(follow==null)
-            return ApiResponse.success("data","false");
-        return ApiResponse.success("data","success");
+            return ApiResponse.success(null);
+        return ApiResponse.success(null);
     }
 
     @DeleteMapping("/follow/{followId}")
     @ApiOperation(value = "사용자 언팔로우")
     public ApiResponse<?> unfollowUser(@PathVariable Long followId, HttpServletRequest request){
         followService.deleteFollow(followId);
-        return ApiResponse.success("data","success");
+        return ApiResponse.success(null);
     }
 
     @GetMapping("/follow/{userId}")
     @ApiOperation(value = "팔로잉,팔로워 리스트 조회")
     public ApiResponse<?> getFollowList(@PathVariable Long userId, HttpServletRequest request){
         Map<String, List<FollowDto>> followList = followService.findFollowList(userId);
-        return ApiResponse.success("data",followList);
+        return ApiResponse.success(followList);
     }
 }
