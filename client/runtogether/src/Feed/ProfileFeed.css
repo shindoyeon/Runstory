@@ -1,0 +1,11 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 120px 120px 120px;
+  grid-template-rows: 120px 120px;
+}
+.item {
+background-color: white;
+border: 1px solid darkblue;
+color: white;
+text-align: center;
+}
