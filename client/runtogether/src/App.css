@@ -62,6 +62,7 @@
 
 * {
     font-family: "kotra-font";
+    touch-action: none;
 }
 
 .scroll_container{
