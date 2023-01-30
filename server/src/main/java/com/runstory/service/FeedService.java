@@ -36,7 +36,7 @@ public class FeedService {
             feeds = feedRepository.findByUserId(myUserId);
         }else{
             //팔로우 관계인지 조회
-            Follow follow = followRepository.findFollow(myUserId, yourUserId);
+            Follow follow = followRepository.findFollowStatus(myUserId, yourUserId);
             //팔로우 관계 아님->전체공개 게시물만
             if(follow==null)
                 feeds = feedRepositoryCustom.searchByUserId(yourUserId, false);

@@ -1,6 +1,7 @@
 package com.runstory.domain.feed.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -27,9 +28,6 @@ public class Feed {
     @Comment("피드 게시글 내용")
     @Column(length = 1000)
     private String content;
-
-    @Transient
-    private List<FeedFile> img;
     @Comment("공개범위(PUBLIC: 전체공개, FRIEND: 팔로우공개, PRIVATE: 비공개)")
     @Enumerated(EnumType.STRING)
     private PublicScope publicScope;
@@ -37,4 +35,10 @@ public class Feed {
     private LocalDateTime regdate;
     @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
+    private List<FeedFile> feedFiles = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
+    private List<FeedComment> feedComments = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
+    private List<FeedLike> feedLikes = new ArrayList<>();
 }
