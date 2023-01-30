@@ -36,17 +36,17 @@ public class FeedController {
 
     @GetMapping("")
     @ApiOperation(value = "사용자 피드 조회", notes = "공개 범위에 따라 피드 조회")
-    public ResponseEntity<?> getUserFeed(@RequestParam Long userId, @RequestParam Boolean isMe, HttpServletRequest request){
+    public ApiResponse<?> getUserFeed(@RequestParam Long userId, @RequestParam Boolean isMe, HttpServletRequest request){
         System.out.println(userId+" "+isMe);
         List<FeedDto> feedDtos = feedService.findByUserId(1L, userId, isMe);
         List<SimpleFeedResDto> result= feedDtos.stream().map(f->new SimpleFeedResDto(f)).collect(Collectors.toList());
 
-        return ResponseEntity.ok().body(result);
+        return ApiResponse.success(result);
     }
 
     @GetMapping("/followstatus/{userId}")
     @ApiOperation(value = "사용자 팔로우 조회", notes = "팔로우 상태, 팔로잉, 팔로워 수 조회")
-    public ResponseEntity<?> getFollowStatus(@PathVariable Long userId, HttpServletRequest request){
+    public ApiResponse<?> getFollowStatus(@PathVariable Long userId, HttpServletRequest request){
         HashMap<String, Object> result = new HashMap<>();
         Follow follow = followService.findFollowStatus(3L,userId);
         int follwingCnt = followService.findFollwing(userId).size();
@@ -55,14 +55,14 @@ public class FeedController {
         result.put("followId", follow==null?null:follow.getFollowId());
         result.put("follwingCnt", follwingCnt);
         result.put("follwerCnt", follwerCnt);
-        return ResponseEntity.ok().body(result);
+        return ApiResponse.success(result);
     }
 
     @GetMapping("/profile/{userId}")
     @ApiOperation(value = "사용자 프로필 조회", notes = "사용자 닉네임, 레벨, 프로필 사진")
-    public ResponseEntity<?> getProfile(@PathVariable Long userId, HttpServletRequest request){
+    public ApiResponse<?> getProfile(@PathVariable Long userId, HttpServletRequest request){
         //userservice 에서 개인 프로필 조회 들고 오기
-        return ResponseEntity.ok().body(null);
+        return ApiResponse.success(null);
     }
 
     @PostMapping("/follow/{followUserId}")
@@ -71,7 +71,7 @@ public class FeedController {
         Follow follow = followService.saveFollow(1L, followUserId);
 
         if(follow==null)
-            return ApiResponse.success(null);
+            return ApiResponse.fail();
         return ApiResponse.success(null);
     }
 
