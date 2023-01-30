@@ -3,8 +3,7 @@ package com.runstory.api.controller;
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
 import com.runstory.api.response.UserInfoDto;
-import com.runstory.api.response.UserResDto;
-import com.runstory.common.auth.SsafyUserDetails;
+import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.common.model.response.BaseResponseBody;
 import com.runstory.domain.user.entity.User;
 import com.runstory.service.AuthService;
@@ -14,14 +13,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import javax.websocket.server.PathParam;
-import javax.xml.transform.Source;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
@@ -81,7 +73,7 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		System.out.println(userDetails);
 		String userId = userDetails.getUsername();
 		UserInfoDto user = userService.getUserInfoByUserId(userId);
@@ -105,7 +97,7 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 		userService.deleteUser(userId);
 		User user = userService.getUserByUserId(userId);
@@ -185,7 +177,7 @@ public class UserController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> changeNickname(@ApiIgnore Authentication authentication, @RequestBody UserRegisterPostReq userRegisterPostReq) {
-		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 
 		userService.changeUserInfo("nickname", userId,userRegisterPostReq.getUserNickname());
@@ -202,7 +194,7 @@ public class UserController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> changePwd(@ApiIgnore Authentication authentication, @RequestBody UserRegisterPostReq userRegisterPostReq) {
-		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 		String newPwd = userRegisterPostReq.getUserPwd();
 		userService.changePwd(userId,newPwd);
@@ -218,7 +210,7 @@ public class UserController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> changeAddress(@ApiIgnore Authentication authentication, @RequestBody UserRegisterPostReq userRegisterPostReq) {
-		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 
 		userService.changeUserInfo("hashtag", userId,userRegisterPostReq.getAddress());
@@ -235,9 +227,8 @@ public class UserController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> changeHashtags(@ApiIgnore Authentication authentication, @RequestBody UserRegisterPostReq userRegisterPostReq) {
-		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
-
 		List<String> list = userRegisterPostReq.getHashtags();
 		for(String str : list){
 			System.out.println("컨트롤러  :"+str);
@@ -256,7 +247,7 @@ public class UserController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> changeProfileImg(@ApiIgnore Authentication authentication, @RequestBody MultipartFile image) {
-		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 
 		try {

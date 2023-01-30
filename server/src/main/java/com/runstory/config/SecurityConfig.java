@@ -2,7 +2,7 @@ package com.runstory.config;
 
 //import com.runstory.common.auth.JwtAuthenticationFilter;
 import com.runstory.common.auth.JwtAuthenticationFilter;
-import com.runstory.common.auth.SsafyUserDetailService;
+import com.runstory.common.auth.CustomUserDetailService;
 import com.runstory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private SsafyUserDetailService ssafyUserDetailService;
+    private CustomUserDetailService ssafyUserDetailService;
     
     @Autowired
     private UserService userService;
