@@ -12,7 +12,7 @@ public interface RunningService {
     long createRunningCrew(RunningCrewReqDto runningCrewReqDto);
 
     // MainPage
-    ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude);
+//    ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude);
 
     // DetailPage
     RunningDetailSumDto findRunningDetail(Long id);

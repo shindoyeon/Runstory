@@ -7,7 +7,6 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
 public class RunningMainResDto {
     private long runningId;
     private String imgPathFile;

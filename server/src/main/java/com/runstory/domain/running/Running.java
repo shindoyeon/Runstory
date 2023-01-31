@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.runstory.api.request.RunningCrewReqDto;
+import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
+import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -100,13 +102,16 @@ public class Running {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningUser> runningusers = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
+    private List<SelectedHashtag> selectedHashtags = new ArrayList<>();
+
+
     @Comment("생성자")
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
     public Running(RunningCrewReqDto runningCrewReqDto) {
-        this.runningId = runningCrewReqDto.getId();
         this.imgFilePath = runningCrewReqDto.getImgPathFile();
         this.imgFileName = runningCrewReqDto.getImgFileName();
         this.crewName = runningCrewReqDto.getCrewName();

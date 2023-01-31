@@ -79,7 +79,7 @@ public class RunningDetailSumDto {
             SelectedHashtagDto selectedHashtagDto = SelectedHashtagDto.builder()
                     .hashtag(hashtagDto)
                     .hashtagType(selectedHashtag.getHashtagType())
-                    .running(runningDto)
+                    .runningId(runningDto.getRunningId())
                     .build();
             selectedHashtags.add(selectedHashtagDto);
         }
