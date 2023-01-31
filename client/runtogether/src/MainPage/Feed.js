@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './Feed.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
-import { faShare, faHeart } from "@fortawesome/free-solid-svg-icons"; // 공유 버튼
+import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons"; // 공유 버튼
 import { faComment } from "@fortawesome/free-regular-svg-icons"; // 하트(좋아요), 댓글 버튼
 import {
     Card, // chakra-ui의 Card로 피드 하나를 구성할 것임 
@@ -29,6 +29,13 @@ const Feed = () => {
         copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, contentImg: copyArray[i].contentImg, content: copyArray[i].content, isLiked: copyArray[i].isLiked, contentClosed: !copyArray[i].contentClosed}
         setArr ( copyArray );
     }
+
+    // 피드 끝까지 내려갔을 때 새로고침 버튼을 만들어주기 위함
+    function refreshToHome() {
+        window.location.replace("/")
+      }
+
+    // 3줄 이상 내용 피드를 관리
     const [isMore, setIsMore] = React.useState(true)
 
     var [feeds, setFeeds] = React.useState([
@@ -290,9 +297,12 @@ const Feed = () => {
                 loader={<p style={{ textAlign: "center" }}><Spinner textAlign={'center'}/></p>}
                 // width={50}
                 endMessage={
-                    <p style={{ textAlign: "center", fontWeight: "light" }}>
-                      모든 피드를 확인했습니다
-                    </p>
+                    <div style={{ textAlign: "center", fontWeight: "light"}}>
+                        <p>
+                            모든 피드를 확인했습니다
+                        </p>
+                        <FontAwesomeIcon className='refresh' icon={faArrowRotateRight} onClick={refreshToHome}></FontAwesomeIcon>
+                    </div>
                 }
             >
             {arr.map((item, idx) => {
@@ -323,7 +333,6 @@ const Feed = () => {
                                 width='90%'
                                 borderRadius='lg'
                                 display={item.contentImg===""?'none':''}
-                                // height='40vh'
                                 src={item.contentImg}
                         />
                         {/* <div className='post-image' backgroundImage={item.contentImg}></div> */}

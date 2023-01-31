@@ -98,7 +98,7 @@
     margin: 3%;
 }
 
-.like:active{
+.like:active, .refresh:active {
     transform: scale(1.2);
 }
 
