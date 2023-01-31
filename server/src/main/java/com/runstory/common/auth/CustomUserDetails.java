@@ -24,7 +24,9 @@ public class CustomUserDetails implements UserDetails {
     		super();
     		this.user = user;
     }
-    
+    public Long getUserSeq(){
+		return this.user.getUserSeq();
+	}
     public User getUser() {
     		return this.user;
     }
