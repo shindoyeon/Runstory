@@ -1,9 +1,15 @@
 package com.runstory.api.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runstory.api.request.UserLoginPostReqDto;
+import com.runstory.api.response.KakaoSignupInfo;
 import com.runstory.api.response.UserLoginPostResDto;
 import com.runstory.common.model.response.BaseResponseBody;
 import com.runstory.common.util.JwtTokenUtil;
+import com.runstory.domain.user.dto.KakaoUser;
+import com.runstory.domain.user.dto.OAuthToken;
 import com.runstory.domain.user.entity.User;
 import com.runstory.service.AuthService;
 import com.runstory.service.UserService;
@@ -13,15 +19,22 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -84,6 +97,103 @@ public class AuthController {
         // 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
         return ResponseEntity.status(401)
             .body(UserLoginPostResDto.of(401, "Invalid Password", null,null));
+    }
+
+    @GetMapping("/login/kakao")
+    @ApiOperation(value = "카카오 로그인", notes = "<strong>카카오 로그인</strong>을 통해 로그인 한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공", response = UserLoginPostResDto.class),
+        @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+        @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
+        @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    public ResponseEntity<?> kakaoLogin(@RequestParam String code, @Value("${restApiKey}") String key, @Value("${redirectUrl}") String url) {
+        System.out.println("code : "+code);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", key);
+        params.add("redirect_uri", url);
+        params.add("code", code);
+        params.add("client_secret", "");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+
+        RestTemplate rt = new RestTemplate();
+
+        ResponseEntity<String> response = rt.exchange(
+            "https://kauth.kakao.com/oauth/token", //{요청할 서버 주소}
+            HttpMethod.POST, //{요청할 방식}
+            request, // {요청할 때 보낼 데이터}
+            String.class //{요청시 반환되는 데이터 타입}
+        );
+
+        System.out.println("결과 : "+response.getBody());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        OAuthToken oauthToken = null;
+        //Model과 다르게 되있으면 그리고 getter setter가 없으면 오류가 날 것이다.
+        try {
+            oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        String token = oauthToken.getAccess_token();
+        System.out.println("토큰 : "+token);
+
+        // 추가 개인 정보 얻기
+        headers.set("Authorization", "Bearer " + oauthToken.getAccess_token());
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        params = new LinkedMultiValueMap<>();
+
+        request = new HttpEntity<>(params, headers);
+
+        rt = new RestTemplate();
+
+        response = rt.exchange(
+            "https://kapi.kakao.com/v2/user/me", //{요청할 서버 주소}
+            HttpMethod.POST, //{요청할 방식}
+            request, // {요청할 때 보낼 데이터}
+            String.class //{요청시 반환되는 데이터 타입}
+        );
+
+        System.out.println("마지막 결과 : "+response);
+
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        KakaoUser kakaoUser = null;
+        //Model과 다르게 되있으면 그리고 getter setter가 없으면 오류가 날 것이다.
+        try {
+            kakaoUser = objectMapper.readValue(response.getBody(), KakaoUser.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        Long id = kakaoUser.getId();
+        System.out.println("결과 : "+id);
+        String userId = id+"";
+        User user = userService.getUserByUserId(userId);
+        if(user==null) {
+            // 회원가입 하지 안한 회원인 경우 회원가입으로!!!
+//            user = userService.socialSignUp(kakaoUser);
+            return ResponseEntity.ok(new KakaoSignupInfo(kakaoUser));
+        }
+
+        String accessToken = JwtTokenUtil.getAccessToken(userId);
+        String refreshToken = JwtTokenUtil.getRefreshToken(userId);
+
+        System.out.println("Access Token : "+accessToken);
+        System.out.println("Refresh Token : "+refreshToken);
+
+        //refreshToken DB에 저장
+        boolean isSaved = userService.isTokenSaved(userId,refreshToken);
+        if(!isSaved){
+            return ResponseEntity.ok(UserLoginPostResDto.of(500, "토큰 저장 실패", null,null));
+        }
+        return ResponseEntity.ok(UserLoginPostResDto.of(200, "Success", accessToken, refreshToken));
     }
 
     @PostMapping("/logout")

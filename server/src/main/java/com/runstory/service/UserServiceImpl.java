@@ -7,6 +7,9 @@ import com.runstory.api.response.UserInfoDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
+import com.runstory.domain.user.RegType;
+import com.runstory.domain.user.RoleType;
+import com.runstory.domain.user.dto.KakaoUser;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.HashtagRepository;
 import com.runstory.repository.SelectedHashtagRepository;
@@ -36,7 +39,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
-		User user = new User();
+		//이미 회원가입 한 회원인지 체크하기
+		User user = userRepository.findByUserId(userRegisterInfo.getUserId());
+		if(user != null){
+			return null;
+		}
+
+		user = new User();
 		user.setUserId(userRegisterInfo.getUserId());
 		//보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		user.setUserPwd(passwordEncoder.encode(userRegisterInfo.getUserPwd()));
@@ -51,12 +60,12 @@ public class UserServiceImpl implements UserService {
 		user.setRegType(userRegisterInfo.getRegType());
 		userRepository.save(user);
 		List<String> list = userRegisterInfo.getHashtags();
-		for(String id : list){
+		for (String id : list) {
 			Long hashtagId = (long) Integer.parseInt(id);
-			System.out.println("전달할 hashtagId : "+hashtagId);
+			System.out.println("전달할 hashtagId : " + hashtagId);
 			Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
 			SelectedHashtag selectedHashtag = new SelectedHashtag();
-			System.out.println("해시태그 아이디는 : "+hashtag.getHashtagId());
+			System.out.println("해시태그 아이디는 : " + hashtag.getHashtagId());
 
 			selectedHashtag.setHashtag(hashtag);
 			selectedHashtag.setUser(user);

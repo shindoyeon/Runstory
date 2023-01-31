@@ -1,4 +1,4 @@
-INSERT INTO hashtag (hashtag_name) VALUE('산책');-- 
+INSERT INTO hashtag (hashtag_name) VALUE('산책');
 INSERT INTO hashtag (hashtag_name) VALUE('조깅');
 INSERT INTO hashtag (hashtag_name) VALUE('러닝');
 INSERT INTO hashtag (hashtag_name) VALUE('조용히');
