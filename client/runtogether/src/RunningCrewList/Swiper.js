@@ -12,7 +12,6 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Input,
   Button,
 } from '@chakra-ui/react';
 
