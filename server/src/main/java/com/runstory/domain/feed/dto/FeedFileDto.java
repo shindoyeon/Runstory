@@ -12,6 +12,7 @@ public class FeedFileDto {
 
     public FeedFileDto(FeedFile feedFile) {
         this.feedFileId = feedFile.getFeedFileId();
+        this.feedId = feedFile.getFeed().getFeedId();
         this.filePath = feedFile.getFilePath();
         this.fileName = feedFile.getFileName();
     }

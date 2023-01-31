@@ -1,6 +1,7 @@
 package com.runstory.domain.feed.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.runstory.domain.feed.entity.FeedComment;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,16 @@ public class FeedCommentDto {
     private Long feedId;
     private Long userId;
     private String userNickname;
-    private String cotent;
+    private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regdate;
+
+    public FeedCommentDto(FeedComment comment) {
+        this.feedCommentId = comment.getFeedCommnetId();
+        this.feedId = comment.getFeed().getFeedId();
+        this.userId = comment.getUser().getUserSeq();
+        this.userNickname = comment.getUser().getUserNickname();
+        this.content = comment.getCotent();
+        this.regdate = comment.getRegdate();
+    }
 }
