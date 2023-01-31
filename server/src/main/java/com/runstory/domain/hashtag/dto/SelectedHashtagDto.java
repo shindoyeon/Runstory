@@ -14,7 +14,7 @@ public class SelectedHashtagDto {
     private Long selectedHashtagId;
     private HashtagDto hashtag;
     private HashtagType hashtagType;
-    private RunningDto runningId;
+    private RunningDto running;
     private FeedDto feedId;
     private UserDto userId;
 }

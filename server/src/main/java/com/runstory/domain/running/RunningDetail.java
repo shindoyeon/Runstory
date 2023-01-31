@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.runstory.api.request.RunningCrewReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,4 +56,14 @@ public class RunningDetail {
     @Column(columnDefinition = "boolean default false", nullable = false)
     @Comment("강아지 여부")
     private boolean hasDog;
+
+    public RunningDetail(RunningCrewReqDto runningCrewReqDto){
+        this.genderType = runningCrewReqDto.getGenderType();
+        this.man = runningCrewReqDto.getMan();
+        this.women = runningCrewReqDto.getWomen();
+        this.total = runningCrewReqDto.getTotal();
+        this.minAge = runningCrewReqDto.getMinAge();
+        this.maxAge = runningCrewReqDto.getMaxAge();
+        this.hasDog = runningCrewReqDto.isHasDog();
+    }
 }

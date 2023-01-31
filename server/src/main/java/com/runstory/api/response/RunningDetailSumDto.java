@@ -5,6 +5,7 @@ import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.*;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
+import com.runstory.domain.running.dto.RunningDto;
 import com.runstory.domain.running.dto.RunningUserDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,7 +49,7 @@ public class RunningDetailSumDto {
 
 
     public RunningDetailSumDto(Running running, RunningDetail runningDetail){
-        this.imgPathFile = running.getImgPathFile();
+        this.imgPathFile = running.getImgFilePath();
         this.imgFileName = running.getImgFileName();
         this.crewName = running.getCrewName();
         this.runningContent = running.getRunningContent();
@@ -74,10 +75,11 @@ public class RunningDetailSumDto {
                     .hashtagId(selectedHashtag.getHashtag().getHashtagId())
                     .hashtagName(selectedHashtag.getHashtag().getHashtagName())
                     .build();
+            RunningDto runningDto = new RunningDto(running);
             SelectedHashtagDto selectedHashtagDto = SelectedHashtagDto.builder()
                     .hashtag(hashtagDto)
                     .hashtagType(selectedHashtag.getHashtagType())
-                    .runningId(selectedHashtag.getRunning().getId())
+                    .running(runningDto)
                     .build();
             selectedHashtags.add(selectedHashtagDto);
         }
