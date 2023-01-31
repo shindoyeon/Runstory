@@ -22,7 +22,7 @@ import {
 const ArticleForm = () => {
     const [value, setValue] = useState('1'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
     const [content, setContent] = useState(""); // 피드 내용
-    const fileInput = React.useRef(null); // 사진
+    // const fileInput = React.useRef(null); // 사진
     const { isOpen, onOpen, onClose } = useDisclosure();
     
 
@@ -33,13 +33,13 @@ const ArticleForm = () => {
         alert(`작성된 내용: ${content}, 공개범위: ${value}`); // 데이터 잘 들어왔는지 확인용!!!
     };
 
-    const handleButtonClick = e => {
-        fileInput.current.click();
-    };
+    // const handleButtonClick = e => {
+    //     fileInput.current.click();
+    // };
       
-    const handleImgChange = e => {
-        console.log(e.target.files[0]);
-    };
+    // const handleImgChange = e => {
+    //     console.log(e.target.files[0]);
+    // };
 
     const navigate = useNavigate();
  
@@ -49,11 +49,6 @@ const ArticleForm = () => {
 
     return (
         <form className='article-form' onSubmit={handleSubmit}>
-            <div className='upload-box'  onClick={handleButtonClick}><FontAwesomeIcon icon={faPlusCircle} /></div>
-      <input type="file"
-            ref={fileInput}
-            onChange={handleImgChange}
-            style={{ display: "none" }} />
             <HashTag></HashTag>
             <div className='content-and-range'>
             <div className='content' type='text'>CONTENT</div>

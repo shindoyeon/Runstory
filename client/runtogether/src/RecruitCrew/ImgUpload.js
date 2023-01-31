@@ -33,6 +33,8 @@ const ImgUpload = () => {
       <div className='preview-box' id='preview-box' style={{display: 'none'}}></div>
       <div className='upload-box' id='upload-box' onClick={handleButtonClick}><FontAwesomeIcon icon={faPlusCircle} /></div>
       <input type="file"
+            multiple
+            accept="image/*"
             ref={fileInput}
             onChange={handleChange}
             style={{ display: "none" }} />
