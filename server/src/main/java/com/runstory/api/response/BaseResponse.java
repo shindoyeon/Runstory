@@ -19,11 +19,12 @@ public class BaseResponse<T> {
     private final int statusCode;
     private final String message;
     private final T data;
-
     public static <T> BaseResponse<T> success(T body) {
         return new BaseResponse(SUCCESS, SUCCESS_MESSAGE, body);
     }
-
+    public static <T> BaseResponse<T> customSuccess(int statusCode, String message, T body) {
+        return new BaseResponse(statusCode, message, body);
+    }
     public static <T> BaseResponse<T> fail() {
         return new BaseResponse(FAILED, FAILED_MESSAGE, null);
     }
