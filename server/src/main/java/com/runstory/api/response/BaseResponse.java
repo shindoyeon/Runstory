@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class ApiResponse<T> {
+public class BaseResponse<T> {
 
     private final static int SUCCESS = 200;
     private final static int NOT_FOUND = 400;
@@ -20,23 +20,23 @@ public class ApiResponse<T> {
     private final String message;
     private final T data;
 
-    public static <T> ApiResponse<T> success(T body) {
-        return new ApiResponse(SUCCESS, SUCCESS_MESSAGE, body);
+    public static <T> BaseResponse<T> success(T body) {
+        return new BaseResponse(SUCCESS, SUCCESS_MESSAGE, body);
     }
 
-    public static <T> ApiResponse<T> fail() {
-        return new ApiResponse(FAILED, FAILED_MESSAGE, null);
+    public static <T> BaseResponse<T> fail() {
+        return new BaseResponse(FAILED, FAILED_MESSAGE, null);
     }
 
-    public static <T> ApiResponse<T> invalidAccessToken() {
-        return new ApiResponse(FAILED, INVALID_ACCESS_TOKEN, null);
+    public static <T> BaseResponse<T> invalidAccessToken() {
+        return new BaseResponse(FAILED, INVALID_ACCESS_TOKEN, null);
     }
 
-    public static <T> ApiResponse<T> invalidRefreshToken() {
-        return new ApiResponse(FAILED, INVALID_REFRESH_TOKEN, null);
+    public static <T> BaseResponse<T> invalidRefreshToken() {
+        return new BaseResponse(FAILED, INVALID_REFRESH_TOKEN, null);
     }
 
-    public static <T> ApiResponse<T> notExpiredTokenYet() {
-        return new ApiResponse(FAILED, NOT_EXPIRED_TOKEN_YET, null);
+    public static <T> BaseResponse<T> notExpiredTokenYet() {
+        return new BaseResponse(FAILED, NOT_EXPIRED_TOKEN_YET, null);
     }
 }
