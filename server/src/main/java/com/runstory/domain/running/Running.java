@@ -5,14 +5,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
+import com.runstory.api.request.RunningCrewReqDto;
+import com.runstory.domain.user.dto.UserDto;
+import com.runstory.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -102,10 +99,27 @@ public class Running {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningUser> runningusers = new ArrayList<>();
-}
 
     @Comment("생성자")
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="user_id")
     private User user;
+
+    public Running(RunningCrewReqDto runningCrewReqDto) {
+        this.runningId = runningCrewReqDto.getId();
+        this.imgFilePath = runningCrewReqDto.getImgPathFile();
+        this.imgFileName = runningCrewReqDto.getImgFileName();
+        this.crewName = runningCrewReqDto.getCrewName();
+        this.runningContent = runningCrewReqDto.getRunningContent();
+        this.startLocation = runningCrewReqDto.getStartLocation();
+        this.startLongitude = runningCrewReqDto.getStartLongitude();
+        this.startLatitude = runningCrewReqDto.getStartLatitude();
+        this.endLatitude = runningCrewReqDto.getEndLatitude();
+        this.endLongitude = runningCrewReqDto.getEndLongitude();
+        this.endLocation = runningCrewReqDto.getEndLocation();
+        this.startTime = runningCrewReqDto.getStartTime();
+        this.endTime = runningCrewReqDto.getEndTime();
+        this.distance = runningCrewReqDto.getDistance();
+//        this.user = new UserDto(runningCrewReqDto.get());
+    }
 }
