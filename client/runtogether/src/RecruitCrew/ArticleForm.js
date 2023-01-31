@@ -34,7 +34,7 @@ const ArticleForm = () => {
       step: 1,
       defaultValue: 0,
       min: 0,
-      max: 20,
+      max: 50,
     });
 
     // 여자 수 입력을 위한 부분
@@ -43,7 +43,7 @@ const ArticleForm = () => {
       step: 1,
       defaultValue: 0,
       min: 0,
-      max: 20,
+      max: 50,
     });
 
     // 성별 무관 수 입력을 위한 부분
@@ -52,7 +52,7 @@ const ArticleForm = () => {
       step: 1,
       defaultValue: 0,
       min: 0,
-      max: 20,
+      max: 50,
     });
 
     // +클릭 시 1명 증가, -클릭 시 1명 감소, 그에 따른 input의 value 반영을 위한 부분
@@ -103,7 +103,7 @@ const ArticleForm = () => {
             <div className='title'>TITLE</div>
             <input className='title-input' placeholder='제목을 입력해주세요' type='text'></input>
             <div className='content' type='text'>CONTENT</div>
-            <textarea className='content-input' placeholder='내용을 입력해주세요' rows="3"></textarea>
+            <textarea className='content-input' placeholder='내용을 입력해주세요' rows="5"></textarea>
             <div className='location'>LOCATION</div>
             <input className='location-input' placeholder='위치를 입력해주세요' type='text'></input>
             <div className='people'>PEOPLE</div>
