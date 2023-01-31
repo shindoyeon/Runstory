@@ -24,9 +24,10 @@ const Recommend = () => {
       
       return (
         <div className='swiper-slide'>
-          <Slider {...settings} className='slide' >
+          <Slider {...settings}>
             <div className='slide'>
-            <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+              <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
+              <div className='imgs'><div className='img-title'>제목1</div><div className='img-title'>제목2</div><div className='img-title'>제목3</div><div className='img-title'>제목4</div></div>
             </div>
             <div className='slide'>
             <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>

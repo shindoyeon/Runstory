@@ -328,13 +328,13 @@ const Feed = () => {
                         {/* <div className='post-image' backgroundImage={item.contentImg}></div> */}
                             {/* 내용 */}
                             <div className={item.contentClosed?'feed-content-open':'feed-content'} onClick={() => handleMoreBtn(idx)}>{item.content}</div>
-                    <div className='like-comment feed-content'> 
+                    <div className='like-comment'> 
                         {item.isLiked ?
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '20px', fontWeight: 'bold'}} onClick={()=> {
+                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={()=> {
                             clickLike(idx)}}/> :    //꽉차있는 하트를 return
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '20px'}} onClick={()=> {
+                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '25px'}} onClick={()=> {
                             clickLike(idx)}}/>}
-                        <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '20px'}} onClick={onOpen}/>
+                        <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '25px'}} onClick={onOpen}/>
                     </div>
                 </div>
                     {/* 좋아요 및 댓글 버튼 */}
