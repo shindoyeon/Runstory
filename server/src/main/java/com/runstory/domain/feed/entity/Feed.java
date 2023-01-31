@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.runstory.domain.feed.PublicScope;
+import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.entity.User;
 import lombok.Data;
 import org.hibernate.annotations.Comment;
@@ -41,4 +42,6 @@ public class Feed {
     private List<FeedComment> feedComments = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
     private List<FeedLike> feedLikes = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
+    private List<SelectedHashtag> selectedHashtags = new ArrayList<>();
 }

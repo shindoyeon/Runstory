@@ -11,7 +11,7 @@ import RecruitCrew from './RecruitCrew/RecruitCrew';
 import Search from './Search/Search';
 import Notice from './Notice/Notice';
 import DrawMap from './DrawMap/DrawMap';
-import Feed from './Feed/Feed';
+// import Feed from './Feed/Feed';
 
 import "./App.css";
 
@@ -27,7 +27,7 @@ function App() {
                     <Route path='/search' element={<Search />} />
                     <Route path='/notice' element={<Notice />} />
                     <Route path='/draw-map' element={<DrawMap />} />
-                    <Route path='/feed' element={<Feed />} />
+                    {/* <Route path='/feed' element={<Feed />} /> */}
                 </Routes>
             </BrowserRouter>
             {/* <MainPage></MainPage> */}
