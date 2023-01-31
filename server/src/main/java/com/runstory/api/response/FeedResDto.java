@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.feed.PublicScope;
 import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedFileDto;
-import com.runstory.domain.feed.entity.FeedComment;
+import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
-import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class FeedResDto {
@@ -27,4 +27,18 @@ public class FeedResDto {
     private int feedLikeCnt;
     private List<FeedCommentDto> feedComments;
     private List<SelectedHashtagDto> selectedHashtags;
+
+    public FeedResDto(Feed feed) {
+        this.feedId = feed.getFeedId();
+        this.userId = feed.getUser().getUserSeq();
+        this.userNickname = feed.getUser().getUserNickname();
+        this.content = feed.getContent();
+        this.publicScope = feed.getPublicScope();
+        this.regdate = feed.getRegdate();
+        this.updatedate = feed.getUpdatedate();
+        this.feedFiles = feed.getFeedFiles().stream().map(f-> new FeedFileDto(f)).collect(Collectors.toList());
+        this.feedLikeCnt = feed.getFeedLikes().size();
+        this.feedComments = feed.getFeedComments().stream().map(c -> new FeedCommentDto(c)).collect(Collectors.toList());
+        this.selectedHashtags = feed.getSelectedHashtags().stream().map(h -> new SelectedHashtagDto(h)).collect(Collectors.toList());
+    }
 }
