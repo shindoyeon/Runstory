@@ -212,4 +212,10 @@ public class UserServiceImpl implements UserService {
 			selectedHashtagRepository.save(selectedHashtag);
 		}
 	}
+
+	@Override
+	public String getToken(String userId) {
+		User user = userRepository.findByUserId(userId);
+		return user.getToken();
+	}
 }

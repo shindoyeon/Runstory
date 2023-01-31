@@ -75,7 +75,7 @@ public class JwtTokenUtil {
             .withExpiresAt(expires)
             .withIssuer(ISSUER)
             .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-            .sign(Algorithm.HMAC512(secretKey2.getBytes()));
+            .sign(Algorithm.HMAC512(secretKey1.getBytes()));
     }
 
     public static String getToken(Instant expires, String userId) {

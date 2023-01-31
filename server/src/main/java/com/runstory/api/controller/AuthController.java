@@ -7,6 +7,7 @@ import com.runstory.api.request.UserLoginPostReqDto;
 import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.KakaoSignupInfo;
 import com.runstory.api.response.UserLoginPostResDto;
+import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.common.model.response.BaseResponseBody;
 import com.runstory.common.util.JwtTokenUtil;
 import com.runstory.domain.user.dto.KakaoUser;
@@ -28,16 +29,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -105,6 +109,36 @@ public class AuthController {
         return ResponseEntity.ok(BaseResponse.fail());
 //        return ResponseEntity.status(401)
 //            .body(UserLoginPostResDto.of(401, "Invalid Password", null,null));
+    }
+
+    @PostMapping ("/refresh")
+    @ApiOperation(value = "Access-Token 재발급", notes = "<strong>RefreshToken</strong>를 통해 AccessToken을 재 발급 한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공", response = UserLoginPostResDto.class),
+        @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+        @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
+        @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    public ResponseEntity<BaseResponse> refreshToken(@ApiIgnore Authentication authentication,@RequestHeader String Authorization) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        String userId = userDetails.getUsername();
+
+        String dbToken = userService.getToken(userId);
+        String token = Authorization.substring(7);
+
+        if(dbToken.equals(token)){
+            System.out.println("DB RefreshToken값과 같다.");
+        }else{
+            System.out.println("DB RefreshToken값과 다르다.");
+            return ResponseEntity.ok(BaseResponse.fail());
+        }
+
+        String newAccessToken = JwtTokenUtil.getAccessToken(userId);
+        System.out.println("Access Token : "+newAccessToken);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("accessToken", newAccessToken);
+        return ResponseEntity.ok(BaseResponse.success(result));
     }
 
     @GetMapping("/login/kakao")
