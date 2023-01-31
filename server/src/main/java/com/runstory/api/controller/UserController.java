@@ -14,7 +14,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -144,8 +146,11 @@ public class UserController {
 	public ResponseEntity<?> findId(@RequestBody UserFindDto userFindDto) {
 
 		User user = userService.findId(userFindDto);
-		if(user != null)
-			return ResponseEntity.ok(BaseResponse.success(user.getUserId()));
+		if(user != null){
+			Map<String, Object> result = new HashMap<>();
+			result.put("userId", user.getUserId());
+			return ResponseEntity.ok(BaseResponse.success(result));
+		}
 		//일치하지 않는 정보
 		return ResponseEntity.ok(BaseResponse.fail());
 	}

@@ -96,10 +96,9 @@ public class AuthController {
                 return ResponseEntity.ok(BaseResponse.fail());
 //                return ResponseEntity.ok(UserLoginPostResDto.of(500, "토큰 저장 실패", null,null));
             }
-
             Map<String, Object> result = new HashMap<>();
-            result.put("accessToken", "accessToken");
-            result.put("refreshToken", "refreshToken");
+            result.put("accessToken", accessToken);
+            result.put("refreshToken", refreshToken);
             return ResponseEntity.ok(BaseResponse.success(result));
         }
         // 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
@@ -204,8 +203,8 @@ public class AuthController {
             return ResponseEntity.ok(BaseResponse.fail());
         }
         Map<String, Object> result = new HashMap<>();
-        result.put("accessToken", "accessToken");
-        result.put("refreshToken", "refreshToken");
+        result.put("accessToken", accessToken);
+        result.put("refreshToken", refreshToken);
         return ResponseEntity.ok(BaseResponse.success(result));
 //        return ResponseEntity.ok(UserLoginPostResDto.of(200, "Success", accessToken, refreshToken));
     }
@@ -241,8 +240,9 @@ public class AuthController {
         // 이메일 인증 코드 전송
         try {
             String confirm = authService.sendSimpleMessage(userEmail);
-//            return ResponseEntity.ok(BaseResponseBody.of(200, confirm));
-            return ResponseEntity.ok(BaseResponse.success(confirm));
+            Map<String, Object> result = new HashMap<>();
+            result.put("authenticationCode", confirm);
+            return ResponseEntity.ok(BaseResponse.success(result));
         } catch (Exception e) {
             return ResponseEntity.ok(BaseResponse.fail());
 //            return ResponseEntity.ok(BaseResponseBody.of(500, "BAD REQUEST"));
