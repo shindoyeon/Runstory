@@ -1,18 +1,22 @@
 package com.runstory.api.controller;
 
 import com.runstory.api.request.RunningCrewReqDto;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.runstory.api.response.ApiResponse;
+import com.runstory.api.response.RunningDetailSumDto;
+import com.runstory.api.response.RunningMainResDto;
+import com.runstory.domain.running.Running;
 import com.runstory.service.RunningService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -22,23 +26,8 @@ public class RunningController {
     private RunningService runningservice;
 
 
-    @GetMapping("/main/info/{runningid}")
-    public ResponseEntity<?> view(@PathVariable Long runningid) throws Exception{
-        Map<String, Object> result = new HashMap<>();
-
-        try {
-            result.put("statuscode", "200");
-            result.put("message", "게시글 작성 성공.");
-            result.put("success", "true");
-            result.put("data",runningservice.findRunningInfo(runningid));
-            return ResponseEntity.ok().body(result);
-        }catch(Exception E) {
-            return  ResponseEntity.status(500).body("해당 게시글은 없습니다.");
-        }
-    }
-
-
-    @PostMapping("/running")
+    @PostMapping("") // RunningCrew 생성
+    @ApiOperation(value = "Running Crew Create")
     public ResponseEntity<?> createRunningCrew(@RequestBody RunningCrewReqDto runningCrewReqDto) throws  Exception{
         Map<String, Object> result = new HashMap<>();
         try {
@@ -46,7 +35,59 @@ public class RunningController {
             result.put("result", "크루 생성 완료!");
             return ResponseEntity.ok().body(result);
         }catch (Exception E){
-            return ResponseEntity.status(500).body("크루가 정상적으로 생성되지 못했습니다.");
+            return ResponseEntity.status(500).body("Crew-Create-Error");
         }
     }
+
+    @GetMapping("") // RunningCrew Read
+    @ApiOperation(value = "Running Crew Read")
+    public ApiResponse<?> getRunnninCrew(@RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
+        ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> runningMainResDtos = runningservice.selectRunningCrew(latitude, longtitude);
+        return ApiResponse.success(runningMainResDtos);
+    }
+
+    //    @DeleteMapping("/detail/{runningid}")
+//    public ResponseEntity<?> runningdelete(@PathVariable Long runningid) throws  Exception{
+//
+//    }
+
+
+    /*
+    * 여기서부터는 상세페이지에 관한 내용
+    * */
+    @GetMapping("/detail/{runningid}") // 상세페이지를 Read
+    public ResponseEntity<?> runningdetail(@PathVariable Long runningid) throws Exception{
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("statuscode", "200");
+            result.put("success", "true");
+            result.put("data",runningservice.findRunningDetail(runningid));
+            return ResponseEntity.ok().body(result);
+        }catch(Exception E) {
+            return  ResponseEntity.status(500).body("Running-Info-Error");
+        }
+    }
+
+    @PutMapping("/detail/{runningid}")
+    @ApiOperation(value = "Running Crew Update")
+    public ResponseEntity<?> runningchange(@PathVariable Long runningid, @RequestBody RunningDetailSumDto runningDetailSumDto) throws Exception{
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("statuscode", "200");
+            result.put("message", "Runnging Change Success");
+            return ResponseEntity.ok().body(result);
+        }catch (Exception E){
+            return ResponseEntity.status(500).body("Running-Info-Update-Error");
+        }
+    }
+
+    /*
+    * 여기는 댓글 관련한 기능입니다.
+    * */
+    // 댓글 생성, 댓글 삭제 기능
+
+    /*
+    * 개인 피드에 관한 자료입니다.
+    * */
+
 }

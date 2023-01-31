@@ -1,77 +1,78 @@
 package com.runstory.service;
 
 import com.runstory.api.request.RunningCrewReqDto;
-import com.runstory.api.response.RunninginfoResDto;
+import com.runstory.api.response.RunningMainResDto;
+import com.runstory.domain.hashtag.HashtagType;
+import com.runstory.domain.hashtag.entity.Hashtag;
+import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.Running;
 import com.runstory.domain.running.RunningDetail;
-import com.runstory.repository.InsertCrewDetailRepository;
-import com.runstory.repository.InsertCrewRepository;
-import com.runstory.repository.RunningRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.runstory.api.response.RunningDetailSumDto;
+import com.runstory.domain.running.dto.RunningDto;
+import com.runstory.domain.user.entity.User;
+import com.runstory.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class RunningServiceImpl implements RunningService {
-    @Autowired
-    RunningRepository runningrepository;
 
-    @Override // 버튼을 클릭했을 때 상세내용을 보내는 방식
-    public RunninginfoResDto findRunningInfo(Long id){
-        System.out.println("ok");
-        System.out.println(runningrepository.getById(1L));
-        Running runnings = runningrepository.getById(id);
-        RunninginfoResDto runningInfo = RunninginfoResDto.builder()
-                .crewName(runnings.getCrewName())
-                .img(runnings.getImgFileName())
-                .startTime(runnings.getStartTime())
-                .endTime(runnings.getEndTime())
-                .distance(runnings.getDistance())
-                .startLocation(runnings.getStartLocation())
-                .build();
-        return runningInfo;
-    }
-
-    @Autowired
-    private InsertCrewRepository insertCrewRepository;
-
-    @Autowired
-    private InsertCrewDetailRepository insertCrewDetailRepository;
+    private final RunningRepository runningrepository;
+    private final RunningDetailRepository runningDetailRepository;
+    private final HashtagRepository hashtagRepository;
+    private final SelectedHashtagRepository selectedHashtagRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
-    public long createRunningCrew(RunningCrewReqDto runningCrewReqDto){
-        Running running = Running.builder()
-                .imgFileName(runningCrewReqDto.getImgFileName())
-                .imgPathFile(runningCrewReqDto.getImgPathFile())
-                .crewName(runningCrewReqDto.getCrewName())
-                .runningContent(runningCrewReqDto.getRunningContent())
-                .startLocation(runningCrewReqDto.getStartLocation())
-                .endLocation(runningCrewReqDto.getEndLocation())
-                .startTime(runningCrewReqDto.getStartTime())
-                .endTime(runningCrewReqDto.getEndTime())
-                .startLongitude(runningCrewReqDto.getStartLongitude())
-                .startLatitude(runningCrewReqDto.getStartLatitude())
-                .endLongitude(runningCrewReqDto.getEndLongitude())
-                .endLatitude(runningCrewReqDto.getEndLatitude())
-                .distance(runningCrewReqDto.getDistance())
-                .build();
-        System.out.println(running);
-        insertCrewRepository.save(running);
+    public long createRunningCrew(RunningCrewReqDto runningCrewReqDto){// User user 현재 유저를 들고와야한다.
+        Running running = new Running(runningCrewReqDto);
+        runningrepository.save(running);
 
-        RunningDetail runningDetail = RunningDetail.builder()
-                .genderType(runningCrewReqDto.getGenderType())
-                .man(runningCrewReqDto.getMan())
-                .women(runningCrewReqDto.getWomen())
-                .total(runningCrewReqDto.getTotal())
-                .minAge(runningCrewReqDto.getMinAge())
-                .maxAge(runningCrewReqDto.getMaxAge())
-                .hasDog(runningCrewReqDto.isHasDog())
-                .build();
-        insertCrewDetailRepository.save(runningDetail);
-        return running.getId();
+        RunningDetail runningDetail = new RunningDetail(runningCrewReqDto);
+        runningDetailRepository.save(runningDetail);
+        // RunningHashTag
+        for (Long hashtagId : runningCrewReqDto.getHastag()){
+            // HashTag 관련 Repository 필요
+            Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
+            SelectedHashtag selectedHashtag = SelectedHashtag.builder()
+                    .hashtagType(HashtagType.RUNNING)
+                    .running(running)
+                    .hashtag(hashtag)
+                    .build();
+            selectedHashtagRepository.save(selectedHashtag);
+        }
+        return running.getRunningId();
     }
+
+
+    @Override
+    public ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude){
+        return null;
+    }
+
+    @Override
+    public RunningDetailSumDto findRunningDetail(Long id){
+        Running running = runningrepository.getById(id);
+        RunningDetail runningDetail = runningDetailRepository.getById(id);
+        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail);
+        return runningDetailSumDto;
+    }
+
+//    @Override
+//    public RunningDetailSumDto updateRunningDetail(Long id, RunningDetailSumDto runningDetailSumDto){
+//        Running running = runningrepository.getById(id);
+//        RunningDetail runningDetail = runningDetailRepository.getById(id);
+//        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail);
+//
+//        return runningDetailSumDto;
+//    }
 }
