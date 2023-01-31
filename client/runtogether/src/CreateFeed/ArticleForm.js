@@ -59,7 +59,7 @@ const ArticleForm = () => {
             <div className='content' type='text'>CONTENT</div>
                 <div className='range'>
                     <RadioGroup onChange={setValue} value={value} className='radio-range'>
-                        <Radio size='sm' value='1' mx={1} fontSize='5px'>전체 공개</Radio>
+                        <Radio size='sm' value='1' mx={1}>전체 공개</Radio>
                         <Radio size='sm' value='2' mx={1}>일부 공개</Radio>
                         <Radio size='sm' value='3' mx={1}>비공개</Radio>
                     </RadioGroup>
@@ -72,21 +72,21 @@ const ArticleForm = () => {
                 <button className='cancel-btn' type='button' onClick={onOpen}><p>취소</p></button>
             </div>
             <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal'>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>경고</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-          작성중인 글이 모두 지워집니다. 그래도 나가시겠습니까?
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme='red' mr={3} onClick={onClose}>
-              취소
-            </Button>
-            <Button variant='ghost' onClick={navigateHome}>확인</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>경고</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                작성중인 글이 모두 지워집니다. 그래도 나가시겠습니까?
+                </ModalBody>
+                <ModalFooter>
+                  <Button colorScheme='red' mr={3} onClick={onClose}>
+                    취소
+                  </Button>
+                  <Button variant='ghost' onClick={navigateHome}>확인</Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
         </form>
         
     );
