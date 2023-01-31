@@ -18,12 +18,12 @@ const ImgUpload = () => {
         var preview = new Image();
         preview.src = event.target.result;
         preview.style.width = '90%';
-        preview.style.height = '40vh';
+        preview.style.height = '50vh';
         preview.style.margin = '0 auto';
         preview.style.marginBottom = '3%';
-        preview.style.objectFit = 'cover';
+        preview.style.objectFit = 'fill';
         preview.style.borderRadius = '10px';
-        preview.style.border = '2px solid #616161';
+        preview.style.border = '1px solid #616161';
         var previewBox = document.getElementById('preview-box');
         previewBox.style.display = 'inline';
         previewBox.appendChild(preview);
