@@ -26,7 +26,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 const Feed = () => {
     const handleMoreBtn = i => {
         let copyArray = [...arr]; // 
-        copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, content: copyArray[i].content, isLiked: copyArray[i].isLiked, contentClosed: !copyArray[i].contentClosed}
+        copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, contentImg: copyArray[i].contentImg, content: copyArray[i].content, isLiked: copyArray[i].isLiked, contentClosed: !copyArray[i].contentClosed}
         setArr ( copyArray );
     }
     const [isMore, setIsMore] = React.useState(true)
@@ -36,6 +36,7 @@ const Feed = () => {
             id: 1,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a",
             content: "CONTENT 1",
             isLiked: false,
             contentClosed: false
@@ -44,6 +45,7 @@ const Feed = () => {
             id: 2,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSm6UsaNSGbzF5CZm5F0GIjhTqDPqm44mU5goDmuC-PQ&s",
             content: "CONTENT 2",
             isLiked: false,
             contentClosed: false
@@ -52,6 +54,7 @@ const Feed = () => {
             id: 3,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgIw4ODANanjYpQku16XgXC4qL71PJ1EfVTd9CePlnmA&s",
             content: "CONTENT 3",
             isLiked: false,
             contentClosed: false
@@ -60,6 +63,7 @@ const Feed = () => {
             id: 4,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 4",
             isLiked: false,
             contentClosed: false
@@ -68,6 +72,7 @@ const Feed = () => {
             id: 5,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 5",
             isLiked: false,
             contentClosed: false
@@ -76,6 +81,7 @@ const Feed = () => {
             id: 6,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 6",
             isLiked: false,
             contentClosed: false
@@ -84,6 +90,7 @@ const Feed = () => {
             id: 7,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 7",
             isLiked: false,
             contentClosed: false
@@ -92,6 +99,7 @@ const Feed = () => {
             id: 8,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 8",
             isLiked: false,
             contentClosed: false
@@ -100,6 +108,7 @@ const Feed = () => {
             id: 9,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 9",
             isLiked: false,
             contentClosed: false
@@ -108,6 +117,7 @@ const Feed = () => {
             id: 10,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 10",
             isLiked: false,
             contentClosed: false
@@ -116,6 +126,7 @@ const Feed = () => {
             id: 11,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 11",
             isLiked: false,
             contentClosed: false
@@ -124,6 +135,7 @@ const Feed = () => {
             id: 12,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             content: "CONTENT 12",
             isLiked: false,
             contentClosed: false
@@ -132,7 +144,8 @@ const Feed = () => {
             id: 13,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
-            content: "CONTENT 13",
+            content: "CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13 CONTENT 13",
+            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
             isLiked: false,
             contentClosed: false
         },
@@ -144,7 +157,7 @@ const Feed = () => {
 
     const clickLike = i => {
           let copyArray = [...arr]; // 
-          copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, content: copyArray[i].content, isLiked: !copyArray[i].isLiked, contentClosed: copyArray[i].contentClosed}
+          copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, contentImg: copyArray[i].contentImg, content: copyArray[i].content, isLiked: !copyArray[i].isLiked, contentClosed: copyArray[i].contentClosed}
           setArr ( copyArray );
     }
 
@@ -278,14 +291,14 @@ const Feed = () => {
                 width={50}
                 endMessage={
                     <p style={{ textAlign: "center", fontWeight: "light" }}>
-                      모든 피드를 확인했습니다.
+                      모든 피드를 확인했습니다
                     </p>
                 }
             >
             {arr.map((item, idx) => {
                 return (
-                <div height="50vh" margin='0 auto' key={idx}>
-                <Card className='card'>
+                <div height="50vh" margin='0 auto' marginTop='5%' key={idx}>
+                <Card className='card' variant='outline'>
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header'> 
                         <div className='card-header-left'>
@@ -303,7 +316,16 @@ const Feed = () => {
                     </CardHeader>
                     {/* 피드 내용 */}
                     <div className='card-body'>
-                        <div className='post-image'></div>
+                        <Image
+                                border='1px solid #CBD9E7'
+                                margin='0 auto'
+                                marginTop='10px'
+                                width='90%'
+                                borderRadius='lg'
+                                // height='40vh'
+                                src={item.contentImg}
+                        />
+                        {/* <div className='post-image' backgroundImage={item.contentImg}></div> */}
                             {/* 내용 */}
                             <div className={item.contentClosed?'feed-content-open':'feed-content'} onClick={() => handleMoreBtn(idx)}>{item.content}</div>
                     <div className='like-comment feed-content'> 

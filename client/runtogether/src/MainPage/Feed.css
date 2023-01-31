@@ -59,16 +59,6 @@
     /* font-weight: bold; */
 }
 
-.post-image {
-    border-radius: 10px;
-    width: 90%;
-    height: 200px;
-    margin: 0 auto;
-    margin-top: 10px;
-    background-image: url(./공원1.jpg);
-    background-size: cover;
-}
-
 .feed-content {
     width: 90%;
     margin: 0 auto;
