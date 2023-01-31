@@ -35,9 +35,9 @@ const Feed = () => {
         {   
             id: 1,
             author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
+            profileImg: "",
             contentImg: "https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a",
-            content: "CONTENT 1",
+            content: "CONTENT 1 (프로필 사진 없는 피드입니다)",
             isLiked: false,
             contentClosed: false
         },
@@ -45,8 +45,8 @@ const Feed = () => {
             id: 2,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
-            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSm6UsaNSGbzF5CZm5F0GIjhTqDPqm44mU5goDmuC-PQ&s",
-            content: "CONTENT 2",
+            contentImg: "",
+            content: "CONTENT 2 (컨텐츠 사진 없는 피드입니다)",
             isLiked: false,
             contentClosed: false
         },
@@ -71,9 +71,9 @@ const Feed = () => {
         {   
             id: 5,
             author: "tykwon_97",
-            profileImg: "https://bit.ly/dan-abramov",
+            profileImg: "",
             contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
-            content: "CONTENT 5",
+            content: "CONTENT 5 (프로필 사진 없는 피드입니다)",
             isLiked: false,
             contentClosed: false
         },
@@ -81,8 +81,8 @@ const Feed = () => {
             id: 6,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
-            contentImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBi3uBGrLaq6-jghD9lV-77z9J9eJvwsazdvrfEFp9N1eR4PPr1vvSLO9ql6rDG1N_HA&usqp=CAU",
-            content: "CONTENT 6",
+            contentImg: "",
+            content: "CONTENT 6 (컨텐츠 사진 없는 피드입니다)",
             isLiked: false,
             contentClosed: false
         },
@@ -288,7 +288,7 @@ const Feed = () => {
                 next={fetchData}
                 hasMore={isMore}
                 loader={<p style={{ textAlign: "center" }}><Spinner textAlign={'center'}/></p>}
-                width={50}
+                // width={50}
                 endMessage={
                     <p style={{ textAlign: "center", fontWeight: "light" }}>
                       모든 피드를 확인했습니다
@@ -298,16 +298,16 @@ const Feed = () => {
             {arr.map((item, idx) => {
                 return (
                 <div height="50vh" margin='0 auto' marginTop='5%' key={idx}>
-                <Card className='card' variant='outline' boxShadow='2px 2px 5px 2px #dadce0'>
+                <Card className='card' variant='outline' boxShadow='rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;'>
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
-                    <CardHeader className='card-header'> 
+                    <CardHeader className='card-header' > 
                         <div className='card-header-left'>
                             <Image
                                 borderRadius='full'
                                 boxSize='40px'
-                                src={item.profileImg}
+                                src={item.profileImg===""?'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png':item.profileImg}
                                 alt='Dan Abramov'
-                            />
+                                />
                             <div className='nickname'>{item.author}</div>
                         </div>
                         <div className='card-header-right'>
@@ -322,10 +322,12 @@ const Feed = () => {
                                 marginTop='10px'
                                 width='90%'
                                 borderRadius='lg'
+                                display={item.contentImg===""?'none':''}
                                 // height='40vh'
                                 src={item.contentImg}
                         />
                         {/* <div className='post-image' backgroundImage={item.contentImg}></div> */}
+                            
                             {/* 내용 */}
                             <div className={item.contentClosed?'feed-content-open':'feed-content'} onClick={() => handleMoreBtn(idx)}>{item.content}</div>
                     <div className='like-comment'> 
