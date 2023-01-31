@@ -10,6 +10,8 @@ import _ from "lodash";
 
 function BasicMap() {
   const Tmapv2 = window.Tmapv2;
+  var [location, setLocation] = useState();
+  var [error, setError] = useState();
 
   // const [curLatitude, setCurLatitude] = useState(33.450701)
   // const [curLongtitude, setCurLongtitude] = useState(126.570667)
@@ -20,13 +22,23 @@ function BasicMap() {
   var container = useState();
   var options = useState();
   var polyline = useState();
+
   var touchedX;
   var touchedY;
+  // var [touchedX, setTouchedX] = useState();
+  // var [touchedY, setTouchedY] = useState();
+
   useEffect(() => {
+    var lat = 37.566535;
+    var lng = 126.9779692;
+    navigator.geolocation.getCurrentPosition((position) => {
+      lat = position.coords.latitude;
+      lng = position.coords.longitude;
+    });
     container = document.getElementById('map');
     options = {
-      center: new Tmapv2.LatLng(37.566481622437934,126.98502302169841),
-      zoom: 19
+      center: new Tmapv2.LatLng(lat, lng),
+      zoom: 17
     };
     tmap = new Tmapv2.Map(container, options);
 
@@ -38,12 +50,10 @@ function BasicMap() {
     // });
   }, []);
 
-    // function clearDrawing() {
-    //   linePath.length=0;
-    //   addPolyline();
-    //   polyline.setMap();
-    //   // tmap = new Tmapv2.Map(container, options);
-    // }
+
+    function clearDrawing() {
+      window.location.replace("/draw-map")
+    }
 
     function addPolyline() {
       polyline = new Tmapv2.Polyline({
@@ -53,26 +63,24 @@ function BasicMap() {
         outlineColor: "#ee0000",
         direction: true,
         directionColor: "#ee0000",
-        map: tmap // 지도 객체
+        // map: tmap // 지도 객체
       });
+      polyline.setMap(tmap);
     }
 
     function onTouchstart(e) {
-      // linePath.push(new Tmapv2.LatLng(e.latLng['_lat'], e.latLng['_lng']))
-      // addPolyline();
-      touchedX = e.latLng['_lat']
-      touchedY = e.latLng['_lng']
+      touchedX = tmap.realToScreen(new Tmapv2.LatLng(e.latLng['_lat'], e.latLng['_lng']))['x'];
+      touchedY = tmap.realToScreen(new Tmapv2.LatLng(e.latLng['_lat'], e.latLng['_lng']))['y'];
     }
 
     function onTouchend(e) {
-      // const distanceX = touchedX - e.changedTouches[0].pageX;
-      // const distanceY = touchedY - e.changedTouches[0].pageY;
-      // const vector = Math.abs(distanceX / distanceY);
-      // if (distanceX > 30 && vector > 2) {
-        console.log(e.targetTouches)
-        linePath.push(new Tmapv2.LatLng(e.latLng['_lat'], e.latLng['_lng']))
-        addPolyline();
-      // }
+        var x = tmap.realToScreen(new Tmapv2.LatLng(e.latLng['_lat'], e.latLng['_lng']))['x'];
+        var y = tmap.realToScreen(new Tmapv2.LatLng(e.latLng['_lat'], e.latLng['_lng']))['y'];
+        // 드래그는 터치로 인식하지 않기 위한 if문
+        if(Math.abs(touchedX - x) < 0.00000000005 && Math.abs(touchedY - y) < 0.00000000005) {
+          linePath.push(new Tmapv2.LatLng(e.latLng['_lat'], e.latLng['_lng']))
+          addPolyline();
+        }
     }
 
     // 캡쳐 부분
@@ -81,10 +89,11 @@ function BasicMap() {
         {allowTaint: true,
         useCORS: true,}
       ).then(canvas => {
-      onSaveAs(canvas.toDataURL('image/png'), 'image-download.png')
+      onSaveAs(canvas.toDataURL('image/png'), '경로 이미지.png')
       });
     }
 
+    // 이미지 다운로드
     function onSaveAs(uri, fileName) {
       var link = document.createElement('a');
       document.body.appendChild(link);
@@ -93,16 +102,17 @@ function BasicMap() {
       link.click();
       document.body.removeChild(link);
     }
-
-  return (
-    <div id='canvas'>
-      <div id="map" style={{width:"95%", height:"40vh", margin: "0 auto", marginTop: "0px", border: "2px solid black" }}></div> 
-      <div onClick={onCapture}>HERE</div>
-      {/* <button onClick={clearDrawing}>라인 삭제하기</button> */}
-      {/* <button onClick={drawPolyline} onTouchStart={drawPolyline}>라인 그리기</button> */}
-      {/* <button onClick={clearDrawing} onTouchStart={clearDrawing}>라인 삭제하기</button> */}
-    </div>
-  );
-}
+    
+    return (
+      <div id='canvas'>
+        <div id="map" style={{width:"95%", height:"40vh", margin: "0 auto", marginTop: "0px", border: "2px solid black" }}></div> 
+        <div className="del-btn" onClick={clearDrawing}>다시 그리기</div>
+        <div className="save-btn" onClick={onCapture}>이미지로 저장하기</div>
+        {/* <button onClick={clearDrawing}>라인 삭제하기</button> */}
+        {/* <button onClick={drawPolyline} onTouchStart={drawPolyline}>라인 그리기</button> */}
+        {/* <button onClick={clearDrawing} onTouchStart={clearDrawing}>라인 삭제하기</button> */}
+      </div>
+    );
+  }
 
 export default BasicMap;

@@ -1,26 +1,21 @@
 // Default 넣을 떄 nullable-false X
 package com.runstory.domain.running;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
+import com.runstory.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -32,14 +27,14 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Running {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long runningId;
 
     @Column(length = 500, nullable = false)
-    @Comment("이미지파일")
-    private String imgPathFile;
+    @Comment("이미지 파일 경로")
+    private String imgFilePath;
 
     @Column(length = 500, nullable = false)
-    @Comment("이미지이름")
+    @Comment("이미지 파일 이름")
     private String imgFileName;
 
     @Column(length = 50, nullable = false)
@@ -51,35 +46,35 @@ public class Running {
     private String runningContent;
 
     @Column(length = 100, nullable = false)
-    @Comment("러닝시작위치")
+    @Comment("러닝 시작 위치")
     private String startLocation;
 
     @Column(length = 100, nullable = false)
-    @Comment("러닝끝나는위치")
+    @Comment("러닝 종료 위치")
     private String endLocation;
 
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP",nullable = false) // datetime(6)에서 datetime으로 변경됨
-    @Comment("시작시간")
+    @Comment("시작 시간")
     private LocalDateTime startTime;
 
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    @Comment("끝나는시간")
+    @Comment("종료 시간")
     private LocalDateTime endTime;
 
     @Column(nullable = false)
-    @Comment("시작 경도")
+    @Comment("시작 위치 경도")
     private float startLongitude;
 
     @Column(nullable = false)
-    @Comment("시작 위도")
+    @Comment("시작 위치 위도")
     private float startLatitude;
 
     @Column(nullable = false)
-    @Comment("끝나는 경도")
+    @Comment("종료 위치 경도")
     private float endLongitude;
 
     @Column(nullable = false)
-    @Comment("끝나는 위도")
+    @Comment("종료 위치 위도")
     private float endLatitude;
 
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
@@ -87,18 +82,21 @@ public class Running {
     private LocalDateTime regdate;
 
     @Column(columnDefinition = "boolean default false")
-    @Comment("지남 여부")
+    @Comment("종료 여부")
     private Boolean isFinished;
 
     @Column(nullable = false)
     @Comment("거리")
     private float distance;
 
-    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningBoardComment> runningboardcomments = new ArrayList<>();
 
-    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningUser> runningusers = new ArrayList<>();
+
+    @Comment("생성자")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 }
