@@ -39,12 +39,12 @@ public class RunningController {
         }
     }
 
-    @GetMapping("") // RunningCrew Read
-    @ApiOperation(value = "Running Crew Read")
-    public ApiResponse<?> getRunnninCrew(@RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
-        ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> runningMainResDtos = runningservice.selectRunningCrew(latitude, longtitude);
-        return ApiResponse.success(runningMainResDtos);
-    }
+//    @GetMapping("") // RunningCrew Read
+//    @ApiOperation(value = "Running Crew Read")
+//    public ApiResponse<?> getRunnninCrew(@RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
+//        ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> runningMainResDtos = runningservice.selectRunningCrew(latitude, longtitude);
+//        return ApiResponse.success(runningMainResDtos);
+//    }
 
     //    @DeleteMapping("/detail/{runningid}")
 //    public ResponseEntity<?> runningdelete(@PathVariable Long runningid) throws  Exception{
