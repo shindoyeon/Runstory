@@ -141,6 +141,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void deleteUser(String userId) {
+		//기존 해시태그 삭제
+		User user = userRepository.findByUserId(userId);
+		selectedHashtagRepository.deleteSelectedHashtagByUserId(user.getUserSeq());
+
 		userRepository.deleteUserByUserId(userId);
 	}
 
