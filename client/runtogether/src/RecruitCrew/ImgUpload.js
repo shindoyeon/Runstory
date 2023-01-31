@@ -6,9 +6,11 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 const ImgUpload = () => {
     const fileInput = React.useRef(null);
+
     const handleButtonClick = e => {
         fileInput.current.click();
     };
+
     const handleChange = e => {
       var reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
@@ -25,7 +27,6 @@ const ImgUpload = () => {
         var previewBox = document.getElementById('preview-box');
         previewBox.style.display = 'inline';
         previewBox.appendChild(preview);
-        
       }
     };
   return (

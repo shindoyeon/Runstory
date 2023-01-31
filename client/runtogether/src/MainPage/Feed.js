@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './Feed.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
 import { faShare, faHeart } from "@fortawesome/free-solid-svg-icons"; // 공유 버튼
@@ -19,7 +19,9 @@ import {
     Button,
     CardBody,
     ChakraProvider,
+    Spinner,
   } from '@chakra-ui/react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Feed = () => {
     const handleMoreBtn = i => {
@@ -27,13 +29,14 @@ const Feed = () => {
         copyArray[i] = {author: copyArray[i].author, profileImg: copyArray[i].profileImg, content: copyArray[i].content, isLiked: copyArray[i].isLiked, contentClosed: !copyArray[i].contentClosed}
         setArr ( copyArray );
     }
+    const [isMore, setIsMore] = React.useState(true)
 
-    const feeds = [
+    var [feeds, setFeeds] = React.useState([
         {   
             id: 1,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? ",
+            content: "CONTENT 1",
             isLiked: false,
             contentClosed: false
         },
@@ -41,7 +44,7 @@ const Feed = () => {
             id: 2,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? 오늘 운동어떄요? ",
+            content: "CONTENT 2",
             isLiked: false,
             contentClosed: false
         },
@@ -49,15 +52,95 @@ const Feed = () => {
             id: 3,
             author: "tykwon_97",
             profileImg: "https://bit.ly/dan-abramov",
-            content: "오늘 운동어떄요?",
+            content: "CONTENT 3",
             isLiked: false,
             contentClosed: false
         },
-    ]
+        {   
+            id: 4,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 4",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 5,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 5",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 6,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 6",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 7,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 7",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 8,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 8",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 9,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 9",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 10,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 10",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 11,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 11",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 12,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 12",
+            isLiked: false,
+            contentClosed: false
+        },
+        {   
+            id: 13,
+            author: "tykwon_97",
+            profileImg: "https://bit.ly/dan-abramov",
+            content: "CONTENT 13",
+            isLiked: false,
+            contentClosed: false
+        },
+    ])
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-
-    const [arr, setArr] = React.useState(feeds)
+    var startIdx = 0;
+    const [arr, setArr] = React.useState(Array.from(feeds.slice(startIdx, startIdx+3)))
 
     const clickLike = i => {
           let copyArray = [...arr]; // 
@@ -69,7 +152,6 @@ const Feed = () => {
     
     const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
 
-    
     const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
         event.preventDefault();
         alert(`작성된 내용: ${comment}`); // 데이터 잘 들어왔는지 확인용!!!
@@ -79,9 +161,19 @@ const Feed = () => {
     const clickShare = i => {
         let text = "작성자: " + arr[i].author + "\n글내용: " + arr[i].content;
         console.log(text)
-        // setFeedInfo(text);
-        // console.log(feedInfo)
     }
+
+    function fetchData() {
+        startIdx = arr.length;
+        var endIdx = startIdx + 3;
+        if(arr.length === feeds.length) {
+            setIsMore(false);
+            return;
+        }
+        setTimeout(() => {
+            setArr(arr.concat(Array.from(feeds.slice(startIdx, endIdx))));
+        }, 1500);
+      };
 
     return (
         <div className='entire-feed'>
@@ -178,9 +270,21 @@ const Feed = () => {
                 </ModalContent>
             </Modal>
             </ChakraProvider>
+            <InfiniteScroll
+                dataLength={arr.length}
+                next={fetchData}
+                hasMore={isMore}
+                loader={<p style={{ textAlign: "center" }}><Spinner textAlign={'center'}/></p>}
+                width={50}
+                endMessage={
+                    <p style={{ textAlign: "center", fontWeight: "light" }}>
+                      모든 피드를 확인했습니다.
+                    </p>
+                }
+            >
             {arr.map((item, idx) => {
                 return (
-                <div width='100%' margin='0 auto' key={idx}>
+                <div height="50vh" margin='0 auto' key={idx}>
                 <Card className='card'>
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header'> 
@@ -205,7 +309,7 @@ const Feed = () => {
                     <div className='like-comment feed-content'> 
                         {item.isLiked ?
                         <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '20px', fontWeight: 'bold'}} onClick={()=> {
-                            clickLike(idx)}}/> :	//꽉차있는 하트를 return
+                            clickLike(idx)}}/> :    //꽉차있는 하트를 return
                         <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '20px'}} onClick={()=> {
                             clickLike(idx)}}/>}
                         <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '20px'}} onClick={onOpen}/>
@@ -216,6 +320,7 @@ const Feed = () => {
         </div>
                 );
             })}
+        </InfiniteScroll>
         </div>
     );
 }
