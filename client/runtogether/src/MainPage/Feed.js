@@ -298,7 +298,7 @@ const Feed = () => {
             {arr.map((item, idx) => {
                 return (
                 <div height="50vh" margin='0 auto' marginTop='5%' key={idx}>
-                <Card className='card' variant='outline'>
+                <Card className='card' variant='outline' boxShadow='2px 2px 5px 2px #dadce0'>
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header'> 
                         <div className='card-header-left'>

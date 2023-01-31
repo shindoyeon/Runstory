@@ -24,7 +24,7 @@ const Recommend = () => {
       
       return (
         <div className='swiper-slide'>
-          <Slider {...settings} className='slide'>
+          <Slider {...settings} className='slide' >
             <div className='slide'>
             <div className='imgs'><div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div></div>
             </div>
