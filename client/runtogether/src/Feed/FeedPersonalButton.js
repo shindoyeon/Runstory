@@ -7,7 +7,7 @@ import './FeedPersonalButton.css';
 const FeedPersonalButton = () => {
   return (
     <div className="button">
-      <Link to='/'>  
+      <Link to='/controlIntro'>  
         <div><FontAwesomeIcon icon={faBars}/></div>
       </Link>
     </div>
