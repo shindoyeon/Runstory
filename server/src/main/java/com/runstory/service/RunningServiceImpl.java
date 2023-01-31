@@ -42,7 +42,7 @@ public class RunningServiceImpl implements RunningService {
         // RunningHashTag
         for (Long hashtagId : runningCrewReqDto.getHastag()){
             // HashTag 관련 Repository 필요
-            Hashtag hashtag = hashtagRepository.findByHashtagId(hashtagId);
+            Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
             SelectedHashtag selectedHashtag = SelectedHashtag.builder()
                     .hashtagType(HashtagType.RUNNING)
                     .running(running)
