@@ -36,6 +36,36 @@ const ProfileFeeds = () => {
         src={Imgfile}
         alt='Tae yoon'  
         />
+      <Image
+        className='item'
+        src={Imgfile}
+        alt='Tae yoon'  
+        />
+      <Image
+        className='item'
+        src={Imgfile}
+        alt='Tae yoon'  
+        />
+      <Image
+        className='item'
+        src={Imgfile}
+        alt='Tae yoon'  
+        />
+      <Image
+        className='item'
+        src={Imgfile}
+        alt='Tae yoon'  
+        />
+      <Image
+        className='item'
+        src={Imgfile}
+        alt='Tae yoon'  
+        />
+      <Image
+        className='item'
+        src={Imgfile}
+        alt='Tae yoon'  
+        />
     </div>
   )
 }
