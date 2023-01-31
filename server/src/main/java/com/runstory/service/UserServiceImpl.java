@@ -24,12 +24,14 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
 @Service("userService")
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
 	@Autowired UserRepository userRepository;
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired SelectedHashtagRepository selectedHashtagRepository;
 
 	@Override
+	@Transactional
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
 		//이미 회원가입 한 회원인지 체크하기
 		User user = userRepository.findByUserId(userRegisterInfo.getUserId());
@@ -97,6 +100,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public boolean isTokenSaved(String userId, String token) {
 		User user = userRepository.findByUserId(userId);
 		user.setToken(token);
@@ -135,6 +139,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteUser(String userId) {
 		userRepository.deleteUserByUserId(userId);
 	}
@@ -156,6 +161,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void changeUserImage(boolean isRegistered, String userId, MultipartFile image) {
 		User user = userRepository.findByUserId(userId);
 		// 수정하는 경우 기존 파일 삭제
@@ -181,6 +187,7 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 	}
 	@Override
+	@Transactional
 	public void changeUserHashtage(String userId, List<String> list) {
 		User user = userRepository.findByUserId(userId);
 
