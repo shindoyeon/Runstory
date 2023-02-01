@@ -20,11 +20,11 @@ public class RunningUser {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name= "running_id", foreignKey = @ForeignKey(name="fk_runninguser_to_running"))
+    @JoinColumn(name= "running_id")
     private Running running;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name= "userId", foreignKey = @ForeignKey(name="fk_runninguser_to_user"))
+    @JoinColumn(name= "userId")
     private User user;
 }

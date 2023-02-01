@@ -7,7 +7,10 @@ import com.runstory.domain.user.entity.User;
 
 import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -15,6 +18,9 @@ import org.hibernate.annotations.DynamicInsert;
 @Entity
 @Data
 @DynamicInsert
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SelectedHashtag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
