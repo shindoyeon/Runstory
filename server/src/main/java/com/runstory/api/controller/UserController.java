@@ -2,6 +2,7 @@ package com.runstory.api.controller;
 
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
+import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.UserInfoDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.common.model.response.BaseResponseBody;
@@ -13,7 +14,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -50,17 +53,18 @@ public class UserController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<? extends BaseResponseBody> register(
+	public ResponseEntity<?> register(
 			UserRegisterPostReq registerInfo) { //@ApiParam(value="회원가입 정보", required = true)
 		System.out.println("회원가입 : "+registerInfo.getUserId());
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		User user = userService.createUser(registerInfo);
 		if(user == null){
-			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "이미 회원가입 한 회원입니다."));
+			//이미 회원가입 한 회원
+			return ResponseEntity.ok(BaseResponse.fail());
 		}
 		// 프로필 사진 변경
 		userService.changeUserImage(true,user.getUserId(),registerInfo.getProfileImg());
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
 	@GetMapping()
@@ -82,9 +86,10 @@ public class UserController {
 		UserInfoDto user = userService.getUserInfoByUserId(userId);
 
 		if(user!= null){
-			return ResponseEntity.status(200).body(user);
+			return ResponseEntity.ok(BaseResponse.success(user));
 		}
-		return ResponseEntity.status(404).body(BaseResponseBody.of(404, "일치한 회원이 없습니다."));
+		//일치한 회원이 없는 경우
+		return ResponseEntity.ok(BaseResponse.fail());
 	}
 
 	@DeleteMapping()
@@ -105,9 +110,9 @@ public class UserController {
 		userService.deleteUser(userId);
 		User user = userService.getUserByUserId(userId);
 		if(user == null){
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "회원 탈퇴 성공"));
+			return ResponseEntity.ok(BaseResponse.success(null));
 		}
-		return ResponseEntity.status(404).body(BaseResponseBody.of(404, "회원 탈퇴 실패."));
+		return ResponseEntity.ok(BaseResponse.fail());
 	}
 
 	@GetMapping("/nickname/{nickname}")
@@ -118,14 +123,15 @@ public class UserController {
 		@ApiResponse(code = 404, message = "사용자 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> checkNickname(
+	public ResponseEntity<?> checkNickname(
 		@PathVariable String nickname) { //@ApiParam(value="회원가입 정보", required = true)
 		System.out.println("닉네임 : "+nickname);
 		User user = userService.getUserByUserNickname(nickname);
 		if(user == null){
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+			return ResponseEntity.ok(BaseResponse.success(null));
 		}else{
-			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "중복된 닉네임 입니다."));
+			//중복된 닉네임
+			return ResponseEntity.ok(BaseResponse.fail());
 		}
 	}
 	
@@ -140,10 +146,13 @@ public class UserController {
 	public ResponseEntity<?> findId(@RequestBody UserFindDto userFindDto) {
 
 		User user = userService.findId(userFindDto);
-		if(user != null)
-			return ResponseEntity.status(200).body(user.getUserId());
-
-		return ResponseEntity.status(404).body(BaseResponseBody.of(404,"일치하지 않는 정보입니다."));
+		if(user != null){
+			Map<String, Object> result = new HashMap<>();
+			result.put("userId", user.getUserId());
+			return ResponseEntity.ok(BaseResponse.success(result));
+		}
+		//일치하지 않는 정보
+		return ResponseEntity.ok(BaseResponse.fail());
 	}
 
 	@PostMapping("/find/pwd")
@@ -163,12 +172,14 @@ public class UserController {
 				String id = user.getUserId();
 				String confirm = authService.sendSimpleMessage(id);
 				userService.changePwd(id,confirm);
-				return ResponseEntity.ok(BaseResponseBody.of(200,"성공"));
+				return ResponseEntity.ok(BaseResponse.success(null));
 			} catch (Exception e) {
-				return ResponseEntity.ok(BaseResponseBody.of(500, "BAD REQUEST"));
+				//BAD REQUEST
+				return ResponseEntity.ok(BaseResponse.fail());
 			}
 		}
-		return ResponseEntity.status(404).body(BaseResponseBody.of(404,"일치하지 않는 정보입니다."));
+		//일치하지 않는 정보
+		return ResponseEntity.ok(BaseResponse.fail());
 	}
 
 	@PutMapping("/nickname")
@@ -185,7 +196,7 @@ public class UserController {
 
 		userService.changeUserInfo("nickname", userId,userRegisterPostReq.getUserNickname());
 
-		return ResponseEntity.ok(BaseResponseBody.of(200,"성공"));
+		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
 	@PutMapping("/pwd")
@@ -201,7 +212,7 @@ public class UserController {
 		String userId = userDetails.getUsername();
 		String newPwd = userRegisterPostReq.getUserPwd();
 		userService.changePwd(userId,newPwd);
-		return ResponseEntity.ok(BaseResponseBody.of(200,"성공"));
+		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
 	@PutMapping("/address")
@@ -218,7 +229,7 @@ public class UserController {
 
 		userService.changeUserInfo("hashtag", userId,userRegisterPostReq.getAddress());
 
-		return ResponseEntity.ok(BaseResponseBody.of(200,"성공"));
+		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
 	@PutMapping("/hashtag")
@@ -239,7 +250,7 @@ public class UserController {
 
 		userService.changeUserHashtage(userId,userRegisterPostReq.getHashtags());
 
-		return ResponseEntity.ok(BaseResponseBody.of(200,"성공"));
+		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 	@PutMapping("/profileimg")
 	@ApiOperation(value = "프로필 이미지 변경", notes = "회원의 프로필 이미지 변경")
@@ -258,7 +269,6 @@ public class UserController {
 		}catch (Exception e){
 			System.out.println("에러 : "+e);
 		}
-
-		return ResponseEntity.ok(BaseResponseBody.of(200,"성공"));
+		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 }
