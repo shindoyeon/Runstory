@@ -1,5 +1,6 @@
 package com.runstory.domain.feed.entity;
 
+import com.runstory.api.request.FeedRequestDto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,4 +45,10 @@ public class Feed {
     private List<FeedLike> feedLikes = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
     private List<SelectedHashtag> selectedHashtags = new ArrayList<>();
+
+    public Feed(FeedRequestDto feedDto, User user) {
+        this.user = user;
+        this.content = feedDto.getContent();
+        this.publicScope = feedDto.getPublicScope();
+    }
 }

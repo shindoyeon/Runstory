@@ -1,5 +1,6 @@
 package com.runstory.service;
 
+import com.runstory.api.request.FeedRequestDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.user.entity.Follow;
@@ -83,5 +84,26 @@ public class FeedService {
     private Page<Feed> fetchPages(Long lastFeedId, int size, List<User> followers) {
         PageRequest pageRequest = PageRequest.of(0, size); // 페이지네이션을 위한 PageRequest, 페이지는 0으로 고정한다.
         return feedRepository.findByFeedIdLessThanAndUserInOrderByFeedIdDesc(lastFeedId, followers, pageRequest); // JPA 쿼리 메소드
+    }
+
+    public Long addFeed(FeedRequestDto feedDto) {
+        User user = userRepository.findByUserSeq(feedDto.getUserId());
+        Feed feed = new Feed(feedDto,user);
+        Feed result = feedRepository.save(feed);
+
+        return result==null?null:result.getFeedId();
+
+    }
+    public void deleteFeed(Long feedId){
+        if (feedRepository.findById(feedId).isPresent()) {
+
+            feedRepository.deleteById(feedId);
+
+            //selectedHashtagRepository.deleteById(feedId);
+            //feedLikeRepository.deleteByFeedId(feedId);
+
+        }
+
+
     }
 }
