@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.runstory.api.response.ApiResponse;
+import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.domain.running.Running;
@@ -41,9 +41,9 @@ public class RunningController {
 
 //    @GetMapping("") // RunningCrew Read
 //    @ApiOperation(value = "Running Crew Read")
-//    public ApiResponse<?> getRunnninCrew(@RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
+//    public BaseResponse<?> getRunnninCrew(@RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
 //        ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> runningMainResDtos = runningservice.selectRunningCrew(latitude, longtitude);
-//        return ApiResponse.success(runningMainResDtos);
+//        return BaseResponse.success(runningMainResDtos);
 //    }
 
     //    @DeleteMapping("/detail/{runningid}")
