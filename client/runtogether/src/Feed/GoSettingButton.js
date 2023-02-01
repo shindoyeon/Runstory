@@ -2,16 +2,16 @@ import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
-import './FeedPersonalButton.css';
+import './GoSettingButton.css';
 
-const FeedPersonalButton = () => {
+const GoSettingButton = () => {
   return (
     <div className="button">
-      <Link to='/controlIntro'>  
+      <Link to='/settingIntro'>  
         <div><FontAwesomeIcon icon={faBars}/></div>
       </Link>
     </div>
   );
 }
 
-export default FeedPersonalButton;
+export default GoSettingButton;

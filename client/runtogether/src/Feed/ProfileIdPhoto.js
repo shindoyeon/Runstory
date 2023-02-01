@@ -18,12 +18,14 @@ function ProfileIdPhoto(){
     // console.log(e.target.files[0])
     e.preventDefault();
     const reader = new FileReader();
-    var file = e.target.files[0];
+    var fileplus = e.target.files[0];
+    // console.log(file)
     reader.onload = () => {
         setSelectedImage(reader.result)
     }
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(fileplus);
   }
+
     
   return (
     <React.Fragment>
@@ -34,11 +36,12 @@ function ProfileIdPhoto(){
           <img alt="not found" ref={fileInput}/>)} 
       </div> */}
       <input type="file"
-                  multiple
-                  accept="image/*"
+                  // multiple
+                  // accept="image/"
                   ref={fileInput}
                   onChange={onChangeProfile}
-                  style={{ display: "none" }} />
+                  style={{ display: "none" }} 
+        />
     </label>
       <IconButton 
       className="upload-button"

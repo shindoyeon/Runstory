@@ -8,18 +8,18 @@ import {
 } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import FeedPersonalButton from './FeedPersonalButton';
+import GoSettingButton from './GoSettingButton';
 import ProfileIdPhoto from './ProfileIdPhoto';
 import ProfileStatus from './ProfileStatus';
 import ProfileFollow from './ProfileFollow';
 import ProfileFeed from './ProfileFeed';
 
-function Feed() {
+const Feed= () => {
   return (
     <ChakraProvider theme={theme}>
       <Header></Header>
       <div>   
-          <FeedPersonalButton></FeedPersonalButton>
+          <GoSettingButton></GoSettingButton>
           <Box direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex'>
             <ProfileIdPhoto></ProfileIdPhoto>
             <Card direction={{base: 'column'}}> 

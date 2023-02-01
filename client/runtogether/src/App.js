@@ -10,8 +10,8 @@ import CreateFeed from './CreateFeed/CreateFeed';
 import RecruitCrew from './RecruitCrew/RecruitCrew';
 import Search from './Search/Search';
 import Feed from './Feed/Feed';
-import ControlIntro from './Feed/ControlIntro';
-import User from './User/User';
+import SettingIntro from './Setting/SettingIntro';
+import User from './Setting//User';
 import "./App.css";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
           <Route path='/create-running-crew' element={<RecruitCrew />} />
           <Route path='/search' element={<Search />} />
           <Route path='/feed' element={<Feed />} />
-          <Route path='/controlIntro' element={<ControlIntro />} />
+          <Route path='/settingIntro' element={<SettingIntro />} />
           <Route path='/user' element={<User />} />
         </Routes>
       </BrowserRouter>

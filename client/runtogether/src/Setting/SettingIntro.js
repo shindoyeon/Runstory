@@ -7,17 +7,17 @@ import {
   ChakraProvider,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import './ControlIntro.css'
+import './SettingIntro.css'
 
-const ControlIntro = () => {
+const SettingIntro = () => {
   return (
     <ChakraProvider>
       <Header></Header>
-        <div className='control-title'>
+        <div className='setting-title'>
           설정
         </div>
             <Container>
-            <div className='control-detail'> 
+            <div className='setting-detail'> 
               <Link to='/user'>마이페이지</Link>
               <Divider w='50%' ml='25%'/>
               차단설정
@@ -32,7 +32,7 @@ const ControlIntro = () => {
   )
 }
 
-export default ControlIntro;
+export default SettingIntro;
 
 
 
