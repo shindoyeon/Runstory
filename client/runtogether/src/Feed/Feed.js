@@ -16,11 +16,11 @@ import ProfileFeed from './ProfileFeed';
 
 const Feed= () => {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme} style={{width: "90%"}}>
       <Header></Header>
       <div>   
           <GoSettingButton></GoSettingButton>
-          <Box direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex'>
+          <Box direction={{base: 'row'}} ms='10 %' mt='10px' display='flex'>
             <ProfileIdPhoto></ProfileIdPhoto>
             <Card direction={{base: 'column'}}> 
               <ProfileStatus></ProfileStatus>

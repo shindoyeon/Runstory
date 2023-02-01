@@ -11,15 +11,20 @@ import RecruitCrew from './RecruitCrew/RecruitCrew';
 import Search from './Search/Search';
 import Feed from './Feed/Feed';
 import SettingIntro from './Setting/SettingIntro';
-import User from './Setting//User';
+import User from './Setting/User';
+import Login from './User/Login';
+import Register from './User/Register';
 import "./App.css";
 
 function App() {
   return (
+    <main className="App">
     <ChakraProvider theme={theme} className='body'>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<MainPage />} />
+          <Route path='/user/login' element={<Login />} />
+          <Route path='/user/signup' element={<Register />} />
           <Route path='/create-feed' element={<CreateFeed />} />
           <Route path='/running-crew-list' element={<RunningCrewList />} />
           <Route path='/create-running-crew' element={<RecruitCrew />} />
@@ -34,7 +39,9 @@ function App() {
       {/* <CreateFeed></CreateFeed> */}
       {/* <RecruitCrew></RecruitCrew> */}
     </ChakraProvider>
+    </main>
   );
 }
+
 
 export default App;

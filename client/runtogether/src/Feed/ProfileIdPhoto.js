@@ -18,12 +18,12 @@ function ProfileIdPhoto(){
     // console.log(e.target.files[0])
     e.preventDefault();
     const reader = new FileReader();
-    var fileplus = e.target.files[0];
+    var file = e.target.files[0];
     // console.log(file)
     reader.onload = () => {
         setSelectedImage(reader.result)
     }
-    reader.readAsDataURL(fileplus);
+    reader.readAsDataURL(file);
   }
 
     
@@ -36,11 +36,12 @@ function ProfileIdPhoto(){
           <img alt="not found" ref={fileInput}/>)} 
       </div> */}
       <input type="file"
-                  // multiple
-                  // accept="image/"
+                  multiple
+                  accept="image/"
                   ref={fileInput}
                   onChange={onChangeProfile}
                   style={{ display: "none" }} 
+                  src={{selectedImage}}
         />
     </label>
       <IconButton 
