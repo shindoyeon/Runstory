@@ -34,7 +34,7 @@ public class RunningServiceImpl implements RunningService {
 
     @Override
     @Transactional
-    public long createRunningCrew(RunningCrewReqDto runningCrewReqDto){// User user 현재 유저를 들고와야한다.
+    public Long createRunningCrew(RunningCrewReqDto runningCrewReqDto){// User user 현재 유저를 들고와야한다.
         Running running = new Running(runningCrewReqDto);
         runningrepository.save(running);
 

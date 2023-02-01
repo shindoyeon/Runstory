@@ -10,6 +10,7 @@ import com.runstory.domain.running.dto.RunningUserDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -69,21 +70,12 @@ public class RunningDetailSumDto {
         this.minAge = runningDetail.getMinAge();
         this.maxAge = runningDetail.getMaxAge();
         this.hasDog = runningDetail.isHasDog();
-        // 해시태그 추가 기능
+
         for (SelectedHashtag selectedHashtag : running.getSelectedHashtags()){
-            HashtagDto hashtagDto = HashtagDto.builder()
-                    .hashtagId(selectedHashtag.getHashtag().getHashtagId())
-                    .hashtagName(selectedHashtag.getHashtag().getHashtagName())
-                    .build();
-            RunningDto runningDto = new RunningDto(running);
-            SelectedHashtagDto selectedHashtagDto = SelectedHashtagDto.builder()
-                    .hashtag(hashtagDto)
-                    .hashtagType(selectedHashtag.getHashtagType())
-                    .runningId(runningDto.getRunningId())
-                    .build();
+            SelectedHashtagDto selectedHashtagDto = new SelectedHashtagDto(selectedHashtag);
             selectedHashtags.add(selectedHashtagDto);
         }
-        // 댓글 추가 기능
+        // 댓글 기능
         for (RunningBoardComment comment : running.getRunningboardcomments()){
             RunningBoardCommentDto runningBoardCommentDto = RunningBoardCommentDto.builder()
                     .content(comment.getContent())
@@ -92,12 +84,14 @@ public class RunningDetailSumDto {
                     .build();
             runningboardcomments.add(runningBoardCommentDto);
         }
-        // 유저 추가
+        System.out.println(3);
+        // 참가인원
         for (RunningUser user : running.getRunningusers()){
             RunningUserDto runningUserDto = RunningUserDto.builder()
                     .userId(user.getId())
                     .build();
             runningusers.add(runningUserDto);
         }
+        System.out.println(4);
     }
 }

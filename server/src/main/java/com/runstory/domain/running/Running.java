@@ -102,6 +102,7 @@ public class Running {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningUser> runningusers = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<SelectedHashtag> selectedHashtags = new ArrayList<>();
 
