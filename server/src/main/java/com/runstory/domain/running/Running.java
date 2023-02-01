@@ -1,11 +1,16 @@
 // Default 넣을 떄 nullable-false X
 package com.runstory.domain.running;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
+import com.runstory.api.request.RunningCrewReqDto;
+import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
+import com.runstory.domain.hashtag.entity.SelectedHashtag;
+import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -89,14 +94,37 @@ public class Running {
     @Comment("거리")
     private float distance;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningBoardComment> runningboardcomments = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningUser> runningusers = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
+    private List<SelectedHashtag> selectedHashtags = new ArrayList<>();
+
 
     @Comment("생성자")
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="user_id")
     private User user;
+
+    public Running(RunningCrewReqDto runningCrewReqDto) {
+        this.imgFilePath = runningCrewReqDto.getImgPathFile();
+        this.imgFileName = runningCrewReqDto.getImgFileName();
+        this.crewName = runningCrewReqDto.getCrewName();
+        this.runningContent = runningCrewReqDto.getRunningContent();
+        this.startLocation = runningCrewReqDto.getStartLocation();
+        this.startLongitude = runningCrewReqDto.getStartLongitude();
+        this.startLatitude = runningCrewReqDto.getStartLatitude();
+        this.endLatitude = runningCrewReqDto.getEndLatitude();
+        this.endLongitude = runningCrewReqDto.getEndLongitude();
+        this.endLocation = runningCrewReqDto.getEndLocation();
+        this.startTime = runningCrewReqDto.getStartTime();
+        this.endTime = runningCrewReqDto.getEndTime();
+        this.distance = runningCrewReqDto.getDistance();
+//        this.user = new UserDto(runningCrewReqDto.get());
+    }
 }

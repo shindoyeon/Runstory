@@ -16,8 +16,10 @@ public class Hashtag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long hashtagId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy ="hashtag")
     private List<SelectedHashtag> selectedHashTags = new ArrayList<>();
+
     @Column(length = 100, nullable = false)
     @Comment("해시태그명")
     private String hashtagName;
