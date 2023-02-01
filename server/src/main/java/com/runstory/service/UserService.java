@@ -25,4 +25,5 @@ public interface UserService {
 	void changeUserImage(boolean isRegistered, String userId, MultipartFile image);
 	@Transactional
 	void changeUserHashtage(String userId, List<String> list);
+	String getToken(String userId);
 }
