@@ -1,6 +1,6 @@
 package com.runstory.api.controller;
 
-import com.runstory.api.response.ApiResponse;
+import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.FeedResDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.service.FeedService;
@@ -42,10 +42,10 @@ public class MainController {
 
     @GetMapping("/feed")
     @ApiOperation(value = "나의 팔로잉 피드 사용자 조회", notes = "")
-    public ApiResponse getFollowingFeedPages(@RequestParam Long lastFeedId, @RequestParam int size){
+    public BaseResponse getFollowingFeedPages(@RequestParam Long lastFeedId, @RequestParam int size){
         System.out.println("lastFeedId: "+lastFeedId+" size: "+size);
         Page<Feed> feeds = feedService.findByFollowingFeedPages(lastFeedId, size, 1L);
         List<FeedResDto> result = feeds.stream().map(f -> new FeedResDto(f)).collect(Collectors.toList());
-        return ApiResponse.success(result);
+        return BaseResponse.success(result);
     }
 }
