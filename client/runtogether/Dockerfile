@@ -12,6 +12,7 @@ RUN npm i @fortawesome/react-fontawesome
 RUN npm install --save html2canvas
 RUN npm install react-slick --save
 RUN npm install slick-carousel --save
+RUN npm install axios
 
 COPY ./ ./
 CMD [ "npm", "run","start" ]
