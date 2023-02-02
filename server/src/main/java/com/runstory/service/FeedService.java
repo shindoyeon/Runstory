@@ -1,6 +1,8 @@
 package com.runstory.service;
 
 import com.runstory.api.request.FeedReqDto;
+
+import com.runstory.api.request.FeedReqDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedFile;
@@ -9,6 +11,11 @@ import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.domain.user.entity.User;
+import com.runstory.repository.FeedRepository;
+import com.runstory.repository.FeedRepositoryCustom;
+import com.runstory.repository.FollowRepository;
+import com.runstory.repository.SelectedHashtagRepository;
+import com.runstory.repository.UserRepository;
 import com.runstory.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,8 +43,8 @@ public class FeedService {
     private final FeedRepositoryCustom feedRepositoryCustom;
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
-    private final  HashtagRepository hashtagRepository;
     private final SelectedHashtagRepository selectedHashtagRepository;
+    private final  HashtagRepository hashtagRepository;
     private final FeedFileRepository feedFileRepository;
 
     public List<FeedDto> findAll(){
@@ -189,5 +196,8 @@ public class FeedService {
     @Transactional
     public void deleteFeed(Long feedId){
         feedRepository.deleteById(feedId);
+
     }
+
+
 }

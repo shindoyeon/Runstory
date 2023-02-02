@@ -2,6 +2,7 @@ package com.runstory.domain.feed.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.feed.entity.FeedComment;
+import com.runstory.domain.feed.entity.FeedRecomment;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -17,11 +18,13 @@ public class FeedCommentDto {
     private LocalDateTime regdate;
 
     public FeedCommentDto(FeedComment comment) {
-        this.feedCommentId = comment.getFeedCommnetId();
+        this.feedCommentId = comment.getFeedCommentId();
         this.feedId = comment.getFeed().getFeedId();
         this.userId = comment.getUser().getUserSeq();
         this.userNickname = comment.getUser().getUserNickname();
-        this.content = comment.getCotent();
+        this.content = comment.getContent();
         this.regdate = comment.getRegdate();
     }
+
+
 }
