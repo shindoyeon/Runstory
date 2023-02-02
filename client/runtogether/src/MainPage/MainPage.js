@@ -10,7 +10,7 @@ function MainPage() {
     <div style={{width: "90%"}}>
       <Header></Header>
       <RecommendMsg></RecommendMsg>
-      <Recommend></Recommend>
+      {/* <Recommend></Recommend> */}
       <TempFeed></TempFeed>
       <Footer></Footer>
     </div>

@@ -46,18 +46,18 @@ import {
                     {/* 피드 내용 */}
                     <div className='card-body'>
                         <Image
-                                border='1px solid #CBD9E7'
-                                margin='0 auto'
-                                marginTop='10px'
-                                width='90%'
-                                borderRadius='lg'
-                                src={feed.feedFiles}
-                        /> 
+                            border='1px solid #CBD9E7'
+                            margin='0 auto'
+                            marginTop='10px'
+                            width='90%'
+                            borderRadius='lg'
+                            src={feed.feedFiles}
+                        />
                             {/* 내용 */}
                         {/* <div className="feed-content">{feed.content}</div> */}
                         <div className='feed-content' onClick={moreContent}>{feed.content}</div>
                     <div className='like-comment'> 
-                        <Divider></Divider>
+                    <Divider></Divider>
                         {feed.isLiked ?
                         <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={()=> {
                             clickLike(feed.feedId)}}/> :    //꽉차있는 하트를 return
