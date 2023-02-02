@@ -18,7 +18,6 @@ public class UserDto {
     private int gender;
     private String address;
     private int age;
-    private String token;
     private RoleType roleType;
     private int level;
     private int experience;
@@ -39,7 +38,6 @@ public class UserDto {
         this.gender = user.getGender();
         this.address = user.getAddress();
         this.age = user.getAge();
-        this.token = user.getToken();
         this.roleType = user.getRoleType();
         this.level = user.getLevel();
         this.experience = user.getExperience();

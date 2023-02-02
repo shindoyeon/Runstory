@@ -10,6 +10,7 @@ import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.RegType;
 import com.runstory.domain.user.RoleType;
 import com.runstory.domain.user.dto.KakaoUser;
+import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.HashtagRepository;
 import com.runstory.repository.SelectedHashtagRepository;
@@ -62,13 +63,10 @@ public class UserServiceImpl implements UserService {
 		user.setRoleType(userRegisterInfo.getRoleType());
 		user.setRegType(userRegisterInfo.getRegType());
 		userRepository.save(user);
-		List<String> list = userRegisterInfo.getHashtags();
-		for (String id : list) {
-			Long hashtagId = (long) Integer.parseInt(id);
-			System.out.println("전달할 hashtagId : " + hashtagId);
+		List<Long> list = userRegisterInfo.getHashtags();
+		for (Long hashtagId : list) {
 			Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
 			SelectedHashtag selectedHashtag = new SelectedHashtag();
-			System.out.println("해시태그 아이디는 : " + hashtag.getHashtagId());
 
 			selectedHashtag.setHashtag(hashtag);
 			selectedHashtag.setUser(user);
@@ -87,10 +85,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserInfoDto getUserInfoByUserId(String userId) {
+	public UserDto getUserInfoByUserId(String userId) {
 		User user = userRepository.findByUserId(userId);
-		UserInfoDto userInfoDto = new UserInfoDto(user);
-		return userInfoDto;
+		UserDto userDto = new UserDto(user);
+		return userDto;
 	}
 
 	@Override
@@ -152,6 +150,7 @@ public class UserServiceImpl implements UserService {
 	public void changeUserInfo(String type, String userId, String value) {
 		User user = userRepository.findByUserId(userId);
 		if("nickname".equals(type)){
+			//닉네임 중복 체크하는 부분
 			User duplicatedUser = userRepository.findByUserNickname(value);
 			if(duplicatedUser == null){
 				user.setUserNickname(value);
@@ -192,19 +191,16 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	@Transactional
-	public void changeUserHashtage(String userId, List<String> list) {
+	public void changeUserHashtage(String userId, List<Long> list) {
 		User user = userRepository.findByUserId(userId);
 
 		//기존 해시태그 삭제
 		selectedHashtagRepository.deleteSelectedHashtagByUserId(user.getUserSeq());
 
 		// 새로운 해시태그 추가
-		for(String id : list){
-			Long hashtagId = (long) Integer.parseInt(id);
-			System.out.println("전달할 hashtagId : "+hashtagId);
+		for(Long hashtagId : list){
 			Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
 			SelectedHashtag selectedHashtag = new SelectedHashtag();
-			System.out.println("해시태그 아이디는 : "+hashtag.getHashtagId());
 
 			selectedHashtag.setHashtag(hashtag);
 			selectedHashtag.setUser(user);
