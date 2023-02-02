@@ -112,7 +112,13 @@ public class Running {
     @JoinColumn(name="user_id")
     private User user;
 
-    public Running(RunningCrewReqDto runningCrewReqDto) {
+    @PrePersist
+    public void prePersist(){
+        this.regdate=LocalDateTime.now();
+    }
+
+
+    public Running(RunningCrewReqDto runningCrewReqDto, User user) {
         this.imgFilePath = runningCrewReqDto.getImgPathFile();
         this.imgFileName = runningCrewReqDto.getImgFileName();
         this.crewName = runningCrewReqDto.getCrewName();
@@ -126,6 +132,6 @@ public class Running {
         this.startTime = runningCrewReqDto.getStartTime();
         this.endTime = runningCrewReqDto.getEndTime();
         this.distance = runningCrewReqDto.getDistance();
-//        this.user = new UserDto(runningCrewReqDto.get());
+        this.user = user;
     }
 }

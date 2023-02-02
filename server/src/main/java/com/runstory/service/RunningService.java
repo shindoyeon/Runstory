@@ -9,13 +9,16 @@ import java.util.HashMap;
 
 public interface RunningService {
     // CreatePage
-    Long createRunningCrew(RunningCrewReqDto runningCrewReqDto);
+    Long createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userseq);
 
     // MainPage
 //    ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude);
 
     // DetailPage
     RunningDetailSumDto findRunningDetail(Long id);
+    Long deleteRunningCrew(Long id);
+    Long updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto);
+
 
     // ChangePage
 //    RunningDetailSumDto updateRunningDetail(Long id);

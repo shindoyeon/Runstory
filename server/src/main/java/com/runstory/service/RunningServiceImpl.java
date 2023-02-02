@@ -3,6 +3,8 @@ package com.runstory.service;
 import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.domain.hashtag.HashtagType;
+import com.runstory.domain.hashtag.dto.HashtagDto;
+import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.Running;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -34,10 +37,12 @@ public class RunningServiceImpl implements RunningService {
 
     @Override
     @Transactional
-    public Long createRunningCrew(RunningCrewReqDto runningCrewReqDto){// User user 현재 유저를 들고와야한다.
-        Running running = new Running(runningCrewReqDto);
+    public Long createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq){// User user 현재 유저를 들고와야한다.
+        // 유저 전체의 데이터를 들고온다.
+        User user = userRepository.findByUserSeq(userSeq);
+        Running running = new Running(runningCrewReqDto, user);
         runningrepository.save(running);
-
+        System.out.println(1);
         RunningDetail runningDetail = new RunningDetail(runningCrewReqDto);
         runningDetailRepository.save(runningDetail);
         // RunningHashTag
@@ -91,7 +96,8 @@ public class RunningServiceImpl implements RunningService {
 //        }
 //        return result;
 //    }
-
+    
+    // DetailPage 들고오기
     @Override
     public RunningDetailSumDto findRunningDetail(Long id){
         Running running = runningrepository.getById(id);
@@ -100,12 +106,83 @@ public class RunningServiceImpl implements RunningService {
         return runningDetailSumDto;
     }
 
-//    @Override
-//    public RunningDetailSumDto updateRunningDetail(Long id, RunningDetailSumDto runningDetailSumDto){
-//        Running running = runningrepository.getById(id);
-//        RunningDetail runningDetail = runningDetailRepository.getById(id);
-//        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail);
-//
-//        return runningDetailSumDto;
-//    }
+    // DetailPage 삭제하기
+    @Override
+    @Transactional
+    public Long deleteRunningCrew(Long id){
+        Running running = runningrepository.getById(id);
+        RunningDetail runningDetail = runningDetailRepository.getById(id);
+        runningrepository.deleteById(id);
+        runningDetailRepository.deleteById(id);
+        return id;
+    }
+
+    // DetailPage 수정하기
+    @Override
+    @Transactional
+    public Long updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto){
+        Running running = runningrepository.getById(newRunningCrewReqDto.getId()); // 값읋 들고온다.
+        RunningDetail runningDetail = runningDetailRepository.getById(newRunningCrewReqDto.getId());
+        running.builder()
+                .crewName(newRunningCrewReqDto.getCrewName())
+                .distance(newRunningCrewReqDto.getDistance())
+                .endLatitude(newRunningCrewReqDto.getEndLatitude())
+                .endLocation(newRunningCrewReqDto.getEndLocation())
+                .endLongitude(newRunningCrewReqDto.getEndLongitude())
+                .endTime(newRunningCrewReqDto.getEndTime())
+                .imgFileName(newRunningCrewReqDto.getImgFileName())
+                .imgFilePath(newRunningCrewReqDto.getImgPathFile())
+                .runningContent(newRunningCrewReqDto.getRunningContent())
+                .startLatitude(newRunningCrewReqDto.getStartLatitude())
+                .startLocation(newRunningCrewReqDto.getStartLocation())
+                .startLongitude(newRunningCrewReqDto.getStartLongitude())
+                .startTime(newRunningCrewReqDto.getStartTime())
+                .build();
+        runningrepository.save(running);
+        runningDetail.builder()
+                .total(newRunningCrewReqDto.getTotal())
+                .man(newRunningCrewReqDto.getMan())
+                .women(newRunningCrewReqDto.getWomen())
+                .minAge(newRunningCrewReqDto.getMinAge())
+                .maxAge(newRunningCrewReqDto.getMaxAge())
+                .hasDog(newRunningCrewReqDto.isHasDog())
+                .build();
+        runningDetailRepository.save(runningDetail);
+
+        // 해쉬태그를 변경
+        List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findAllByRunning(running);
+        for (SelectedHashtag selectedHashtag : selectedHashtags){
+
+            selectedHashtagRepository.deleteById(selectedHashtag.getSelectedHashtagId());
+        }
+
+        for (Long hashtagId : newRunningCrewReqDto.getHastag()){
+            Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
+            SelectedHashtag selectedHashtag = SelectedHashtag.builder()
+                    .hashtagType(HashtagType.RUNNING)
+                    .running(running)
+                    .hashtag(hashtag)
+                    .build();
+            selectedHashtagRepository.save(selectedHashtag);
+        }
+
+
+//        for (SelectedHashtag selectedHashtag : selectedHashtags){
+//            boolean isHash = false;
+//            for (Long hashtagId : newRunningCrewReqDto.getHastag()){
+//                if (selectedHashtag.getSelectedHashtagId().equals(hashtagId)){
+//                    isHash = true;
+//                    break;
+//                }
+//            }
+//            if (!isHash){
+//                selectedHashtagRepository.deleteById(selectedHashtag.getSelectedHashtagId());
+//            }
+//        }
+
+        return newRunningCrewReqDto.getId();
+    }
+
+    // DetailPage 삭제하기
+
 }

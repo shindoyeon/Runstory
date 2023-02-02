@@ -50,6 +50,8 @@ public class RunningDetailSumDto {
 
 
     public RunningDetailSumDto(Running running, RunningDetail runningDetail){
+        this.id = running.getRunningId();
+        this.userId = running.getUser().getUserSeq();
         this.imgPathFile = running.getImgFilePath();
         this.imgFileName = running.getImgFileName();
         this.crewName = running.getCrewName();
@@ -84,7 +86,6 @@ public class RunningDetailSumDto {
                     .build();
             runningboardcomments.add(runningBoardCommentDto);
         }
-        System.out.println(3);
         // 참가인원
         for (RunningUser user : running.getRunningusers()){
             RunningUserDto runningUserDto = RunningUserDto.builder()
@@ -92,6 +93,5 @@ public class RunningDetailSumDto {
                     .build();
             runningusers.add(runningUserDto);
         }
-        System.out.println(4);
     }
 }
