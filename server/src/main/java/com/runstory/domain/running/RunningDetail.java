@@ -60,4 +60,13 @@ public class RunningDetail {
         this.maxAge = runningCrewReqDto.getMaxAge();
         this.hasDog = runningCrewReqDto.isHasDog();
     }
+
+    public void runningDetailUpdate(RunningCrewReqDto runningCrewReqDto){
+        this.man = runningCrewReqDto.getMan();
+        this.women = runningCrewReqDto.getWomen();
+        this.total = runningCrewReqDto.getTotal();
+        this.minAge = runningCrewReqDto.getMinAge();
+        this.maxAge = runningCrewReqDto.getMaxAge();
+        this.hasDog = runningCrewReqDto.isHasDog();
+    }
 }

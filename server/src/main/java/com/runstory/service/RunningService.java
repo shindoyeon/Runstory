@@ -3,6 +3,7 @@ package com.runstory.service;
 import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunningDetailSumDto;
+import com.runstory.domain.running.dto.RunningBoardCommentDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +21,8 @@ public interface RunningService {
     Long updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto);
 
 
-    // ChangePage
-//    RunningDetailSumDto updateRunningDetail(Long id);
+    // Comment
+    Long createRunningComment(RunningBoardCommentDto runningBoardCommentDto, Long userseq, Long runninid);
+    Long deleteRunningComment(Long runningid, Long commentid);
 
 }
