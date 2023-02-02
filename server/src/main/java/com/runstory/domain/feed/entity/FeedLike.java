@@ -5,12 +5,14 @@ import javax.persistence.*;
 
 import com.runstory.domain.user.entity.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class FeedLike {
 
     @Comment("피드 좋아요 아이디")

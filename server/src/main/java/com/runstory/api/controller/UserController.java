@@ -3,13 +3,11 @@ package com.runstory.api.controller;
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
 import com.runstory.api.response.BaseResponse;
-import com.runstory.api.response.UserInfoDto;
 import com.runstory.common.auth.CustomUserDetails;
-import com.runstory.common.model.response.BaseResponseBody;
+import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.service.AuthService;
 import com.runstory.service.UserService;
-//import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -20,6 +18,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +35,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(value = "유저 API", tags = {"User"})
 @RestController
+@CrossOrigin
 @RequestMapping("/user")
 public class UserController {
 	
@@ -76,14 +76,14 @@ public class UserController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> getUserInfo(@ApiIgnore Authentication authentication) {
-		/**
+		/*
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		System.out.println(userDetails);
 		String userId = userDetails.getUsername();
-		UserInfoDto user = userService.getUserInfoByUserId(userId);
+		UserDto user = userService.getUserInfoByUserId(userId);
 
 		if(user!= null){
 			return ResponseEntity.ok(BaseResponse.success(user));
@@ -101,18 +101,14 @@ public class UserController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> deleteUser(@ApiIgnore Authentication authentication) {
-		/**
+		/*
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 		userService.deleteUser(userId);
-		User user = userService.getUserByUserId(userId);
-		if(user == null){
-			return ResponseEntity.ok(BaseResponse.success(null));
-		}
-		return ResponseEntity.ok(BaseResponse.fail());
+		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
 	@GetMapping("/nickname/{nickname}")
@@ -233,7 +229,7 @@ public class UserController {
 	}
 
 	@PutMapping("/hashtag")
-	@ApiOperation(value = "주소 변경", notes = "회원의 주소 변경")
+	@ApiOperation(value = "해시태그 변경", notes = "회원의 주소 변경")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
 		@ApiResponse(code = 401, message = "인증 실패"),
@@ -243,12 +239,9 @@ public class UserController {
 	public ResponseEntity<?> changeHashtags(@ApiIgnore Authentication authentication, @RequestBody UserRegisterPostReq userRegisterPostReq) {
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
-		List<String> list = userRegisterPostReq.getHashtags();
-		for(String str : list){
-			System.out.println("컨트롤러  :"+str);
-		}
+		List<Long> list = userRegisterPostReq.getHashtags();
 
-		userService.changeUserHashtage(userId,userRegisterPostReq.getHashtags());
+		userService.changeUserHashtage(userId,list);
 
 		return ResponseEntity.ok(BaseResponse.success(null));
 	}
