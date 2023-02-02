@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class FeedResDto {
     private Long feedId;
     private Long userId;
+    private String profileImgFilePath;
+    private String profileImgFileName;
     private String userNickname;
     private String content;
     private PublicScope publicScope;
@@ -24,6 +26,7 @@ public class FeedResDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedate;
     private List<FeedFileDto> feedFiles;
+    private Boolean feedLikeStatus;
     private int feedLikeCnt;
     private List<FeedCommentDto> feedComments;
     private List<SelectedHashtagDto> selectedHashtags;

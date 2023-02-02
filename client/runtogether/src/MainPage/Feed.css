@@ -10,6 +10,11 @@
     margin: 0 auto;
     margin-bottom: 15px;
     margin-top: 30px;
+    overflow: hidden;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .card-header {
@@ -54,25 +59,15 @@
     /* font-weight: bold; */
 }
 
-.post-image {
-    border-radius: 10px;
-    width: 90%;
-    height: 200px;
-    margin: 0 auto;
-    margin-top: 10px;
-    background-image: url(./공원1.jpg);
-    background-size: cover;
-}
-
 .feed-content {
     width: 90%;
     margin: 0 auto;
     margin-top: 7px;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: light;
     overflow: hidden;
-    text-overflow: "string(더보기...)";
-    white-space: normal;
+    text-overflow: ellipsis;
+    white-space: pre-line;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -83,8 +78,9 @@
     width: 90%;
     margin: 0 auto;
     margin-top: 7px;
-    font-size: 12px;
+    font-size: 15px;
     line-height: 1.5;
+    white-space: pre-line;
 }
 
 .like-comment {
@@ -102,7 +98,7 @@
     margin: 3%;
 }
 
-.like:active{
+.like:active, .refresh:active {
     transform: scale(1.2);
 }
 
