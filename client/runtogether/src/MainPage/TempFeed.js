@@ -13,6 +13,8 @@ import {
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import SliderImg from "./SliderImg.js";
+import SliderTitle from "./SliderTitle.js"
 
 // const axiosTest = async () => {
 //   const res = await axios.get(
@@ -53,19 +55,10 @@ export default function TempFeed() {
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx+5)));
         setrunningCrew(data[1].data.data);
-        
-        // axios.spread((res1, res2) => {
-        //   setFeeds(res1.data.data);
-        // }
-        // );
       })();
-      // (async () => {
-      //   const data = await axiosTest();
-      //   setFeeds(data.data);
-      //   setArr(Array.from(feeds.slice(startIdx, startIdx+5)));
-      // })();
     }, [feeds.length]);
     
+    // 무한 스크롤을 하기 위함
     function loadMore() {
       startIdx = arr.length;
       var endIdx = startIdx + 5;
@@ -83,6 +76,8 @@ export default function TempFeed() {
       window.location.replace("/")
     }
 
+
+    // Slide Setting
     const settings = {
       dots: false,
       infinite: false,
@@ -98,73 +93,48 @@ export default function TempFeed() {
               <div className='slide'>
                 <div className='imgs'>
                 {
-                  runningCrew.slice(0, 4).map((crew, idx) => {
-                    return(
-                        <img className='img' src={crew.imgFilePath} />
-                        );
-                      })
-                    }
+                  <SliderImg runningCrew={runningCrew.slice(0, 4)}></SliderImg>
+                }
                 </div>
                 <div className='imgs'>
                 {
-                  runningCrew.slice(0, 4).map((crew, idx) => {
-                    return(
-                        <div className='img-title'>{crew.crewName}</div>
-                        );
-                      })
-                    }
+                  <SliderTitle runningCrew={runningCrew.slice(0, 4)}></SliderTitle>
+                }
                 </div>
               </div>
               <div className='slide'>
                 <div className='imgs'>
                 {
-                  runningCrew.slice(4, 8).map((crew, idx) => {
-                    return(
-                      <img className='img' src={crew.imgFilePath} />
-                        );
-                      })
-                    }
+                  <SliderImg runningCrew={runningCrew.slice(4, 8)}></SliderImg>
+                }
                 </div>
                 <div className='imgs'>
                 {
-                  runningCrew.slice(4, 8).map((crew, idx) => {
-                    return(
-                        <div className='img-title'>{crew.crewName}</div>
-                        );
-                      })
-                    }
+                  <SliderTitle runningCrew={runningCrew.slice(4, 8)}></SliderTitle>
+                }
                 </div>
               </div>
               <div className='slide'>
                 <div className='imgs'>
                 {
-                  runningCrew.slice(8, 12).map((crew, idx) => {
-                    return(
-                        <img className='img' src={crew.imgFilePath} />
-                        );
-                      })
-                    }
+                  <SliderImg runningCrew={runningCrew.slice(8, 12)}></SliderImg>
+                }
                 </div>
                 <div className='imgs'>
                 {
-                  runningCrew.slice(8, 12).map((crew, idx) => {
-                    return(
-                        <div className='img-title'>{crew.crewName}</div>
-                        );
-                      })
-                    }
+                  <SliderTitle runningCrew={runningCrew.slice(8, 12)}></SliderTitle>
+                }
                 </div>
               </div>
             </Slider>
         </div>
 
         <div className='entire-feed'>
-          
         <InfiniteScroll
             dataLength={arr.length}
             next={loadMore}
             hasMore={isMore}
-            loader={<p style={{ textAlign: "center" }}><Spinner textAlign={'center'}/></p>}
+            loader={<p style={{ textAlign: "center", marginTop: "10px" }}><Spinner textAlign={'center'}/></p>}
             endMessage={
                 <div style={{ textAlign: "center", fontWeight: "light"}}>
                     <div>
@@ -178,7 +148,7 @@ export default function TempFeed() {
           {arr.map((feed, idx) =>{
             return(
               <div height="50vh" margin='0 auto' marginTop='5%' key={idx}>
-                <FeedCard feed={feed} key={idx} arr={arr}></FeedCard>
+                <FeedCard feed={feed} key={idx}></FeedCard>
               </div>
             )
           })}
