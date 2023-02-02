@@ -47,4 +47,12 @@ public class SelectedHashtag {
     @JoinColumn(name = "user_id")
     @Comment("사용자아이디")
     private User user;
+
+    public SelectedHashtag(Hashtag hashtag, HashtagType hashtagType, Running running, Feed feed, User user) {
+        this.hashtag = hashtag;
+        this.hashtagType = hashtagType;
+        this.running = running;
+        this.feed = feed;
+        this.user = user;
+    }
 }
