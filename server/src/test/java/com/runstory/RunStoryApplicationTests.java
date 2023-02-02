@@ -14,7 +14,7 @@ class RunStoryApplicationTests {
     private  SelectedHashtagRepository selectedHashtagRepository;
     @Test
     void 선택된해시태그가져오기() {
-        List<SelectedHashtag> tags = selectedHashtagRepository.findByFeedIdOrderBySelectedHashtagIdAsc(1020L);
+        List<SelectedHashtag> tags = selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(1020L);
         for (SelectedHashtag s: tags)
             System.out.println(s.getHashtag().getHashtagId());
     }

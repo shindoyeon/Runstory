@@ -160,11 +160,9 @@ public class FeedService {
         //해시태그 수정
         List<Long> tags = feed.getSelectedHashTags();
         Collections.sort(tags);
-        List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByFeedIdOrderBySelectedHashtagIdAsc(feedId);    //DB에 저장된 해시태그
+        List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(feedId);    //DB에 저장된 해시태그
 
         //저장된 해시태그 개수 비교
-        Feed result = feedRepository.save(f);
-        //해시태그 수정
         if(tags.size()!=selectedHashtags.size()){
             System.out.println("해시태그 개수 다름");
             //selectedhashtag 삭제 후 저장
@@ -182,7 +180,8 @@ public class FeedService {
                 }
             }
         }
-        f.setSelectedHashtags(selectedHashtagRepository.findByFeedIdOrderBySelectedHashtagIdAsc(feedId));
+        f.setSelectedHashtags(selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(feedId));
+        Feed result = feedRepository.save(f);
         return result;
     }
 

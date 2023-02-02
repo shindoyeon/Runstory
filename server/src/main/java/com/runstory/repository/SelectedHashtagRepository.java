@@ -17,8 +17,8 @@ public interface SelectedHashtagRepository extends JpaRepository<SelectedHashtag
     @Query("delete from SelectedHashtag s where s.feed.feedId = :feedId")
     void deleteSelectedHashtagByFeedId(@Param("feedId")Long feedId);
 
-    @Query("select s from SelectedHashtag s where s.feed.feedId = :feedId order by s.selectedHashtagId asc ")
-    List<SelectedHashtag> findByFeedIdOrderBySelectedHashtagIdAsc(@Param("feedId")Long feedId);
+    @Query("select s from SelectedHashtag s where s.feed.feedId = :feedId order by s.hashtag.hashtagId asc ")
+    List<SelectedHashtag> findByFeedIdOrderByHashtagIdAsc(@Param("feedId")Long feedId);
 
     SelectedHashtag findBySelectedHashtagId(Long selectedHashstagId);
 }
