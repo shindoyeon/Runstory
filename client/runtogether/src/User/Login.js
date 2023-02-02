@@ -7,16 +7,19 @@ import {
     Divider,
     ChakraProvider,
   } from '@chakra-ui/react';
+import Header from '../common/Header';
+import Footer from '../common/Footer';
 
-const LOGIN_URL = '/user/login';
+
+const LOGIN_URL = '/auth/login';
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
 
-    const [user, setUser] = useState('');
-    const [pwd, setPwd] = useState('');
+    const [id, setId] = useState('');
+    const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
@@ -26,26 +29,27 @@ const Login = () => {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd])
+    }, [id, password])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
+                JSON.stringify({ id, password }),
                 {
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*" },
                     withCredentials: true
                 }
             );
             console.log(JSON.stringify(response?.data));
             //console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
-            setUser('');
-            setPwd('');
+            const accessToken = response?.data?.accessToken;
+            setAuth({ id, password, roles, accessToken });
+            setId('test');
+            setPassword('1234');
             setSuccess(true);
         } catch (err) {
             if (!err?.response) {
@@ -63,9 +67,9 @@ const Login = () => {
 
     return (
         <ChakraProvider>
-
+        <Header></Header>
             {success ? (
-                <section>
+                <section style={{width : '90%'}} >
                     <h1>로그인 성공</h1>
                     <br />
                     <p>
@@ -73,7 +77,7 @@ const Login = () => {
                     </p>
                 </section>
             ) : (
-                <section>
+                <section className='loginsection' style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>로그인</h1>
                     <form onSubmit={handleSubmit}>
@@ -83,20 +87,20 @@ const Login = () => {
                             id="username"
                             ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
+                            onChange={(e) => setId(e.target.value)}
+                            value={id}
                             required
                             />
-                        <Divider/>
+                        <Divider style={{margin: '5px'}}/>
                         <label htmlFor="password">비밀번호</label>
                         <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
                             required
                             />
-                        <Divider/>
+                        <Divider style={{margin: '5px'}}/>
                         <KakaoLogin/>
                         <button>로그인</button>
                     </form> 
@@ -109,6 +113,7 @@ const Login = () => {
                     </p>
                 </section>
             )}
+            <Footer></Footer>
             </ChakraProvider>
     )
 }

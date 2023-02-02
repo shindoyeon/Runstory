@@ -1,39 +1,14 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    font-family: 'Nunito', sans-serif;
-    font-size: 20px;
-    color: #fff;
-}
-
-body {
-    min-height: 100vh;
-    background-color: dodgerblue;
-}
-
-.App {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; 
-  padding: 1rem 0.5rem;
-}
-
-section {
-    width: 100%;
+.loginsection {
+    margin : auto;
+    margin-top: 40%;
+    border-radius: 10%;
     max-width: 420px;
-    min-height: 400px;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     padding: 1rem;
-    background-color: rgba(0,0,0,0.4);
-}
+    background-color: rgba(132, 125, 125, 0.4);
+  }
 
 form {
     display: flex;

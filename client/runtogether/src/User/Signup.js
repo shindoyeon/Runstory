@@ -2,7 +2,13 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from './api/axios';
-import './Login.css'
+import './Signup.css'
+import {
+    ChakraProvider,
+  } from '@chakra-ui/react';
+import Header from '../common/Header';
+import Footer from '../common/Footer';
+
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -12,11 +18,11 @@ const Register = () => {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [user, setUser] = useState('');
+    const [id, setId] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 
-    const [pwd, setPwd] = useState('');
+    const [password, setPassword] = useState('');
     const [validPwd, setValidPwd] = useState(false);
     const [pwdFocus, setPwdFocus] = useState(false);
 
@@ -32,30 +38,30 @@ const Register = () => {
     }, [])
 
     useEffect(() => {
-        setValidName(USER_REGEX.test(user));
-    }, [user])
+        setValidName(USER_REGEX.test(id));
+    }, [id])
 
     useEffect(() => {
-        setValidPwd(PWD_REGEX.test(pwd));
-        setValidMatch(pwd === matchPwd);
-    }, [pwd, matchPwd])
+        setValidPwd(PWD_REGEX.test(password));
+        setValidMatch(password === matchPwd);
+    }, [password, matchPwd])
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd, matchPwd])
+    }, [id, password, matchPwd])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
-        const v1 = USER_REGEX.test(user);
-        const v2 = PWD_REGEX.test(pwd);
+        const v1 = USER_REGEX.test(id);
+        const v2 = PWD_REGEX.test(password);
         if (!v1 || !v2) {
             setErrMsg("일치하지 않음");
             return;
         }
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ user, pwd }),
+                JSON.stringify({ id, password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -66,8 +72,8 @@ const Register = () => {
             //console.log(JSON.stringify(response))
             setSuccess(true);
             //clear state and controlled inputs
-            setUser('');
-            setPwd('');
+            setId('');
+            setPassword('');
             setMatchPwd('');
         } catch (err) {
             if (!err?.response) {
@@ -77,45 +83,44 @@ const Register = () => {
             } else {
                 setErrMsg('등록 실패')
             }
-            console.log(v1)
-            console.log(v2)
             errRef.current.focus();
         }
     }
 
     return (
-        <>
+        <ChakraProvider>    
+        <Header></Header>
             {success ? (
-                <section>
+                <section style={{width : '90%'}}>
                     <h1>Success!</h1>
                     <p>
                         <a href="/user/login">로그인</a>
                     </p>
                 </section>
             ) : (
-                <section>
+                <section style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>회원가입</h1>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="username">
-                            닉네임:
+                            닉네임
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
-                            <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
+                            <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
                         </label>
                         <input
                             type="text"
                             id="username"
                             ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
+                            onChange={(e) => setId(e.target.value)}
+                            value={id}
                             required
                             aria-invalid={validName ? "false" : "true"}
                             aria-describedby="uidnote"
                             onFocus={() => setUserFocus(true)}
                             onBlur={() => setUserFocus(false)}
                         />
-                        <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
+                        <p id="usernote" className={userFocus && id && !validName ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             4~24자까지<br />
                             문자로 시작해야 합니다.<br />
@@ -124,21 +129,21 @@ const Register = () => {
 
 
                         <label htmlFor="password">
-                            비밀번호:
+                            비밀번호
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
-                            <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
+                            <FontAwesomeIcon icon={faTimes} className={validPwd || !password ? "hide" : "invalid"} />
                         </label>
                         <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
                             required
                             aria-invalid={validPwd ? "false" : "true"}
                             aria-describedby="pwdnote"
                             onFocus={() => setPwdFocus(true)}
                             onBlur={() => setPwdFocus(false)}
-                        />
+                            />
                         <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             8~24자까지<br />
@@ -148,7 +153,7 @@ const Register = () => {
 
 
                         <label htmlFor="confirm_pwd">
-                            비밀번호 확인:
+                            비밀번호 확인
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
                         </label>
@@ -162,7 +167,7 @@ const Register = () => {
                             aria-describedby="confirmnote"
                             onFocus={() => setMatchFocus(true)}
                             onBlur={() => setMatchFocus(false)}
-                        />
+                            />
                         <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             입력했던 비밀번호와 정확히 일치해야 합니다.
@@ -179,7 +184,8 @@ const Register = () => {
                     </p>
                 </section>
             )}
-        </>
+    <Footer></Footer>
+    </ChakraProvider>
     )
 }
 

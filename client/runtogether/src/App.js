@@ -13,7 +13,7 @@ import Feed from './Feed/Feed';
 import SettingIntro from './Setting/SettingIntro';
 import User from './Setting/User';
 import Login from './User/Login';
-import Register from './User/Register';
+import Register from './User/Signup';
 import "./App.css";
 
 function App() {
