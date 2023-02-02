@@ -30,6 +30,11 @@ function FollowCount(props){
           setFollow(followCount + 1)
         }
       }></input>
+      <input type='button' value='삭제' onClick={
+        function(){
+          setFollow(followCount - 1)
+        }
+      }></input>
     </div>
   );
 }
@@ -46,6 +51,11 @@ function FollowingCount(props){
       <input type='button' value='추가' onClick={
         function(){
           setFollowing(followingCount + 1)
+        }
+      }></input>
+      <input type='button' value='삭제' onClick={
+        function(){
+          setFollowing(followingCount - 1)
         }
       }></input>
     </div>

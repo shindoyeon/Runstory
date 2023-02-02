@@ -19,6 +19,7 @@
     "redux-logger": "^3.0.6",
     "sass": "^1.57.1",
     "slick-carousel": "^1.8.1",
-    "swiper": "^6.8.4"
+    "swiper": "^6.8.4",
+    "proxy" : "i8A806.p.ssafy.io:8080"
   }
 }
