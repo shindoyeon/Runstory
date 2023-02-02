@@ -3,9 +3,8 @@ import './Feed.css';
 import axios from "axios";
 import FeedCard from './FeedCard';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
-import {useDispatch, useSelector} from 'react-redux';
-import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons"; // 공유 버튼
-import { faComment } from "@fortawesome/free-regular-svg-icons"; // 하트(좋아요), 댓글 버튼
+import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
 import {
     Card, // chakra-ui의 Card로 피드 하나를 구성할 것임 
     CardHeader,
@@ -66,7 +65,6 @@ export default function TempFeed() {
 
     return (
       <div className='entire-feed'>
-        {/* {console.log(feeds)} */}
       <InfiniteScroll
           dataLength={arr.length}
           next={loadMore}
