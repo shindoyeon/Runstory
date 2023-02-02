@@ -1,20 +1,17 @@
 package com.runstory.domain.hashtag.dto;
 
-import com.runstory.domain.hashtag.entity.SelectedHashtag;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.runstory.domain.hashtag.entity.Hashtag;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class HashtagDto {
+    private Long hashtagId;
     private String hashtagName;
+    public HashtagDto(Hashtag hashtag){
+        this.hashtagId = hashtag.getHashtagId();
+        this.hashtagName = hashtag.getHashtagName();
+    }
 }

@@ -1,13 +1,8 @@
 package com.runstory.domain.running;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.runstory.api.request.RunningCrewReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +21,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class RunningDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -55,4 +50,14 @@ public class RunningDetail {
     @Column(columnDefinition = "boolean default false", nullable = false)
     @Comment("강아지 여부")
     private boolean hasDog;
+
+    public RunningDetail(RunningCrewReqDto runningCrewReqDto){
+        this.genderType = runningCrewReqDto.getGenderType();
+        this.man = runningCrewReqDto.getMan();
+        this.women = runningCrewReqDto.getWomen();
+        this.total = runningCrewReqDto.getTotal();
+        this.minAge = runningCrewReqDto.getMinAge();
+        this.maxAge = runningCrewReqDto.getMaxAge();
+        this.hasDog = runningCrewReqDto.isHasDog();
+    }
 }

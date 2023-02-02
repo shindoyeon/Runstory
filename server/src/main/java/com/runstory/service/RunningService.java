@@ -1,22 +1,26 @@
 package com.runstory.service;
 
 import com.runstory.api.request.RunningCrewReqDto;
-import com.runstory.api.response.RunningDetailResDto;
 import com.runstory.api.response.RunningMainResDto;
-import com.runstory.api.response.RunninginfoResDto;
+import com.runstory.api.response.RunningDetailSumDto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface RunningService {
-    // InformationPage
-    RunninginfoResDto findRunningInfo(Long id);
-
     // CreatePage
-    long createRunningCrew(RunningCrewReqDto runningCrewReqDto);
+    Long createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userseq);
 
     // MainPage
-    ArrayList<RunningMainResDto> selectRunningCrew(float longitude, float latitude);
+//    ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude);
 
     // DetailPage
-    RunningDetailResDto findRunningDetail(Long id);
+    RunningDetailSumDto findRunningDetail(Long id);
+    Long deleteRunningCrew(Long id);
+    Long updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto);
+
+
+    // ChangePage
+//    RunningDetailSumDto updateRunningDetail(Long id);
+
 }

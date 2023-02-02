@@ -1,9 +1,12 @@
-.body {
+.entire-feed {
+    width: 100%;
+    margin: 0 auto;
     margin-bottom: 70px;
+    /* text-align: center; */
+    margin-left: 5%;
 }
 
 .card {
-    width: 90%;
     margin: 0 auto;
     margin-bottom: 15px;
     margin-top: 30px;
@@ -33,7 +36,6 @@
 
 .profile-img {
     width: 25%;
-    height: 40px;
     border-radius: 100%;
     background-image: url(./권태윤.png);
     background-size: cover;
@@ -41,9 +43,15 @@
 
 .nickname {
     height: 40px;
-    line-height: 38px;
+    line-height: 40px;
     margin-left: 3%;
-    font-weight: bold;
+}
+
+.comment-nickname {
+    height: 30px;
+    line-height: 30px;
+    margin-left: 3%;
+    /* font-weight: bold; */
 }
 
 .post-image {
@@ -56,33 +64,38 @@
     background-size: cover;
 }
 
-.title {
-    width: 90%;
-    margin: 0 auto;
-    margin-top: 10px;
-    font-size: 17px;
-    font-weight: bold;
-}
-
 .feed-content {
     width: 90%;
     margin: 0 auto;
     margin-top: 7px;
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: light;
+    overflow: hidden;
+    text-overflow: "string(더보기...)";
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.5;
+}
+
+.feed-content-open {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 7px;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .like-comment {
     width: 100%;
     margin: 0 auto;
     display: inline-block;
-    /* text-align: right; */
-    /* margin-left: 10%; */
-    text-align: right;
+    text-align: left;
     height: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
-    font-weight: bold;
-    margin-right: 3%;
+    margin-left: 3%;
 }
 
 .like, .comment{
@@ -91,4 +104,22 @@
 
 .like:active{
     transform: scale(1.2);
+}
+
+.modal {
+    width: 90%;
+}
+
+.comment-content {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.comment-form {
+    width: 100%;
+    text-align: center;
+}
+
+.comment-input {
+    width: 100%;
 }

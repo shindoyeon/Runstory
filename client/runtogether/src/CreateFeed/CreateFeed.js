@@ -6,6 +6,7 @@ import {
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import CreateFeedPageMsg from './CreateFeedPageMsg';
+import ImgUpload from '../RecruitCrew/ImgUpload';
 // import HashTag from './HashTag';
 import ArticleForm from './ArticleForm';
 
@@ -15,6 +16,7 @@ function CreateFeed() {
       <div>
         <Header></Header>
         <CreateFeedPageMsg></CreateFeedPageMsg>
+        <ImgUpload></ImgUpload>
         <ArticleForm></ArticleForm>
         <Footer></Footer>
       </div>

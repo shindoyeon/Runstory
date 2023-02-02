@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.running.Running;
 import com.runstory.domain.running.RunningUser;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,8 @@ public class User {
     @Comment("사용자아이디")
     private String userId;
     @Comment("비밀번호")
-    @Column(length = 50, nullable = false)
+//    @Column(length = 50, nullable = false)
+    @Column(length = 1000, nullable = false) //암호화하면 글자수가 길어짐
     private String userPwd;
     @Comment("이름")
     @Column(length = 30, nullable = false)
@@ -52,7 +54,7 @@ public class User {
     private int age;
 
     @Comment("토큰")
-    @Column(length = 100)
+    @Column(length = 300)
     private String token;
 
     @Comment("역할(USER: 일반사용자, ADMIN: 관리자)")
@@ -85,6 +87,10 @@ public class User {
     private List<RunningUser> runningusers = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private List<ChatRoomUser> rooms = new ArrayList<>();
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private  List<Feed> feeds = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Running> runnings = new ArrayList<>();
+
 }
