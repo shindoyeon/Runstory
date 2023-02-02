@@ -9,5 +9,9 @@ RUN npm i @fortawesome/free-regular-svg-icons
 RUN npm i react-infinite-scroll-component
 RUN npm i @fortawesome/free-brands-svg-icons
 RUN npm i @fortawesome/react-fontawesome
+RUN npm install --save html2canvas
+RUN npm install react-slick --save
+RUN npm install slick-carousel --save
+
 COPY ./ ./
 CMD [ "npm", "run","start" ]
