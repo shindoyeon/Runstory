@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.running.Running;
+import com.runstory.domain.running.RunningDibs;
 import com.runstory.domain.running.RunningUser;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,5 +93,8 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Running> runnings = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<RunningDibs> runningDibs = new ArrayList<>();
 
 }

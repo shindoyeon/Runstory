@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @AllArgsConstructor
 public class RunningCrewReqDto {
     private Long id;
-    private String imgPathFile;
+    private String imgFilePath;
     private String imgFileName;
     private String crewName;
     private String runningContent;

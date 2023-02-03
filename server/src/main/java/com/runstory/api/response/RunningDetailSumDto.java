@@ -1,10 +1,12 @@
 package com.runstory.api.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.hashtag.dto.HashtagDto;
 import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.*;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
+import com.runstory.domain.running.dto.RunningDibsDto;
 import com.runstory.domain.running.dto.RunningDto;
 import com.runstory.domain.running.dto.RunningUserDto;
 import com.runstory.domain.user.dto.UserDto;
@@ -22,13 +24,15 @@ import java.util.List;
 public class RunningDetailSumDto {
     private Long id;
     private Long userId; // 현재 로그인중인 userId
-    private String imgPathFile;
+    private String imgFilePath;
     private String imgFileName;
     private String crewName;
     private String runningContent;
     private String startLocation;
     private String endLocation;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
     private float startLongitude;
     private float startLatitude;
@@ -50,14 +54,15 @@ public class RunningDetailSumDto {
     private List<RunningUserDto> runningusers = new ArrayList<>(); // 참여 인원
 
     // 해당 사람이 작성자인지 달리는 사람인지를 확인
-    private boolean creater;
-    private boolean runner;
+    private boolean isCreater;
+    private boolean isRunner;
+    private boolean isDibs;
 
 
     public RunningDetailSumDto(Running running, RunningDetail runningDetail, Long userseq){
         this.id = running.getRunningId();
         this.userId = running.getUser().getUserSeq();
-        this.imgPathFile = running.getImgFilePath();
+        this.imgFilePath = running.getImgFilePath();
         this.imgFileName = running.getImgFileName();
         this.crewName = running.getCrewName();
         this.runningContent = running.getRunningContent();
@@ -77,14 +82,15 @@ public class RunningDetailSumDto {
         this.minAge = runningDetail.getMinAge();
         this.maxAge = runningDetail.getMaxAge();
         this.hasDog = runningDetail.isHasDog();
-        this.creater = false;
-        this.runner = false;
+        this.isCreater = false;
+        this.isRunner = false;
+        this.isDibs = false;
 
         // 생성자인지를 확인하는 방법
         if (running.getUser().getUserSeq().equals(userseq)){
-            this.creater = true;
+            this.isCreater = true;
         }else{
-            this.creater = false;
+            this.isCreater = false;
         }
 
         for (SelectedHashtag selectedHashtag : running.getSelectedHashtags()){
@@ -98,7 +104,6 @@ public class RunningDetailSumDto {
                     .userId(userid)
                     .content(comment.getContent())
                     .regdate(comment.getRegdate())
-                    .updatedate(comment.getUpdatedate())
                     .build();
             runningboardcomments.add(runningBoardCommentDto);
         }
@@ -109,7 +114,14 @@ public class RunningDetailSumDto {
                     .build();
             runningusers.add(runningUserDto);
             if (userseq.equals(user.getUser().getUserSeq())){
-                this.runner = false;
+                this.isRunner = true;
+            }
+        }
+        // 찜했는지를 확인하는 기능
+        for (RunningDibs dibs : running.getRunningDibs()){
+            if (userseq.equals(dibs.getUser().getUserSeq())){
+                this.isDibs = true;
+                break;
             }
         }
 

@@ -106,6 +106,9 @@ public class Running {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<SelectedHashtag> selectedHashtags = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
+    private List<RunningDibs> runningDibs = new ArrayList<>();
+
 
     @Comment("생성자")
     @ManyToOne(fetch = LAZY)
@@ -119,7 +122,7 @@ public class Running {
 
 
     public Running(RunningCrewReqDto runningCrewReqDto, User user) {
-        this.imgFilePath = runningCrewReqDto.getImgPathFile();
+        this.imgFilePath = runningCrewReqDto.getImgFilePath();
         this.imgFileName = runningCrewReqDto.getImgFileName();
         this.crewName = runningCrewReqDto.getCrewName();
         this.runningContent = runningCrewReqDto.getRunningContent();
@@ -136,7 +139,7 @@ public class Running {
     }
 
     public void RunningUpdate(RunningCrewReqDto runningCrewReqDto) {
-        this.imgFilePath = runningCrewReqDto.getImgPathFile();
+        this.imgFilePath = runningCrewReqDto.getImgFilePath();
         this.imgFileName = runningCrewReqDto.getImgFileName();
         this.crewName = runningCrewReqDto.getCrewName();
         this.runningContent = runningCrewReqDto.getRunningContent();

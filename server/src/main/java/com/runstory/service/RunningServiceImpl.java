@@ -7,11 +7,8 @@ import com.runstory.domain.hashtag.dto.HashtagDto;
 import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
-import com.runstory.domain.running.Running;
-import com.runstory.domain.running.RunningBoardComment;
-import com.runstory.domain.running.RunningDetail;
+import com.runstory.domain.running.*;
 import com.runstory.api.response.RunningDetailSumDto;
-import com.runstory.domain.running.RunningUser;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.domain.running.dto.RunningDto;
 import com.runstory.domain.running.dto.RunningUserDto;
@@ -40,6 +37,7 @@ public class RunningServiceImpl implements RunningService {
     private final UserRepository userRepository;
     private final RunningCommentRepository runningCommentRepository;
     private final RunningUserRepository runningUserRepository;
+    private final RunningDibsRepository runningDibsRepository;
 
     @Override
     @Transactional
@@ -166,7 +164,7 @@ public class RunningServiceImpl implements RunningService {
         return newRunningCrewReqDto.getId();
     }
 
-    // Detail 관련 기능들
+    // Reservation
     @Override
     @Transactional
     public Long reservationRunningCrew(Long runningid, Long userseq){ // 예약하기
@@ -196,6 +194,37 @@ public class RunningServiceImpl implements RunningService {
         }
     }
 
+
+    //Dibs
+    @Override
+    @Transactional
+    public Long createDibsRunningCrew(Long runningid, Long userseq){ // 예약하기
+        Running running = runningrepository.getById(runningid);
+        User user = userRepository.findByUserSeq(userseq);
+        RunningDibs oldRunningUser = runningDibsRepository.findByRunningAndUser(running, user); // User가 이미 있는지를 확인한다.
+        if (oldRunningUser == null){
+            RunningDibs runningDibs = new RunningDibs(running, user);
+            runningDibsRepository.save(runningDibs);
+            return userseq;
+        }else{
+            return -1L;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Long deleteDibsRunningCrew(Long runningid, Long userSeq){
+        Running running = runningrepository.getById(runningid);
+        User user = userRepository.findByUserSeq(userSeq);
+        RunningDibs previousDibsUser = runningDibsRepository.findByRunningAndUser(running, user);
+        if (previousDibsUser == null){
+            return -1L;
+        }else{ // 만약 있으면
+            runningDibsRepository.deleteById(previousDibsUser.getId());
+            return userSeq;
+        }
+    }
+
     // Comment
     @Override
     @Transactional
@@ -210,9 +239,14 @@ public class RunningServiceImpl implements RunningService {
 
     @Override
     @Transactional
-    public Long deleteRunningComment(Long runningid, Long commentid){
+    public Long deleteRunningComment(Long commentid){
         runningCommentRepository.deleteById(commentid);
         return commentid;
     }
 
+    // MyPage
+//    public List<HashMap<String, List<RunningMainResDto>>> myRunningf(Long userseq){
+//        User user = userRepository.findByUserSeq(userseq); // user 들고 온다.
+//
+//    }
 }

@@ -7,6 +7,7 @@ import com.runstory.domain.running.dto.RunningBoardCommentDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface RunningService {
     // CreatePage
@@ -27,6 +28,13 @@ public interface RunningService {
 
     // Comment
     Long createRunningComment(RunningBoardCommentDto runningBoardCommentDto, Long userseq, Long runninid);
-    Long deleteRunningComment(Long runningid, Long commentid);
+    Long deleteRunningComment(Long commentid);
+
+    // Dibs
+    Long createDibsRunningCrew(Long runningid, Long userseq);
+    Long deleteDibsRunningCrew(Long runningid, Long userSeq);
+
+    // 나의 페이지
+//    List<HashMap<String, List<RunningMainResDto>>> myRunningf(Long userseq);
 
 }
