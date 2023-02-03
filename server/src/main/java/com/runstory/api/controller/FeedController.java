@@ -8,8 +8,10 @@ import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.user.dto.FollowDto;
 import com.runstory.domain.user.entity.Follow;
+import com.runstory.domain.user.entity.User;
 import com.runstory.service.FeedService;
 import com.runstory.service.FollowService;
+import com.runstory.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 public class FeedController {
     private final FeedService feedService;
     private final FollowService followService;
+    private final UserService userService;
 
 //    @GetMapping("")
     public  ResponseEntity<List<SimpleFeedResDto>> getFeedAll(){
@@ -55,7 +58,7 @@ public class FeedController {
 
     @GetMapping("/followstatus/{userid}")
     @ApiOperation(value = "사용자 팔로우 조회", notes = "팔로우 상태, 팔로잉, 팔로워 수 조회")
-    public BaseResponse<?> getFollowStatus(@ApiIgnore Authentication authentication,@PathVariable("userid") Long userId){
+    public BaseResponse<?> getFollowStatus(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Long myId = userDetails.getUserSeq();
         HashMap<String, Object> result = new HashMap<>();
@@ -72,9 +75,13 @@ public class FeedController {
     @GetMapping("/profile/{userid}")
     @ApiOperation(value = "사용자 프로필 조회", notes = "사용자 닉네임, 레벨, 프로필 사진")
     public BaseResponse<?> getProfile(@ApiIgnore Authentication authentication,@PathVariable("userid") Long userId){
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
-        //userservice 에서 개인 프로필 조회 들고 오기
-        return BaseResponse.success(null);
+        User user = userService.getUserProfileByUserSeq(userId);
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("userNickName", user.getUserNickname());
+        profile.put("level", user.getLevel());
+        profile.put("profileImgFilePath", user.getProfileImgFilePath());
+        profile.put("profileImgFileName", user.getProfileImgFileName());
+        return BaseResponse.success(profile);
     }
 
     @PostMapping("/follow/{follow-userid}")
