@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -40,6 +41,7 @@ public class RunningController {
         return BaseResponse.success(result);
     }
 
+
 //    @GetMapping("") // RunningCrew Read
 //    @ApiOperation(value = "Running Crew Read")
 //    public BaseResponse<?> getRunnninCrew(@RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
@@ -57,8 +59,9 @@ public class RunningController {
     * 여기서부터는 상세페이지에 관한 내용
     * */
     @GetMapping("/detail/{runningid}") // 상세페이지를 Read
-    public BaseResponse<?> runningdetail(@PathVariable Long runningid, HttpServletRequest request){
-        RunningDetailSumDto runningDetailSumDto =  runningservice.findRunningDetail(runningid);
+    public BaseResponse<?> runningdetail(@ApiIgnore Authentication authentication,@PathVariable Long runningid, HttpServletRequest request){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        RunningDetailSumDto runningDetailSumDto =  runningservice.findRunningDetail(runningid, userSeq);
         return BaseResponse.success(runningDetailSumDto);
     }
 
@@ -75,16 +78,37 @@ public class RunningController {
         return BaseResponse.success(newRunningCrewReqDto);
     }
 
-    // 찜 누를 때 기능
+    // 러닝 참가하기 옵션
+    @PostMapping("/{runningid}/reservations") // 만약 같이 뛰고 싶다면...!
+    public BaseResponse<?> runningCrewReservation(@ApiIgnore Authentication authentication, @PathVariable Long runningid){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        Long id = runningservice.reservationRunningCrew(runningid, userSeq);
+        if (id == -1L){
+            return BaseResponse.success("already done");
+        }else{
+            return BaseResponse.success("ok");
+        }
+    }
 
-    /*
-    * 여기는 댓글 관련한 기능입니다.
-    * */
-    // 댓글 생성, 댓글 삭제 기능
+    @DeleteMapping("/{runningid}/reservations") // 같이 뛰기 취소!
+    public BaseResponse<?> runningDeleteReservation(@ApiIgnore Authentication authentication, @PathVariable Long runningid){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        Long id = runningservice.deleteRunningReservation(runningid, userSeq);
+        if (id == -1L){
+            return BaseResponse.success("already delete");
+        }else{
+            return BaseResponse.success("ok");
+        }
+    }
+
+    // 러닝 찜하기 옵션 (Entity를 하나 만들어야하므로 마지막에 하자..!)
+    
+
+    
+    // 댓글 관련 기능
     @PostMapping("/{runningid}/comment") // 댓글 생성
     public BaseResponse<?> runningCrewCommentCreate(@ApiIgnore Authentication authentication, @PathVariable Long runningid, @RequestBody RunningBoardCommentDto runningBoardCommentDto, HttpServletRequest request){
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
-        Long userSeq = userDetails.getUserSeq(); // 로그인된 유저 Seq를 들고 온다.
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq(); // 로그인된 유저 Seq를 들고 온다.
         Long id = runningservice.createRunningComment(runningBoardCommentDto, userSeq, runningid);
         return BaseResponse.success(id);
     }
@@ -95,8 +119,10 @@ public class RunningController {
         return BaseResponse.success(id);
     }
 
-    /*
-    * 개인 피드에 관한 자료입니다.
-    * */
-
+    // 개인 피드 관련 기능
+    @GetMapping("/running/mycrew/reservation")
+    public BaseResponse<?> myRunning(@ApiIgnore Authentication authentication){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        return BaseResponse.success("ok");
+    }
 }

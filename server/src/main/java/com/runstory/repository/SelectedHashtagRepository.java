@@ -3,9 +3,12 @@ package com.runstory.repository;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import java.util.List;
+
+import com.runstory.domain.running.Running;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface SelectedHashtagRepository extends JpaRepository<SelectedHashtag, Long> {

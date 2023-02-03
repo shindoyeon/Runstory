@@ -49,8 +49,12 @@ public class RunningDetailSumDto {
     private List<RunningBoardCommentDto> runningboardcomments = new ArrayList<>(); // 댓글
     private List<RunningUserDto> runningusers = new ArrayList<>(); // 참여 인원
 
+    // 해당 사람이 작성자인지 달리는 사람인지를 확인
+    private boolean creater;
+    private boolean runner;
 
-    public RunningDetailSumDto(Running running, RunningDetail runningDetail){
+
+    public RunningDetailSumDto(Running running, RunningDetail runningDetail, Long userseq){
         this.id = running.getRunningId();
         this.userId = running.getUser().getUserSeq();
         this.imgPathFile = running.getImgFilePath();
@@ -73,6 +77,15 @@ public class RunningDetailSumDto {
         this.minAge = runningDetail.getMinAge();
         this.maxAge = runningDetail.getMaxAge();
         this.hasDog = runningDetail.isHasDog();
+        this.creater = false;
+        this.runner = false;
+
+        // 생성자인지를 확인하는 방법
+        if (running.getUser().getUserSeq().equals(userseq)){
+            this.creater = true;
+        }else{
+            this.creater = false;
+        }
 
         for (SelectedHashtag selectedHashtag : running.getSelectedHashtags()){
             SelectedHashtagDto selectedHashtagDto = new SelectedHashtagDto(selectedHashtag);
@@ -95,6 +108,10 @@ public class RunningDetailSumDto {
                     .userId(user.getId())
                     .build();
             runningusers.add(runningUserDto);
+            if (userseq.equals(user.getUser().getUserSeq())){
+                this.runner = false;
+            }
         }
+
     }
 }
