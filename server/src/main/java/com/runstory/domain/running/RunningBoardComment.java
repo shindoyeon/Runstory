@@ -20,6 +20,7 @@ public class RunningBoardComment {
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(length = 1000, nullable = false)

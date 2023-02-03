@@ -17,9 +17,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class RunningBoardCommentDto {
-    // 현재 로그인된 User에 대한 값 필요.
+    // Username 과 userId 같이 넘기기
     private String userId;
     private String content;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regdate;
 }

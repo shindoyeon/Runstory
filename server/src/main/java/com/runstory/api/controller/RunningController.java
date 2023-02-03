@@ -135,7 +135,8 @@ public class RunningController {
     }
 
     @DeleteMapping("/comment/{commentid}")
-    public BaseResponse<?> runningCrewCommentDelete(@ApiIgnore Authentication authentication, @PathVariable Long runningid, @PathVariable Long commentid, HttpServletRequest request){
+    public BaseResponse<?> runningCrewCommentDelete(@ApiIgnore Authentication authentication, @PathVariable Long commentid, HttpServletRequest request){
+        System.out.println(commentid);
         Long id = runningservice.deleteRunningComment(commentid);
         return BaseResponse.success(id);
     }

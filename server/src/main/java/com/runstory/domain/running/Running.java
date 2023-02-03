@@ -95,17 +95,21 @@ public class Running {
     private float distance;
 
     @JsonManagedReference
+    @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningBoardComment> runningboardcomments = new ArrayList<>();
 
     @JsonManagedReference
+    @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningUser> runningusers = new ArrayList<>();
 
     @JsonManagedReference
+    @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<SelectedHashtag> selectedHashtags = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "running")
     private List<RunningDibs> runningDibs = new ArrayList<>();
 
