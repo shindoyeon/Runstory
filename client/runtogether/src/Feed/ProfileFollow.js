@@ -8,7 +8,7 @@ import './ProfileFollow.css'
 function Follow() {
   return (
     <ChakraProvider>
-      <Card direction={{base:'row'}} className='container'>
+      <Card direction={{base:'row'}} className='FollowContainer'>
         <FollowCount initNumber={0}></FollowCount>
         <FollowingCount initNumber={0}></FollowingCount>
       </Card>
