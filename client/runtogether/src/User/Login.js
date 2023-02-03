@@ -77,12 +77,13 @@ const Login = () => {
                     </p>
                 </section>
             ) : (
-                <section className='loginsection' style={{width : '90%'}}>
+                <section className='LoginSection' style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>로그인</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">닉네임</label>
+                    <h1 style={{textAlign:'center'}}>로그인</h1>
+                    <form className='LoginForm' onSubmit={handleSubmit}>
+                        <label className='LoginLabel' htmlFor="username">닉네임</label>
                         <input
+                            className='LoginInput'
                             type="text"
                             id="username"
                             ref={userRef}
@@ -94,6 +95,7 @@ const Login = () => {
                         <Divider style={{margin: '5px'}}/>
                         <label htmlFor="password">비밀번호</label>
                         <input
+                            className='LoginInput'
                             type="password"
                             id="password"
                             onChange={(e) => setPassword(e.target.value)}
@@ -102,7 +104,7 @@ const Login = () => {
                             />
                         <Divider style={{margin: '5px'}}/>
                         <KakaoLogin/>
-                        <button>로그인</button>
+                        <button className='LoginButton'>로그인</button>
                     </form> 
                     <p>
                         계정이 필요하다면<br />

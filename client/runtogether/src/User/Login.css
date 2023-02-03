@@ -1,4 +1,4 @@
-.loginsection {
+.LoginSection {
     margin : auto;
     margin-top: 40%;
     border-radius: 10%;
@@ -10,7 +10,7 @@
     background-color: rgba(132, 125, 125, 0.4);
   }
 
-form {
+.LoginForm {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -19,23 +19,16 @@ form {
 }
 
 
-input[type="text"],
-input[type="password"],
-button,
-textarea {
-  font-family: 'Nunito', sans-serif;
-  font-size: 22px;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
+.LoginInput{
+    font-size: 20px;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    margin-top : 5px;
 }
 
-label,
-button {
+.LoginLabel,
+.LoginButton {
   margin-top: 1rem;
-}
-
-button {
-  padding: 0.5rem;
 }
 
 .instructions {

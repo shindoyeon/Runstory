@@ -91,23 +91,24 @@ const Register = () => {
         <ChakraProvider>    
         <Header></Header>
             {success ? (
-                <section style={{width : '90%'}}>
+                <section className="SignupSection" style={{width : '90%'}}>
                     <h1>Success!</h1>
                     <p>
                         <a href="/user/login">로그인</a>
                     </p>
                 </section>
             ) : (
-                <section style={{width : '90%'}}>
+                <section className="SignupSection" style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>회원가입</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">
+                    <h1 style={{textAlign:'center'}}>회원가입</h1>
+                    <form className="SignupForm" onSubmit={handleSubmit}>
+                        <label className='SignLabel' htmlFor="username">
                             닉네임
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
                         </label>
                         <input
+                            className="SignupInput"
                             type="text"
                             id="username"
                             ref={userRef}
@@ -128,12 +129,13 @@ const Register = () => {
                         </p>
 
 
-                        <label htmlFor="password">
+                        <label className='SignLabel' htmlFor="password">
                             비밀번호
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !password ? "hide" : "invalid"} />
                         </label>
                         <input
+                            className="SignupInput"
                             type="password"
                             id="password"
                             onChange={(e) => setPassword(e.target.value)}
@@ -150,14 +152,14 @@ const Register = () => {
                             소문자, 숫자, 특수문자를 포함해야 합니다.<br />
                             허용 특수문자: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                         </p>
-
-
+                        <br/>
                         <label htmlFor="confirm_pwd">
                             비밀번호 확인
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
                         </label>
                         <input
+                            className="SignupInput"
                             type="password"
                             id="confirm_pwd"
                             onChange={(e) => setMatchPwd(e.target.value)}
