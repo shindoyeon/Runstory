@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ArticleForm.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPerson, faPersonDress, faQuestion } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +16,8 @@ import {
     HStack,
     useNumberInput,
     Input
-  } from '@chakra-ui/react'
+  } from '@chakra-ui/react';
+
 
 
 const ArticleForm = () => {
@@ -75,6 +76,9 @@ const ArticleForm = () => {
         month = '0' + month;
       }
       var date = today.getDate();  // 날짜
+      if(date < 10) { // 자릿수 조정
+        date = '0' + date;
+      }
 
       var hour = today.getHours(); // 시
       var hour2 = today.getHours() + 1;
