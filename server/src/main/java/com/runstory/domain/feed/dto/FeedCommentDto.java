@@ -14,6 +14,8 @@ public class FeedCommentDto {
     private Long feedId;
     private Long userId;
     private String userNickname;
+    private String profileImgFilePath;
+    private String profileImgFileName;
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regdate;
@@ -23,6 +25,8 @@ public class FeedCommentDto {
         this.feedId = comment.getFeed().getFeedId();
         this.userId = comment.getUser().getUserSeq();
         this.userNickname = comment.getUser().getUserNickname();
+        this.profileImgFilePath = comment.getUser().getProfileImgFilePath();
+        this.profileImgFileName = comment.getUser().getProfileImgFileName();
         this.content = comment.getCotent();
         this.regdate = comment.getRegdate();
     }
