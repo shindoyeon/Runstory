@@ -1,15 +1,10 @@
 package com.runstory.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
-import com.runstory.api.response.UserInfoDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
-import com.runstory.domain.user.RegType;
-import com.runstory.domain.user.RoleType;
-import com.runstory.domain.user.dto.KakaoUser;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.HashtagRepository;
@@ -81,6 +76,12 @@ public class UserServiceImpl implements UserService {
 		// 디비에 유저 정보 조회 (userId 를 통한 조회).
 		User user = userRepository.findByUserId(userId);
 //		User user = userRepositorySupport.findUserByUserId(userId).get();
+		return user;
+	}
+
+	@Override
+	public User getUserProfileByUserSeq(Long userSeq) {
+		User user = userRepository.findByUserSeq(userSeq);
 		return user;
 	}
 

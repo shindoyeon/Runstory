@@ -5,12 +5,14 @@ import java.util.List;
 import javax.persistence.*;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Data
 @DynamicInsert
+@NoArgsConstructor
 public class Hashtag {
     @Comment("해시태그아이디")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

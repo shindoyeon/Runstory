@@ -1,5 +1,6 @@
 package com.runstory.api.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.running.GenderType;
 import com.runstory.domain.running.RunningBoardComment;
 import com.runstory.domain.running.RunningUser;
@@ -19,14 +20,17 @@ import java.util.List;
 @Builder
 public class RunningDetailResDto {
     // Running Dto
-    private String imgPathFile;
+    private String imgFilePath;
     private String imgFileName;
     private String crewName;
     private String runningContent;
     private String startLocation;
     private String endLocation;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regdate;
     private float distance;
     private List<RunningBoardCommentDto> runningBoardCommentDto = new ArrayList<>();

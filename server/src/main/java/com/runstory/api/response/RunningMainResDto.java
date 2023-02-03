@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class RunningMainResDto {
     private long runningId;
-    private String imgPathFile;
+    private String imgFilePath;
     private String imgFileName;
     private String crewName;
     private LocalDateTime startTime;
@@ -19,7 +19,7 @@ public class RunningMainResDto {
 
     public RunningMainResDto(Running running){
         this.runningId = running.getRunningId();
-        this.imgPathFile = running.getImgFilePath();
+        this.imgFilePath = running.getImgFilePath();
         this.imgFileName = running.getImgFileName();
         this.crewName = running.getCrewName();
         this.startTime = running.getStartTime();

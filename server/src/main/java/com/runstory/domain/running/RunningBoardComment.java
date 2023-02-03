@@ -20,20 +20,16 @@ public class RunningBoardComment {
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(length = 1000, nullable = false)
     @Comment("댓글 내용")
     private String content;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
     @Comment("생성일자")
     private LocalDateTime regdate;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @Comment("변경일자")
-    private LocalDateTime updatedate;
 
     @ManyToOne
     @JoinColumn(name= "running_id")
@@ -42,11 +38,6 @@ public class RunningBoardComment {
     @PrePersist
     public void prePersist(){
         this.regdate = LocalDateTime.now();
-        this.updatedate = LocalDateTime.now();
-    }
-    @PreUpdate
-    public void preUpdate(){
-        this.updatedate = LocalDateTime.now();
     }
 
     public RunningBoardComment(RunningBoardCommentDto runningBoardCommentDto, User user, Running running){

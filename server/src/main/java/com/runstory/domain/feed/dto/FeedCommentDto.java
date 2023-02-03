@@ -3,10 +3,12 @@ package com.runstory.domain.feed.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.feed.entity.FeedComment;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class FeedCommentDto {
     private Long feedCommentId;
     private Long feedId;
