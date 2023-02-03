@@ -4,9 +4,12 @@ import com.runstory.domain.user.RegType;
 import com.runstory.domain.user.RoleType;
 import com.runstory.domain.user.entity.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class UserDto {
     private Long userSeq;
     private String userId;
