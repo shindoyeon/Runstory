@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/main")
+@RequestMapping("/api/main")
 @RequiredArgsConstructor
 @Api(tags = "인덱스 페이지 API")
 public class MainController {

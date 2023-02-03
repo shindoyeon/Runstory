@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/feed")
+@RequestMapping("/api/feed")
 @RequiredArgsConstructor
 @Api(tags = "개인 피드 API")
 public class FeedController {
