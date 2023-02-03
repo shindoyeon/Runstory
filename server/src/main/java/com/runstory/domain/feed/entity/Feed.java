@@ -5,15 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
+import com.runstory.api.request.FeedReqDto;
 import com.runstory.domain.feed.PublicScope;
+import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.entity.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Feed {
 
     @Comment("피드 아이디")
@@ -31,9 +37,9 @@ public class Feed {
     @Comment("공개범위(PUBLIC: 전체공개, FRIEND: 팔로우공개, PRIVATE: 비공개)")
     @Enumerated(EnumType.STRING)
     private PublicScope publicScope;
-    @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
-    @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
     private List<FeedFile> feedFiles = new ArrayList<>();
@@ -41,4 +47,23 @@ public class Feed {
     private List<FeedComment> feedComments = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
     private List<FeedLike> feedLikes = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feed")
+    private List<SelectedHashtag> selectedHashtags = new ArrayList<>();
+
+    public Feed(FeedReqDto f, User user) {
+        this.user = user;
+        this.content = f.getContent();
+        this.publicScope = f.getPublicScope();
+    }
+
+    @PrePersist
+    public void prepersist(){
+        this.regdate = LocalDateTime.now();
+        this.updatedate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedate =LocalDateTime.now();
+    }
 }

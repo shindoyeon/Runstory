@@ -55,15 +55,23 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
+    // Email 인증
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     // Spring Security
     implementation "org.springframework.boot:spring-boot-starter-security"
 
     //JWT
     implementation("com.auth0:java-jwt:3.10.3")
 
-    // test
+
+    implementation("com.google.guava:guava:29.0-jre")
+    annotationProcessor("com.google.guava:guava:29.0-jre")
+
+    // JUnit5
+    testImplementation("org.junit.platform:junit-platform-launcher:1.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

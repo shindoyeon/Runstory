@@ -4,9 +4,12 @@ import com.runstory.domain.user.RegType;
 import com.runstory.domain.user.RoleType;
 import com.runstory.domain.user.entity.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class UserDto {
     private Long userSeq;
     private String userId;
@@ -18,7 +21,6 @@ public class UserDto {
     private int gender;
     private String address;
     private int age;
-    private String token;
     private RoleType roleType;
     private int level;
     private int experience;
@@ -39,7 +41,6 @@ public class UserDto {
         this.gender = user.getGender();
         this.address = user.getAddress();
         this.age = user.getAge();
-        this.token = user.getToken();
         this.roleType = user.getRoleType();
         this.level = user.getLevel();
         this.experience = user.getExperience();

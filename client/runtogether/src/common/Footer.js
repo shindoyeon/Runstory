@@ -12,12 +12,17 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const { isOpen, onToggle } = useDisclosure()
+
+  function refreshToHome() {
+    window.location.replace("/")
+  }
+
     return (
         <ChakraProvider theme={theme}>
           
             <header className='footer'>
             
-                <Link to='/'><div className='home'><FontAwesomeIcon icon={faHome} /></div></Link>
+                <div className='home'><FontAwesomeIcon icon={faHome} onClick={refreshToHome} /></div>
                 <Link to='/running-crew-list'><div className='gather'><FontAwesomeIcon icon={faUserGroup} /></div></Link>
                 {/* <Link to='/create-feed'> */}
                   <div className='post' onClick={onToggle}><FontAwesomeIcon icon={faCirclePlus} />
@@ -38,7 +43,7 @@ const Footer = () => {
                           피드 작성하기
                         </Button>
                       </Link>
-                      <Link to='/'>
+                      <Link to='/draw-map'>
                         <Button size='sm' className='map-draw' bg='#F4EBEB'>
                           지도 그리기
                         </Button>
