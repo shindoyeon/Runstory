@@ -4,7 +4,6 @@ import axios from 'axios';
 
 const HashTag = () => {
   const [hashtags, setHashtags] = useState([]);
-  const [arr, setArr] = useState(hashtags)
   
   useEffect(() => {
     (async () => {
