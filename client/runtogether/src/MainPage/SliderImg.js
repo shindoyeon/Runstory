@@ -3,6 +3,7 @@ function SliderImg({runningCrew}) {
         <>
             {
                 runningCrew.map((crew, idx) => {
+                    {console.log(crew)}
                     return(
                             <img className='img' src={crew.imgFilePath} />
                         );
