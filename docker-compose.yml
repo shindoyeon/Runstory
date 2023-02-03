@@ -8,6 +8,8 @@ services:
       MYSQL_ROOT_PASSWORD: ssafy
       MYSQL_DATABASE : runstory
       MYSQL_TCP_PORT : 3308
+      MYSQL_USER : runningman
+      MYSQL_PASSWORD : ruuning009!
     ports:
       - "3308:3308"
     expose:
@@ -26,8 +28,8 @@ services:
       - mysqldb
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3308/runstory?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ssafy
+      SPRING_DATASOURCE_USERNAME: runningman
+      SPRING_DATASOURCE_PASSWORD: ruuning009!
 
   frontend:
     container_name: runstory-front

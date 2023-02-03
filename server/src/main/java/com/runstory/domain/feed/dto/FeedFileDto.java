@@ -2,8 +2,10 @@ package com.runstory.domain.feed.dto;
 
 import com.runstory.domain.feed.entity.FeedFile;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class FeedFileDto {
     private Long feedFileId;
     private Long feedId;

@@ -1,3 +1,4 @@
+FROM nginx:stable-alpine
 FROM node:16-alpine3.11
 WORKDIR /runtogether/src/app
 COPY package*.json ./

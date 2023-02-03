@@ -16,7 +16,7 @@ public interface SelectedHashtagRepository extends JpaRepository<SelectedHashtag
     @Modifying
     @Transactional
     @Query("delete from SelectedHashtag i where i.user.userSeq = :userSeq")
-    void deleteSelectedHashtagByUserId(Long userSeq);
+    void deleteSelectedHashtagByUserId(@Param("userSeq") Long userSeq);
 
     @Modifying
     @Query("delete from SelectedHashtag s where s.feed.feedId = :feedId")

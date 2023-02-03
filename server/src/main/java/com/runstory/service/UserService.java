@@ -2,7 +2,6 @@ package com.runstory.service;
 
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
-import com.runstory.api.response.UserInfoDto;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import java.util.List;
@@ -15,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByUserId(String userId);
+	User getUserProfileByUserSeq(Long userSeq);
 	UserDto getUserInfoByUserId(String userId);
 	User getUserByUserNickname(String userId);
 	boolean isTokenSaved(String userId, String token);
