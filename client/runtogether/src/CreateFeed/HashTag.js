@@ -39,7 +39,7 @@ const HashTag = () => {
               onClick={clickHashtag}                
               className="hashtag"
             >
-              {item.hashtagName}
+              # {item.hashtagName}
             </button>
           </>
         );
