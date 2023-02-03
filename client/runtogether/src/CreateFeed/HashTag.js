@@ -68,7 +68,7 @@ const HashTag = () => {
     ]
     const [arr, setArr] = React.useState(hashtag)
     const clickHashtag = i => {
-        if(arr[i].className=='hashtag') { // 현재 상태에 따라 클릭 시 상태 변경
+        if(arr[i].className==='hashtag') { // 현재 상태에 따라 클릭 시 상태 변경
           let copyArray = [...arr]; // 
           copyArray[i] = {title: copyArray[i].title, className: "hashtag selected"}
           setArr ( copyArray );

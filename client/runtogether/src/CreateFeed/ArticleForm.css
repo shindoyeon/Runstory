@@ -1,4 +1,4 @@
-.upload-box {
+/* .upload-box {
     width: 90%;
     background-color: transparent;
     height: 40%;
@@ -9,7 +9,7 @@
     border-radius: 10px;
     border: 2px dashed #616161;
     font-size: 30px;
-}
+} */
 
 .content-and-range {
     display: flex;
