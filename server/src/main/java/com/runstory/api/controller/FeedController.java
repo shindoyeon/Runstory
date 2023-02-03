@@ -36,7 +36,6 @@ public class FeedController {
     private final FeedService feedService;
     private final FollowService followService;
 
-    private final CommentService commentService;
 
 //    @GetMapping("")
     public  ResponseEntity<List<SimpleFeedResDto>> getFeedAll(){
@@ -198,19 +197,7 @@ public class FeedController {
 //        return new ResponseEntity<Integer>(result, HttpStatus.OK);
 //    }
 
-    @GetMapping("/comment/{feedId}")
-    @ApiOperation(value = "댓글, 대댓글 가져오기", notes = "댓글, 대댓글 가져오기")
-    public BaseResponse<?> getComment(@PathVariable Long feedId){
 
-        List<FeedComment> feedComments = commentService.getComment(feedId);
-
-        if(feedComments.isEmpty()){
-            return BaseResponse.customSuccess(200, "댓글이 없습니다", null);
-        }
-        List<FeedCommentDto> result = feedComments.stream().map(b->new FeedCommentDto(b)).collect(Collectors.toList());
-
-        return BaseResponse.success(result);
-    }
 
 
 }

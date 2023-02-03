@@ -18,7 +18,7 @@ public class FeedRecomment {
     @Comment("피드 대댓글 아이디")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long feedRecommnetId;
+    private Long feedRecommentId;
     @Comment("피드 댓글 아이디")
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="feed_comment_id")
@@ -29,7 +29,7 @@ public class FeedRecomment {
     private User user;
     @Comment("댓글 내용")
     @Column(length = 500)
-    private String cotent;
+    private String content;
     @Comment("등록일자")
     @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;

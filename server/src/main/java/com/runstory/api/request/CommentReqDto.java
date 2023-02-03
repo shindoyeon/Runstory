@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 public class CommentReqDto {
     private Long feedId;
     private String content;
-    private LocalDateTime regDate;
 
 }

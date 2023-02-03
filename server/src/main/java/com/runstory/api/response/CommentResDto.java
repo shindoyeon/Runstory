@@ -1,6 +1,7 @@
 package com.runstory.api.response;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.api.request.ReCommentResDto;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,10 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentResDto {
-    private Long id;
+    private Long feedCommentId;
     private String userId;
     private String content;
     private List<ReCommentResDto> reCommentResDtoList;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regDate;
 
 }

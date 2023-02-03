@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends JpaRepository<FeedComment, Long> {
 
+    FeedComment findByFeedCommentId(Long feedCommentId);
     List<FeedComment> findAllByFeed(Feed feed);
     List<FeedComment> findAllByUser(User user);
 

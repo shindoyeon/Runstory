@@ -46,7 +46,7 @@ public class MainController {
         System.out.println("lastFeedId: "+lastFeedId+" size: "+size);
         Page<Feed> feeds = feedService.findFeedPagesByFollowing(lastFeedId, size, 1L);
         List<FeedResDto> result = feeds.stream().map(f -> new FeedResDto(f)).collect(Collectors.toList());
-        return BaseResponse.success(result);
+           return BaseResponse.success(result);
     }
 
     @GetMapping("/feed/{non-member}")

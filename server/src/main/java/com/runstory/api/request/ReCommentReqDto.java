@@ -13,9 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReCommentReqDto {
-    private Long id;
-    private String userId;
+    private Long commentId;
     private String reComment;
-    private LocalDateTime regDate;
 
 }

@@ -26,12 +26,14 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @DynamicInsert
 @DynamicUpdate
+@Builder
 
 public class FeedComment {
 
     @Comment("피드 댓글 아이디")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "feed_comment_id")
     private Long feedCommentId;
     @Comment("피드 아이디")
     @ManyToOne(fetch = LAZY)
@@ -50,5 +52,17 @@ public class FeedComment {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedComment", orphanRemoval = true   )
     private List<FeedRecomment> feedRecomments = new ArrayList<>();
+
+    public FeedComment(FeedCommentDto feedCommentDto, User user, Feed feed){;
+        this.user = user;
+        this.feed = feed;
+        this.content = feedCommentDto.getContent();
+        this.regdate = feedCommentDto.getRegdate();
+
+
+    }
+    public void update(CommentReqDto commentReqDto) {
+        this.content = commentReqDto.getContent();
+    }
 }
 
