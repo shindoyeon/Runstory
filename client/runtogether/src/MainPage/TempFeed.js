@@ -39,10 +39,6 @@ export default function TempFeed() {
   var startIdx = 0;
 
   useEffect(() => {
-      // (async () => {
-      //   const data = await axiosTest2();
-      //   setrunningCrew(data.data);
-      // }).then(console.log("여기!"));
       (async () => {
         const data = await axios.all(
           [axios.get(
@@ -144,7 +140,7 @@ export default function TempFeed() {
                 </div>
             }
         >
-
+          
           {arr.map((feed, idx) =>{
             return(
               <div height="50vh" margin='0 auto' marginTop='5%' key={idx}>
