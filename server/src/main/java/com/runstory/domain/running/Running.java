@@ -134,4 +134,20 @@ public class Running {
         this.distance = runningCrewReqDto.getDistance();
         this.user = user;
     }
+
+    public void RunningUpdate(RunningCrewReqDto runningCrewReqDto) {
+        this.imgFilePath = runningCrewReqDto.getImgPathFile();
+        this.imgFileName = runningCrewReqDto.getImgFileName();
+        this.crewName = runningCrewReqDto.getCrewName();
+        this.runningContent = runningCrewReqDto.getRunningContent();
+        this.startLocation = runningCrewReqDto.getStartLocation();
+        this.startLongitude = runningCrewReqDto.getStartLongitude();
+        this.startLatitude = runningCrewReqDto.getStartLatitude();
+        this.endLatitude = runningCrewReqDto.getEndLatitude();
+        this.endLongitude = runningCrewReqDto.getEndLongitude();
+        this.endLocation = runningCrewReqDto.getEndLocation();
+        this.startTime = runningCrewReqDto.getStartTime();
+        this.endTime = runningCrewReqDto.getEndTime();
+        this.distance = runningCrewReqDto.getDistance();
+    }
 }

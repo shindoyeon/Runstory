@@ -8,8 +8,10 @@ import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.Running;
+import com.runstory.domain.running.RunningBoardComment;
 import com.runstory.domain.running.RunningDetail;
 import com.runstory.api.response.RunningDetailSumDto;
+import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.domain.running.dto.RunningDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.*;
@@ -34,6 +36,7 @@ public class RunningServiceImpl implements RunningService {
     private final HashtagRepository hashtagRepository;
     private final SelectedHashtagRepository selectedHashtagRepository;
     private final UserRepository userRepository;
+    private final RunningCommentRepository runningCommentRepository;
 
     @Override
     @Transactional
@@ -85,7 +88,7 @@ public class RunningServiceImpl implements RunningService {
 //            }
 
 
-            // User의 HashTag를 받아와서 확인하는 방법이 필요하므로 도연님하고 확인 후에 진행해야 한다.
+            // User의 HashTag를 받아와서 확인하는 방법이 필요하므로 태윤이하고 확인 후에 진행해야 한다.
             // HashTag_id에 따라 HashTagTable을 들고와서 List를 확인
             // User의 HashTag를 먼저 확인(해당 사용자의 HashTag)
 //            for (SelectedHashtag selectedHashtag : running.getSelectedHashtags()){
@@ -123,32 +126,10 @@ public class RunningServiceImpl implements RunningService {
     public Long updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto){
         Running running = runningrepository.getById(newRunningCrewReqDto.getId()); // 값읋 들고온다.
         RunningDetail runningDetail = runningDetailRepository.getById(newRunningCrewReqDto.getId());
-        running.builder()
-                .crewName(newRunningCrewReqDto.getCrewName())
-                .distance(newRunningCrewReqDto.getDistance())
-                .endLatitude(newRunningCrewReqDto.getEndLatitude())
-                .endLocation(newRunningCrewReqDto.getEndLocation())
-                .endLongitude(newRunningCrewReqDto.getEndLongitude())
-                .endTime(newRunningCrewReqDto.getEndTime())
-                .imgFileName(newRunningCrewReqDto.getImgFileName())
-                .imgFilePath(newRunningCrewReqDto.getImgPathFile())
-                .runningContent(newRunningCrewReqDto.getRunningContent())
-                .startLatitude(newRunningCrewReqDto.getStartLatitude())
-                .startLocation(newRunningCrewReqDto.getStartLocation())
-                .startLongitude(newRunningCrewReqDto.getStartLongitude())
-                .startTime(newRunningCrewReqDto.getStartTime())
-                .build();
+        running.RunningUpdate(newRunningCrewReqDto);
         runningrepository.save(running);
-        runningDetail.builder()
-                .total(newRunningCrewReqDto.getTotal())
-                .man(newRunningCrewReqDto.getMan())
-                .women(newRunningCrewReqDto.getWomen())
-                .minAge(newRunningCrewReqDto.getMinAge())
-                .maxAge(newRunningCrewReqDto.getMaxAge())
-                .hasDog(newRunningCrewReqDto.isHasDog())
-                .build();
+        runningDetail.runningDetailUpdate(newRunningCrewReqDto);
         runningDetailRepository.save(runningDetail);
-
         // 해쉬태그를 변경
         List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findAllByRunning(running);
         for (SelectedHashtag selectedHashtag : selectedHashtags){
@@ -179,10 +160,25 @@ public class RunningServiceImpl implements RunningService {
 //                selectedHashtagRepository.deleteById(selectedHashtag.getSelectedHashtagId());
 //            }
 //        }
-
         return newRunningCrewReqDto.getId();
     }
 
-    // DetailPage 삭제하기
+    // Comment
+    @Override
+    @Transactional
+    public Long createRunningComment(RunningBoardCommentDto runningBoardCommentDto, Long userseq, Long runninid){
+        Running running = runningrepository.getById(runninid);
+        User user = userRepository.findByUserSeq(userseq);
+        RunningBoardComment runningBoardComment = new RunningBoardComment(runningBoardCommentDto, user, running);
+        runningCommentRepository.save(runningBoardComment);
+        return userseq;
+    }
+
+    @Override
+    @Transactional
+    public Long deleteRunningComment(Long runningid, Long commentid){
+        runningCommentRepository.deleteById(commentid);
+        return commentid;
+    }
 
 }

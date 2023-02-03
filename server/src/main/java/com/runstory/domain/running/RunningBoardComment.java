@@ -5,15 +5,22 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.runstory.domain.running.dto.RunningBoardCommentDto;
+import com.runstory.domain.user.entity.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class RunningBoardComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne
+    private User user;
 
     @Column(length = 1000, nullable = false)
     @Comment("댓글 내용")
@@ -40,5 +47,11 @@ public class RunningBoardComment {
     @PreUpdate
     public void preUpdate(){
         this.updatedate = LocalDateTime.now();
+    }
+
+    public RunningBoardComment(RunningBoardCommentDto runningBoardCommentDto, User user, Running running){
+        this.user = user;
+        this.content = runningBoardCommentDto.getContent();
+        this.running = running;
     }
 }

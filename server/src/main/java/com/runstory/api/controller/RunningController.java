@@ -11,6 +11,7 @@ import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.running.Running;
+import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.service.RunningService;
 import io.swagger.annotations.ApiOperation;
@@ -75,10 +76,24 @@ public class RunningController {
     }
 
     // 찜 누를 때 기능
+
     /*
     * 여기는 댓글 관련한 기능입니다.
     * */
     // 댓글 생성, 댓글 삭제 기능
+    @PostMapping("/{runningid}/comment") // 댓글 생성
+    public BaseResponse<?> runningCrewCommentCreate(@ApiIgnore Authentication authentication, @PathVariable Long runningid, @RequestBody RunningBoardCommentDto runningBoardCommentDto, HttpServletRequest request){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        Long userSeq = userDetails.getUserSeq(); // 로그인된 유저 Seq를 들고 온다.
+        Long id = runningservice.createRunningComment(runningBoardCommentDto, userSeq, runningid);
+        return BaseResponse.success(id);
+    }
+
+    @DeleteMapping("/{runningid}/comment/{commentid}")
+    public BaseResponse<?> runningCrewCommentDelete(@ApiIgnore Authentication authentication, @PathVariable Long runningid, @PathVariable Long commentid, HttpServletRequest request){
+        Long id = runningservice.deleteRunningComment(runningid, commentid);
+        return BaseResponse.success(id);
+    }
 
     /*
     * 개인 피드에 관한 자료입니다.

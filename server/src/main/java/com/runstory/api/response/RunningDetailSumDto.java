@@ -7,6 +7,7 @@ import com.runstory.domain.running.*;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.domain.running.dto.RunningDto;
 import com.runstory.domain.running.dto.RunningUserDto;
+import com.runstory.domain.user.dto.UserDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -79,7 +80,9 @@ public class RunningDetailSumDto {
         }
         // 댓글 기능
         for (RunningBoardComment comment : running.getRunningboardcomments()){
+            String userid = comment.getUser().getUserId();
             RunningBoardCommentDto runningBoardCommentDto = RunningBoardCommentDto.builder()
+                    .userId(userid)
                     .content(comment.getContent())
                     .regdate(comment.getRegdate())
                     .updatedate(comment.getUpdatedate())
