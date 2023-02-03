@@ -7,17 +7,22 @@ import {
 import { Button, Collapse, useDisclosure } from '@chakra-ui/react'
 import "./Footer.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUserGroup, faCirclePlus, faCompass, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faUserGroup, faCirclePlus, faMagnifyingGlass, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const { isOpen, onToggle } = useDisclosure()
+
+  function refreshToHome() {
+    window.location.replace("/")
+  }
+
     return (
         <ChakraProvider theme={theme}>
           
             <header className='footer'>
             
-                <Link to='/'><div className='home'><FontAwesomeIcon icon={faHome} /></div></Link>
+                <div className='home'><FontAwesomeIcon icon={faHome} onClick={refreshToHome} /></div>
                 <Link to='/running-crew-list'><div className='gather'><FontAwesomeIcon icon={faUserGroup} /></div></Link>
                 {/* <Link to='/create-feed'> */}
                   <div className='post' onClick={onToggle}><FontAwesomeIcon icon={faCirclePlus} />
@@ -25,8 +30,7 @@ const Footer = () => {
                   </div>
                   
                 {/* </Link> */}
-                <Link to="/search"><div className='navigate'><FontAwesomeIcon icon={faCompass} /></div></Link>
-                <div className='my-page'><FontAwesomeIcon icon={faUser} /></div>
+                <Link to="/search"><div className='navigate'><FontAwesomeIcon icon={faMagnifyingGlass} /></div></Link>
                 <Collapse in={isOpen} animateOpacity className='collapse'>
                   <ButtonGroup className='btn-group'>
                       <Link to='/create-running-crew'>
@@ -39,13 +43,16 @@ const Footer = () => {
                           피드 작성하기
                         </Button>
                       </Link>
-                      <Link to='/'>
+                      <Link to='/draw-map'>
                         <Button size='sm' className='map-draw' bg='#F4EBEB'>
                           지도 그리기
                         </Button>
                       </Link>
                     </ButtonGroup>
                 </Collapse>
+                <Link to='/feed'> 
+                  <div className='my-page'><FontAwesomeIcon icon={faUser} /></div>
+                </Link>
             </header>
         </ChakraProvider>
       );

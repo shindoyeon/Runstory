@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.Comment;
 
@@ -24,15 +26,16 @@ public class RunningBoardComment {
     @Comment("댓글 내용")
     private String content;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
     @Comment("생성일자")
     private LocalDateTime regdate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Comment("변경일자")
     private LocalDateTime updatedate;
 
-    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name= "running_id", foreignKey = @ForeignKey(name="fk_runningboardcomment_to_running"))
+    @JoinColumn(name= "running_id")
     private Running running;
 }

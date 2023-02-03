@@ -22,7 +22,7 @@ import {
 const ArticleForm = () => {
     const [value, setValue] = useState('1'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
     const [content, setContent] = useState(""); // 피드 내용
-    const fileInput = React.useRef(null); // 사진
+    // const fileInput = React.useRef(null); // 사진
     const { isOpen, onOpen, onClose } = useDisclosure();
     
 
@@ -30,16 +30,16 @@ const ArticleForm = () => {
 
     const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
         event.preventDefault();
-        alert(`작성된 내용: ${content}, 공개범위: ${value}, IMG: ${event.target.files[0].name}`); // 데이터 잘 들어왔는지 확인용!!!
+        alert(`작성된 내용: ${content}, 공개범위: ${value}`); // 데이터 잘 들어왔는지 확인용!!!
     };
 
-    const handleButtonClick = e => {
-        fileInput.current.click();
-    };
+    // const handleButtonClick = e => {
+    //     fileInput.current.click();
+    // };
       
-    const handleImgChange = e => {
-        console.log(e.target.files[0]);
-    };
+    // const handleImgChange = e => {
+    //     console.log(e.target.files[0]);
+    // };
 
     const navigate = useNavigate();
  
@@ -49,17 +49,12 @@ const ArticleForm = () => {
 
     return (
         <form className='article-form' onSubmit={handleSubmit}>
-            <div className='upload-box'  onClick={handleButtonClick}><FontAwesomeIcon icon={faPlusCircle} /></div>
-      <input type="file"
-            ref={fileInput}
-            onChange={handleImgChange}
-            style={{ display: "none" }} />
             <HashTag></HashTag>
             <div className='content-and-range'>
             <div className='content' type='text'>CONTENT</div>
                 <div className='range'>
                     <RadioGroup onChange={setValue} value={value} className='radio-range'>
-                        <Radio size='sm' value='1' mx={1} fontSize='5px'>전체 공개</Radio>
+                        <Radio size='sm' value='1' mx={1}>전체 공개</Radio>
                         <Radio size='sm' value='2' mx={1}>일부 공개</Radio>
                         <Radio size='sm' value='3' mx={1}>비공개</Radio>
                     </RadioGroup>
@@ -72,21 +67,21 @@ const ArticleForm = () => {
                 <button className='cancel-btn' type='button' onClick={onOpen}><p>취소</p></button>
             </div>
             <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal'>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>경고</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-          작성중인 글이 모두 지워집니다. 그래도 나가시겠습니까?
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme='red' mr={3} onClick={onClose}>
-              취소
-            </Button>
-            <Button variant='ghost' onClick={navigateHome}>확인</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>경고</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                작성중인 글이 모두 지워집니다. 그래도 나가시겠습니까?
+                </ModalBody>
+                <ModalFooter>
+                  <Button colorScheme='red' mr={3} onClick={onClose}>
+                    취소
+                  </Button>
+                  <Button variant='ghost' onClick={navigateHome}>확인</Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
         </form>
         
     );

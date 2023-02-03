@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  mysqldb:
+    image: mysql:8.0.31
+    restart: always
+    container_name: runstory_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ssafy
+      MYSQL_DATABASE : runstory
+      MYSQL_TCP_PORT : 3308
+    ports:
+      - "3308:3308"
+    expose:
+      - "3308"
+
+  backend:
+    container_name: runstory-server
+    ports:
+      - "8080:8080"
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      args:
+        buildno: 1
+    depends_on:
+      - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3308/runstory?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ssafy
+
+  frontend:
+    container_name: runstory-front
+    build:
+      context: "./client/runtogether"
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
