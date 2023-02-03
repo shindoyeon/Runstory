@@ -5,6 +5,7 @@ import com.runstory.domain.feed.PublicScope;
 import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedFileDto;
 import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.feed.entity.FeedLike;
 import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import lombok.Data;
 
@@ -31,15 +32,18 @@ public class FeedResDto {
     private List<FeedCommentDto> feedComments;
     private List<SelectedHashtagDto> selectedHashtags;
 
-    public FeedResDto(Feed feed) {
+    public FeedResDto(Feed feed, FeedLike feedLike) {
         this.feedId = feed.getFeedId();
         this.userId = feed.getUser().getUserSeq();
         this.userNickname = feed.getUser().getUserNickname();
+        this.profileImgFilePath = feed.getUser().getProfileImgFilePath();
+        this.profileImgFileName = feed.getUser().getProfileImgFileName();
         this.content = feed.getContent();
         this.publicScope = feed.getPublicScope();
         this.regdate = feed.getRegdate();
         this.updatedate = feed.getUpdatedate();
         this.feedFiles = feed.getFeedFiles().stream().map(f-> new FeedFileDto(f)).collect(Collectors.toList());
+        this.feedLikeStatus = feedLike==null?false:true;
         this.feedLikeCnt = feed.getFeedLikes().size();
         this.feedComments = feed.getFeedComments().stream().map(c -> new FeedCommentDto(c)).collect(Collectors.toList());
         this.selectedHashtags = feed.getSelectedHashtags().stream().map(h -> new SelectedHashtagDto(h)).collect(Collectors.toList());

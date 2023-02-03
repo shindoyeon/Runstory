@@ -3,8 +3,10 @@ package com.runstory.domain.user.dto;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.domain.user.entity.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class FollowDto {
     private Long followId;
     private Long userId;
