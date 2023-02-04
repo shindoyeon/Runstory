@@ -2,6 +2,7 @@ package com.runstory.api.controller;
 
 import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.FeedResDto;
+import com.runstory.api.response.RunningMainResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.service.FeedService;
@@ -11,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,14 +32,18 @@ public class MainController {
     private final RunningService runningService;
     @GetMapping("/running-location")
     @ApiOperation(value = "현재위치 기반 러닝 모임 조회", notes = "")
-    public ResponseEntity<?> getRunningCrewByLocation (@RequestParam float latitude, @RequestParam float longitude, HttpServletRequest request){
-        return null;
+    public BaseResponse<?> getRunningCrewByLocation (@RequestParam float latitude, @RequestParam float longitude){
+        List<RunningMainResDto> runnings = runningService.findByLocation(latitude, longitude);
+        RunningMainResDto result = (runnings.size()==0)?null:runnings.get(0);
+        return BaseResponse.success(result);
     }
 
     @GetMapping("/running-today")
-    @ApiOperation(value = "오늘 마감 러닝 모임 조회", notes = "")
-    public ResponseEntity<?> getRunningCrewByToday (HttpServletRequest request){
-        return null;
+    @ApiOperation(value = "오늘마감 러닝 모임 조회", notes = "")
+    public BaseResponse<?> getRunningCrewByToday (){
+        List<RunningMainResDto> runnings = runningService.findByToday();
+        RunningMainResDto result = (runnings.size()==0)?null:runnings.get(0);
+        return BaseResponse.success(result);
     }
 
     @GetMapping("/user-feed")

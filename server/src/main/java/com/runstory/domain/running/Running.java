@@ -8,9 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.runstory.api.request.RunningCrewReqDto;
-import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
-import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -112,7 +110,7 @@ public class Running {
     private User user;
 
     public Running(RunningCrewReqDto runningCrewReqDto) {
-        this.imgFilePath = runningCrewReqDto.getImgPathFile();
+        this.imgFilePath = runningCrewReqDto.getImgFilePath();
         this.imgFileName = runningCrewReqDto.getImgFileName();
         this.crewName = runningCrewReqDto.getCrewName();
         this.runningContent = runningCrewReqDto.getRunningContent();
@@ -125,6 +123,5 @@ public class Running {
         this.startTime = runningCrewReqDto.getStartTime();
         this.endTime = runningCrewReqDto.getEndTime();
         this.distance = runningCrewReqDto.getDistance();
-//        this.user = new UserDto(runningCrewReqDto.get());
     }
 }

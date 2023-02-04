@@ -58,7 +58,7 @@ export default function TempFeed() {
     function loadMore() {
       startIdx = arr.length;
       var endIdx = startIdx + 5;
-      if(arr.length === feeds.length) {
+      if(arr.length === feeds.length || feeds.length===0) {
           setIsMore(false);
           return;
       }
@@ -71,7 +71,6 @@ export default function TempFeed() {
     function refreshToHome() {
       window.location.replace("/")
     }
-
 
     // Slide Setting
     const settings = {

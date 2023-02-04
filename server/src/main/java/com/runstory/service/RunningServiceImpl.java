@@ -8,24 +8,18 @@ import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.Running;
 import com.runstory.domain.running.RunningDetail;
 import com.runstory.api.response.RunningDetailSumDto;
-import com.runstory.domain.running.dto.RunningDto;
-import com.runstory.domain.user.entity.User;
 import com.runstory.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RunningServiceImpl implements RunningService {
-
     private final RunningRepository runningrepository;
     private final RunningDetailRepository runningDetailRepository;
     private final HashtagRepository hashtagRepository;
@@ -98,6 +92,20 @@ public class RunningServiceImpl implements RunningService {
         RunningDetail runningDetail = runningDetailRepository.getById(id);
         RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail);
         return runningDetailSumDto;
+    }
+
+    @Override
+    public List<RunningMainResDto> findByLocation(float latitude, float longitude) {
+        List<Running> runnings = runningrepository.findByLocation(latitude, longitude);
+        List<RunningMainResDto> result = runnings.stream().map(r->new RunningMainResDto(r)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public List<RunningMainResDto> findByToday() {
+        List<Running> runnings = runningrepository.findByStartTime();
+        List<RunningMainResDto> result = runnings.stream().map(r->new RunningMainResDto(r)).collect(Collectors.toList());
+        return result;
     }
 
 //    @Override
