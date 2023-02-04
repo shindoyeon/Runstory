@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/feed")
+@RequestMapping("/feed")
 @RequiredArgsConstructor
 @Api(tags = "개인 피드 API")
 public class FeedController {
