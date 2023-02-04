@@ -4,17 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome
 import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons"; // 공유 버튼
 import { faComment } from "@fortawesome/free-regular-svg-icons"; // 하트(좋아요), 댓글 버튼
 import {
-    Card, // chakra-ui의 Card로 피드 하나를 구성할 것임 
-    CardHeader,
+    Card, // chakra-ui의 Card로 피드 하나를 구성할 것임
     Image,
-    Modal,
     ModalOverlay,
     ModalContent,
     ModalHeader,
     ModalCloseButton,
     ModalBody,
     ModalFooter,
-    useDisclosure,
     Input,
     Button,
     CardBody,
@@ -40,7 +37,7 @@ function Comment({comments}) {
                     <div className="comments">
                         {comments.map((item, idx) => {
                         return(
-                            <Card direction={{base: 'row'}} width='100%' margin='0 auto' mt='10px'>
+                            <Card direction={{base: 'row'}} width='100%' margin='0 auto' mt='10px' key={idx}>
                                 <CardBody alignItems='center'>
                                     <div className='card-header-left'>
                                         <Image
