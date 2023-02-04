@@ -1,11 +1,11 @@
 
-.img-wrap{
+.profile-img-wrap{
   width: 120px;
   height: 120px;
   overflow: hidden;
   border-radius: 50%;
 }
-.img-upload:before{
+.profile-img-upload:before{
   content: "\f093";
   font-size: 90px;
   position: absolute;
@@ -14,7 +14,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: #63d3a6;
+  color: hsl(0, 0%, 100%);
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -22,7 +22,7 @@
   transition: .5s ease;
   background-color: #fff;
 }
-img {
+.profile-img {
   width: auto;
   height: 100%;
 }

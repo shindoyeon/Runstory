@@ -1,56 +1,61 @@
 import React, {useState, useRef} from 'react';
-import { Card, IconButton } from '@chakra-ui/react';
+import { Card, IconButton, Avatar  } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons'
 import './ProfileIdPhoto.css';
+import Imagefile from './권태윤.png'
     
+// 본인의 이미지 버튼 수정 ->
+// 여기서 구현하고 마이페이지로 넘길 것
+// 원래는 본인의 상태
 // 이미지를 변경하는 버튼 구현  
 // 버튼 클릭하면 이미지들 볼 수 있고,
 // 입력하면 프로필에 이미지 등록
+
 function ProfileIdPhoto(){
   const [selectedImage, setSelectedImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const fileInput = useRef(null)
 
-  const handleButtonClick = e => {
-    fileInput.current.click();
-  };
-
-  const onChangeProfile = e => {
-    // console.log(e.target.files[0])
-    e.preventDefault();
-    const reader = new FileReader();
-    var file = e.target.files[0];
-    // console.log(file)
-    reader.onload = () => {
-        setSelectedImage(reader.result)
+  const onChange = (e) => {
+    if(e.target.files[0]){
+      setSelectedImage(e.target.files[0])
+    }else{ //업로드 취소할 시
+      setSelectedImage(selectedImage)
+      return
     }
-    reader.readAsDataURL(file);
+    //화면에 프로필 사진 표시
+    const reader = new FileReader();
+    reader.onload = () => {
+      if(reader.readyState === 2){
+        setSelectedImage(reader.result)
+      }
+    }
+    reader.readAsDataURL(e.target.files[0])
   }
-
     
   return (
-    <React.Fragment>
-    <Card derection={{base:'column'}}>
-    <label>
+    <>
+    <Card>
+    <Avatar
+        className='profile-img profile-img-wrap profile-img-upload' 
+        src={selectedImage} 
+        style={{margin:'20px'}} 
+        onClick={()=>{fileInput.current.click()}}/>
+      <input 
+        type='file' 
+        style={{display:'none'}}
+        accept='image/jpg,impge/png,image/jpeg'
+        name='profile_img'
+        onChange={onChange}
+        ref={fileInput}/>
       {/* <div className="img-wrap img-upload">
         {selectedImage && (
-          <img alt="not found" ref={fileInput}/>)} 
-      </div> */}
-      <input type="file"
-                  multiple
-                  accept="image/"
-                  ref={fileInput}
-                  onChange={onChangeProfile}
-                  style={{ display: "none" }} 
-                  src={{selectedImage}}
-        />
-    </label>
-      <IconButton 
-      className="upload-button"
-      icon={<SmallAddIcon/>} 
-      onClick={handleButtonClick}/>
+          <img src={Imagefile} ref={fileInput}/>)} 
+        </div> */}
     </Card>
-    </React.Fragment>
+    </>
   );
 };
 
 export default ProfileIdPhoto;
+
+
