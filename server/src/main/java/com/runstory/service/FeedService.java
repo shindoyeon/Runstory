@@ -131,6 +131,12 @@ public class FeedService {
         return feedRepository.findByFeedIdLessThanAndPublicScopeNotInAndUserInOrderByFeedIdDesc(lastFeedId, scope, followers, pageRequest); // JPA 쿼리 메소드
     }
 
+    public FeedResDto findByFeedId(Long userId, Long feedId){
+        Feed feed= feedRepository.findByFeedId(feedId);
+        FeedLike feedLike = feedLikeRepository.findByFeedIdAndUserId(feedId, userId);
+        FeedResDto result = new FeedResDto(feed, feedLike);
+        return result;
+    }
     @Transactional
     public Feed saveFeed(FeedReqDto feedReqDto, MultipartFile [] files) throws IOException {
         User user = userRepository.findByUserSeq(feedReqDto.getUserId());
@@ -163,6 +169,13 @@ public class FeedService {
         }
     }
 
+    /**
+     * 피드 업데이트는 피드의 내용, 해시태그가 수정 가능하다.(***추후 파일 수정도 가능하게 만들지 고려)
+     * @param feed(FeedReqDto)
+     * @param feedId
+     * @return
+     * @throws IOException
+     */
     @Transactional
     public Feed updateFeed(FeedReqDto feed, Long feedId) throws IOException {
         //피드 가져오기

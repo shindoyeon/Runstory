@@ -2,6 +2,7 @@ package com.runstory.api.controller;
 
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.BaseResponse;
+import com.runstory.api.response.FeedResDto;
 import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.feed.dto.FeedDto;
@@ -28,7 +29,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/feed")
+@RequestMapping("/feed")
 @RequiredArgsConstructor
 @Api(tags = "개인 피드 API")
 public class FeedController {
@@ -45,12 +46,10 @@ public class FeedController {
 
     @GetMapping("/{userid}")
     @ApiOperation(value = "사용자 피드 조회", notes = "공개 범위에 따라 피드 조회")
-    public BaseResponse<?> getUserFeed(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
+    public BaseResponse<?> getUserAllFeed(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Boolean isMe = (userId==userDetails.getUserSeq());
-        System.out.println("isMe: "+isMe);
         List<FeedDto> feedDtos = feedService.findByUserId(userDetails.getUserSeq(), userId, isMe);
-
         List<SimpleFeedResDto> result= feedDtos.stream().map(f->new SimpleFeedResDto(f)).collect(Collectors.toList());
 
         return BaseResponse.success(result);
@@ -74,10 +73,10 @@ public class FeedController {
 
     @GetMapping("/profile/{userid}")
     @ApiOperation(value = "사용자 프로필 조회", notes = "사용자 닉네임, 레벨, 프로필 사진")
-    public BaseResponse<?> getProfile(@ApiIgnore Authentication authentication,@PathVariable("userid") Long userId){
+    public BaseResponse<?> getProfile(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
         User user = userService.getUserProfileByUserSeq(userId);
         Map<String, Object> profile = new HashMap<>();
-        profile.put("userNickName", user.getUserNickname());
+        profile.put("userNickname", user.getUserNickname());
         profile.put("level", user.getLevel());
         profile.put("profileImgFilePath", user.getProfileImgFilePath());
         profile.put("profileImgFileName", user.getProfileImgFileName());
@@ -109,6 +108,13 @@ public class FeedController {
         return BaseResponse.success(followList);
     }
 
+    @GetMapping("/detail/{feedid}")
+    @ApiOperation(value = "피드 상세 조회")
+    public BaseResponse<?> getFeedDetail(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        FeedResDto result = feedService.findByFeedId(userDetails.getUserSeq(),feedId);
+        return BaseResponse.success(result);
+    }
     @PostMapping("")
     @ApiOperation(value = "피드 등록")
     public BaseResponse<?> createFeed(@ApiIgnore Authentication authentication, @RequestPart FeedReqDto feed, @RequestPart MultipartFile [] files) throws IOException {
@@ -123,7 +129,6 @@ public class FeedController {
     public BaseResponse<?> updateFeed(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId, @RequestBody FeedReqDto feed) throws IOException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         feed.setUserId(userDetails.getUserSeq());
-        System.out.println(feed.toString());
         Feed result = feedService.updateFeed(feed, feedId);
         return BaseResponse.success(null);
     }
@@ -132,7 +137,6 @@ public class FeedController {
     @ApiOperation(value = "피드 삭제")
     public BaseResponse<?> deleteFeed(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId) throws IOException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
-        System.out.println(feedId);
         Boolean result=feedService.deleteFeed(feedId,userDetails.getUserSeq());
         if(result)  return BaseResponse.success(null);
         return BaseResponse.fail();
