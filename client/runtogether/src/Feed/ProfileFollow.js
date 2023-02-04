@@ -4,11 +4,12 @@ import {
   Card,
 } from '@chakra-ui/react';
 import './ProfileFollow.css'
+import { Link } from 'react-router-dom';
 
 function Follow() {
   return (
     <ChakraProvider>
-      <Card direction={{base:'row'}} className='FollowContainer'>
+      <Card direction={{base:'row'}} className='profile-container'>
         <FollowCount initNumber={0}></FollowCount>
         <FollowingCount initNumber={0}></FollowingCount>
       </Card>
@@ -22,7 +23,8 @@ function FollowCount(props){
   var setFollow = numberState[1];
 
   return (
-    <div className='container'>
+    <Link to="/feed/follow">
+    <div>
       <h4>팔로우</h4>
       <p> {followCount}명</p>
       <input type='button' value='추가' onClick={
@@ -36,6 +38,7 @@ function FollowCount(props){
         }
       }></input>
     </div>
+    </Link>
   );
 }
 
@@ -45,8 +48,9 @@ function FollowingCount(props){
   var setFollowing = numberState[1];
 
   return (
-    <div className='container'>
-      <h4>팔로우</h4>
+    <Link to="/feed/follow">
+    <div>
+      <h4>팔로잉</h4>
       <p> {followingCount}명</p>
       <input type='button' value='추가' onClick={
         function(){
@@ -59,6 +63,7 @@ function FollowingCount(props){
         }
       }></input>
     </div>
+    </Link>
   );
 }
 

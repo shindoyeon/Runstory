@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios'
 import './ProfileFeed.css';
 import {Image ,ChakraProvider} from '@chakra-ui/react'
 import Imgfile from './이미지1.png';
-
 
 const ProfileFeeds = () => {
   return (

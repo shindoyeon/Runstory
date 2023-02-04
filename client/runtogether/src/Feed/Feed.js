@@ -14,6 +14,11 @@ import ProfileStatus from './ProfileStatus';
 import ProfileFollow from './ProfileFollow';
 import ProfileFeed from './ProfileFeed';
 
+// 본인이면 햄버거버튼만
+// 타인의 개인피드페이지면 팔로우 onoff 버튼 생성 + 햄버거버튼 삭제
+// 일단 버튼클릭시 팔로우팔로워페이지로 이동하게
+// 팔로우팔로워페이지에선 onoff 불가 
+
 const Feed= () => {
     return (
         <ChakraProvider theme={theme} style={{width: "90%"}}>
