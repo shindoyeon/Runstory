@@ -39,3 +39,11 @@ services:
     ports:
       - "3000:3000"
 
+  jenkins:
+    image: jenkins/jenkins:lts
+    user: root
+    volumes:
+      - ./jenkins:/var/jenkins_home
+    ports:
+      - 9090:8080
+
