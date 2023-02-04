@@ -4,8 +4,7 @@ import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunningDetailSumDto;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 public interface RunningService {
     // CreatePage
@@ -19,5 +18,6 @@ public interface RunningService {
 
     // ChangePage
 //    RunningDetailSumDto updateRunningDetail(Long id);
-
+    List<RunningMainResDto> findByLocation(float latitude, float longitude);
+    List<RunningMainResDto> findByToday();
 }
