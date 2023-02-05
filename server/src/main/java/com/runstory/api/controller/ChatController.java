@@ -3,6 +3,7 @@ package com.runstory.api.controller;
 import com.runstory.domain.chat.dto.ChatDto;
 import com.runstory.service.ChatService;
 import java.util.ArrayList;
+import javax.websocket.server.ServerEndpoint;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
+@ServerEndpoint("/websocket")
 public class ChatController {
 
     @MessageMapping("/chat.sendMessage")

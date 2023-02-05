@@ -6,4 +6,3 @@ import org.springframework.stereotype.Repository;
 public class ChatRepository {
 
 }
-h렉걸렸어요
