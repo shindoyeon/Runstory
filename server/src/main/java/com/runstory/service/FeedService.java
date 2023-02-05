@@ -94,7 +94,6 @@ public class FeedService {
         List<FeedResDto> result = new ArrayList<>();
         for(Feed f :feeds){
             FeedLike feedLike = feedLikeRepository.findByFeedIdAndUserId(f.getFeedId(),user.getUserSeq());
-            System.out.println(feedLike==null?false:true);
             FeedResDto feedResDto = new FeedResDto(f, feedLike);
             result.add(feedResDto);
         }
