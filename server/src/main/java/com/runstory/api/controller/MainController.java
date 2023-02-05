@@ -1,7 +1,6 @@
 package com.runstory.api.controller;
-
+//import com.runstory.api.response.FeedResDto;
 import com.runstory.api.response.BaseResponse;
-import com.runstory.api.response.FeedResDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.feed.entity.Feed;
@@ -45,7 +44,7 @@ public class MainController {
         RunningMainResDto result = (runnings.size()==0)?null:runnings.get(0);
         return BaseResponse.success(result);
     }
-
+/*
     @GetMapping("/user-feed")
     @ApiOperation(value = "나의 팔로잉 피드 사용자 조회", notes = "")
     public BaseResponse getFollowingFeedPages(@ApiIgnore Authentication authentication, @RequestParam("lastfeedid") Long lastFeedId, @RequestParam int size){
@@ -61,5 +60,5 @@ public class MainController {
         System.out.println(feeds.getSize());
         List<FeedResDto> result = feeds.stream().map(f -> new FeedResDto(f,null)).collect(Collectors.toList());
         return BaseResponse.success(result);
-    }
+    }*/
 }

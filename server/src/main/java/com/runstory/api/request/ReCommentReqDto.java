@@ -13,7 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReCommentReqDto {
+
     private Long commentId;
-    private String reComment;
+    private String content;
 
 }

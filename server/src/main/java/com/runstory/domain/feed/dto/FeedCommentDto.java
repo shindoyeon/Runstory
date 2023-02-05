@@ -28,7 +28,7 @@ public class FeedCommentDto {
         this.userNickname = comment.getUser().getUserNickname();
         this.profileImgFilePath = comment.getUser().getProfileImgFilePath();
         this.profileImgFileName = comment.getUser().getProfileImgFileName();
-        this.content = comment.getCotent();
+        this.content = comment.getContent();
         this.content = comment.getContent();
         this.regdate = comment.getRegdate();
     }

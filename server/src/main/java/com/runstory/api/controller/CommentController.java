@@ -36,7 +36,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequestMapping("/feed/comment")
 @RequiredArgsConstructor
-@Api(tags = "댓글 대댓글 API")
+@Api(tags = "댓글 API")
 public class CommentController {
 
 
@@ -49,29 +49,29 @@ public class CommentController {
         return BaseResponse.success(commentService.getAllCommentsByFeed(feedId));
 
     }
-    @PostMapping("")
-    @ApiOperation(value = "댓글 작성", notes = "댓글 작성")
-    public BaseResponse<?> saveComment(@ApiIgnore Authentication authentication, @RequestBody CommentReqDto reqDto) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
-        Long userSeq = userDetails.getUserSeq();
-        return BaseResponse.success(commentService.saveComment(reqDto, userSeq));
-    }
+        @PostMapping("")
+        @ApiOperation(value = "댓글 작성", notes = "댓글 작성")
+        public BaseResponse<?> saveComment(@ApiIgnore Authentication authentication, @RequestBody CommentReqDto reqDto) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+            Long userSeq = userDetails.getUserSeq();
+            return BaseResponse.success(commentService.saveComment(reqDto, userSeq));
+        }
 
-    @PutMapping("/{commentId}")
-    @ApiOperation(value = "댓글 수정", notes = "댓글 수정")
-    public BaseResponse<?> updateComment(@ApiIgnore Authentication authentication, @PathVariable Long commentId, @RequestBody CommentReqDto reqDto) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
-        Long userSeq = userDetails.getUserSeq();
-        return BaseResponse.success(commentService.updateComment(commentId, reqDto, userSeq));
-    }
-    @DeleteMapping("/{commentId}")
-    @ApiOperation(value = "댓글 삭제", notes = "댓글 삭제")
-    public BaseResponse<?> deleteComment(@ApiIgnore Authentication authentication, @PathVariable Long commentId
-        ) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
-        Long userSeq = userDetails.getUserSeq();
-        return BaseResponse.success(commentService.deleteComment(commentId, userSeq));
+        @PutMapping("/{commentId}")
+        @ApiOperation(value = "댓글 수정", notes = "댓글 수정")
+        public BaseResponse<?> updateComment(@ApiIgnore Authentication authentication, @PathVariable Long commentId, @RequestBody CommentReqDto reqDto) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+            Long userSeq = userDetails.getUserSeq();
+            return BaseResponse.success(commentService.updateComment(commentId, reqDto, userSeq));
+        }
+        @DeleteMapping("/{commentId}")
+        @ApiOperation(value = "댓글 삭제", notes = "댓글 삭제")
+        public BaseResponse<?> deleteComment(@ApiIgnore Authentication authentication, @PathVariable Long commentId
+            ) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+            Long userSeq = userDetails.getUserSeq();
+            return BaseResponse.success(commentService.deleteComment(commentId, userSeq));
 
-    }
+        }
 
 }

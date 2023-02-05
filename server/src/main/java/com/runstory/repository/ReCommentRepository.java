@@ -10,4 +10,6 @@ public interface ReCommentRepository extends JpaRepository<FeedRecomment, Long> 
     List<FeedRecomment> findAllByFeedComment(FeedComment feedcomment);
     List<FeedRecomment> findAllByUser(User user);
 
+
+    FeedRecomment findByReCommentId(Long reCommentId);
 }

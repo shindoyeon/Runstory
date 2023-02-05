@@ -1,7 +1,7 @@
 package com.runstory.service;
 
 import com.runstory.api.request.CommentReqDto;
-import com.runstory.api.request.ReCommentResDto;
+import com.runstory.api.response.ReCommentResDto;
 import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.CommentResDto;
 import com.runstory.common.auth.CustomUserDetails;
@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.servlet.http.HttpServletRequest;
@@ -47,27 +48,34 @@ public class CommentService {
     public BaseResponse<?> getAllCommentsByFeed(Long feedId) {
 
         Feed feed = feedRepository.findByFeedId(feedId);
+
+        //피드가 없으면 실패
+        if(feed==null){
+            return BaseResponse.fail();
+        }
+
         List<FeedComment> commentList = commentRepository.findAllByFeed(feed);
         List<CommentResDto> commentResDtoList = new ArrayList<>();
-        List<FeedRecomment> recommentList = new ArrayList<>();
+        List<FeedRecomment> reCommentList = new ArrayList<>();
         List<ReCommentResDto> recommentResDtoList = new ArrayList<>();
 
         for(FeedComment comment : commentList) {
 
-            recommentList = reCommentRepository.findAllByFeedComment(comment);
-            for (FeedRecomment recomment : recommentList) {
+            reCommentList = reCommentRepository.findAllByFeedComment(comment);
+            for (FeedRecomment reComment : reCommentList) {
                 recommentResDtoList.add(
                     ReCommentResDto.builder()
-                        .id(recomment.getFeedRecommentId())
-                        .userId(recomment.getUser().getUserId())
-                        .regDate(recomment.getRegdate())
+                        .reCommentId(reComment.getFeedRecommentId())
+                        .userId(reComment.getUser().getUserSeq())
+                        .content(reComment.getContent())
+                        .regDate(reComment.getRegdate())
                         .build()
                 );
             }
             commentResDtoList.add(
                 CommentResDto.builder()
                     .feedCommentId(comment.getFeedCommentId())
-                    .userId(comment.getUser().getUserId())
+                    .userId(comment.getUser().getUserSeq())
                     .content(comment.getContent())
                     .reCommentResDtoList(recommentResDtoList)
                     .regDate(comment.getRegdate())
@@ -82,6 +90,11 @@ public class CommentService {
         Feed feed = feedRepository.findByFeedId(commentReqDto.getFeedId());
         User user = userRepository.findByUserSeq(userSeq);
 
+        //유저정보없으면 실패
+        if (user == null) {
+            return BaseResponse.fail();
+        }
+
         FeedComment comment = FeedComment.builder()
             .feed(feed)
             .user(user)
@@ -91,7 +104,7 @@ public class CommentService {
 
         return BaseResponse.success(CommentResDto.builder()
             .feedCommentId(comment.getFeedCommentId())
-            .userId(comment.getUser().getUserId())
+            .userId(comment.getUser().getUserSeq())
             .content(comment.getContent())
             .regDate(comment.getRegdate())
             .build()
@@ -102,13 +115,22 @@ public class CommentService {
 
         Feed feed = feedRepository.findByFeedId(commentReqDto.getFeedId());
         User user = userRepository.findByUserSeq(userSeq);
+
+        //유저정보없으면 실패
+        if (user == null) {
+          return BaseResponse.fail();
+        }
+        //피드가 없으면 실패
+        if(feed==null){
+            return BaseResponse.fail();
+        }
         FeedComment feedComment = commentRepository.findByFeedCommentId(commentId);
 
         feedComment.update(commentReqDto);
 
         return BaseResponse.success(CommentResDto.builder()
             .feedCommentId(feedComment.getFeedCommentId())
-            .userId(feedComment.getUser().getUserId())
+            .userId(feedComment.getUser().getUserSeq())
             .content(feedComment.getContent())
             .regDate(feedComment.getRegdate())
             .build()
@@ -117,9 +139,15 @@ public class CommentService {
 
     public BaseResponse<?> deleteComment(Long commentId, Long userSeq) {
         User user = userRepository.findByUserSeq(userSeq);
+        
+        //유저정보없으면 실패
+        if(user==null){
+            return BaseResponse.fail();
+        }
         FeedComment feedComment = commentRepository.findByFeedCommentId(commentId);
 
         commentRepository.delete(feedComment);
         return BaseResponse.success("success");
     }
+
 }
