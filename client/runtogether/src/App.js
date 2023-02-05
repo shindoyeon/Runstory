@@ -12,6 +12,7 @@ import Search from './Search/Search';
 import Feed from './Feed/Feed';
 import FollowPage from './FollowList/FollowList';
 import SettingIntro from './Setting/SettingIntro';
+import AlarmSetting from './Setting/AlarmSetting';
 import User from './Setting/User';
 import Login from './User/Login';
 import Register from './User/Signup';
@@ -34,7 +35,8 @@ function App() {
               <Route path='/search' element={<Search />} />
               <Route path='/feed' element={<Feed />} />
               <Route path='/feed/follow' element={<FollowPage />} />
-              <Route path='/settingIntro' element={<SettingIntro />} />
+              <Route path='/setting-intro' element={<SettingIntro />} />
+              <Route path='/setting-alarm' element={<AlarmSetting />} />
               <Route path='/user' element={<User />} />
               <Route path='/notice' element={<Notice />} />
               <Route path='/draw-map' element={<DrawMap />} />
