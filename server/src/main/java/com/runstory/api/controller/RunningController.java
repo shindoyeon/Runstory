@@ -43,17 +43,13 @@ public class RunningController {
     }
 
 
-//    @GetMapping("") // RunningCrew Read
-//    @ApiOperation(value = "Running Crew Read")
-//    public BaseResponse<?> getRunnninCrew(@RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
-//        ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> runningMainResDtos = runningservice.selectRunningCrew(latitude, longtitude);
-//        return BaseResponse.success(runningMainResDtos);
-//    }
-
-    //    @DeleteMapping("/detail/{runningid}")
-//    public ResponseEntity<?> runningdelete(@PathVariable Long runningid) throws  Exception{
-//
-//    }
+    @GetMapping("") // RunningCrew Read
+    @ApiOperation(value = "Running Crew Read")
+    public BaseResponse<?> getRunnninCrew(@ApiIgnore Authentication authentication, @RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        List<HashMap<String, List<RunningMainResDto>>> runningMainResDtos = runningservice.selectRunningCrew(latitude, longtitude, userSeq);
+        return BaseResponse.success(runningMainResDtos);
+    }
 
 
     /*
@@ -76,7 +72,7 @@ public class RunningController {
     @PutMapping("/detail") // 상세페이지 수정
     public BaseResponse<?> runningCrewUpdate(@ApiIgnore Authentication authentication, @RequestBody RunningCrewReqDto newRunningCrewReqDto){
         Long id = runningservice.updateRunningCrew(newRunningCrewReqDto);
-        return BaseResponse.success(newRunningCrewReqDto);
+        return BaseResponse.success(id);
     }
 
     // 러닝 참가하기 옵션
@@ -125,7 +121,6 @@ public class RunningController {
         }
     }
 
-
     // 댓글 관련 기능
     @PostMapping("/{runningid}/comment") // 댓글 생성
     public BaseResponse<?> runningCrewCommentCreate(@ApiIgnore Authentication authentication, @PathVariable Long runningid, @RequestBody RunningBoardCommentDto runningBoardCommentDto, HttpServletRequest request){
@@ -142,10 +137,10 @@ public class RunningController {
     }
 
     // 개인 피드 관련 기능
-//    @GetMapping("/running/mycrew/reservation")
-//    public BaseResponse<?> myRunning(@ApiIgnore Authentication authentication){
-//        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
-//        List<HashMap<String, List<RunningMainResDto>>> id = runningservice.myRunningf(userSeq);
-//        return BaseResponse.success("ok");
-//    }
+    @GetMapping("/running/mycrew/reservation")
+    public BaseResponse<?> myRunning(@ApiIgnore Authentication authentication){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        List<HashMap<String, List<RunningMainResDto>>> mypage = runningservice.myRunningfunction(userSeq);
+        return BaseResponse.success(mypage);
+    }
 }

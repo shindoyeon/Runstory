@@ -5,7 +5,6 @@ import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public interface RunningService {
     Long createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userseq);
 
     // MainPage
-//    ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude);
+    List<HashMap<String, List<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude, Long userSeq);
 
     // DetailPage
     RunningDetailSumDto findRunningDetail(Long id, Long userseq);
@@ -35,6 +34,5 @@ public interface RunningService {
     Long deleteDibsRunningCrew(Long runningid, Long userSeq);
 
     // 나의 페이지
-//    List<HashMap<String, List<RunningMainResDto>>> myRunningf(Long userseq);
-
+    List<HashMap<String, List<RunningMainResDto>>> myRunningfunction(Long userseq);
 }

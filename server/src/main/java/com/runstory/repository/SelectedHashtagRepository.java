@@ -5,6 +5,7 @@ import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import java.util.List;
 
 import com.runstory.domain.running.Running;
+import com.runstory.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,5 +29,9 @@ public interface SelectedHashtagRepository extends JpaRepository<SelectedHashtag
     SelectedHashtag findBySelectedHashtagId(Long selectedHashstagId);
 
     List<SelectedHashtag> findAllByRunning(Running running);
+
+    List<SelectedHashtag> findAllByUser(User user);
+
+    List<SelectedHashtag> findAllByHashtag(Hashtag hashtag);
 
 }

@@ -4,24 +4,21 @@ import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.dto.HashtagDto;
-import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.*;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
-import com.runstory.domain.running.dto.RunningDto;
-import com.runstory.domain.running.dto.RunningUserDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import springfox.documentation.annotations.ApiIgnore;
 
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,7 +43,6 @@ public class RunningServiceImpl implements RunningService {
         User user = userRepository.findByUserSeq(userSeq);
         Running running = new Running(runningCrewReqDto, user);
         runningrepository.save(running);
-        System.out.println(1);
         RunningDetail runningDetail = new RunningDetail(runningCrewReqDto);
         runningDetailRepository.save(runningDetail);
         // RunningHashTag
@@ -64,11 +60,10 @@ public class RunningServiceImpl implements RunningService {
     }
 
 
-//    @Override
-//    public ArrayList<HashMap<String, ArrayList<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude){
-//        List<Running> runninglist = runningrepository.findByIsFinished(false); // 데이터 전체를 들고온다.
-//        HashMap<String, List<RunningMainResDto>> hash = new HashMap<>();
-//        List<HashMap<String, List<RunningMainResDto>>> result = new ArrayList<>();
+    @Override
+    public List<HashMap<String, List<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude, Long userSeq){
+        List<Running> runninglist = runningrepository.findByIsFinished(false); // 데이터 전체를 들고온다.
+        List<HashMap<String, List<RunningMainResDto>>> result = new ArrayList<>();
 //        LocalDate seoulNow = LocalDate.now(ZoneId.of("Asia/Seoul")); // 현재 서울의 시간을 보여준다.
 //        for (Running running: runninglist){
 //            int year = running.getStartTime().getYear();
@@ -80,26 +75,25 @@ public class RunningServiceImpl implements RunningService {
 //                RunningMainResDto runningMainResDto = new RunningMainResDto(running);
 //                result.add(runningMainResDto);
 //            }
-//
-//            User user = userRepository.findByUserSeq(1L); // 유저가 없는 경우를 추가해서 넣어준다.
-//            System.out.println(user);
-//            List<SelectedHashtag> hashtags = selectedHashtagRepository.findAllByUser(user);
-//            System.out.println(hashtags);
-//            for (SelectedHashtag hashtag : hashtags){ // 유저 각각의 해시태그들을 가져온다.
-//            }
-
-
-            // User의 HashTag를 받아와서 확인하는 방법이 필요하므로 태윤이하고 확인 후에 진행해야 한다.
-            // HashTag_id에 따라 HashTagTable을 들고와서 List를 확인
-            // User의 HashTag를 먼저 확인(해당 사용자의 HashTag)
-//            for (SelectedHashtag selectedHashtag : running.getSelectedHashtags()){
-//                if (selectedHashtag.getRunning() != null){
-//
-//                }
-//            }
-//        }
-//        return result;
-//    }
+        // User에 따른 해쉬태그 들고오기 (HashTag에 따른 추가적인 공부사항 정의)
+        User user = userRepository.findByUserSeq(userSeq);
+        List<SelectedHashtag> userSelectedHashtags = selectedHashtagRepository.findAllByUser(user);
+        for (SelectedHashtag selectedHashtag : userSelectedHashtags){
+            Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(selectedHashtag.getHashtag().getHashtagId());
+            List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findAllByHashtag(hashtag);
+            HashMap<String, List<RunningMainResDto>> hash = new HashMap<>();
+            List<RunningMainResDto> runningMainResDtos = new ArrayList<>();
+            for (SelectedHashtag selectedHashtag1 : selectedHashtags){
+                if (selectedHashtag1.getRunning() != null){
+                    RunningMainResDto runningMainResDto = new RunningMainResDto(selectedHashtag1.getRunning());
+                    runningMainResDtos.add(runningMainResDto);
+                }
+            }
+            hash.put(hashtag.getHashtagName(), runningMainResDtos);
+            result.add(hash); // result값 안에 넣는다.
+        }
+        return result;
+    }
     
     // DetailPage 들고오기
     @Override
@@ -243,10 +237,22 @@ public class RunningServiceImpl implements RunningService {
         runningCommentRepository.deleteById(commentid);
         return commentid;
     }
-
+    // 함수 생성
+//    public
     // MyPage
-//    public List<HashMap<String, List<RunningMainResDto>>> myRunningf(Long userseq){
-//        User user = userRepository.findByUserSeq(userseq); // user 들고 온다.
+    @Override
+    public List<HashMap<String, List<RunningMainResDto>>> myRunningfunction(Long userseq){
+        User user = userRepository.findByUserSeq(userseq); // user 들고 온다.
+        List<HashMap<String, List<RunningMainResDto>>> result = new ArrayList<>();
+//        List<String> key = Arrays.asList("mycrew", "joincrew", "dibscrew", "pastcrew");
+//        // 내가 만든 크루
+//        List<RunningMainResDto> myCreateCrew = new ArrayList<>();
+//        for (Running runningcreater : user.getRunnings()){
+//            RunningMainResDto runningMainResDto = new RunningMainResDto(runningcreater);
+//        }
+//        // 내가 참여한 크루
 //
-//    }
+//        // 찜한 크루
+        return result;
+    }
 }
