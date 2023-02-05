@@ -7,7 +7,7 @@ import './GoSettingButton.css';
 const GoSettingButton = () => {
   return (
     <div className="button">
-      <Link to='/settingIntro'>  
+      <Link to='/setting-intro'>  
         <div><FontAwesomeIcon icon={faBars}/></div>
       </Link>
     </div>

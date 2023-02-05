@@ -3,7 +3,7 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';  
 import Followers from './FollowerList';
 import Followings from './FollowingList';
-import FollowListPageMsg from './FollowListPageMsg'
+import FollowListPageMsg from './FollowListPageMsg';
 import { 
   ChakraProvider,
   Tabs,
