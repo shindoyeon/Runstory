@@ -1,15 +1,10 @@
 package com.runstory.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
-import com.runstory.api.response.UserInfoDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
-import com.runstory.domain.user.RegType;
-import com.runstory.domain.user.RoleType;
-import com.runstory.domain.user.dto.KakaoUser;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.HashtagRepository;
@@ -17,6 +12,7 @@ import com.runstory.repository.SelectedHashtagRepository;
 import com.runstory.repository.UserRepository;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -81,6 +77,12 @@ public class UserServiceImpl implements UserService {
 		// 디비에 유저 정보 조회 (userId 를 통한 조회).
 		User user = userRepository.findByUserId(userId);
 //		User user = userRepositorySupport.findUserByUserId(userId).get();
+		return user;
+	}
+
+	@Override
+	public User getUserProfileByUserSeq(Long userSeq) {
+		User user = userRepository.findByUserSeq(userSeq);
 		return user;
 	}
 
@@ -165,7 +167,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void changeUserImage(boolean isRegistered, String userId, MultipartFile image) {
+	public void changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception{
 		User user = userRepository.findByUserId(userId);
 		// 수정하는 경우 기존 파일 삭제
 		if (!isRegistered) {
@@ -174,9 +176,21 @@ public class UserServiceImpl implements UserService {
 			System.out.println("파일 삭제 결과 : "+result);
 		}
 
+		String hostname = InetAddress.getLocalHost().getHostName();
+
 		//서버에 파일 저장
 		String imageFileName = image.getOriginalFilename();
-		String path = "C:/runTogether/uploads/"+ UUID.randomUUID()+imageFileName;
+		String path="";
+		if(hostname.substring(0,7).equals("DESKTOP")){
+			path = "C:/runTogether/uploads/user/"+ UUID.randomUUID()+imageFileName;
+		}else{
+			path = "/home/ubuntu/runstory/uploads/client/runtogether/public/user/"+ UUID.randomUUID()+imageFileName;
+		}
+
+		File file = new File(path);
+		if(!file.getParentFile().exists())
+			file.getParentFile().mkdir();
+
 		Path imagePath = Paths.get(path);
 		try {
 			Files.write(imagePath, image.getBytes());

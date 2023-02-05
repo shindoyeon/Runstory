@@ -11,8 +11,10 @@ import com.runstory.domain.feed.entity.FeedComment;
 import com.runstory.domain.user.dto.FollowDto;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.service.CommentService;
+import com.runstory.domain.user.entity.User;
 import com.runstory.service.FeedService;
 import com.runstory.service.FollowService;
+import com.runstory.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,7 @@ import java.util.stream.Collectors;
 public class FeedController {
     private final FeedService feedService;
     private final FollowService followService;
-
+    private final UserService userService;
 
 //    @GetMapping("")
     public  ResponseEntity<List<SimpleFeedResDto>> getFeedAll(){
@@ -44,21 +46,26 @@ public class FeedController {
         return ResponseEntity.ok().body(result);
     }
 
-    @GetMapping("")
+    @GetMapping("/{userid}")
     @ApiOperation(value = "사용자 피드 조회", notes = "공개 범위에 따라 피드 조회")
-    public BaseResponse<?> getUserFeed(@RequestParam Long userId, @RequestParam Boolean isMe){
-        System.out.println(userId+" "+isMe);
-        List<FeedDto> feedDtos = feedService.findByUserId(1L, userId, isMe);
+    public BaseResponse<?> getUserFeed(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        Boolean isMe = (userId==userDetails.getUserSeq());
+        System.out.println("isMe: "+isMe);
+        List<FeedDto> feedDtos = feedService.findByUserId(userDetails.getUserSeq(), userId, isMe);
+
         List<SimpleFeedResDto> result= feedDtos.stream().map(f->new SimpleFeedResDto(f)).collect(Collectors.toList());
 
         return BaseResponse.success(result);
     }
 
-    @GetMapping("/followstatus/{userId}")
+    @GetMapping("/followstatus/{userid}")
     @ApiOperation(value = "사용자 팔로우 조회", notes = "팔로우 상태, 팔로잉, 팔로워 수 조회")
-    public BaseResponse<?> getFollowStatus(@PathVariable Long userId){
+    public BaseResponse<?> getFollowStatus(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        Long myId = userDetails.getUserSeq();
         HashMap<String, Object> result = new HashMap<>();
-        Follow follow = followService.findFollowStatus(3L,userId);
+        Follow follow = followService.findFollowStatus(myId,userId);
         int follwingCnt = followService.findFollwing(userId).size();
         int follwerCnt = followService.findFollwer(userId).size();
         result.put("followStatus", follow==null?false:true);    //팔로우 상태에 따라 팔로우, 언팔로우 버튼 동작
@@ -68,33 +75,39 @@ public class FeedController {
         return BaseResponse.success(result);
     }
 
-    @GetMapping("/profile/{userId}")
+    @GetMapping("/profile/{userid}")
     @ApiOperation(value = "사용자 프로필 조회", notes = "사용자 닉네임, 레벨, 프로필 사진")
-    public BaseResponse<?> getProfile(@PathVariable Long userId){
-        //userservice 에서 개인 프로필 조회 들고 오기
-        return BaseResponse.success(null);
+    public BaseResponse<?> getProfile(@ApiIgnore Authentication authentication,@PathVariable("userid") Long userId){
+        User user = userService.getUserProfileByUserSeq(userId);
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("userNickName", user.getUserNickname());
+        profile.put("level", user.getLevel());
+        profile.put("profileImgFilePath", user.getProfileImgFilePath());
+        profile.put("profileImgFileName", user.getProfileImgFileName());
+        return BaseResponse.success(profile);
     }
 
-    @PostMapping("/follow/{followUserId}")
+    @PostMapping("/follow/{follow-userid}")
     @ApiOperation(value = "사용자 팔로우")
-    public BaseResponse<?> followUser(@PathVariable Long followUserId){
-        Follow follow = followService.saveFollow(1L, followUserId);
+    public BaseResponse<?> followUser(@ApiIgnore Authentication authentication, @PathVariable("follow-userid") Long followUserId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        Follow follow = followService.saveFollow(userDetails.getUserSeq(), followUserId);
 
         if(follow==null)
             return BaseResponse.success(null);
         return BaseResponse.success(null);
     }
 
-    @DeleteMapping("/follow/{followId}")
+    @DeleteMapping("/follow/{followid}")
     @ApiOperation(value = "사용자 언팔로우")
-    public BaseResponse<?> unfollowUser(@PathVariable Long followId){
+    public BaseResponse<?> unfollowUser(@PathVariable("followid") Long followId){
         followService.deleteFollow(followId);
         return BaseResponse.success(null);
     }
 
-    @GetMapping("/follow/{userId}")
+    @GetMapping("/follow/{userid}")
     @ApiOperation(value = "팔로잉,팔로워 리스트 조회")
-    public BaseResponse<?> getFollowList(@PathVariable Long userId){
+    public BaseResponse<?> getFollowList(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
         Map<String, List<FollowDto>> followList = followService.findFollowList(userId);
         return BaseResponse.success(followList);
     }
@@ -116,88 +129,15 @@ public class FeedController {
         System.out.println(feed.toString());
         Feed result = feedService.updateFeed(feed, feedId);
         return BaseResponse.success(null);
-
     }
-//
-//    @PutMapping("/{feedId}")
-//    @ApiOperation(value = "게시글 수정하기", notes = "게시글 수정")
-//    public ResponseEntity<Integer> updateFeed(@RequestHeader(value = "userSeq") Long userId,
-//        @PathVariable("feedId") Long feedId, @RequestBody FeedRequestDto feed, List<MultipartFile> files) {
-//
-///*        if (!jwtTokenProvider.validateToken(token)) {
-//            return ResponseEntity
-//                .status(HttpStatus.BAD_REQUEST)
-//                .body(new ErrorResponse(messageSource.getMessage("error.valid.jwt", null, LocaleContextHolder.getLocale())));
-//        } */
-//
-//        Optional<Feed> option = feedRepository.findById(feedId);
-//        int result = 0;
-//        if (option.isPresent()) {
-//            Feed f = option.get();
-//            f.setContent(feed.getContent());
-//            f.setPublicScope(feed.getPublicScope());
-//            //    f.setSelectedHashtags(feed.getSelectedHashtags());
-//            f.setUpdatedate(LocalDateTime.now());
-//            f.setFeedFiles(feed.getFeedFiles());
-//            feedRepository.save(f);
-//            result=1;
-//        }
-//
-//        return new ResponseEntity<Integer>(result, HttpStatus.OK);
-//    }
-//
 
     @DeleteMapping("/{feedid}")
-    @ApiOperation(value = "피드 수정")
+    @ApiOperation(value = "피드 삭제")
     public BaseResponse<?> deleteFeed(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId) throws IOException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         System.out.println(feedId);
-        feedService.deleteFeed(feedId);
-        return BaseResponse.success(null);
+        Boolean result=feedService.deleteFeed(feedId,userDetails.getUserSeq());
+        if(result)  return BaseResponse.success(null);
+        return BaseResponse.fail();
     }
-//
-//    @PostMapping("/feed/like/{feedId}")
-//    @ApiOperation(value = "좋아요 추가", notes = "유저가 게시글 좋아요")
-//    ResponseEntity<Integer> addLike(@RequestHeader(value = "userseq") String token,
-//        @PathVariable("feedId") Long feedId,
-//        @PathVariable("userId") User userId) {
-//        /*       if (!jwtTokenProvider.validateToken(token)) {
-//            return ResponseEntity
-//                .status(HttpStatus.BAD_REQUEST)
-//                .body(new ErrorResponse(messageSource.getMessage("error.valid.jwt", null, LocaleContextHolder.getLocale())));
-//        }*/
-//        FeedLike likeentity = FeedLike.builder().feedLikeId(feedId).user(userId).build();
-//
-//        int result=1;
-//        try{
-//            feedLikeService.addLike(likeentity);
-//        }catch (Exception e) {
-//            result=0;
-//        }
-//        return new ResponseEntity<Integer>(result, HttpStatus.OK);
-//    }
-//    @DeleteMapping("/feed/like/{feedId}")
-//    @ApiOperation(value = "좋아요 삭제", notes = "유저가 게시글 취소")
-//    ResponseEntity<Integer> deleteLike(@RequestHeader(value = "userseq") String token,
-//        @PathVariable("feedId") Long feedId,
-//        @PathVariable("userId") Long userId) {
-//              /*       if (!jwtTokenProvider.validateToken(token)) {
-//            return ResponseEntity
-//                .status(HttpStatus.BAD_REQUEST)
-//                .body(new ErrorResponse(messageSource.getMessage("error.valid.jwt", null, LocaleContextHolder.getLocale())));
-//        }*/
-//
-//        int result =0;
-///*
-//        if(feedLikeRepository.findByFeedIdAndUserId(feedId, userId)!=null) {
-//            feedLikeService.deleteLike(feedId, userId);
-//            result = 1;
-//        }
-//*/
-//        return new ResponseEntity<Integer>(result, HttpStatus.OK);
-//    }
-
-
-
-
 }

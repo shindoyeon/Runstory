@@ -60,7 +60,6 @@ const ArticleForm = () => {
                     </RadioGroup>
                 </div>
             </div>
-            {/* <input className='title-input' placeholder='제목을 입력해주세요' type='text'></input> */}
             <textarea className='content-input' name='content' value={content} onChange={handleContentChange} placeholder='내용을 입력해주세요' rows="6"></textarea>
             <div className='submit-and-cancel'>
                 <button className='submit-btn' type='submit'><p>등록</p></button>

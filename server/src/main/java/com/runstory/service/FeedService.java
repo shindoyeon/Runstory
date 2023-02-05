@@ -3,9 +3,12 @@ package com.runstory.service;
 import com.runstory.api.request.FeedReqDto;
 
 import com.runstory.api.request.FeedReqDto;
+import com.runstory.api.response.FeedResDto;
+import com.runstory.domain.feed.PublicScope;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedFile;
+import com.runstory.domain.feed.entity.FeedLike;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
@@ -46,6 +49,7 @@ public class FeedService {
     private final SelectedHashtagRepository selectedHashtagRepository;
     private final  HashtagRepository hashtagRepository;
     private final FeedFileRepository feedFileRepository;
+    private final FeedLikeRepository feedLikeRepository;
 
     public List<FeedDto> findAll(){
         List<Feed> feeds = feedRepository.findAll();
@@ -77,24 +81,31 @@ public class FeedService {
                 feeds = feedRepositoryCustom.searchByUserId(yourUserId, true);
             }
         }
-
+        System.out.println("feeds: "+feeds.size());
         List<FeedDto> result = feeds.stream().map(f->new FeedDto(f)).collect(Collectors.toList());
         return result;
     }
 
     /**
-     * 회원의 메인피드 조회(회원 + 회원이 팔로우한 사람들의 최신 게시물)
+     * 회원의 메인피드 조회(회원이 팔로우한 사람들의 최신 게시물)
      * @param lastFeedId
      * @param size
      * @param userId
      * @return
      */
-    public Page<Feed> findFeedPagesByFollowing(Long lastFeedId, int size, Long userId){
+    public List<FeedResDto> findFeedPagesByFollowing(Long lastFeedId, int size, Long userId){
         User user = userRepository.findByUserSeq(userId);
-        System.out.println(user.getUserId());
-        List<User> followers = findFollowersWithLoggedInMember(userId,user);    // 사용자를 포함하고, 사용자가 팔로우하고 있는 사람들을 가져온다.
+        System.out.println(user.getUserSeq());
+        List<User> followers = findFollowersWithLoggedInMember(userId);    // 사용자가 팔로우하고 있는 사람들을 가져온다.
         Page<Feed> feeds = fetchPages(lastFeedId, size, followers); // followers의 게시물들을 페이지네이션해서 가져온다.
-        return feeds;
+        List<FeedResDto> result = new ArrayList<>();
+        for(Feed f :feeds){
+            FeedLike feedLike = feedLikeRepository.findByFeedIdAndUserId(f.getFeedId(),user.getUserSeq());
+            System.out.println(feedLike==null?false:true);
+            FeedResDto feedResDto = new FeedResDto(f, feedLike);
+            result.add(feedResDto);
+        }
+        return result;
     }
 
     /**
@@ -105,23 +116,26 @@ public class FeedService {
      */
     public Page<Feed> findFeedPagesByNonMember(Long lastFeedId, int size){
         PageRequest pageRequest = PageRequest.of(0, size); // 페이지네이션을 위한 PageRequest, 페이지는 0으로 고정한다.
-        return feedRepository.findByFeedIdLessThanOrderByFeedIdDesc(lastFeedId, pageRequest); // JPA 쿼리 메소드
+        List<PublicScope> scope = new ArrayList<>();
+        scope.add(PublicScope.PUBLIC);
+        return feedRepository.findByFeedIdLessThanAndPublicScopeInOrderByFeedIdDesc(lastFeedId, scope, pageRequest); // JPA 쿼리 메소드
     }
 
-    private List<User> findFollowersWithLoggedInMember(Long userId, User user) {
+    private List<User> findFollowersWithLoggedInMember(Long userId) {
         List<Follow> followings = followRepository.findFollowing(userId);
         List<User> allMembers = new ArrayList<>();
 
         for(Follow f:followings)
             allMembers.add(userRepository.findByUserSeq(f.getTo().getUserSeq()));
 
-        allMembers.add(user);
         return allMembers;
     }
 
     private Page<Feed> fetchPages(Long lastFeedId, int size, List<User> followers) {
         PageRequest pageRequest = PageRequest.of(0, size); // 페이지네이션을 위한 PageRequest, 페이지는 0으로 고정한다.
-        return feedRepository.findByFeedIdLessThanAndUserInOrderByFeedIdDesc(lastFeedId, followers, pageRequest); // JPA 쿼리 메소드
+        List<PublicScope> scope = new ArrayList<>();
+        scope.add(PublicScope.PRIVATE);
+        return feedRepository.findByFeedIdLessThanAndPublicScopeNotInAndUserInOrderByFeedIdDesc(lastFeedId, scope, followers, pageRequest); // JPA 쿼리 메소드
     }
 
     @Transactional
@@ -167,11 +181,9 @@ public class FeedService {
         //해시태그 수정
         List<Long> tags = feed.getSelectedHashTags();
         Collections.sort(tags);
-        List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByFeedIdOrderBySelectedHashtagIdAsc(feedId);    //DB에 저장된 해시태그
+        List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(feedId);    //DB에 저장된 해시태그
 
         //저장된 해시태그 개수 비교
-        Feed result = feedRepository.save(f);
-        //해시태그 수정
         if(tags.size()!=selectedHashtags.size()){
             System.out.println("해시태그 개수 다름");
             //selectedhashtag 삭제 후 저장
@@ -189,15 +201,17 @@ public class FeedService {
                 }
             }
         }
-        f.setSelectedHashtags(selectedHashtagRepository.findByFeedIdOrderBySelectedHashtagIdAsc(feedId));
+        f.setSelectedHashtags(selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(feedId));
+        Feed result = feedRepository.save(f);
         return result;
     }
 
     @Transactional
-    public void deleteFeed(Long feedId){
-        feedRepository.deleteById(feedId);
-
+    public boolean deleteFeed(Long feedId, Long userId){
+        if(userId==feedRepository.findByFeedId(feedId).getUser().getUserSeq()) {
+            feedRepository.deleteById(feedId);
+            return true;
+        }
+        return false;
     }
-
-
 }
