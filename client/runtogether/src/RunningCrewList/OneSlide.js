@@ -18,6 +18,7 @@ import {
     Divider
   } from '@chakra-ui/react';
 
+// 이미지 별 모달창 출력을 위함
 function OneSlide({runningCrew}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [runningId, setRunningId] = useState();

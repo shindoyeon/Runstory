@@ -10,11 +10,9 @@ function RunningCrewList() {
   return (
       <div style={{width: '90%'}}>
         <Header></Header>
-        <div>
         <RunningCrewPageMsg></RunningCrewPageMsg>
         <Swiper></Swiper>
         <BetweenBodyFooter></BetweenBodyFooter>
-        </div>
         <Footer></Footer>
       </div>
   );
