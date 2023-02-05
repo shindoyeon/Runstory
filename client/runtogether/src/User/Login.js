@@ -33,7 +33,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        // 서버에 데이터직렬화를 통해 post 요청 보냄
         try {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ id, password }),
@@ -44,7 +44,6 @@ const Login = () => {
                 }
             );
             console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
             const roles = response?.data?.roles;
             const accessToken = response?.data?.accessToken;
             setAuth({ id, password, roles, accessToken });
