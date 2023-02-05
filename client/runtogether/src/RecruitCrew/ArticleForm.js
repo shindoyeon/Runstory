@@ -17,6 +17,7 @@ import {
     useNumberInput,
     Input
   } from '@chakra-ui/react';
+import HashTag from '../CreateFeed/HashTag';
 
 
 
@@ -104,6 +105,7 @@ const ArticleForm = () => {
 
     return (
         <form className='article-form'>
+            <HashTag></HashTag>
             <div className='title'>TITLE</div>
             <input className='title-input' placeholder='제목을 입력해주세요' type='text'></input>
             <div className='content' type='text'>CONTENT</div>

@@ -22,8 +22,9 @@ const ImgUpload = () => {
         preview.style.margin = '0 auto';
         preview.style.marginBottom = '3%';
         preview.style.objectFit = 'fill';
-        preview.style.borderRadius = '10px';
         preview.style.border = '1px solid #616161';
+        preview.style.overflow = 'hidden';
+        preview.style.borderRadius = '5%';
         var previewBox = document.getElementById('preview-box');
         previewBox.style.display = 'inline';
         previewBox.appendChild(preview);

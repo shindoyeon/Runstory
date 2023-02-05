@@ -33,7 +33,7 @@ const Feed = () => {
     // 피드 끝까지 내려갔을 때 새로고침 버튼을 만들어주기 위함
     function refreshToHome() {
         window.location.replace("/")
-      }
+    }
 
     // 3줄 이상 내용 피드를 관리
     const [isMore, setIsMore] = React.useState(true)
@@ -325,6 +325,7 @@ const Feed = () => {
                         </div>
                     </CardHeader>
                     {/* 피드 내용 */}
+                    {console.log(item)}
                     <div className='card-body'>
                         <Image
                                 border='1px solid #CBD9E7'
@@ -332,8 +333,8 @@ const Feed = () => {
                                 marginTop='10px'
                                 width='90%'
                                 borderRadius='lg'
-                                display={item.contentImg===""?'none':''}
-                                src={item.contentImg}
+                                display={item.feedFiles===[]?'none':''}
+                                src={item.feedFiles}
                         />
                         {/* <div className='post-image' backgroundImage={item.contentImg}></div> */}
                             
