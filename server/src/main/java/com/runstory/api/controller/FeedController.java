@@ -6,6 +6,7 @@ import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.feed.entity.FeedLike;
 import com.runstory.domain.user.dto.FollowDto;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.domain.user.entity.User;
@@ -135,5 +136,23 @@ public class FeedController {
         Boolean result=feedService.deleteFeed(feedId,userDetails.getUserSeq());
         if(result)  return BaseResponse.success(null);
         return BaseResponse.fail();
+    }
+
+    @PostMapping("/feed-like/{feedid}")
+    @ApiOperation(value = "피드 좋아요 저장", notes = "")
+    public BaseResponse saveFeedLike(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        FeedLike feedLike = feedService.saveFeedLiKe(feedId, userDetails.getUserSeq());
+        if(feedLike!=null)
+            return BaseResponse.success(null);
+        else return BaseResponse.fail();
+    }
+
+    @DeleteMapping("/feed-unlike/{feedlikeid}")
+    @ApiOperation(value = "피드 좋아요 취소", notes = "")
+    public BaseResponse deleteFeedLike(@ApiIgnore Authentication authentication, @PathVariable("feedlikeid") Long feedLikeId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        feedService.deleteFeedLike(feedLikeId);
+        return BaseResponse.success(null);
     }
 }
