@@ -66,13 +66,13 @@ public class RunningController {
     @ApiOperation(value = "상세페이지 삭제")
     public BaseResponse<?> runningCrewDelete(@ApiIgnore Authentication authentication, @PathVariable Long runningid){
         Long id = runningservice.deleteRunningCrew(runningid);
-        return BaseResponse.success(id);
+        return BaseResponse.success(id + "가 삭제되었습니다.");
     }
 
     @PutMapping("/detail") // 상세페이지 수정
     public BaseResponse<?> runningCrewUpdate(@ApiIgnore Authentication authentication, @RequestBody RunningCrewReqDto newRunningCrewReqDto){
         Long id = runningservice.updateRunningCrew(newRunningCrewReqDto);
-        return BaseResponse.success(newRunningCrewReqDto);
+        return BaseResponse.success("Change ok");
     }
 
     // 러닝 참가하기 옵션
