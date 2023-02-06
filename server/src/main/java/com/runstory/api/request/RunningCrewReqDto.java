@@ -1,23 +1,13 @@
 package com.runstory.api.request;
 
-import com.runstory.domain.feed.entity.Feed;
-import com.runstory.domain.hashtag.HashtagType;
-import com.runstory.domain.hashtag.entity.Hashtag;
-import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.GenderType;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.runstory.domain.running.Running;
-import com.runstory.domain.running.RunningDetail;
-import com.runstory.domain.user.entity.User;
-import com.runstory.repository.RunningRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 @Getter
 @Builder
 @NoArgsConstructor

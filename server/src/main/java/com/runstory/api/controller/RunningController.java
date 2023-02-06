@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
-    @RequestMapping("/api/running")
+    @RequestMapping("/running")
 public class RunningController {
     @Autowired
     private RunningService runningservice;

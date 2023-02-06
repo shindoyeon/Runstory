@@ -33,7 +33,7 @@ const HashTag = () => {
           <>
             <button
               value={item.hashtagId}
-              key={item.hashtagId}
+              key={idx}
               type='button'
               // hashtag: 회색, hashtag selected: 빨강
               onClick={clickHashtag}                
