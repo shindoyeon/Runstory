@@ -4,7 +4,8 @@ import com.runstory.api.request.SearchReqDto;
 import com.runstory.api.request.SearchType;
 import com.runstory.api.response.BaseResponse;
 import com.runstory.common.auth.CustomUserDetails;
-import com.runstory.domain.user.dto.UserDto;
+import com.runstory.service.FeedService;
+import com.runstory.service.RunningService;
 import com.runstory.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +26,8 @@ import java.util.List;
 @Api(tags = "인덱스 페이지 API")
 public class SearchController {
     private final UserService userService;
+    private final FeedService feedService;
+    private final RunningService runningService;
     @GetMapping("")
     @ApiOperation(value = "사용자, 러닝모임, 피드를 조회한다")
     public BaseResponse<?> searchByKeyword(@ApiIgnore Authentication authentication, @RequestBody SearchReqDto search){
@@ -37,10 +40,12 @@ public class SearchController {
             result = userService.searchByUserNickname(search.getKeyword(), search.getLastId(), search.getSize());
         }
         else if(search.getType()== SearchType.FEED.ordinal()){
-
+            //해시태그 문자열 -> Long 처리
+            Long hashtagId = Long.parseLong(search.getKeyword());
+            result = feedService.searchByHashtag(hashtagId, search.getLastId(), search.getSize());
         }
         else if(search.getType()== SearchType.RUNNING.ordinal()){
-
+            result = runningService.searchByCrewName(search.getKeyword(), search.getLastId(), search.getSize());
         }
         return BaseResponse.success(result);
     }
