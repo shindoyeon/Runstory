@@ -9,6 +9,8 @@ import {
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
+// import {login} from '../redux/actions/authActions';
+// import { useDispatch } from 'react-redux';
 
 
 const LOGIN_URL = '/auth/login';
@@ -22,6 +24,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+    // const dispatch = useDispatch();
 
     useEffect(() => {
         userRef.current.focus();
@@ -33,6 +36,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // dispatch(login(userData));
         // 서버에 데이터직렬화를 통해 post 요청 보냄
         try {
             const response = await axios.post(LOGIN_URL,

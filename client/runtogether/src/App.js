@@ -9,7 +9,7 @@ import RunningCrewList from './RunningCrewList/RunningCrewList';
 import CreateFeed from './CreateFeed/CreateFeed';
 import RecruitCrew from './RecruitCrew/RecruitCrew';
 import Search from './Search/Search';
-import Feed from './Feed/Feed';
+import Profile from './Feed/Feed';
 import FollowPage from './FollowList/FollowList';
 import SettingIntro from './Setting/SettingIntro';
 import AlarmSetting from './Setting/AlarmSetting';
@@ -33,7 +33,7 @@ function App() {
               <Route path='/running-crew-list' element={<RunningCrewList />} />
               <Route path='/create-running-crew' element={<RecruitCrew />} />
               <Route path='/search' element={<Search />} />
-              <Route path='/feed' element={<Feed />} />
+              <Route path='/feed' element={<Profile />} />
               <Route path='/feed/follow' element={<FollowPage />} />
               <Route path='/setting-intro' element={<SettingIntro />} />
               <Route path='/setting-alarm' element={<AlarmSetting />} />
