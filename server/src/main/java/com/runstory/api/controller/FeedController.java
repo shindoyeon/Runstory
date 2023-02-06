@@ -9,10 +9,13 @@ import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedLike;
 import com.runstory.domain.user.dto.FollowDto;
+import com.runstory.domain.user.dto.UserBlockDto;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.domain.user.entity.User;
+import com.runstory.domain.user.entity.UserBlock;
 import com.runstory.service.FeedService;
 import com.runstory.service.FollowService;
+import com.runstory.service.UserBlockService;
 import com.runstory.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +40,7 @@ public class FeedController {
     private final FeedService feedService;
     private final FollowService followService;
     private final UserService userService;
+    private final UserBlockService userBlockService;
 
 //    @GetMapping("")
     public  ResponseEntity<List<SimpleFeedResDto>> getFeedAll(){
@@ -158,6 +162,32 @@ public class FeedController {
     public BaseResponse deleteFeedLike(@ApiIgnore Authentication authentication, @PathVariable("feedlikeid") Long feedLikeId){
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         feedService.deleteFeedLike(feedLikeId);
+        return BaseResponse.success(null);
+    }
+
+
+    @GetMapping("/block/list")
+    @ApiOperation(value = "차단 사용자 리스트 조회")
+    public BaseResponse getBlockedList(@ApiIgnore Authentication authentication){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        List<UserBlockDto> userBlockList = userBlockService.findUserBlockList(userDetails.getUserSeq());
+        return BaseResponse.success(userBlockList);
+    }
+
+    @PostMapping("/block/{block-userid}")
+    @ApiOperation(value = "사용자 차단 등록")
+    public BaseResponse createBlock(@ApiIgnore Authentication authentication, @PathVariable("block-userid") Long blockUserId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        UserBlock userBlock = userBlockService.saveUserBlock(userDetails.getUserSeq(), blockUserId);
+        if(userBlock==null) return BaseResponse.fail();
+        else return BaseResponse.success(null);
+    }
+
+    @DeleteMapping("/unblock/{blockid}")
+    @ApiOperation(value = "사용자 차단 취소")
+    public BaseResponse deleteBlock(@ApiIgnore Authentication authentication, @PathVariable("blockid") Long blockId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        userBlockService.deleteUserBlock(blockId);
         return BaseResponse.success(null);
     }
 }
