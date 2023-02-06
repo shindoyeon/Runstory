@@ -1,12 +1,12 @@
 package com.runstory.service;
 
+import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.FeedResDto;
 import com.runstory.domain.feed.PublicScope;
+import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
-import com.runstory.domain.feed.entity.Feed;
-import com.runstory.domain.feed.entity.FeedFile;
-import com.runstory.domain.feed.entity.FeedLike;
+import com.runstory.domain.feed.entity.*;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
@@ -43,6 +43,8 @@ public class FeedService {
     private final SelectedHashtagRepository selectedHashtagRepository;
     private final FeedFileRepository feedFileRepository;
     private final FeedLikeRepository feedLikeRepository;
+    private final FeedCommentRepository feedCommentRepository;
+    private final FeedReCommentRepository feedReCommentRepository;
 
     public List<FeedDto> findAll(){
         List<Feed> feeds = feedRepository.findAll();
@@ -206,5 +208,69 @@ public class FeedService {
             return true;
         }
         return false;
+    }
+
+    // Feed 댓글 생성
+    @Transactional
+    public Long createFeedComment(FeedCommentReqDto feedCommentReqDto, Long userSeq){
+        Feed feed = feedRepository.findByFeedId(feedCommentReqDto.getFeedId());
+        User user = userRepository.findByUserSeq(userSeq);
+        FeedComment feedComment = FeedComment.builder()
+                .feed(feed)
+                .user(user)
+                .content(feedCommentReqDto.getContent())
+                .build();
+        feedCommentRepository.save(feedComment);
+        return feedComment.getFeedCommentId();
+    }
+
+    // Feed 댓글 삭제
+    @Transactional
+    public Long deleteFeedComment(Long commentId, Long userSeq){
+        User user = userRepository.findByUserSeq(userSeq);
+        FeedComment feedComment = feedCommentRepository.findByFeedCommentIdAndUser(commentId, user);
+        if (feedComment == null){
+                return -1L;
+            }else{ // 만약 있으면
+                feedCommentRepository.deleteById(commentId);
+                return commentId;
+            }
+    }
+
+    @Transactional
+    public Long createFeedRecomment(FeedCommentReqDto feedCommentReqDto, Long userSeq){
+        FeedComment feedComment = feedCommentRepository.findByFeedCommentId(feedCommentReqDto.getFeedId());
+        System.out.println(feedComment.getFeedCommentId());
+        User user = userRepository.findByUserSeq(userSeq);
+        FeedRecomment feedRecomment = FeedRecomment.builder()
+                .feedComment(feedComment)
+                .user(user)
+                .cotent(feedCommentReqDto.getContent())
+                .build();
+        feedReCommentRepository.save(feedRecomment);
+        return feedRecomment.getFeedRecommnetId();
+    }
+
+    @Transactional
+    public Long deleteFeedReComment(Long recommentId, Long userSeq){
+        User user = userRepository.findByUserSeq(userSeq);
+        FeedRecomment feedRecomment = feedReCommentRepository.findByFeedRecommnetIdAndUser(recommentId, user);
+        if (feedRecomment == null){
+            return -1L;
+        }else{ // 만약 있으면
+            feedReCommentRepository.deleteById(recommentId);
+            return recommentId;
+        }
+    }
+
+
+    public List<FeedCommentDto> getFeedDetail(Long feedId){
+        List<FeedCommentDto> result = new ArrayList<>();
+        Feed feed = feedRepository.findByFeedId(feedId);
+        for (FeedComment feedComment : feed.getFeedComments()){
+            FeedCommentDto feedCommentDto = new FeedCommentDto(feedComment);
+            result.add(feedCommentDto);
+        }
+        return result;
     }
 }

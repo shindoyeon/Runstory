@@ -5,22 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
+import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.user.entity.User;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.runstory.repository.FeedCommentRepository;
+import com.runstory.repository.FeedRepository;
+import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Builder
 public class FeedComment {
 
     @Comment("피드 댓글 아이디")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long feedCommnetId;
+    private Long feedCommentId;
     @Comment("피드 아이디")
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="feed_id")
@@ -31,11 +36,16 @@ public class FeedComment {
     private User user;
     @Comment("댓글 내용")
     @Column(length = 500)
-    private String cotent;
+    private String content;
     @Comment("등록일자")
-    @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedComment")
     private List<FeedRecomment> feedRecomments = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist(){
+        this.regdate=LocalDateTime.now();
+    }
 }

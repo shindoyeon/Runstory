@@ -1,9 +1,11 @@
 package com.runstory.api.controller;
 
+import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.common.auth.CustomUserDetails;
+import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.user.dto.FollowDto;
@@ -137,4 +139,56 @@ public class FeedController {
         if(result)  return BaseResponse.success(null);
         return BaseResponse.fail();
     }
+
+    // 피드 댓글 생성
+    @PostMapping("/comment")
+    @ApiOperation(value = "피드댓글 생성")
+    public BaseResponse<?> createFeedComment(@ApiIgnore Authentication authentication, @RequestBody FeedCommentReqDto feedCommentReqDto) throws IOException{
+        System.out.println(111111);
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        Long id = feedService.createFeedComment(feedCommentReqDto, userSeq);
+        return BaseResponse.success(id + "가 생성되었습니다.");
+    }
+
+    // 피드 댓글 삭제
+    @DeleteMapping("/comment/{commentid}")
+    @ApiOperation(value = "피드댓글 삭제")
+    public BaseResponse<?> deleteFeedComment(@ApiIgnore Authentication authentication,@PathVariable("commentid") Long commentId){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        Long id = feedService.deleteFeedComment(commentId, userSeq);
+        if (id == null){
+            return BaseResponse.fail();
+        }else{
+            return BaseResponse.success("피드 댓글" + id + "가 삭제되었습니다.");
+        }
+    }
+
+    @PostMapping("/recomment")
+    @ApiOperation(value = "대댓글 생성")
+    public BaseResponse<?> createFeedRecomment(@ApiIgnore Authentication authentication, @RequestBody FeedCommentReqDto feedCommentReqDto) throws IOException{
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        Long id = feedService.createFeedRecomment(feedCommentReqDto, userSeq);
+        return BaseResponse.success("대댓글 " + id + "이 생성되었습니다.");
+    }
+
+    @DeleteMapping("/comment/recomment/{recommentId}")
+    @ApiOperation(value = "대댓글 삭제")
+    public BaseResponse<?> deleteFeedReComment(@ApiIgnore Authentication authentication,@PathVariable("recommentId") Long recommentId){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        Long id = feedService.deleteFeedReComment(recommentId, userSeq);
+        if (id == null){
+            return BaseResponse.fail();
+        }else{
+            return BaseResponse.success("피드 대댓글" + id + "가 삭제되었습니다.");
+        }
+    }
+
+    @GetMapping("/detail/{feedId}")
+    @ApiOperation(value = "으아아아악!")
+    public BaseResponse<?> getFeedDetail(@PathVariable("feedId") Long feedId){
+        List<FeedCommentDto> result = feedService.getFeedDetail(feedId);
+        return BaseResponse.success(result);
+    }
+
+
 }
