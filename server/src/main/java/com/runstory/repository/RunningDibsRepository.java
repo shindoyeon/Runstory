@@ -10,5 +10,6 @@ import java.util.List;
 
 public interface RunningDibsRepository extends JpaRepository<RunningDibs,Long> {
     List<RunningDibs> findAllByRunning(Running running);
+    List<RunningDibs> findAllByUser(User user);
     RunningDibs findByRunningAndUser(Running running, User user);
 }

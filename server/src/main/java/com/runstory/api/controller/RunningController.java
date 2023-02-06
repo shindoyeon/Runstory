@@ -72,7 +72,7 @@ public class RunningController {
     @PutMapping("/detail") // 상세페이지 수정
     public BaseResponse<?> runningCrewUpdate(@ApiIgnore Authentication authentication, @RequestBody RunningCrewReqDto newRunningCrewReqDto){
         Long id = runningservice.updateRunningCrew(newRunningCrewReqDto);
-        return BaseResponse.success(id);
+        return BaseResponse.success(newRunningCrewReqDto);
     }
 
     // 러닝 참가하기 옵션
@@ -121,6 +121,7 @@ public class RunningController {
         }
     }
 
+
     // 댓글 관련 기능
     @PostMapping("/{runningid}/comment") // 댓글 생성
     public BaseResponse<?> runningCrewCommentCreate(@ApiIgnore Authentication authentication, @PathVariable Long runningid, @RequestBody RunningBoardCommentDto runningBoardCommentDto, HttpServletRequest request){
@@ -137,10 +138,10 @@ public class RunningController {
     }
 
     // 개인 피드 관련 기능
-    @GetMapping("/running/mycrew/reservation")
+    @GetMapping("/mycrew/reservation")
     public BaseResponse<?> myRunning(@ApiIgnore Authentication authentication){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
-        List<HashMap<String, List<RunningMainResDto>>> mypage = runningservice.myRunningfunction(userSeq);
-        return BaseResponse.success(mypage);
+        List<HashMap<String, List<RunningMainResDto>>> result = runningservice.myRunningfunction(userSeq);
+        return BaseResponse.success(result);
     }
 }

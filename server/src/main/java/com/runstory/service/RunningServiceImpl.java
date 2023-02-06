@@ -4,19 +4,23 @@ import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.dto.HashtagDto;
+import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.*;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
+import com.runstory.domain.running.dto.RunningDto;
+import com.runstory.domain.running.dto.RunningUserDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springfox.documentation.annotations.ApiIgnore;
 
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -237,22 +241,47 @@ public class RunningServiceImpl implements RunningService {
         runningCommentRepository.deleteById(commentid);
         return commentid;
     }
-    // 함수 생성
-//    public
+
     // MyPage
     @Override
     public List<HashMap<String, List<RunningMainResDto>>> myRunningfunction(Long userseq){
         User user = userRepository.findByUserSeq(userseq); // user 들고 온다.
         List<HashMap<String, List<RunningMainResDto>>> result = new ArrayList<>();
-//        List<String> key = Arrays.asList("mycrew", "joincrew", "dibscrew", "pastcrew");
-//        // 내가 만든 크루
-//        List<RunningMainResDto> myCreateCrew = new ArrayList<>();
-//        for (Running runningcreater : user.getRunnings()){
-//            RunningMainResDto runningMainResDto = new RunningMainResDto(runningcreater);
-//        }
-//        // 내가 참여한 크루
-//
-//        // 찜한 크루
+        List<String> names = Arrays.asList("mycrew", "joincrew", "dibscrew", "pastcrew");
+        for (String name : names){
+            HashMap<String, List<RunningMainResDto>> hashMap = new HashMap<>();
+            List<RunningMainResDto> runningMainResDtos = new ArrayList<>();
+            List<Running> runnings = new ArrayList<>();
+            switch (name){
+                case "mycrew":
+                    runnings = runningrepository.findAllByIsFinishedAndUser(false, user);
+                    break;
+                case "joincrew":
+                    List<RunningUser> runningUsers = runningUserRepository.findAllByUser(user); // 참가되어있는 경우
+                    for (RunningUser runningUser :runningUsers){
+                        runnings.add(runningUser.getRunning());
+                    }
+                    break;
+
+                case "dibcrew":
+                    List<RunningDibs> runningDibs = runningDibsRepository.findAllByUser(user);
+                    for (RunningDibs runningDib : runningDibs){
+                        runnings.add(runningDib.getRunning());
+                    }
+                    break;
+
+                case "pastcrew":
+                    runnings = runningrepository.findAllByIsFinishedAndUser(true, user);
+                    break;
+            }
+
+            for (Running running : runnings){
+                RunningMainResDto runningMainResDto = new RunningMainResDto(running);
+                runningMainResDtos.add(runningMainResDto);
+            }
+            hashMap.put(name, runningMainResDtos);
+            result.add(hashMap);
+        }
         return result;
     }
 }

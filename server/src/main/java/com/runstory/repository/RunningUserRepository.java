@@ -11,4 +11,5 @@ import java.util.List;
 public interface RunningUserRepository extends JpaRepository<RunningUser, Long> {
     List<RunningUser> findAllByRunning(Running running);
     RunningUser findByRunningAndUser(Running running, User user);
+    List<RunningUser> findAllByUser(User user);
 }

@@ -5,6 +5,7 @@ import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,4 +36,5 @@ public interface RunningService {
 
     // 나의 페이지
     List<HashMap<String, List<RunningMainResDto>>> myRunningfunction(Long userseq);
+
 }
