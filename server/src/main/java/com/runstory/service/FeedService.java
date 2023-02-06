@@ -1,12 +1,12 @@
 package com.runstory.service;
 
-import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.FeedResDto;
 import com.runstory.domain.feed.PublicScope;
-import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
-import com.runstory.domain.feed.entity.*;
+import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.feed.entity.FeedFile;
+import com.runstory.domain.feed.entity.FeedLike;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
@@ -96,7 +96,6 @@ public class FeedService {
         List<FeedResDto> result = new ArrayList<>();
         for(Feed f :feeds){
             FeedLike feedLike = feedLikeRepository.findByFeedIdAndUserId(f.getFeedId(),user.getUserSeq());
-            System.out.println(feedLike==null?false:true);
             FeedResDto feedResDto = new FeedResDto(f, feedLike);
             result.add(feedResDto);
         }
@@ -133,6 +132,12 @@ public class FeedService {
         return feedRepository.findByFeedIdLessThanAndPublicScopeNotInAndUserInOrderByFeedIdDesc(lastFeedId, scope, followers, pageRequest); // JPA 쿼리 메소드
     }
 
+    public FeedResDto findByFeedId(Long userId, Long feedId){
+        Feed feed= feedRepository.findByFeedId(feedId);
+        FeedLike feedLike = feedLikeRepository.findByFeedIdAndUserId(feedId, userId);
+        FeedResDto result = new FeedResDto(feed, feedLike);
+        return result;
+    }
     @Transactional
     public Feed saveFeed(FeedReqDto feedReqDto, MultipartFile [] files) throws IOException {
         User user = userRepository.findByUserSeq(feedReqDto.getUserId());
@@ -165,6 +170,13 @@ public class FeedService {
         }
     }
 
+    /**
+     * 피드 업데이트는 피드의 내용, 해시태그가 수정 가능하다.(***추후 파일 수정도 가능하게 만들지 고려)
+     * @param feed(FeedReqDto)
+     * @param feedId
+     * @return
+     * @throws IOException
+     */
     @Transactional
     public Feed updateFeed(FeedReqDto feed, Long feedId) throws IOException {
         //피드 가져오기
@@ -208,6 +220,36 @@ public class FeedService {
             return true;
         }
         return false;
+    }
+
+    public List<SimpleFeedResDto> searchByHashtag(Long hashtagId, Long lastFeedId, int size){
+        PageRequest pageRequest = PageRequest.of(0, size);
+        //해시태그에 맞는 피드 아이디 리스트를 가져온다
+        List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByHashtag_HashtagIdAndFeedNotNull(hashtagId);
+        System.out.println("feed 개수: "+selectedHashtags.size());
+        List<Long> feedIds = selectedHashtags.stream().map(s->s.getFeed().getFeedId()).collect(Collectors.toList());
+        List<PublicScope> scope = new ArrayList<>();
+        scope.add(PublicScope.PUBLIC);
+        Page<Feed> feeds = feedRepository.findByFeedIdLessThanAndFeedIdInAndPublicScopeInOrderByFeedIdDesc
+                (lastFeedId,feedIds, scope, pageRequest);
+        List<FeedDto> tmp = feeds.stream().map(f->new FeedDto(f)).collect(Collectors.toList());
+        List<SimpleFeedResDto> result = tmp.stream().map(t->new SimpleFeedResDto(t)).collect(Collectors.toList());
+        System.out.println("피드 개수: "+result.size());
+        return result;
+    }
+    @Transactional
+    public FeedLike saveFeedLiKe(Long feedId, Long userId){
+        FeedLike feedLike = new FeedLike();
+        Feed feed = feedRepository.findByFeedId(feedId);
+        User user = userRepository.findByUserSeq(userId);
+        feedLike.setFeed(feed);
+        feedLike.setUser(user);
+        return feedLikeRepository.save(feedLike);
+    }
+
+    @Transactional
+    public void deleteFeedLike(Long feedLikeId){
+        feedLikeRepository.deleteById(feedLikeId);
     }
 
     // Feed 댓글 생성

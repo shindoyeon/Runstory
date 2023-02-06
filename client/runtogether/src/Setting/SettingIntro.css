@@ -1,0 +1,15 @@
+.setting-title{
+  margin-top: 70px;
+  margin-left: 3%;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.setting-detail{
+  margin-top: 150px;
+  text-align: center;
+  font-size: 30px;
+  /* font-weight: bold; */
+  align-items: center;
+}
+

@@ -26,7 +26,7 @@ public interface SelectedHashtagRepository extends JpaRepository<SelectedHashtag
     @Query("select s from SelectedHashtag s where s.feed.feedId = :feedId order by s.hashtag.hashtagId asc ")
     List<SelectedHashtag> findByFeedIdOrderByHashtagIdAsc(@Param("feedId")Long feedId);
 
-    SelectedHashtag findBySelectedHashtagId(Long selectedHashstagId);
+    List<SelectedHashtag> findByHashtag_HashtagIdAndFeedNotNull(@Param("hashtagId") Long hashtagId);
 
     List<SelectedHashtag> findAllByRunning(Running running);
 

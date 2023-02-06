@@ -2,6 +2,8 @@ package com.runstory.repository;
 
 import com.runstory.domain.running.Running;
 import com.runstory.domain.user.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +22,5 @@ public interface RunningRepository extends JpaRepository<Running, Long> {
 
     @Query("select r from Running r where r.isFinished = false and date(r.startTime) = date(now())")
     List<Running> findByStartTime();
+    Page<Running> findByCrewNameContainsAndRunningIdLessThanAndIsFinishedOrderByRunningIdDesc(String crewName, Long lastRunningId, Boolean isFinished, PageRequest pageRequest);
 }

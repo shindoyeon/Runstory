@@ -39,4 +39,6 @@ public interface RunningService {
     // 나의 페이지
     List<HashMap<String, List<RunningMainResDto>>> myRunningfunction(Long userseq);
 
+    //검색 페이지
+    List<RunningMainResDto> searchByCrewName(String crewName, Long lastrunningId, int size);
 }

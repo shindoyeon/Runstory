@@ -15,6 +15,8 @@ import com.runstory.domain.running.dto.RunningUserDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -286,4 +288,13 @@ public class RunningServiceImpl implements RunningService {
         }
         return result;
     }
+
+    @Override
+    public List<RunningMainResDto> searchByCrewName(String crewName, Long lastrunningId, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+        Page<Running> runnings = runningrepository.findByCrewNameContainsAndRunningIdLessThanAndIsFinishedOrderByRunningIdDesc(crewName,lastrunningId,false,pageRequest);
+        List<RunningMainResDto> result = runnings.stream().map(r->new RunningMainResDto(r)).collect(Collectors.toList());
+        return result;
+    }
+
 }
