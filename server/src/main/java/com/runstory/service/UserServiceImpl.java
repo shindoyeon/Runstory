@@ -192,11 +192,10 @@ public class UserServiceImpl implements UserService {
 			file = new File(path+name);
 		}else{
 			System.out.println("서버 파일 저장");
-			path = "/home/ubuntu/runstory/client/runtogether/public/user/";
+			path = "./";
 			file=new File(path+name);
 		}
-		System.out.println(path+name);
-		image.transferTo(p);
+		image.transferTo(file);
 
 		// DB 변경
 		user.setProfileImgFilePath(path);
