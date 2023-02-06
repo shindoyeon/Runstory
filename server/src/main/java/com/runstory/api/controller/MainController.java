@@ -5,6 +5,7 @@ import com.runstory.api.response.FeedResDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.feed.entity.FeedLike;
 import com.runstory.service.FeedService;
 import com.runstory.service.FollowService;
 import com.runstory.service.RunningService;
@@ -13,10 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
@@ -61,5 +59,23 @@ public class MainController {
         System.out.println(feeds.getSize());
         List<FeedResDto> result = feeds.stream().map(f -> new FeedResDto(f,null)).collect(Collectors.toList());
         return BaseResponse.success(result);
+    }
+
+    @PostMapping("/feed-like/{feedid}")
+    @ApiOperation(value = "피드 좋아요 저장", notes = "")
+    public BaseResponse saveFeedLike(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        FeedLike feedLike = feedService.saveFeedLiKe(feedId, userDetails.getUserSeq());
+        if(feedLike!=null)
+            return BaseResponse.success(null);
+        else return BaseResponse.fail();
+    }
+
+    @DeleteMapping("/feed-unlike/{feedlikeid}")
+    @ApiOperation(value = "피드 좋아요 취소", notes = "")
+    public BaseResponse deleteFeedLike(@ApiIgnore Authentication authentication, @PathVariable("feedlikeid") Long feedLikeId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        feedService.deleteFeedLike(feedLikeId);
+        return BaseResponse.success(null);
     }
 }

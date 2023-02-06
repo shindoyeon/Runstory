@@ -1,5 +1,6 @@
 package com.runstory.domain.running.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.running.Running;
 import com.runstory.domain.user.dto.UserDto;
 import lombok.AllArgsConstructor;
@@ -21,12 +22,15 @@ public class RunningDto {
     private String runningContent;
     private String startLocation;
     private String endLocation;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
     private float startLongitude;
     private float startLatitude;
     private float endLongitude;
     private float endLatitude;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regdate;
     private Boolean isFinished;
     private float distance;

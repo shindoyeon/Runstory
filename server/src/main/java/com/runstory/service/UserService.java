@@ -2,9 +2,12 @@ package com.runstory.service;
 
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
+import com.runstory.api.response.SimpleUserResDto;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,4 +30,5 @@ public interface UserService {
 	@Transactional
 	void changeUserHashtage(String userId, List<Long> list);
 	String getToken(String userId);
+	List<SimpleUserResDto> searchByUserNickname(String userNickname, Long lastUserId, int size);
 }
