@@ -27,9 +27,9 @@ public class UserBlockService {
     }
     @Transactional
     public UserBlock saveUserBlock(Long myUserId, Long blockUserId){
-        User my = userRepository.findByUserSeq(myUserId);
-        User your = userRepository.findByUserSeq(blockUserId);
-        UserBlock userBlock = new UserBlock(my, your);
+        User user = userRepository.findByUserSeq(myUserId);
+        User blocked = userRepository.findByUserSeq(blockUserId);
+        UserBlock userBlock = new UserBlock(blocked, user);
         return userBlockRepository.save(userBlock);
     }
 
