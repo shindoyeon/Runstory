@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
 import {
-    Card, // chakra-ui의 Card로 피드 하나를 구성할 것임 
-    CardHeader,
-    Image,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -11,20 +8,26 @@ import {
     ModalBody,
     ModalFooter,
     useDisclosure,
-    Input,
     Button,
-    CardBody,
-    ChakraProvider,
-    Divider
-  } from '@chakra-ui/react';
+} from '@chakra-ui/react';
+import axios from 'axios';
+
+
 
 // 이미지 별 모달창 출력을 위함
 function OneSlide({runningCrew}) {
+
+
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [runningId, setRunningId] = useState();
+    const [runningCrewInfo, setRunningCrewInfo] = useState([]);
+
+    async function getModalInfo(runningCrewId) {
+        const data = await axios.get("https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/running/detail/"+runningCrewId);
+        setRunningCrewInfo(data.data.data)
+    }
 
     function openModal(e) {
-        setRunningId(e.target.id)
+        getModalInfo(e.target.id)
         onOpen();
     }
     return (
@@ -35,7 +38,9 @@ function OneSlide({runningCrew}) {
                     <ModalHeader>간략 정보</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <p>RUNNING CREW ID: {runningId}</p>
+                        <p>크루명: {runningCrewInfo.crewName}</p>
+                        <p>장소: {runningCrewInfo.startLocation} → {runningCrewInfo.endLocation}</p>
+                        <p>시간: {runningCrewInfo.startTime} ~ {runningCrewInfo.endTime}</p>
                     </ModalBody>
 
                     <ModalFooter>
@@ -51,7 +56,7 @@ function OneSlide({runningCrew}) {
             {
                 runningCrew.map((crew, idx) => {
                     return(
-                            <img className='img' src={crew.imgFilePath} id={crew.runningId} onClick={openModal}/>
+                            <img className='img' src={crew.imgFilePath} id={crew.runningId} onClick={openModal} alt={crew.runningId}/>
                         );
                       })
                 }
