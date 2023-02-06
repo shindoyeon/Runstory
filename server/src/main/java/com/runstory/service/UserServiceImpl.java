@@ -2,6 +2,7 @@ package com.runstory.service;
 
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
+import com.runstory.api.response.SimpleUserResDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
@@ -229,10 +230,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDto> searchByUserNickname(String userNickname, Long lastUserId, int size) {
+	public List<SimpleUserResDto> searchByUserNickname(String userNickname, Long lastUserId, int size) {
 		PageRequest pageRequest = PageRequest.of(0, size);
 		Page<User> users = userRepository.findByUserNicknameContainsAndUserSeqLessThanOrderByUserSeqDesc(userNickname, lastUserId, pageRequest);
-		List<UserDto> result = users.stream().map(u->new UserDto(u)).collect(Collectors.toList());
+		List<SimpleUserResDto> result = users.stream().map(u->new SimpleUserResDto(u)).collect(Collectors.toList());
 		return result;
 	}
 }

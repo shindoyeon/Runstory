@@ -2,6 +2,7 @@ package com.runstory.service;
 
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.FeedResDto;
+import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.domain.feed.PublicScope;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.tags.form.SelectTag;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -206,4 +208,21 @@ public class FeedService {
         }
         return false;
     }
+
+    public List<SimpleFeedResDto> searchByHashtag(Long hashtagId, Long lastFeedId, int size){
+        PageRequest pageRequest = PageRequest.of(0, size);
+        //해시태그에 맞는 피드 아이디 리스트를 가져온다
+        List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByHashtag_HashtagIdAndFeedNotNull(hashtagId);
+        System.out.println("feed 개수: "+selectedHashtags.size());
+        List<Long> feedIds = selectedHashtags.stream().map(s->s.getFeed().getFeedId()).collect(Collectors.toList());
+        List<PublicScope> scope = new ArrayList<>();
+        scope.add(PublicScope.PUBLIC);
+        Page<Feed> feeds = feedRepository.findByFeedIdLessThanAndFeedIdInAndPublicScopeInOrderByFeedIdDesc
+                (lastFeedId,feedIds, scope, pageRequest);
+        List<FeedDto> tmp = feeds.stream().map(f->new FeedDto(f)).collect(Collectors.toList());
+        List<SimpleFeedResDto> result = tmp.stream().map(t->new SimpleFeedResDto(t)).collect(Collectors.toList());
+        System.out.println("피드 개수: "+result.size());
+        return result;
+    }
+
 }
