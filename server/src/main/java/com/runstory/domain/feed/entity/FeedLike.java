@@ -29,4 +29,9 @@ public class FeedLike {
     private User user;
     @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
+
+    @PrePersist
+    public void prepersist(){
+        this.regdate = LocalDateTime.now();
+    }
 }

@@ -27,7 +27,7 @@ public class FeedResDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedate;
     private List<FeedFileDto> feedFiles;
-    private Boolean feedLikeStatus;
+    private Long feedLikeId;
     private int feedLikeCnt;
     private List<FeedCommentDto> feedComments;
     private List<SelectedHashtagDto> selectedHashtags;
@@ -43,7 +43,7 @@ public class FeedResDto {
         this.regdate = feed.getRegdate();
         this.updatedate = feed.getUpdatedate();
         this.feedFiles = feed.getFeedFiles().stream().map(f-> new FeedFileDto(f)).collect(Collectors.toList());
-        this.feedLikeStatus = feedLike==null?false:true;
+        this.feedLikeId = feedLike==null?null:feedLike.getFeedLikeId();
         this.feedLikeCnt = feed.getFeedLikes().size();
         this.feedComments = feed.getFeedComments().stream().map(c -> new FeedCommentDto(c)).collect(Collectors.toList());
         this.selectedHashtags = feed.getSelectedHashtags().stream().map(h -> new SelectedHashtagDto(h)).collect(Collectors.toList());
