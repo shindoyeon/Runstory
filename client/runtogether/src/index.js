@@ -7,6 +7,7 @@ import { AuthProvider } from './User/context/AuthProvider';
 import { ColorModeScript } from '@chakra-ui/react';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+import store from './store';
 
 // const root = ReactDOM.createRoot(container);
 // const container = document.getElementById('root');
