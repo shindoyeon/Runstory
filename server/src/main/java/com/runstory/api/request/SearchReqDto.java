@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchReqDto {
     private int type;
-    private String keyword;
+    private String keyword; //해시태그, 러닝 모임 검색 기준을 정해야함
     private Long lastId;
     private final int size = 8;
 }
