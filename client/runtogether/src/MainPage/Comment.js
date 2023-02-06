@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import './Feed.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
-import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons"; // 공유 버튼
-import { faComment } from "@fortawesome/free-regular-svg-icons"; // 하트(좋아요), 댓글 버튼
 import {
     Card, // chakra-ui의 Card로 피드 하나를 구성할 것임
     Image,
@@ -16,16 +13,24 @@ import {
     Button,
     CardBody,
   } from '@chakra-ui/react';
+import axios from 'axios';
 
-function Comment({comments}) {
+function Comment({comments, feedId}) {
     const [comment, setComment] = useState([]);
+
+    async function postComment() {
+        await axios.post(""+feedId, {
+            feedId: feedId,
+            content: comment
+        });
+    }
+
 
     const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
   
-    const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
-        event.preventDefault();
-        alert(`작성된 내용: ${comment}`); // 데이터 잘 들어왔는지 확인용!!!
-        // 여기서 댓글 POST
+    const handleSubmit = (e) => { // 작성 버튼 클릭 시 이벤트 함수
+        alert(`피드번호: ${feedId}, 작성된 내용: ${comment}`); // 데이터 잘 들어왔는지 확인용!!!
+        postComment(comment);
     };
     return (
         <>
@@ -57,7 +62,7 @@ function Comment({comments}) {
                 </ModalBody>
                 <ModalFooter>
                     <form margin='0 auto' className='comment-form'
-                    onSubmit={handleSubmit}>
+                    onSubmit={(e)=>{handleSubmit(e)}}>
                         <Input className='comment-input' placeholder='댓글을 입력해주세요' type='text' size='xs' width={'80%'}
                         name='comment'
                         value={comment}
