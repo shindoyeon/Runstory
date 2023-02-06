@@ -224,5 +224,18 @@ public class FeedService {
         System.out.println("피드 개수: "+result.size());
         return result;
     }
+    @Transactional
+    public FeedLike saveFeedLiKe(Long feedId, Long userId){
+        FeedLike feedLike = new FeedLike();
+        Feed feed = feedRepository.findByFeedId(feedId);
+        User user = userRepository.findByUserSeq(userId);
+        feedLike.setFeed(feed);
+        feedLike.setUser(user);
+        return feedLikeRepository.save(feedLike);
+    }
 
+    @Transactional
+    public void deleteFeedLike(Long feedLikeId){
+        feedLikeRepository.deleteById(feedLikeId);
+    }
 }
