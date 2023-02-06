@@ -45,9 +45,17 @@ public class RunningController {
 
     @GetMapping("") // RunningCrew Read
     @ApiOperation(value = "Running Crew Read")
-    public BaseResponse<?> getRunnninCrew(@ApiIgnore Authentication authentication, @RequestParam("latitude") float latitude, @RequestParam("longitude") float longtitude){
+    public BaseResponse<?> getRunnninCrew(@ApiIgnore Authentication authentication, @RequestParam("latitude") float latitude, @RequestParam("longitude") float longitude){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
-        List<HashMap<String, List<RunningMainResDto>>> runningMainResDtos = runningservice.selectRunningCrew(latitude, longtitude, userSeq);
+        List<HashMap<String, List<RunningMainResDto>>> runningMainResDtos = runningservice.selectRunningCrew(latitude, longitude, userSeq);
+        System.out.println(runningMainResDtos.size());
+        HashMap<String, List<RunningMainResDto>> hashMap = new HashMap<>();
+        hashMap.put("Location", runningservice.findByLocation(latitude, longitude));
+        runningMainResDtos.add(hashMap);
+        System.out.println(runningMainResDtos.size());
+        HashMap<String, List<RunningMainResDto>> nowHash = new HashMap<>();
+        hashMap.put("now", runningservice.findByToday());
+        runningMainResDtos.add(nowHash);
         return BaseResponse.success(runningMainResDtos);
     }
 

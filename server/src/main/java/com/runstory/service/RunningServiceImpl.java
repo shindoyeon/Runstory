@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -63,23 +64,24 @@ public class RunningServiceImpl implements RunningService {
         return running.getRunningId();
     }
 
+    @Override
+    public List<RunningMainResDto> findByLocation(float latitude, float longitude) {
+        List<Running> runnings = runningrepository.findByLocation(latitude, longitude);
+        List<RunningMainResDto> result = runnings.stream().map(r->new RunningMainResDto(r)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public List<RunningMainResDto> findByToday() {
+        List<Running> runnings = runningrepository.findByStartTime();
+        List<RunningMainResDto> result = runnings.stream().map(r->new RunningMainResDto(r)).collect(Collectors.toList());
+        return result;
+    }
 
     @Override
     public List<HashMap<String, List<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude, Long userSeq){
         List<Running> runninglist = runningrepository.findByIsFinished(false); // 데이터 전체를 들고온다.
         List<HashMap<String, List<RunningMainResDto>>> result = new ArrayList<>();
-//        LocalDate seoulNow = LocalDate.now(ZoneId.of("Asia/Seoul")); // 현재 서울의 시간을 보여준다.
-//        for (Running running: runninglist){
-//            int year = running.getStartTime().getYear();
-//            int day = running.getStartTime().getDayOfYear();
-//            if (Math.abs(running.getStartLatitude() - latitude) < 0.01 && Math.abs(running.getStartLongitude() - longitude) < 0.01){
-//                RunningMainResDto runningMainResDto = new RunningMainResDto(running);
-//                result.add(runningMainResDto);
-//            }else if (day == seoulNow.getDayOfYear() && year == seoulNow.getYear()){
-//                RunningMainResDto runningMainResDto = new RunningMainResDto(running);
-//                result.add(runningMainResDto);
-//            }
-        // User에 따른 해쉬태그 들고오기 (HashTag에 따른 추가적인 공부사항 정의)
         User user = userRepository.findByUserSeq(userSeq);
         List<SelectedHashtag> userSelectedHashtags = selectedHashtagRepository.findAllByUser(user);
         for (SelectedHashtag selectedHashtag : userSelectedHashtags){

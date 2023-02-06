@@ -14,6 +14,8 @@ public interface RunningService {
     Long createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userseq);
 
     // MainPage
+    List<RunningMainResDto> findByLocation(float latitude, float longitude);
+    List<RunningMainResDto> findByToday();
     List<HashMap<String, List<RunningMainResDto>>> selectRunningCrew(float longitude, float latitude, Long userSeq);
 
     // DetailPage
