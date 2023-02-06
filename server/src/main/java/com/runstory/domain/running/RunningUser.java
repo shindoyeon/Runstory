@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class RunningUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +22,16 @@ public class RunningUser {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name= "running_id", foreignKey = @ForeignKey(name="fk_runninguser_to_running"))
+    @JoinColumn(name= "running_id")
     private Running running;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name= "userId", foreignKey = @ForeignKey(name="fk_runninguser_to_user"))
+    @JoinColumn(name= "userId")
     private User user;
+
+    public RunningUser(Running running, User user){
+        this.running = running;
+        this.user = user;
+    }
 }

@@ -1,8 +1,22 @@
-import React from 'react';
-import Slider from "react-slick";
+import React, {useState, useEffect} from 'react';
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./Swiper.css"
+import "./Swiper.css";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Button,
+} from '@chakra-ui/react';
+import axios from 'axios';
+import SliderImg from "./SliderImg"
+
 // import 'swiper/css';
 // import 'swiper/swiper-bundle.min.css'
 // import 'swiper/swiper.min.css'
@@ -11,27 +25,33 @@ import "./Swiper.css"
 // import { faCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
 
 const Swiper = () => {
-  const settings = {
-    // dots: false,
-    // infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    infinite: false
-  };
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  
+  const [info, setInfo] = useState([]);
+  const [infoTitle, setInfoTitle] = useState([]);
+  
+  useEffect(() => {
+    (async () => {
+      const data = await axios.get(
+    "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/running"
+  );
+      setInfo(data.data.data);
+      setInfoTitle(Object.keys(data.data.data))
+    })();
+  }, []);
 
     return (
-      // <div className='slide-div'>
-      // </div>`
-      <div className='silde-div'>
-        {/* <Slider>
-
-        </Slider> */}
-      {/* <Slider {...settings} className='slider'>
-        <div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div>
-        <div className='img'></div><div className='img'></div><div className='img'></div><div className='img'></div>
-        <div className='img'></div><div className='img'></div>
-      </Slider> */}
+      <div className='swiper-slide'>
+      {infoTitle.map((item, idx) => {
+          return (
+            <>
+              <div className='filter-box'>
+                  <div className='filter'># {item}</div>
+              </div>
+              <SliderImg hashtag={item} info={info}></SliderImg>
+            </>
+            );
+         })}
       </div>
     );
 }

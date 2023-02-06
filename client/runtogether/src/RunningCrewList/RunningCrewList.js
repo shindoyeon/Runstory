@@ -1,30 +1,18 @@
 import React from 'react';
-import {
-  ChakraProvider,
-  theme,
-} from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-// import BetweenBodyFooter from '../common/BetweenBodyFooter';
-// import Swiper from './Swiper'
-import FilterName from './FilterName';
+import BetweenBodyFooter from '../common/BetweenBodyFooter';
+import Swiper from './Swiper'
 import RunningCrewPageMsg from './RunningCrewPageMsg';
+
 
 function RunningCrewList() {
   return (
-      <div>
+      <div style={{width: '90%'}}>
         <Header></Header>
         <RunningCrewPageMsg></RunningCrewPageMsg>
-        <FilterName name="# 근처에_있는"></FilterName>
-        {/* <Swiper></Swiper> */}
-        <FilterName name="# 오늘_모집_마감"></FilterName>
-        {/* <Swiper></Swiper> */}
-        <FilterName name="# 사용자_해시태그_1"></FilterName>
-        {/* <Swiper></Swiper> */}
-        <FilterName name="# 사용자_해시태그_2"></FilterName>
-        {/* <Swiper></Swiper> */}
-        <FilterName name="# 사용자_해시태그_3"></FilterName>
-        {/* <Swiper></Swiper> */}
+        <Swiper></Swiper>
+        <BetweenBodyFooter></BetweenBodyFooter>
         <Footer></Footer>
       </div>
   );

@@ -7,11 +7,13 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ssafy
       MYSQL_DATABASE : runstory
-      MYSQL_TCP_PORT: 3009
+      MYSQL_TCP_PORT : 3308
+      MYSQL_USER : runningman
+      MYSQL_PASSWORD : ruuning009!
     ports:
-      - "3009:3009"
+      - "3308:3308"
     expose:
-      - "3009"
+      - "3308"
 
   backend:
     container_name: runstory-server
@@ -25,9 +27,9 @@ services:
     depends_on:
       - mysqldb
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3009/runstory?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ssafy
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3308/runstory?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+      SPRING_DATASOURCE_USERNAME: runningman
+      SPRING_DATASOURCE_PASSWORD: ruuning009!
 
   frontend:
     container_name: runstory-front
@@ -37,15 +39,11 @@ services:
     ports:
       - "3000:3000"
 
-#  jenkins:
-#    image: jenkins/jenkins:lts
-#    privileged: true
-#    user: root
-#    ports:
-#      - 9090:9090
-#      - 50000:50000
-#    container_name: jenkins
-#    volumes:
-#      - /home/${myname}/jenkins_compose/jenkins_configuration:/var/jenkins_home
-#      - /var/run/docker.sock:/var/run/docker.sock
+  # jenkins:
+  #   image: jenkins/jenkins:lts
+  #   user: root
+  #   volumes:
+  #     - ./jenkins:/var/jenkins_home
+  #   ports:
+  #     - 9090:8080
 

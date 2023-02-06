@@ -1,23 +1,31 @@
 package com.runstory.domain.running;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import lombok.Data;
+import javax.persistence.*;
+
+import com.runstory.api.request.RunningCrewReqDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Data
+@Getter
+@DynamicInsert
+@DynamicUpdate
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RunningDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(columnDefinition = "int default 0", nullable = false)
-    @Comment("인원유형(0:남자만, 1:여자만, 2:상관없음)")
-    private int genderType;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GenderType genderType;
 
     @Column(columnDefinition = "int default 0", nullable = false)
     @Comment("남자 인원")
@@ -42,4 +50,23 @@ public class RunningDetail {
     @Column(columnDefinition = "boolean default false", nullable = false)
     @Comment("강아지 여부")
     private boolean hasDog;
+
+    public RunningDetail(RunningCrewReqDto runningCrewReqDto){
+        this.genderType = runningCrewReqDto.getGenderType();
+        this.man = runningCrewReqDto.getMan();
+        this.women = runningCrewReqDto.getWomen();
+        this.total = runningCrewReqDto.getTotal();
+        this.minAge = runningCrewReqDto.getMinAge();
+        this.maxAge = runningCrewReqDto.getMaxAge();
+        this.hasDog = runningCrewReqDto.isHasDog();
+    }
+
+    public void runningDetailUpdate(RunningCrewReqDto runningCrewReqDto){
+        this.man = runningCrewReqDto.getMan();
+        this.women = runningCrewReqDto.getWomen();
+        this.total = runningCrewReqDto.getTotal();
+        this.minAge = runningCrewReqDto.getMinAge();
+        this.maxAge = runningCrewReqDto.getMaxAge();
+        this.hasDog = runningCrewReqDto.isHasDog();
+    }
 }
