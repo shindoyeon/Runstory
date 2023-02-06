@@ -50,7 +50,6 @@ public class FeedController {
         Boolean isMe = (userId==userDetails.getUserSeq());
         System.out.println("isMe: "+isMe);
         List<FeedDto> feedDtos = feedService.findByUserId(userDetails.getUserSeq(), userId, isMe);
-
         List<SimpleFeedResDto> result= feedDtos.stream().map(f->new SimpleFeedResDto(f)).collect(Collectors.toList());
 
         return BaseResponse.success(result);

@@ -1,6 +1,8 @@
 package com.runstory.domain.running.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.running.Running;
+import com.runstory.domain.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +17,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class RunningBoardCommentDto {
-    // 현재 로그인된 User에 대한 값 필요.
+    // Username 과 userId 같이 넘기기
+    private String userId;
     private String content;
     private LocalDateTime regdate;
-    private LocalDateTime updatedate;
 }
