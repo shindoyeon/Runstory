@@ -6,7 +6,6 @@ import {
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import CreateFeedPageMsg from './CreateFeedPageMsg';
-import ImgUpload from '../RecruitCrew/ImgUpload';
 import BetweenBodyFooter from '../common/BetweenBodyFooter';
 // import HashTag from './HashTag';
 import ArticleForm from './ArticleForm';
@@ -17,7 +16,6 @@ function CreateFeed() {
       <div>
         <Header></Header>
         <CreateFeedPageMsg></CreateFeedPageMsg>
-        <ImgUpload></ImgUpload>
         <ArticleForm></ArticleForm>
         <BetweenBodyFooter></BetweenBodyFooter>
         <Footer></Footer>
