@@ -18,12 +18,24 @@ import axios from 'axios';
 function Comment({comments, feedId}) {
     const [comment, setComment] = useState([]);
 
+    // 댓글 작성
     async function postComment() {
         await axios.post(""+feedId, {
             feedId: feedId,
             content: comment
         });
     }
+    // async function deleteComment() {
+    //     await axios.post(""+feedId, {
+    //         commentId: commentId
+    //     });
+    // }
+    // async function putComment() {
+    //     await axios.post(""+feedId, {
+    //         feedId: feedId,
+    //         content: comment
+    //     });
+    // }
 
 
     const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
