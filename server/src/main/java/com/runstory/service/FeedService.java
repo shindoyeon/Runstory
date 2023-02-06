@@ -1,12 +1,13 @@
 package com.runstory.service;
 
+import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.FeedResDto;
+import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.domain.feed.PublicScope;
+import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
-import com.runstory.domain.feed.entity.Feed;
-import com.runstory.domain.feed.entity.FeedFile;
-import com.runstory.domain.feed.entity.FeedLike;
+import com.runstory.domain.feed.entity.*;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;

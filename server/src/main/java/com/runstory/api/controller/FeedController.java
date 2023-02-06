@@ -1,14 +1,19 @@
 package com.runstory.api.controller;
 
+import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.common.auth.CustomUserDetails;
+import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.feed.entity.FeedLike;
 import com.runstory.domain.user.dto.FollowDto;
+import com.runstory.domain.user.dto.UserBlockDto;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.domain.user.entity.User;
+import com.runstory.domain.user.entity.UserBlock;
 import com.runstory.service.FeedService;
 import com.runstory.service.FollowService;
 import com.runstory.service.UserService;
@@ -20,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
+import com.runstory.service.UserBlockService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -35,6 +41,7 @@ public class FeedController {
     private final FeedService feedService;
     private final FollowService followService;
     private final UserService userService;
+    private final UserBlockService userBlockService;
 
 //    @GetMapping("")
     public  ResponseEntity<List<SimpleFeedResDto>> getFeedAll(){
