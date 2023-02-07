@@ -1,4 +1,4 @@
-package com.runstory.api.controller;
+package com.runstory.common.util;
 
 import com.runstory.domain.chat.dto.ChatMessageDto;
 import org.slf4j.Logger;

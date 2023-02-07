@@ -17,8 +17,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(final MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/topic");   // Enables a simple in-memory broker
+        registry.enableSimpleBroker("/topic","/queue");   // Enables a simple in-memory broker
 
+        // /topic : 한 명에게 메시지 전송
+        // /queue : 여러명에게 메시지 전송
 
         //   Use this for enabling a Full featured broker like RabbitMQ
 
