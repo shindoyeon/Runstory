@@ -2,6 +2,9 @@ package com.runstory.api.controller;
 
 import com.runstory.api.request.RunningCrewReqDto;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,10 +16,13 @@ import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.service.RunningService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.mail.Multipart;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -25,13 +31,14 @@ public class RunningController {
     @Autowired
     private RunningService runningservice;
 
-    @PostMapping("") // RunningCrew 생성
+    @PostMapping(value = "") // RunningCrew 생성
     @ApiOperation(value = "Running Crew Create")
-    public BaseResponse<?> createRunningCrew(@ApiIgnore Authentication authentication,@RequestBody RunningCrewReqDto runningCrewReqDto, HttpServletRequest request){
+    public BaseResponse<?> createRunningCrew(@ApiIgnore Authentication authentication, @RequestPart(value = "running") RunningCrewReqDto runningCrewReqDto, @RequestPart(value = "img") MultipartFile runningImg) throws Exception{
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        System.out.println(runningImg);
         Long userSeq = userDetails.getUserSeq(); // 로그인된 유저 Seq를 들고 온다.
-        Long result =  runningservice.createRunningCrew(runningCrewReqDto, userSeq);
-        return BaseResponse.success(result);
+        runningservice.createRunningCrew(runningCrewReqDto, userSeq, runningImg);
+        return BaseResponse.success("모임이 추가되었습니다.");
     }
 
 
@@ -69,9 +76,9 @@ public class RunningController {
         return BaseResponse.success(id + "가 삭제되었습니다.");
     }
 
-    @PutMapping("/detail") // 상세페이지 수정
-    public BaseResponse<?> runningCrewUpdate(@ApiIgnore Authentication authentication, @RequestBody RunningCrewReqDto newRunningCrewReqDto){
-        Long id = runningservice.updateRunningCrew(newRunningCrewReqDto);
+    @PutMapping(value = "/detail") // 상세페이지 수정
+    public BaseResponse<?> runningCrewUpdate(@ApiIgnore Authentication authentication, @RequestPart(value = "running") RunningCrewReqDto newRunningCrewReqDto, @RequestPart(value = "img") MultipartFile runningImg) throws Exception{
+        runningservice.updateRunningCrew(newRunningCrewReqDto, runningImg);
         return BaseResponse.success("Change ok");
     }
 

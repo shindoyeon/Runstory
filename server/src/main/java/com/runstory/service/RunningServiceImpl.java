@@ -15,7 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,10 +42,15 @@ public class RunningServiceImpl implements RunningService {
 
     @Override
     @Transactional
-    public Long createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq){// User user 현재 유저를 들고와야한다.
+    public void createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq, MultipartFile runningImg) throws Exception{// User user 현재 유저를 들고와야한다.
         // 유저 전체의 데이터를 들고온다.
         User user = userRepository.findByUserSeq(userSeq);
-        Running running = new Running(runningCrewReqDto, user);
+        String path = "C:/runTogether/uploads/user/"; //"./var/lib/runstory";
+        String imageFileName = runningImg.getOriginalFilename();
+        File file = new File(path+imageFileName);
+        runningImg.transferTo(file);
+
+        Running running = new Running(runningCrewReqDto, user, imageFileName, path);
         runningrepository.save(running);
         RunningDetail runningDetail = new RunningDetail(runningCrewReqDto);
         runningDetailRepository.save(runningDetail);
@@ -56,7 +65,6 @@ public class RunningServiceImpl implements RunningService {
                     .build();
             selectedHashtagRepository.save(selectedHashtag);
         }
-        return running.getRunningId();
     }
 
     @Override
@@ -119,10 +127,15 @@ public class RunningServiceImpl implements RunningService {
     // DetailPage 수정하기
     @Override
     @Transactional
-    public Long updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto){
-        Running running = runningrepository.getById(newRunningCrewReqDto.getId()); // 값읋 들고온다.
+    public void updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto, MultipartFile runningImg) throws Exception{
+        String path = "C:/runTogether/uploads/user/"; //"./var/lib/runstory/";
+        String imageFileName = runningImg.getOriginalFilename();
+        File file = new File(path+imageFileName);
+        runningImg.transferTo(file);
+
+        Running running = runningrepository.getById(newRunningCrewReqDto.getId()); // 값을 들고온다.
         RunningDetail runningDetail = runningDetailRepository.getById(newRunningCrewReqDto.getId());
-        running.RunningUpdate(newRunningCrewReqDto);
+        running.RunningUpdate(newRunningCrewReqDto, imageFileName, path);
         runningrepository.save(running);
         runningDetail.runningDetailUpdate(newRunningCrewReqDto);
         runningDetailRepository.save(runningDetail);
@@ -156,7 +169,6 @@ public class RunningServiceImpl implements RunningService {
 //                selectedHashtagRepository.deleteById(selectedHashtag.getSelectedHashtagId());
 //            }
 //        }
-        return newRunningCrewReqDto.getId();
     }
 
     // Reservation

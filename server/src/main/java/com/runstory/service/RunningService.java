@@ -4,13 +4,14 @@ import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
 
 public interface RunningService {
     // CreatePage
-    Long createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userseq);
+    void createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userseq, MultipartFile runningImg) throws Exception;
 
     // MainPage
     List<RunningMainResDto> findByLocation(float latitude, float longitude);
@@ -20,7 +21,7 @@ public interface RunningService {
     // DetailPage
     RunningDetailSumDto findRunningDetail(Long id, Long userseq);
     Long deleteRunningCrew(Long id);
-    Long updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto);
+    void updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto, MultipartFile runningImg) throws Exception;
 
     // DetailPage의 여러가지 기능
     Long reservationRunningCrew(Long runningid, Long userseq);
