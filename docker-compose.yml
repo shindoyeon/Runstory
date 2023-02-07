@@ -10,6 +10,8 @@ services:
       MYSQL_TCP_PORT : 3308
       MYSQL_USER : runningman
       MYSQL_PASSWORD : ruuning009!
+    volumes:
+      - mysql:/var/lib/mysql
     ports:
       - "3308:3308"
     expose:
@@ -30,6 +32,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3308/runstory?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
       SPRING_DATASOURCE_USERNAME: runningman
       SPRING_DATASOURCE_PASSWORD: ruuning009!
+    volumes:
+      - /var/lib/runstory
 
   frontend:
     container_name: runstory-front
@@ -46,4 +50,3 @@ services:
   #     - ./jenkins:/var/jenkins_home
   #   ports:
   #     - 9090:8080
-
