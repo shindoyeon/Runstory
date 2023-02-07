@@ -41,6 +41,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - front:/var/lib/front
+
 volumes:
   runstorymysql:
   runstorybackend:
+  front:
