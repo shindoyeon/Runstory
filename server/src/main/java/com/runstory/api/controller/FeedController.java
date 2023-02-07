@@ -140,6 +140,7 @@ public class FeedController {
         feed.setUserId(userDetails.getUserSeq());
         System.out.println(feed.toString());
         Feed result = feedService.updateFeed(feed, feedId);
+        if(result==null)    return BaseResponse.fail();
         return BaseResponse.success(null);
     }
 

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
-@Data
+@Getter
 @DynamicInsert
 @NoArgsConstructor
 public class Hashtag {

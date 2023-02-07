@@ -2,14 +2,14 @@ package com.runstory.domain.feed.entity;
 
 import javax.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class FeedFile {
 
