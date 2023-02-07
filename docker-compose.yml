@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   mysqldb:
     image: mysql:8.0.31
@@ -10,6 +9,8 @@ services:
       MYSQL_TCP_PORT : 3308
       MYSQL_USER : runningman
       MYSQL_PASSWORD : ruuning009!
+    volumes:
+      - runstorymysql:/var/lib/mysql
     ports:
       - "3308:3308"
     expose:
@@ -30,6 +31,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3308/runstory?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
       SPRING_DATASOURCE_USERNAME: runningman
       SPRING_DATASOURCE_PASSWORD: ruuning009!
+    volumes:
+      - /home/ubuntu/images:/var/lib/runstory # {Local 위치} : {Port 위치}
 
   frontend:
     container_name: runstory-front
@@ -38,4 +41,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - front:/var/lib/front
 
+volumes:
+  runstorymysql:
+  runstorybackend:
+  front:

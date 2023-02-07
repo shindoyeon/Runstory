@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class RunningMainResDto {
-    private Long runningId;
+    private long runningId;
     private String imgFilePath;
     private String imgFileName;
     private String crewName;

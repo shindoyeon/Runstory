@@ -1,10 +1,11 @@
 package com.runstory.repository;
 
 import com.runstory.domain.user.entity.User;
-import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 유저 모델 관련 디비 쿼리 생성을 위한 JPA Query Method 인터페이스 정의.
@@ -18,4 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteUserByUserId(String userId);
 //    Optional<User> findByUserId(String userId);
     User findByUserSeq(Long userId);
+    Page<User> findByUserNicknameContainsAndUserSeqLessThanOrderByUserSeqDesc(String userNickname, Long lastUserId, PageRequest pageRequest);
 }

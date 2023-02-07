@@ -2,9 +2,11 @@ package com.runstory.service;
 
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
+import com.runstory.api.response.SimpleUserResDto;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,8 +25,9 @@ public interface UserService {
 	void changePwd(String userId, String pwd);
 	void deleteUser(String userId);
 	void changeUserInfo(String type, String userId,String value);
-	void changeUserImage(boolean isRegistered, String userId, MultipartFile image);
+	void changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception;
 	@Transactional
 	void changeUserHashtage(String userId, List<Long> list);
 	String getToken(String userId);
+	List<SimpleUserResDto> searchByUserNickname(String userNickname, Long lastUserId, int size);
 }

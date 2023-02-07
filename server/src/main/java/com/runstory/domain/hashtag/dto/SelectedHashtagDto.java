@@ -1,15 +1,9 @@
 package com.runstory.domain.hashtag.dto;
 
-import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
-import com.runstory.domain.running.Running;
-import com.runstory.domain.running.dto.RunningDto;
-import com.runstory.domain.user.dto.UserDto;
-import lombok.*;
 
-import java.util.Objects;
-import java.util.Optional;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
