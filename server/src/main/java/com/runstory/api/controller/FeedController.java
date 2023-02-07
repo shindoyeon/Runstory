@@ -9,6 +9,7 @@ import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedLike;
+import com.runstory.domain.hashtag.dto.HashtagDto;
 import com.runstory.domain.user.dto.FollowDto;
 import com.runstory.domain.user.dto.UserBlockDto;
 import com.runstory.domain.user.entity.Follow;
@@ -20,6 +21,7 @@ import com.runstory.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -114,6 +116,13 @@ public class FeedController {
     public BaseResponse<?> getFollowList(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
         Map<String, List<FollowDto>> followList = followService.findFollowList(userId);
         return BaseResponse.success(followList);
+    }
+
+    @GetMapping("/hashtag")
+    @ApiOperation(value = "해시태그 조회")
+    public BaseResponse<?> getHashtag(){
+        List<HashtagDto> hashtags = feedService.getHashtags();
+        return BaseResponse.success(hashtags);
     }
 
     @PostMapping("")

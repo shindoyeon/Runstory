@@ -9,6 +9,7 @@ import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.*;
 import com.runstory.domain.hashtag.HashtagType;
+import com.runstory.domain.hashtag.dto.HashtagDto;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.entity.Follow;
@@ -313,6 +314,12 @@ public class FeedService {
             FeedCommentDto feedCommentDto = new FeedCommentDto(feedComment);
             result.add(feedCommentDto);
         }
+        return result;
+    }
+
+    public List<HashtagDto> getHashtags(){
+        List<Hashtag> hashtags = hashtagRepository.findAll();
+        List<HashtagDto> result = hashtags.stream().map(h->new HashtagDto(h)).collect(Collectors.toList());
         return result;
     }
 }
