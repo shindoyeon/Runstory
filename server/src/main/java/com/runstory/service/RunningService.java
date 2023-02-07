@@ -5,7 +5,6 @@ import com.runstory.api.response.RunningMainResDto;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

@@ -1,19 +1,13 @@
 package com.runstory.api.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.runstory.domain.hashtag.dto.HashtagDto;
 import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.*;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
-import com.runstory.domain.running.dto.RunningDibsDto;
-import com.runstory.domain.running.dto.RunningDto;
 import com.runstory.domain.running.dto.RunningUserDto;
-import com.runstory.domain.user.dto.UserDto;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

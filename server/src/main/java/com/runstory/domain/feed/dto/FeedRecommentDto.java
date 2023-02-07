@@ -1,14 +1,11 @@
 package com.runstory.domain.feed.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.runstory.domain.feed.entity.FeedComment;
 import com.runstory.domain.feed.entity.FeedRecomment;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
