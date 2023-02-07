@@ -2,6 +2,7 @@ package com.runstory.service;
 
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
+import com.runstory.api.response.SimpleUserResDto;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
@@ -11,13 +12,16 @@ import com.runstory.repository.HashtagRepository;
 import com.runstory.repository.SelectedHashtagRepository;
 import com.runstory.repository.UserRepository;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.net.InetAddress;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -166,7 +170,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void changeUserImage(boolean isRegistered, String userId, MultipartFile image) {
+	public void changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception{
 		User user = userRepository.findByUserId(userId);
 		// 수정하는 경우 기존 파일 삭제
 		if (!isRegistered) {
@@ -175,15 +179,23 @@ public class UserServiceImpl implements UserService {
 			System.out.println("파일 삭제 결과 : "+result);
 		}
 
+		String hostname = InetAddress.getLocalHost().getHostName();
+
 		//서버에 파일 저장
 		String imageFileName = image.getOriginalFilename();
-		String path = "C:/runTogether/uploads/"+ UUID.randomUUID()+imageFileName;
-		Path imagePath = Paths.get(path);
-		try {
-			Files.write(imagePath, image.getBytes());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		String name = imageFileName;
+		String path="";
+		File file = null;
+		Path p = Paths.get("/home/ubuntu/runstory/client/runtogether/public/user/"+name);
+		if(hostname.substring(0,7).equals("DESKTOP")){
+			path = "C:/runTogether/uploads/user/";
+			file = new File(path+name);
+		}else{
+			System.out.println("서버 파일 저장");
+			path = "./";
+			file=new File(path+name);
 		}
+		image.transferTo(file);
 
 		// DB 변경
 		user.setProfileImgFilePath(path);
@@ -214,5 +226,13 @@ public class UserServiceImpl implements UserService {
 	public String getToken(String userId) {
 		User user = userRepository.findByUserId(userId);
 		return user.getToken();
+	}
+
+	@Override
+	public List<SimpleUserResDto> searchByUserNickname(String userNickname, Long lastUserId, int size) {
+		PageRequest pageRequest = PageRequest.of(0, size);
+		Page<User> users = userRepository.findByUserNicknameContainsAndUserSeqLessThanOrderByUserSeqDesc(userNickname, lastUserId, pageRequest);
+		List<SimpleUserResDto> result = users.stream().map(u->new SimpleUserResDto(u)).collect(Collectors.toList());
+		return result;
 	}
 }

@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class RunningUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +29,9 @@ public class RunningUser {
     @ManyToOne
     @JoinColumn(name= "userId")
     private User user;
+
+    public RunningUser(Running running, User user){
+        this.running = running;
+        this.user = user;
+    }
 }

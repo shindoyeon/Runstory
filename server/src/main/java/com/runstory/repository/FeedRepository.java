@@ -17,5 +17,6 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
     List<Feed> findByUserId(@Param("userId") Long userId);
     Page<Feed> findByFeedIdLessThanAndPublicScopeNotInAndUserInOrderByFeedIdDesc(Long lastFeedId, List<PublicScope> p,List<User> followers, PageRequest pageRequest);
     Page<Feed> findByFeedIdLessThanAndPublicScopeInOrderByFeedIdDesc(Long lastFeedId, List<PublicScope> p,PageRequest pageRequest);
-
+    Page<Feed> findByFeedIdLessThanAndFeedIdInAndPublicScopeInOrderByFeedIdDesc
+            (Long lastFeedId, List<Long> feedId,List<PublicScope> p,PageRequest pageRequest);
 }

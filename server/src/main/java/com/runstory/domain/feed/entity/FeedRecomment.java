@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.runstory.domain.user.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
@@ -13,6 +15,8 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class FeedRecomment {
 
     @Comment("피드 대댓글 아이디")
@@ -31,6 +35,11 @@ public class FeedRecomment {
     @Column(length = 500)
     private String cotent;
     @Comment("등록일자")
-    @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
+
+    @PrePersist
+    public void prePersist(){
+        this.regdate=LocalDateTime.now();
+    }
 }
