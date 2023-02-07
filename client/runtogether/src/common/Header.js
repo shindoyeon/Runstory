@@ -16,7 +16,7 @@ const Header = () => {
               <div className='logo left-header'><Link to='/'><FontAwesomeIcon icon={faPersonRunning} /></Link></div>
               <div className='right-header'>
                 <div className='notice'><Link to="/notice"><FontAwesomeIcon icon={faHeart} /></Link></div>
-                <div className='chat'><FontAwesomeIcon icon={faCommentDots} /></div>
+                <div className='chat'><Link to="/chatting"><FontAwesomeIcon icon={faCommentDots} /></Link></div>
               </div>
             </header>
         </ChakraProvider>

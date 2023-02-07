@@ -7,7 +7,6 @@ import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 

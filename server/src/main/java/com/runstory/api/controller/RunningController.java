@@ -2,36 +2,28 @@ package com.runstory.api.controller;
 
 import com.runstory.api.request.RunningCrewReqDto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.api.response.RunningMainResDto;
 import com.runstory.common.auth.CustomUserDetails;
-import com.runstory.domain.running.Running;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
-import com.runstory.domain.user.entity.Follow;
 import com.runstory.service.RunningService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 
-
 @RestController
-    @RequestMapping("/running")
+@RequestMapping("/running")
 public class RunningController {
     @Autowired
     private RunningService runningservice;
-
 
     @PostMapping("") // RunningCrew 생성
     @ApiOperation(value = "Running Crew Create")

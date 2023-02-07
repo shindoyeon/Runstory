@@ -3,30 +3,10 @@ import React, {useState, useEffect} from 'react';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Swiper.css";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  Button,
-} from '@chakra-ui/react';
 import axios from 'axios';
 import SliderImg from "./SliderImg"
 
-// import 'swiper/css';
-// import 'swiper/swiper-bundle.min.css'
-// import 'swiper/swiper.min.css'
-// import 'swiper/swiper-bundle.css'
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCircle, faCircleDot } from "@fortawesome/free-regular-svg-icons";
-
-const Swiper = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  
+const Swiper = () => { 
   const [info, setInfo] = useState([]);
   const [infoTitle, setInfoTitle] = useState([]);
   
@@ -45,9 +25,11 @@ const Swiper = () => {
       {infoTitle.map((item, idx) => {
           return (
             <>
+              {/* 해시태그 제목 출력 */}
               <div className='filter-box'>
                   <div className='filter'># {item}</div>
               </div>
+              {/* 해당 해시태그 이미지들 출력 */}
               <SliderImg hashtag={item} info={info}></SliderImg>
             </>
             );

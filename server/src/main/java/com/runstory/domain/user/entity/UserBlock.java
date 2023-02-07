@@ -1,6 +1,6 @@
 package com.runstory.domain.user.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
@@ -9,7 +9,7 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class UserBlock {
     @Comment("차단 아이디")

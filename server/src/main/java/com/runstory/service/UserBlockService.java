@@ -1,7 +1,6 @@
 package com.runstory.service;
 
 import com.runstory.domain.user.dto.UserBlockDto;
-import com.runstory.domain.user.entity.Follow;
 import com.runstory.domain.user.entity.User;
 import com.runstory.domain.user.entity.UserBlock;
 import com.runstory.repository.UserBlockRepository;

@@ -9,16 +9,16 @@ import com.runstory.api.request.FeedReqDto;
 import com.runstory.domain.feed.PublicScope;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.entity.User;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Comment;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Feed {
 

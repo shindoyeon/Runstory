@@ -1,10 +1,8 @@
 package com.runstory.domain.feed.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedComment;
 import com.runstory.domain.feed.entity.FeedRecomment;
-import com.runstory.domain.user.entity.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

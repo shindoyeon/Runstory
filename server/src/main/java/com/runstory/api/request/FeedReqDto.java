@@ -1,8 +1,6 @@
 package com.runstory.api.request;
 
 import com.runstory.domain.feed.PublicScope;
-import com.runstory.domain.feed.entity.FeedFile;
-import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import lombok.Data;
 
 import java.time.LocalDateTime;

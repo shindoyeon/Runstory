@@ -5,8 +5,6 @@ import com.runstory.domain.user.entity.UserBlock;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 public class UserBlockDto {

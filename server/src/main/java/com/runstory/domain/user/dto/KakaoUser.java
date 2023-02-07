@@ -1,9 +1,5 @@
 package com.runstory.domain.user.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop;
-import java.util.List;
-import java.util.Properties;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
