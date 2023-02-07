@@ -9,6 +9,7 @@ import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedLike;
+import com.runstory.domain.hashtag.dto.HashtagDto;
 import com.runstory.domain.user.dto.FollowDto;
 import com.runstory.domain.user.dto.UserBlockDto;
 import com.runstory.domain.user.entity.Follow;
@@ -20,6 +21,7 @@ import com.runstory.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -116,6 +118,13 @@ public class FeedController {
         return BaseResponse.success(followList);
     }
 
+    @GetMapping("/hashtag")
+    @ApiOperation(value = "해시태그 조회")
+    public BaseResponse<?> getHashtag(){
+        List<HashtagDto> hashtags = feedService.getHashtags();
+        return BaseResponse.success(hashtags);
+    }
+
     @PostMapping("")
     @ApiOperation(value = "피드 등록")
     public BaseResponse<?> createFeed(@ApiIgnore Authentication authentication, @RequestPart FeedReqDto feed, @RequestPart MultipartFile [] files) throws IOException {
@@ -191,50 +200,49 @@ public class FeedController {
 
     // 피드 댓글 생성
     @PostMapping("/comment")
-    @ApiOperation(value = "피드댓글 생성")
+    @ApiOperation(value = "피드 댓글 생성")
     public BaseResponse<?> createFeedComment(@ApiIgnore Authentication authentication, @RequestBody FeedCommentReqDto feedCommentReqDto) throws IOException{
-        System.out.println(111111);
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = feedService.createFeedComment(feedCommentReqDto, userSeq);
-        return BaseResponse.success(id + "가 생성되었습니다.");
+        return BaseResponse.success(null);
     }
 
     // 피드 댓글 삭제
     @DeleteMapping("/comment/{commentid}")
-    @ApiOperation(value = "피드댓글 삭제")
+    @ApiOperation(value = "피드 댓글 삭제")
     public BaseResponse<?> deleteFeedComment(@ApiIgnore Authentication authentication,@PathVariable("commentid") Long commentId){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = feedService.deleteFeedComment(commentId, userSeq);
         if (id == null){
             return BaseResponse.fail();
         }else{
-            return BaseResponse.success("피드 댓글" + id + "가 삭제되었습니다.");
+            return BaseResponse.success(null);
         }
     }
 
-    @PostMapping("/recomment")
-    @ApiOperation(value = "대댓글 생성")
+    @PostMapping("/comment/recomment")
+    @ApiOperation(value = "피드 대댓글 생성")
     public BaseResponse<?> createFeedRecomment(@ApiIgnore Authentication authentication, @RequestBody FeedCommentReqDto feedCommentReqDto) throws IOException{
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = feedService.createFeedRecomment(feedCommentReqDto, userSeq);
-        return BaseResponse.success("대댓글 " + id + "이 생성되었습니다.");
+        return BaseResponse.success(null);
     }
 
-    @DeleteMapping("/comment/recomment/{recommentId}")
-    @ApiOperation(value = "대댓글 삭제")
-    public BaseResponse<?> deleteFeedReComment(@ApiIgnore Authentication authentication,@PathVariable("recommentId") Long recommentId){
+    @DeleteMapping("/comment/recomment/{recommentid}")
+    @ApiOperation(value = "피드 대댓글 삭제")
+    public BaseResponse<?> deleteFeedReComment(@ApiIgnore Authentication authentication,@PathVariable("recommentid") Long recommentId){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = feedService.deleteFeedReComment(recommentId, userSeq);
         if (id == null){
             return BaseResponse.fail();
         }else{
-            return BaseResponse.success("피드 대댓글" + id + "가 삭제되었습니다.");
+            return BaseResponse.success(null);
         }
     }
 
-    @GetMapping("/detail/{feedId}")
-    @ApiOperation(value = "으아아아악!")
-    public BaseResponse<?> getFeedDetail(@PathVariable("feedId") Long feedId){
+    @GetMapping("/comment/{feedid}")
+    @ApiOperation(value = "피드 댓글 상세조회")
+    public BaseResponse<?> getFeedDetail(@PathVariable("feedid") Long feedId){
         List<FeedCommentDto> result = feedService.getFeedDetail(feedId);
         return BaseResponse.success(result);
     }

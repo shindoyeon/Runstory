@@ -9,6 +9,7 @@ import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
 import com.runstory.domain.feed.entity.*;
 import com.runstory.domain.hashtag.HashtagType;
+import com.runstory.domain.hashtag.dto.HashtagDto;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.entity.Follow;
@@ -256,7 +257,7 @@ public class FeedService {
     // Feed 댓글 생성
     @Transactional
     public Long createFeedComment(FeedCommentReqDto feedCommentReqDto, Long userSeq){
-        Feed feed = feedRepository.findByFeedId(feedCommentReqDto.getFeedId());
+        Feed feed = feedRepository.findByFeedId(feedCommentReqDto.getId());
         User user = userRepository.findByUserSeq(userSeq);
         FeedComment feedComment = FeedComment.builder()
                 .feed(feed)
@@ -273,7 +274,7 @@ public class FeedService {
         User user = userRepository.findByUserSeq(userSeq);
         FeedComment feedComment = feedCommentRepository.findByFeedCommentIdAndUser(commentId, user);
         if (feedComment == null){
-                return -1L;
+                return null;
             }else{ // 만약 있으면
                 feedCommentRepository.deleteById(commentId);
                 return commentId;
@@ -282,8 +283,7 @@ public class FeedService {
 
     @Transactional
     public Long createFeedRecomment(FeedCommentReqDto feedCommentReqDto, Long userSeq){
-        FeedComment feedComment = feedCommentRepository.findByFeedCommentId(feedCommentReqDto.getFeedId());
-        System.out.println(feedComment.getFeedCommentId());
+        FeedComment feedComment = feedCommentRepository.findByFeedCommentId(feedCommentReqDto.getId());
         User user = userRepository.findByUserSeq(userSeq);
         FeedRecomment feedRecomment = FeedRecomment.builder()
                 .feedComment(feedComment)
@@ -314,6 +314,12 @@ public class FeedService {
             FeedCommentDto feedCommentDto = new FeedCommentDto(feedComment);
             result.add(feedCommentDto);
         }
+        return result;
+    }
+
+    public List<HashtagDto> getHashtags(){
+        List<Hashtag> hashtags = hashtagRepository.findAll();
+        List<HashtagDto> result = hashtags.stream().map(h->new HashtagDto(h)).collect(Collectors.toList());
         return result;
     }
 }
