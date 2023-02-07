@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from './api/axios';
+// import axios from './axios';
 import './Signup.css'
 import {
     ChakraProvider,
@@ -60,6 +61,7 @@ const Register = () => {
             return;
         }
         try {
+            console.log("try문  id :  "+id+" passowrd : "+password)
             const response = await axios.post(REGISTER_URL,
                 JSON.stringify({ id, password }),
                 {
@@ -103,7 +105,7 @@ const Register = () => {
                     <h1 style={{textAlign:'center'}}>회원가입</h1>
                     <form className="SignupForm" onSubmit={handleSubmit}>
                         <label className='SignLabel' htmlFor="username">
-                            닉네임
+                            아이디
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
                         </label>
@@ -127,7 +129,6 @@ const Register = () => {
                             문자로 시작해야 합니다.<br />
                             문자, 숫자, 밑줄, '-'만 가능합니다.
                         </p>
-
 
                         <label className='SignLabel' htmlFor="password">
                             비밀번호
@@ -175,7 +176,7 @@ const Register = () => {
                             입력했던 비밀번호와 정확히 일치해야 합니다.
                         </p>
                         {/* {console.log()} */}
-                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>회원가입</button>
+                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>다음</button>
                     </form>
                     <p>
                         이미 회원가입을 하셨다면?<br />
@@ -191,4 +192,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default Register;
