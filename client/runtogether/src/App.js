@@ -30,7 +30,7 @@ function App() {
                 <Routes>
                     <Route path='/' element={<MainPage />} />
                     <Route path='/user/login' element={<Login />} />
-                    <Route path='/user/signup' element={<Register />}
+                    <Route path='/user/signup' element={<Register />} />
                     <Route path='/create-feed' element={<CreateFeed />} />
                     <Route path='/running-crew-list' element={<RunningCrewList />} />
                     <Route path='/create-running-crew' element={<RecruitCrew />} />
