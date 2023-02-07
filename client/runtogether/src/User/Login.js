@@ -9,7 +9,7 @@ import {
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import  { useHistory} from 'react-router'; 
+import  {useNavigate} from 'react-router-dom'; 
 
 
 const LOGIN_URL = 'http://i8a806.p.ssafy.io/api/auth/login';
@@ -24,7 +24,7 @@ const Login = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
     // const dispatch = useDispatch();
-    const history = useHistory();
+    const Navigate = useNavigate();
 
     useEffect(() => {
         userRef.current.focus();
@@ -74,7 +74,7 @@ const Login = () => {
         <ChakraProvider>
         <Header></Header>
             {success ? (
-                history.push('/')
+                Navigate('/')
             ) : (
                 <section className='LoginSection' style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
