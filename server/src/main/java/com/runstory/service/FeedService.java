@@ -256,7 +256,7 @@ public class FeedService {
     // Feed 댓글 생성
     @Transactional
     public Long createFeedComment(FeedCommentReqDto feedCommentReqDto, Long userSeq){
-        Feed feed = feedRepository.findByFeedId(feedCommentReqDto.getFeedId());
+        Feed feed = feedRepository.findByFeedId(feedCommentReqDto.getId());
         User user = userRepository.findByUserSeq(userSeq);
         FeedComment feedComment = FeedComment.builder()
                 .feed(feed)
@@ -282,8 +282,7 @@ public class FeedService {
 
     @Transactional
     public Long createFeedRecomment(FeedCommentReqDto feedCommentReqDto, Long userSeq){
-        FeedComment feedComment = feedCommentRepository.findByFeedCommentId(feedCommentReqDto.getFeedId());
-        System.out.println(feedComment.getFeedCommentId());
+        FeedComment feedComment = feedCommentRepository.findByFeedCommentId(feedCommentReqDto.getId());
         User user = userRepository.findByUserSeq(userSeq);
         FeedRecomment feedRecomment = FeedRecomment.builder()
                 .feedComment(feedComment)
