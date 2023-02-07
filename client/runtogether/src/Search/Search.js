@@ -12,29 +12,18 @@ import SearchResultMsg from './SearchResultMsg';
 import UserSearchResult from './UserSearchResult'
 import axios from 'axios';
 
-const getLogin = async () => {
-  const res = await axios.post(
-    "http://i8A806.p.ssafy.io/api/auth/login", {
-        "id":"test",
-        "password":"1234"
-    }
-  );
-  return res.data;
-};
-
 function Search() {
   const [hashtags, setHashtags] = useState([]);
-    useEffect(() => {
-      (async () => {
-        const data = await getLogin();
-        setHashtags(data);
-      })();
-    }, []);
+    // useEffect(() => {
+    //   (async () => {
+    //     // const data = await getLogin();
+    //     // setHashtags(data);
+    //   })();
+    // }, []);
   
   return (
     <ChakraProvider theme={theme}>
       <div>
-        {console.log(hashtags)}
         <Header></Header>
         <SearchPageMsg></SearchPageMsg>
         <SearchBar></SearchBar>

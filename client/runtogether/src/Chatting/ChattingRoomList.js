@@ -4,9 +4,46 @@ import {
     ModalOverlay, ModalHeader, ModalContent, ModalBody, ModalCloseButton,
     ModalFooter, Button, Input
   } from '@chakra-ui/react';
-import './ChattingRoomList.css'
+import './ChattingRoomList.css';
+import SockJsClient from 'react-stomp';;
 
 const ChattingRoomList = () => {
+    // const client = new StompJs({
+    //     brokerURL: "",
+    //     connectHeaders: {
+    //         login: "user",
+    //         passcode: "password"
+    //     },
+    //     debug: function(msg) {
+    //         console.log("에러발생: "+msg);
+    //     },
+    //     reconnectDelay: 5000,
+    //     heartbeatIncoming: 4000,
+    //     heartbeatOutgoing: 4000,
+    // });
+
+    // client.onConnect = function (frame) {
+    //     console.log("연결 성공!!")
+    // }
+
+    // client.onSteomError = function (frame) {
+    //     console.log('Broker reported: '+frame.headers)
+    // }
+
+    // client.active();
+
+    // function sendMessage(msg) {
+    //     client.publish({
+    //         destination: "/topic/general",
+    //         body: msg,
+    //         headers: {priority: '9'},
+    //     });
+    // }
+
+    // const subscription = client.subscribe('/queue/test', callback);
+
+
+
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const chatting = [
@@ -54,7 +91,7 @@ const ChattingRoomList = () => {
                     <ModalCloseButton />
 
                     <ModalBody>
-                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor='#EBF5FF' border='2px solid #CDE5FF'>
+                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor='#F0F8FF' border='2px solid #CDE5FF'>
                         <CardHeader>
                             <div className='my-info'>
                                 <div className='chat-nickname me'>tang_tang</div>
@@ -69,7 +106,7 @@ const ChattingRoomList = () => {
                             <div className='chat-from-me'>안녕하세요! 처음뵙겠습니다!!!</div>
                         </CardHeader>
                     </Card>
-                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0FF" border="2px solid #FDD4FD">
+                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0F5" border="2px solid #FFE4E1">
                         <CardHeader>
                             <div className='other-info'>
                                 <Image
@@ -84,7 +121,7 @@ const ChattingRoomList = () => {
                             <div className='chat-from-other'>안녕하세요! 저도 만나서 반가워요!!</div>
                         </CardHeader>
                     </Card>
-                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0FF" border="2px solid #FDD4FD">
+                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0F5" border="2px solid #FFE4E1">
                         <CardHeader>
                             <div className='other-info'>
                                 <Image
@@ -99,7 +136,7 @@ const ChattingRoomList = () => {
                             <div className='chat-from-other'>먼저 연락주셔서 감사합니다!! 탕탕특공대 좋아하시나봐요? 주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리</div>
                         </CardHeader>
                     </Card>
-                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0FF" border="2px solid #FDD4FD">
+                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0F5" border="2px solid #FFE4E1">
                         <CardHeader>
                             <div className='other-info'>
                                 <Image
@@ -114,7 +151,7 @@ const ChattingRoomList = () => {
                             <div className='chat-from-other'>먼저 연락주셔서 감사합니다!! 탕탕특공대 좋아하시나봐요? 주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리주저리</div>
                         </CardHeader>
                     </Card>
-                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0FF" border="2px solid #FDD4FD">
+                    <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0F5" border="2px solid #FFE4E1">
                         <CardHeader>
                             <div className='other-info'>
                                 <Image
