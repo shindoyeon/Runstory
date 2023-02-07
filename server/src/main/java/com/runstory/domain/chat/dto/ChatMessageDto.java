@@ -1,8 +1,5 @@
 package com.runstory.domain.chat.dto;
 
-/**
- * Created by rajeevkumarsingh on 24/07/17.
- */
 public class ChatMessageDto {
     private MessageType type;
     private String content;
