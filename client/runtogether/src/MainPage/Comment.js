@@ -34,7 +34,7 @@ function Comment({comments, feedId}) {
     //     await axios.post(""+feedId, {
     //         feedId: feedId,
     //         content: comment
-    //     });
+    //     })Z;
     // }
 
 
