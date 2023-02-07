@@ -195,7 +195,7 @@ public class FeedController {
     public BaseResponse<?> createFeedComment(@ApiIgnore Authentication authentication, @RequestBody FeedCommentReqDto feedCommentReqDto) throws IOException{
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = feedService.createFeedComment(feedCommentReqDto, userSeq);
-        return BaseResponse.success(id + "가 생성되었습니다.");
+        return BaseResponse.success(null);
     }
 
     // 피드 댓글 삭제
@@ -207,7 +207,7 @@ public class FeedController {
         if (id == null){
             return BaseResponse.fail();
         }else{
-            return BaseResponse.success("피드 댓글" + id + "가 삭제되었습니다.");
+            return BaseResponse.success(null);
         }
     }
 

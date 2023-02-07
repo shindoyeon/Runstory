@@ -273,7 +273,7 @@ public class FeedService {
         User user = userRepository.findByUserSeq(userSeq);
         FeedComment feedComment = feedCommentRepository.findByFeedCommentIdAndUser(commentId, user);
         if (feedComment == null){
-                return -1L;
+                return null;
             }else{ // 만약 있으면
                 feedCommentRepository.deleteById(commentId);
                 return commentId;
