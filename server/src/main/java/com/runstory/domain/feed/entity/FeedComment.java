@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
-import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.user.entity.User;
-import com.runstory.repository.FeedCommentRepository;
-import com.runstory.repository.FeedRepository;
 import lombok.*;
 import org.hibernate.annotations.Comment;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static javax.persistence.FetchType.LAZY;
 

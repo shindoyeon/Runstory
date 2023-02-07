@@ -1,6 +1,5 @@
 package com.runstory.config;
 
-//import com.runstory.common.auth.JwtAuthenticationFilter;
 import com.runstory.common.auth.JwtAuthenticationFilter;
 import com.runstory.common.auth.CustomUserDetailService;
 import com.runstory.service.UserService;

@@ -1,10 +1,8 @@
 package com.runstory.domain.running;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.domain.user.entity.User;
 import lombok.Data;

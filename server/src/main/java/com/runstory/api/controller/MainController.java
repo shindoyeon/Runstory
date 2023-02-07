@@ -7,7 +7,6 @@ import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedLike;
 import com.runstory.service.FeedService;
-import com.runstory.service.FollowService;
 import com.runstory.service.RunningService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +25,6 @@ import java.util.stream.Collectors;
 @Api(tags = "인덱스 페이지 API")
 public class MainController {
     private final FeedService feedService;
-    private final FollowService followService;
     private final RunningService runningService;
     @GetMapping("/running-location")
     @ApiOperation(value = "현재위치 기반 러닝 모임 조회", notes = "")

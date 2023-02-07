@@ -1,7 +1,5 @@
 package com.runstory.domain.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.running.Running;

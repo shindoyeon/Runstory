@@ -2,7 +2,6 @@ package com.runstory.api.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.running.Running;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

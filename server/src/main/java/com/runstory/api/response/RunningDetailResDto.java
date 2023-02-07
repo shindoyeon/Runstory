@@ -2,8 +2,6 @@ package com.runstory.api.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.runstory.domain.running.GenderType;
-import com.runstory.domain.running.RunningBoardComment;
-import com.runstory.domain.running.RunningUser;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
