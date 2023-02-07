@@ -74,6 +74,11 @@ const ChattingRoomList = () => {
         alert(`작성된 내용: ${msg}`); // 데이터 잘 들어왔는지 확인용!!!
     };
 
+    async function openChattingRoom() {
+        onOpen();
+        await document.getElementById('chat-modal').scrollTo(0, document.getElementById('chat-modal').scrollHeight);
+    }
+
     return (
         <div className="chatting-list">
             <Modal
@@ -85,6 +90,7 @@ const ChattingRoomList = () => {
                 scrollBehavior='inside'
                 trapFocus='false'
                 id='chat-modal'>
+                    
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>songheew 님과의 채팅방</ModalHeader>
@@ -182,7 +188,7 @@ const ChattingRoomList = () => {
             {arr.map((item, idx) => {
                 return (
                     <>
-            <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center' onClick={onOpen}>
+            <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center' onClick={openChattingRoom}>
                     <CardHeader>
                         <Image
                             boxSize='50px'

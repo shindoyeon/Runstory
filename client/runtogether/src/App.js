@@ -43,7 +43,7 @@ function App() {
                     <Route path='/notice' element={<Notice />} />
                     <Route path='/draw-map' element={<DrawMap />} />
                     {/* <Route path='/feed' element={<Feed />} /> */}
-                    {/* <Route path='/chatting' element={<Chatting />} /> */}
+                    <Route path='/chatting' element={<Chatting />} />
                 </Routes>
             </BrowserRouter>
             {/* <MainPage></MainPage> */}
