@@ -33,7 +33,7 @@ services:
       SPRING_DATASOURCE_USERNAME: runningman
       SPRING_DATASOURCE_PASSWORD: ruuning009!
     volumes:
-      - /var/lib/runstory
+      - ./var/lib/runstory
 
   frontend:
     container_name: runstory-front
