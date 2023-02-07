@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
 			file = new File(path+name);
 		}else{
 			System.out.println("서버 파일 저장");
-			path = "./";
+			path = "/var/lib/runstory/";
 			file=new File(path+name);
 		}
 		image.transferTo(file);

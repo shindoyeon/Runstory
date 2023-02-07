@@ -79,6 +79,7 @@ public class RunningServiceImpl implements RunningService {
         List<HashMap<String, List<RunningMainResDto>>> result = new ArrayList<>();
         User user = userRepository.findByUserSeq(userSeq);
         List<SelectedHashtag> userSelectedHashtags = selectedHashtagRepository.findAllByUser(user);
+
         for (SelectedHashtag selectedHashtag : userSelectedHashtags){
             Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(selectedHashtag.getHashtag().getHashtagId());
             List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findAllByHashtag(hashtag);
