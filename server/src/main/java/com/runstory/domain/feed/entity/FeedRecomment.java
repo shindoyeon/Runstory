@@ -4,16 +4,13 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.runstory.domain.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

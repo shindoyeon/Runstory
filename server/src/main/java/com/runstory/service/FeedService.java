@@ -182,37 +182,41 @@ public class FeedService {
     @Transactional
     public Feed updateFeed(FeedReqDto feed, Long feedId) throws IOException {
         //피드 가져오기
-        Feed f = feedRepository.findByFeedId(feedId);
-        //내용 수정
-        f.setContent(feed.getContent());
-        f.setPublicScope(feed.getPublicScope());
+        Feed f = feedRepository.findByFeedIdAndUserUserSeq(feedId, feed.getUserId());
+        if(f!=null) {
+            //내용 수정
+            f.setContent(feed.getContent());
+            f.setPublicScope(feed.getPublicScope());
 
-        //해시태그 수정
-        List<Long> tags = feed.getSelectedHashTags();
-        Collections.sort(tags);
-        List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(feedId);    //DB에 저장된 해시태그
+            //해시태그 수정
+            List<Long> tags = feed.getSelectedHashTags();
+            Collections.sort(tags);
+            List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(feedId);    //DB에 저장된 해시태그
 
-        //저장된 해시태그 개수 비교
-        if(tags.size()!=selectedHashtags.size()){
-            System.out.println("해시태그 개수 다름");
-            //selectedhashtag 삭제 후 저장
-            selectedHashtagRepository.deleteSelectedHashtagByFeedId(feedId);
-            saveHashtags(f,feed.getSelectedHashTags());
-        } else {
-            //개수가 같으면 하나하나 비교
-            for(int i =0;i<tags.size();i++){
-                if(tags.get(i)!=selectedHashtags.get(i).getHashtag().getHashtagId()){
-                    System.out.println("해시태그 다시 저장");
-                    //selectedhashtag 삭제 후 저장
-                    selectedHashtagRepository.deleteSelectedHashtagByFeedId(feedId);
-                    saveHashtags(f,feed.getSelectedHashTags());
-                    break;
+            //저장된 해시태그 개수 비교
+            if (tags.size() != selectedHashtags.size()) {
+                System.out.println("해시태그 개수 다름");
+                //selectedhashtag 삭제 후 저장
+                selectedHashtagRepository.deleteSelectedHashtagByFeedId(feedId);
+                saveHashtags(f, feed.getSelectedHashTags());
+            } else {
+                //개수가 같으면 하나하나 비교
+                for (int i = 0; i < tags.size(); i++) {
+                    if (tags.get(i) != selectedHashtags.get(i).getHashtag().getHashtagId()) {
+                        System.out.println("해시태그 다시 저장");
+                        //selectedhashtag 삭제 후 저장
+                        selectedHashtagRepository.deleteSelectedHashtagByFeedId(feedId);
+                        saveHashtags(f, feed.getSelectedHashTags());
+                        break;
+                    }
                 }
             }
+            f.setSelectedHashtags(selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(feedId));
+            Feed result = feedRepository.save(f);
+
+            return result;
         }
-        f.setSelectedHashtags(selectedHashtagRepository.findByFeedIdOrderByHashtagIdAsc(feedId));
-        Feed result = feedRepository.save(f);
-        return result;
+        return null;
     }
 
     @Transactional
@@ -241,11 +245,9 @@ public class FeedService {
     }
     @Transactional
     public FeedLike saveFeedLiKe(Long feedId, Long userId){
-        FeedLike feedLike = new FeedLike();
         Feed feed = feedRepository.findByFeedId(feedId);
         User user = userRepository.findByUserSeq(userId);
-        feedLike.setFeed(feed);
-        feedLike.setUser(user);
+        FeedLike feedLike = new FeedLike(feed, user);
         return feedLikeRepository.save(feedLike);
     }
 

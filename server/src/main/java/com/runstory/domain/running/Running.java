@@ -8,9 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.runstory.api.request.RunningCrewReqDto;
-import com.runstory.domain.hashtag.dto.SelectedHashtagDto;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
-import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

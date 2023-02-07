@@ -1,6 +1,5 @@
 package com.runstory.api.request;
 
-import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.runstory.common.model.response.BaseResponseBody;
 import com.runstory.domain.user.RegType;
 import com.runstory.domain.user.RoleType;

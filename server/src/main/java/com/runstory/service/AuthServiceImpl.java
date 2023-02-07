@@ -1,7 +1,5 @@
 package com.runstory.service;
 
-import com.runstory.domain.user.entity.User;
-import com.runstory.repository.UserRepository;
 import java.util.Random;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;

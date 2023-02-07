@@ -2,13 +2,13 @@ package com.runstory.domain.running;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.runstory.domain.user.entity.User;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class RunningDibs {
     @Id
