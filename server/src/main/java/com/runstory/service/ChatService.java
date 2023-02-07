@@ -1,7 +1,10 @@
 package com.runstory.service;
 
+import com.runstory.domain.chat.ChatRoom;
 import com.runstory.domain.chat.dto.ChatRoomDto;
+import com.runstory.repository.ChatRoomRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +18,9 @@ import org.springframework.stereotype.Service;
 public class ChatService {
 
     private Map<String, ChatRoomDto> chatRoomMap;
+
+    @Autowired
+    ChatRoomRepository chatRoomRepository;
 
     @PostConstruct
     private void init() {
@@ -36,13 +42,17 @@ public class ChatService {
     }
 
     // roomName 로 채팅방 만들기
-    public ChatRoomDto createChatRoom(String roomName){
-        ChatRoomDto chatRoom = new ChatRoomDto().create(roomName); // 채팅룸 이름으로 채팅 룸 생성 후
+    public ChatRoomDto createChatRoom(Long myId, Long userId){
 
+//        ChatRoomDto chatRoomDto = new ChatRoomDto().create(roomName); // 채팅룸 이름으로 채팅 룸 생성 후
+        ChatRoom chatRoom = new ChatRoom();
+
+        chatRoomRepository.save(chatRoom);
         // map 에 채팅룸 아이디와 만들어진 채팅룸을 저장장
-        chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
+//        chatRoomMap.put(chatRoomDto.getRoomId(), chatRoomDto);
+        ChatRoomDto chatRoomDto = null;
 
-        return chatRoom;
+        return chatRoomDto;
     }
 
     // 채팅방 인원+1

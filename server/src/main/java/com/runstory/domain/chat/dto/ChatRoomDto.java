@@ -9,15 +9,15 @@ import java.util.UUID;
 // 메시지를 다른 세션의 클라이언트에게 발송하는 것도 구현 필요가 없다!
 @Data
 public class ChatRoomDto {
-    private String roomId; // 채팅방 아이디
+    private Long roomId; // 채팅방 아이디
     private String roomName; // 채팅방 이름
     private long userCount; // 채팅방 인원수
 
     private HashMap<String, String> userlist = new HashMap<String, String>();
 
-    public ChatRoomDto create(String roomName){
+    public ChatRoomDto create(Long roomId, String roomName){
         ChatRoomDto chatRoom = new ChatRoomDto();
-        chatRoom.roomId = UUID.randomUUID().toString();
+        chatRoom.roomId = roomId;
         chatRoom.roomName = roomName;
 
         return chatRoom;

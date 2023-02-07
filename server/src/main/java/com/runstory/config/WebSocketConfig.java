@@ -11,14 +11,20 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
+    public void registerStompEndpoints(final StompEndpointRegistry registry) {
+
         // stomp 접속 주소 url => /ws-stomp
         registry.addEndpoint("/ws-stomp") // 연결될 엔드포인트
+            .setAllowedOriginPatterns("*");
+
+        // stomp 접속 주소 url => /ws-stomp
+        registry.addEndpoint("/ws-stomp") // 연결될 엔드포인트
+            .setAllowedOriginPatterns("*")
             .withSockJS(); // SocketJS 를 연결한다는 설정
     }
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
+    public void configureMessageBroker(final MessageBrokerRegistry registry) {
         // 메시지를 구독하는 요청 url => 즉 메시지 받을 때
         registry.enableSimpleBroker("/sub");
 
