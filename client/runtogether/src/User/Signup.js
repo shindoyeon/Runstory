@@ -15,6 +15,7 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = '/user/signup';
 
+// 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 
 const Register = () => {
     const userRef = useRef();
     const errRef = useRef();
@@ -33,6 +34,13 @@ const Register = () => {
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+
+    const [userName, setUserName] = useState('');
+    const [userGender, setUserGender] = useState('');
+    const [userAge, setUserage] = useState('');
+    const [userNickname, setUserNickname] = useState('');
+    const [userAdress, setUserAdress] = useState('');
+    const [userPhonenum, setUserPhonenum] = useState('');
 
     useEffect(() => {
         userRef.current.focus();
@@ -61,7 +69,7 @@ const Register = () => {
             return;
         }
         try {
-            console.log("try문  id :  "+id+" passowrd : "+password)
+            console.log("try문  id :  "+id+" password : "+password)
             const response = await axios.post(REGISTER_URL,
                 JSON.stringify({ id, password }),
                 {
@@ -175,15 +183,139 @@ const Register = () => {
                             <FontAwesomeIcon icon={faInfoCircle} />
                             입력했던 비밀번호와 정확히 일치해야 합니다.
                         </p>
-                        {/* {console.log()} */}
-                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>다음</button>
+                        <label htmlFor="confirm_pwd">
+                            비밀번호 확인
+                            <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            className="SignupInput"
+                            type="password"
+                            id="confirm_pwd"
+                            onChange={(e) => setMatchPwd(e.target.value)}
+                            value={matchPwd}
+                            required
+                            aria-invalid={validMatch ? "false" : "true"}
+                            aria-describedby="confirmnote"
+                            onFocus={() => setMatchFocus(true)}
+                            onBlur={() => setMatchFocus(false)}
+                            />
+                        <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            입력했던 비밀번호와 정확히 일치해야 합니다.
+                        </p>
+                        <label htmlFor="confirm_pwd">
+                            비밀번호 확인
+                            <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            className="SignupInput"
+                            type="password"
+                            id="confirm_pwd"
+                            onChange={(e) => setMatchPwd(e.target.value)}
+                            value={matchPwd}
+                            required
+                            aria-invalid={validMatch ? "false" : "true"}
+                            aria-describedby="confirmnote"
+                            onFocus={() => setMatchFocus(true)}
+                            onBlur={() => setMatchFocus(false)}
+                            />
+                        <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            입력했던 비밀번호와 정확히 일치해야 합니다.
+                        </p>
+                        <label htmlFor="confirm_pwd">
+                            비밀번호 확인
+                            <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            className="SignupInput"
+                            type="password"
+                            id="confirm_pwd"
+                            onChange={(e) => setMatchPwd(e.target.value)}
+                            value={matchPwd}
+                            required
+                            aria-invalid={validMatch ? "false" : "true"}
+                            aria-describedby="confirmnote"
+                            onFocus={() => setMatchFocus(true)}
+                            onBlur={() => setMatchFocus(false)}
+                            />
+                        <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            입력했던 비밀번호와 정확히 일치해야 합니다.
+                        </p>
+                        <label htmlFor="confirm_pwd">
+                            비밀번호 확인
+                            <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            className="SignupInput"
+                            type="password"
+                            id="confirm_pwd"
+                            onChange={(e) => setMatchPwd(e.target.value)}
+                            value={matchPwd}
+                            required
+                            aria-invalid={validMatch ? "false" : "true"}
+                            aria-describedby="confirmnote"
+                            onFocus={() => setMatchFocus(true)}
+                            onBlur={() => setMatchFocus(false)}
+                            />
+                        <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            입력했던 비밀번호와 정확히 일치해야 합니다.
+                        </p>
+                        <label htmlFor="confirm_pwd">
+                            비밀번호 확인
+                            <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            className="SignupInput"
+                            type="password"
+                            id="confirm_pwd"
+                            onChange={(e) => setMatchPwd(e.target.value)}
+                            value={matchPwd}
+                            required
+                            aria-invalid={validMatch ? "false" : "true"}
+                            aria-describedby="confirmnote"
+                            onFocus={() => setMatchFocus(true)}
+                            onBlur={() => setMatchFocus(false)}
+                            />
+                        <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            입력했던 비밀번호와 정확히 일치해야 합니다.
+                        </p>
+                        <label htmlFor="confirm_pwd">
+                            비밀번호 확인
+                            <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            className="SignupInput"
+                            type="password"
+                            id="confirm_pwd"
+                            onChange={(e) => setMatchPwd(e.target.value)}
+                            value={matchPwd}
+                            required
+                            aria-invalid={validMatch ? "false" : "true"}
+                            aria-describedby="confirmnote"
+                            onFocus={() => setMatchFocus(true)}
+                            onBlur={() => setMatchFocus(false)}
+                            />
+                        <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            입력했던 비밀번호와 정확히 일치해야 합니다.
+                        </p>
+                        
+
+
                     </form>
                     <p>
-                        이미 회원가입을 하셨다면?<br />
-                        <span className="line">
-                            {/*put router link here*/}
-                            <a href="/user/login">로그인페이지로 이동</a>
-                        </span>
+                        이미 회원가입을 하셨다면?
+                     <a href="/user/login" style={{ textDecoration: 'underline'}}>로그인페이지로 이동</a>
                     </p>
                 </section>
             )}

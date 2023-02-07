@@ -66,8 +66,6 @@ const Login = () => {
                 }
                 errRef.current.focus();
             }
-            console.log(setId)
-            console.log(setPassword)
     }
     
     return (

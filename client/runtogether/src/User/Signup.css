@@ -7,7 +7,7 @@
 .SignupSection {
   margin : auto;
   margin-top: 35%;
-  border-radius: 10%;
+  /* border-radius: 10%; */
   max-width: 420px;
   min-height: 300px;
   display: flex;
