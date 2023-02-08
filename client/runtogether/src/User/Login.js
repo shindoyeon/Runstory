@@ -76,9 +76,9 @@ const Login = () => {
             ) : (
                 <section className='LoginSection' style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1 style={{textAlign:'center'}}>로그인</h1>
+                    <h1 style={{ fontSize:'30px', textAlign:'center'}}>로그인</h1>
                     <form className='LoginForm' onSubmit={handleSubmit}>
-                        <label className='LoginLabel' htmlFor="username">닉네임</label>
+                        <label className='LoginLabel' htmlFor="username">아이디</label>
                         <input
                             className='LoginInput'
                             type="text"
@@ -88,6 +88,7 @@ const Login = () => {
                             onChange={(e) => setId(e.target.value)}
                             value={id}
                             required
+                            placeholder='아이디를 입력하세요'
                             />
                         <Divider style={{margin: '5px'}}/>
                         <label htmlFor="password">비밀번호</label>
@@ -98,17 +99,15 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
                             required
+                            placeholder='비밀번호를 입력하세요'
                             />
                         <Divider style={{margin: '5px'}}/>
                         <KakaoLogin/>
-                        <button className='LoginButton'>로그인</button>
+                        <button className='LoginButton'>완료</button>
                     </form> 
-                    <p>
-                        계정이 필요하다면<br />
-                        <span className="line">
-                            {/*put router link here*/}
-                            <a href="/user/signup">회원가입</a>
-                        </span>
+                    <p className="line">
+                        계정이 필요하다면? : 
+                            <a style={{textDecoration:'underline', marginLeft: '10px' }} href="/user/signup">회원가입페이지로 이동</a>
                     </p>
                 </section>
             )}
