@@ -9,11 +9,10 @@ import {
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-// import {login} from '../redux/actions/authActions';
-// import { useDispatch } from 'react-redux';
+import  {useNavigate} from 'react-router-dom'; 
 
 
-const LOGIN_URL = '/auth/login';
+const LOGIN_URL = 'http://i8a806.p.ssafy.io/api/auth/login';
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
@@ -25,6 +24,7 @@ const Login = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
     // const dispatch = useDispatch();
+    const Navigate = useNavigate();
 
     useEffect(() => {
         userRef.current.focus();
@@ -33,7 +33,7 @@ const Login = () => {
     useEffect(() => {
         setErrMsg('');
     }, [id, password])
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         // dispatch(login(userData));
@@ -46,39 +46,35 @@ const Login = () => {
                     "Access-Control-Allow-Origin": "*" },
                     withCredentials: true
                 }
-            );
-            console.log(JSON.stringify(response?.data));
-            const roles = response?.data?.roles;
-            const accessToken = response?.data?.accessToken;
-            setAuth({ id, password, roles, accessToken });
-            setId('test');
-            setPassword('1234');
-            setSuccess(true);
-        } catch (err) {
-            if (!err?.response) {
-                setErrMsg('에러');
-            } else if (err.response?.status === 400) {
-                setErrMsg('이메일 혹은 비밀번호가 잘못되어있습니다.');
-            } else if (err.response?.status === 401) {
-                setErrMsg('인증되지 않은 사용자');
-            } else {
-                setErrMsg('로그인 실패');
+                );
+                console.log(JSON.stringify(response?.data));
+                // const roles = response?.data?.roles;
+                const accessToken = response?.data?.accessToken;
+                setAuth({ id, password, accessToken });
+                setId('test');
+                setPassword('qwer1234!');
+                setSuccess(true);
+            } catch (err) {
+                if (!err?.response) {
+                    setErrMsg('에러');
+                } else if (err.response?.status === 400) {
+                    setErrMsg('이메일 혹은 비밀번호가 잘못되어있습니다.');
+                } else if (err.response?.status === 401) {
+                    setErrMsg('인증되지 않은 사용자');
+                } else {
+                    setErrMsg('로그인 실패');
+                }
+                errRef.current.focus();
             }
-            errRef.current.focus();
-        }
+            console.log(setId)
+            console.log(setPassword)
     }
-
+    
     return (
         <ChakraProvider>
         <Header></Header>
             {success ? (
-                <section style={{width : '90%'}} >
-                    <h1>로그인 성공</h1>
-                    <br />
-                    <p>
-                        <a href="/">프로필로</a>
-                    </p>
-                </section>
+                Navigate('/')
             ) : (
                 <section className='LoginSection' style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
