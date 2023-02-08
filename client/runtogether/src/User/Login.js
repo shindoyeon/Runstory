@@ -4,6 +4,8 @@ import axios from './api/axios';
 import KakaoLogin from './KakaoLogin';
 import './Login.css'
 import {
+    Link,
+    Button,
     Divider,
     ChakraProvider,
   } from '@chakra-ui/react';
@@ -24,16 +26,20 @@ const Login = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
     // const dispatch = useDispatch();
-    const Navigate = useNavigate();
-
+    
     useEffect(() => {
         userRef.current.focus();
     }, [])
-
+    
     useEffect(() => {
         setErrMsg('');
     }, [id, password])
     
+    const navigate = useNavigate(); // navigate 변수 생성
+    const navigateHome = () => { // 취소 클릭 시 홈으로 가기 위함
+      navigate("/");
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         // dispatch(login(userData));
@@ -72,7 +78,7 @@ const Login = () => {
         <ChakraProvider>
         <Header></Header>
             {success ? (
-                Navigate('/')
+                navigate('/')
             ) : (
                 <section className='LoginSection' style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
@@ -103,7 +109,9 @@ const Login = () => {
                             />
                         <Divider style={{margin: '5px'}}/>
                         <KakaoLogin/>
-                        <button className='LoginButton'>완료</button>
+                        <Button onClick={navigateHome} style={{margin:'0 auto', marginTop:'10px'}}> 
+                        완료
+                        </Button>
                     </form> 
                     <p className="line">
                         계정이 필요하다면? : 

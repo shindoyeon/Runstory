@@ -6,11 +6,13 @@ import axios from './api/axios';
 import './Signup.css'
 import {
     ChakraProvider,
+    Link,
+    Button,
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import DaumPostcode from 'react-daum-postcode';
-
+import Address from './Address'
+import { useNavigate } from "react-router-dom";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -40,26 +42,29 @@ const Register = () => {
     const [userGender, setUserGender] = useState('');
     const [userAge, setUserAge] = useState('');
     const [userNickname, setUserNickname] = useState('');
-    const [userAddress, setUserAddress] = useState('');
+    // const [userAddress, setUserAddress] = useState('');
     const [userPhonenum, setUserPhonenum] = useState('');
-
-    const [openPostcode, setOpenPostcode] = useState(false);
-
-    const handle = {
-        // 버튼 클릭 이벤트
-        clickButton: () => {
-            setOpenPostcode(current => !current);
-        },
-
-        // 주소 선택 이벤트
-        selectAddress: (data: any) => {
-            console.log(`
-                주소: ${data.address},
-                우편번호: ${data.zonecode}
-            `)
-            setOpenPostcode(false);
-        },
+    const [popup, setPopup] = useState(false);
+    const [userAddress, setUserAddress] = useState({
+        address:'',
+    });
+    
+    const handleInput = (e) => {
+        setUserAddress({
+            ...userAddress,
+            [e.target.name]:e.target.value,
+        })
     }
+    
+    const handleComplete = () => {
+        setPopup(!popup);
+    }
+
+
+    const navigate = useNavigate(); // navigate 변수 생성
+    const navigateTag = () => { // 취소 클릭 시 홈으로 가기 위함
+        navigate("/user/signup/hashtag");
+      };
 
     useEffect(() => {
         userRef.current.focus();
@@ -78,6 +83,8 @@ const Register = () => {
         setErrMsg('');
     }, [id, password, matchPwd])
   
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
@@ -88,20 +95,26 @@ const Register = () => {
             return;
         }
         try {
-            console.log("try문  id :  "+id+" password : "+password)
-            const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ id, password
-                    
-                    , userName, userGender, userAge, userNickname, userAddress, userPhonenum }),
-                    {
-                        headers: { 'Content-Type': 'application/json' },
-                        withCredentials: true
-                    }
-                    );
-                    // TODO: remove console.logs before deployment
-            console.log(response)
-            console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response))
+            console.log(
+                "try문  id :"+id+
+                " password : "+password+
+                " 이름 :" +userName+
+                " 성별 :" +userGender+
+                " 나이 :" +userAge+
+                " 닉네임 :" +userNickname+
+                " 주소 :" +userAddress+
+                " 폰번호 :"+userPhonenum)
+            await axios.post(REGISTER_URL,
+                JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+                );
+                // TODO: remove console.logs before deployment
+                // console.log(response)
+                // console.log(JSON.stringify(response?.data));
+                //console.log(JSON.stringify(response))
             setSuccess(true);
             //clear state and controlled inputs
             setId('');
@@ -131,7 +144,7 @@ const Register = () => {
         <Header></Header>
             {success ? (
                 <section className="SignupSection" style={{width : '90%'}}>
-                    <h1>Success!</h1>
+                    <h1>회원가입을 축하합니다!</h1>
                     <p>
                         <a href="/user/login">로그인</a>
                     </p>
@@ -139,7 +152,7 @@ const Register = () => {
             ) : (
                 <section className="SignupSection" style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1 style={{textAlign:'center'}}>회원가입</h1>
+                    <h1 style={{textAlign:'center' ,fontSize:'30px'}}>회원가입</h1>
                     <form className="SignupForm" onSubmit={handleSubmit}>
 
                         <label className='SignLabel' htmlFor="username">
@@ -216,10 +229,13 @@ const Register = () => {
                             <FontAwesomeIcon icon={faInfoCircle} />
                             입력했던 비밀번호와 정확히 일치해야 합니다.
                         </p>
-                        {/* 상세정보 */}
+
+
+                        {/* 이하 상세정보 - 이름, 나이, 성별, 닉네임, 주소, 핸드폰번호*/}
                         <label className='signup-detail-label' htmlFor="confirm_pwd">
                             이름
                         </label>
+
                         <input
                             className="SignupInput"
                             type="userName"
@@ -238,7 +254,7 @@ const Register = () => {
                             id="confirm_pwd"
                             onChange={(e) => setUserAge(e.target.value)}
                             value={userAge}
-                            placeholder='성별을 입력하세요'
+                            placeholder='나이를 입력하세요'
                             />
 
                         <label className='signup-detail-label' htmlFor="confirm_pwd">
@@ -251,7 +267,7 @@ const Register = () => {
                             </p>
                             <p>
                                 <label for="female">여성</label>
-                                <input style={{marginLeft:'10px'}} id="female" type="radio" checked value="여성" name="ss"/>
+                                <input style={{marginLeft:'10px'}} id="female" type="radio" value="여성" name="ss"/>
                             </p>
                         </div>
 
@@ -273,43 +289,37 @@ const Register = () => {
                         <label className='signup-detail-label' htmlFor="confirm_pwd">
                             주소
                         </label>
+                        <input 
+                            className="SignupInput" 
+                            placeholder="주소를 입력하세요"  
+                            type="text" 
+                            required={true} 
+                            name="address" 
+                            onChange={handleInput} 
+                            value={userAddress.address}
+                            br/>
+
+                        <button style={{textAlign:'left'}} className="address-button" onClick={handleComplete}>주소 찾기</button>
+                        {popup && <Address company={userAddress} setcompany={setUserAddress}></Address>}
+
+                        <label className='signup-detail-label' htmlFor="confirm_pwd">
+                            핸드폰 번호
+                        </label>
                         <input
                             className="SignupInput"
-                            type="userAddress"
+                            type="userPhonenum"
                             id="confirm_pwd"
-                            onChange={openPostcode}
-                            value={openPostcode}
-                            // onChange={() => (openPostcode)}
-                            // value={setOpenPostcode}
+                            onChange={(e) => setUserPhonenum(e.target.value)}
+                            value={userPhonenum}
+                            placeholder='핸드폰 번호를 입력하세요'
                             />
-
-                            <div>
-                                <button onClick={handle.clickButton}>주소 찾기</button>
-                                    {openPostcode && 
-                                        <DaumPostcode 
-                                            onComplete={handle.selectAddress}  // 값을 선택할 경우 실행되는 이벤트
-                                            autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-                                            defaultQuery='테헤란로 212' // 팝업을 열때 기본적으로 입력되는 검색어 
-                                            />}
-                            </div>
-
-                            <label className='signup-detail-label' htmlFor="confirm_pwd">
-                                핸드폰 번호
-                            </label>
-                            <input
-                                className="SignupInput"
-                                type="userPhonenum"
-                                id="confirm_pwd"
-                                onChange={(e) => setUserPhonenum(e.target.value)}
-                                value={userPhonenum}
-                                placeholder='핸드폰 번호를 입력하세요'
-                                />
-
-                            <button className='signup-button'> 완료 </button>
+                        <Button onClick={navigateTag} style={{margin:'0 auto'}} mt='5px'> 
+                        완료
+                        </Button> 
                      </form>
                     <p>
                         이미 회원가입을 하셨다면?
-                     <a href="/user/login" style={{ textDecoration: 'underline'}}>로그인페이지로 이동</a>
+                     <a href="/user/login" style={{ marginLeft:'10px', textDecoration: 'underline'}}>로그인페이지로 이동</a>
                     </p>
                 </section>
             )}
