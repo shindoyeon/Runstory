@@ -16,6 +16,7 @@ import AlarmSetting from './Setting/AlarmSetting';
 import User from './Setting/User';
 import Login from './User/Login';
 import Register from './User/Signup';
+import RegisterHashtag from './User/SignupHashtag'
 import Notice from './Notice/Notice';
 import DrawMap from './DrawMap/DrawMap';
 import Chatting from './Chatting/Chatting'
@@ -31,6 +32,7 @@ function App() {
                     <Route path='/' element={<MainPage />} />
                     <Route path='/user/login' element={<Login />} />
                     <Route path='/user/signup' element={<Register />} />
+                    <Route path='/user/signup/hashtag' element={<RegisterHashtag />} />
                     <Route path='/create-feed' element={<CreateFeed />} />
                     <Route path='/running-crew-list' element={<RunningCrewList />} />
                     <Route path='/create-running-crew' element={<RecruitCrew />} />
