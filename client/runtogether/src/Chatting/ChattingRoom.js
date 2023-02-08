@@ -29,9 +29,6 @@ const ChattingRoom = () => {
         connectHeaders: {
           "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaWhpQG5hdmVyLmNvbSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY3NzEzNzA0OCwiaWF0IjoxNjc1ODQxMDQ4fQ.jJqXZbSS1BA03_SvVuyVvwaNZ_dwsiy6JdsFuALjzTvqo1RR-6kj-ywgMxMFupnvMpxeclEJXqYCag6etccQ9Q",
         },
-        debug: function (str) {
-          console.log(str);
-        },
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
@@ -111,11 +108,10 @@ const ChattingRoom = () => {
                     <ModalBody>
                     {chatMessages && chatMessages.length > 0 && (
                         <>
-                        {console.log(chatMessages)}
                             {chatMessages.map((_chatMessage, index) => (
-                                _chatMessage.sender==="tang_tang"?<MsgByMe msg={_chatMessage.message}></MsgByMe>
+                                _chatMessage.sender==="tang_tang"?<MsgByMe msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByMe>
                             :
-                            <MsgByOther msg={_chatMessage.message}></MsgByOther>
+                            <MsgByOther msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByOther>
                                 
                             ))}
                         </>

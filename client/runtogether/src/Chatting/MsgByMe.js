@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import './ChattingPageMsg.css';
 import {Card, CardHeader, Image} from '@chakra-ui/react';
 
-const MsgByMe = ({msg}) => {
+const MsgByMe = ({msg, sender}) => {
     return (
         <Card width='100%' mt='10px' display='flex' variant='filled' backgroundColor='#F0F8FF' border='2px solid #CDE5FF'>
             <CardHeader>
                 <div className='my-info'>
-                    <div className='chat-nickname me'>tang_tang</div>
+                    <div className='chat-nickname me'>{sender}</div>
                     <Image
                         boxSize='30px'
                         objectFit='cover'
