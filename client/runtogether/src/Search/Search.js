@@ -20,7 +20,7 @@ function Search() {
         <Header></Header>
         <SearchPageMsg></SearchPageMsg>
         <SearchBar></SearchBar>
-        <SearchResult></SearchResult>
+        {/* <SearchResult></SearchResult> */}
         {/* <SearchResultMsg></SearchResultMsg> */}
         {/* <FeedSearchResult></FeedSearchResult> */}
         {/* <UserSearchResult></UserSearchResult> */}
