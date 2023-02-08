@@ -149,6 +149,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void changeUserInfo(String type, String userId, String value) {
 		User user = userRepository.findByUserId(userId);
 		if("nickname".equals(type)){
