@@ -11,11 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
+@Setter
 @DynamicInsert
 public class ChatRoomUser {
     @Comment("사용자 채팅 방 아이디")

@@ -2,6 +2,7 @@ package com.runstory.api.controller;
 
 import com.runstory.api.response.BaseResponse;
 import com.runstory.common.auth.CustomUserDetails;
+import com.runstory.domain.chat.ChatRoom;
 import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.chat.dto.ChatRoomDto;
 import com.runstory.domain.user.entity.User;
@@ -9,6 +10,7 @@ import com.runstory.repository.ChatRoomRepository;
 import com.runstory.repository.ChatRoomUserRepository;
 import com.runstory.repository.UserRepository;
 import com.runstory.service.ChatService;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +41,7 @@ public class ChatRoomController {
     @GetMapping("")
     public BaseResponse<?> goChatRoom(){
 
-        List<ChatRoomDto> list = chatService.findAllRoom();
+        List<ChatRoom> list = chatService.findAllRoom();
         log.info("SHOW ALL " + " {}",list);
             return BaseResponse.success(list);
     }
@@ -51,45 +53,46 @@ public class ChatRoomController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Long myId = userDetails.getUserSeq();
 
-        String roomName = "";
-        if(myId <= userId){
-            roomName += (myId+"-"+userId);
-        }else {
-            roomName += (userId+"-"+myId);
-        }
+//        String roomName = "";
+//        if(myId <= userId){
+//            roomName += (myId+"-"+userId);
+//        }else {
+//            roomName += (userId+"-"+myId);
+//        }
 
         // 이미 만든 채팅방이 있는지 확인
         User my = userRepository.findByUserSeq(myId);
         User user = userRepository.findByUserSeq(userId);
+
         HashSet<Long> set = new HashSet<>();
         List<ChatRoomUser> myChattingList = chatRoomUserRepository.findByUser(my);
         for (ChatRoomUser room : myChattingList){
-            set.add(room.getChatRoomUserId());
+            set.add(room.getChatRoom().getChatRoomId());
         }
         myChattingList = chatRoomUserRepository.findByUser(user);
         for (ChatRoomUser room : myChattingList){
-            if(set.contains(room.getChatRoomUserId())){
+            if(set.contains(room.getChatRoom().getChatRoomId())){
                 // 이미 채팅방이 존재하는 경우
-                return BaseResponse.customSuccess(404,"이미 존재하는 방입니다.",room.getChatRoomUserId());
+                return BaseResponse.customSuccess(404,"이미 존재하는 방입니다.",room.getChatRoom());
             }
         }
 
-
-
-        ChatRoomDto room = chatService.createChatRoom(myId,userId);
+        ChatRoom room = chatService.createChatRoom(my,user);
         log.info("CREATE Chat Room {}", room);
-        return BaseResponse.success(roomName);
+        return BaseResponse.success(room.getChatRoomId());
     }
 
     // 채팅방 입장 화면
     // 파라미터로 넘어오는 roomId 를 확인후 해당 roomId 를 기준으로
     // 채팅방을 찾아서 클라이언트를 chatroom 으로 보낸다.
-    @GetMapping("/room")
-    public BaseResponse<?> roomDetail(String roomId){
+    @GetMapping("/rooms")
+    public BaseResponse<?> roomList(@ApiIgnore Authentication authentication){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        Long userSeq = userDetails.getUserSeq();
 
-        log.info("roomId {}", roomId);
-        ChatRoomDto room =  chatService.findRoomById(roomId);
-            return BaseResponse.success(room);
+        ArrayList<Long> list =  chatService.getUserChatRoomList(userSeq);
+
+        return BaseResponse.success(list);
     }
 
 }

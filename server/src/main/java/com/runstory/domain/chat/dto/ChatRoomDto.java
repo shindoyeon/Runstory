@@ -10,15 +10,13 @@ import java.util.UUID;
 @Data
 public class ChatRoomDto {
     private Long roomId; // 채팅방 아이디
-    private String roomName; // 채팅방 이름
     private long userCount; // 채팅방 인원수
 
     private HashMap<String, String> userlist = new HashMap<String, String>();
 
-    public ChatRoomDto create(Long roomId, String roomName){
+    public ChatRoomDto create(Long roomId){
         ChatRoomDto chatRoom = new ChatRoomDto();
         chatRoom.roomId = roomId;
-        chatRoom.roomName = roomName;
 
         return chatRoom;
     }
