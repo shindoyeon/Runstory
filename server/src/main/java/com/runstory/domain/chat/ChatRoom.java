@@ -30,6 +30,6 @@ public class ChatRoom {
     private List<ChatMessage> messages = new ArrayList<>();
 
     @Comment("등록 시간")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
 }

@@ -33,6 +33,6 @@ public class ChatRoomUser {
     private User user;
 
     @Comment("등록일자")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
 }
