@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 @Slf4j
@@ -58,6 +59,26 @@ public class ChatController {
         chat.setMessage(chat.getMessage());
         template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
 
+    }
+
+    @EventListener
+    void handleSessionConnectedEvent(SessionConnectedEvent event) {
+        // Get Accessor
+//        StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+//        String sessionId = sha.getUser().getName();
+
+
+        String username = event.getUser().getName();
+        // builder 어노테이션 활용
+        ChatDto chat = ChatDto.builder()
+            .type(ChatDto.MessageType.ENTER)
+            .sender(username)
+            .message(username + " 님 입장!!")
+            .build();
+
+        template.convertAndSend("/"
+            + ""
+            + "sub/chat/room/" + 1, chat);
     }
 
     // 유저 퇴장 시에는 EventListener 을 통해서 유저 퇴장을 확인
