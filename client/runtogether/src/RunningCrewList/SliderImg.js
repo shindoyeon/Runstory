@@ -10,6 +10,7 @@ function SliderImg({hashtag, info}) {
         slidesToScroll: 1
       };
     return (
+        // 총 12개 출력
         <>
             <Slider {...settings} className='slide'>
                 <div className='slide'>

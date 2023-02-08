@@ -1,8 +1,9 @@
 import React from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import ChattingRoom from './ChattingRoomList';
+import ChattingRoomList from './ChattingRoomList';
 import ChattingPageMsg from './ChattingPageMsg';
+import Temp from './Temp';
 
 
 function Chatting() {
@@ -10,7 +11,8 @@ function Chatting() {
           <div>
             <Header></Header>
             <ChattingPageMsg></ChattingPageMsg>
-            <ChattingRoom></ChattingRoom>
+            <ChattingRoomList></ChattingRoomList>
+            {/* <Temp></Temp> */}
             <Footer></Footer>
           </div>
       );
