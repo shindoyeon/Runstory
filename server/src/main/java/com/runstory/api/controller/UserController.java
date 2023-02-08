@@ -223,7 +223,7 @@ public class UserController {
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 
-		userService.changeUserInfo("hashtag", userId,userRegisterPostReq.getAddress());
+		userService.changeUserInfo("address", userId,userRegisterPostReq.getAddress());
 
 		return ResponseEntity.ok(BaseResponse.success(null));
 	}
