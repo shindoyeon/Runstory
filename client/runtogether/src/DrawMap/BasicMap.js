@@ -50,7 +50,7 @@ function BasicMap() {
     // });
   }, []);
 
-
+    
     function clearDrawing() {
       window.location.replace("/draw-map")
     }

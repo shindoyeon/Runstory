@@ -19,13 +19,13 @@ import {
     const feed = props.feed;
 
     async function postLike(feedId) {
-        await axios.post(""+feedId, {
+        await axios.post("http://i8a806.p.ssafy.io/api/feed/feed-like/"+feedId, {
             feedId: feedId
         });
     }
 
     async function deleteLike(feedId) {
-        await axios.delete(""+feedId, {
+        await axios.delete("http://i8a806.p.ssafy.io/api/feed/feed-unlike/"+feedId, {
             feedId: feedId
         });
     }
