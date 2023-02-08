@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './Feed.css';
 import {
     Card, // chakra-ui의 Card로 피드 하나를 구성할 것임
     Image,
+    Modal,
     ModalOverlay,
     ModalContent,
     ModalHeader,
@@ -12,27 +13,35 @@ import {
     Input,
     Button,
     CardBody,
+    CardFooter,
+    useDisclosure
   } from '@chakra-ui/react';
 import axios from 'axios';
 
 function Comment({comments, feedId}) {
     const [comment, setComment] = useState([]);
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     // 댓글 작성
     async function postComment() {
-        await axios.post(""+feedId, {
+        await axios.post("http://i8a806.p.ssafy.io/api/comment", {
             feedId: feedId,
             content: comment
         });
     }
-    // async function deleteComment() {
-    //     await axios.post(""+feedId, {
-    //         commentId: commentId
-    //     });
-    // }
-    // async function putComment() {
-    //     await axios.post(""+feedId, {
-    //         feedId: feedId,
+
+    // 댓글 삭제
+    async function deleteComment(commentId) {
+        await axios.delete("http://i8a806.p.ssafy.io/api/comment/"+commentId, {
+            commentId: commentId
+        });
+    }
+
+    // 댓글 수정
+    // async function putComment(commentId) {
+    //     await axios.post(""+, {
+    //         commentId: commentId,
     //         content: comment
     //     });
     // }
@@ -66,7 +75,28 @@ function Comment({comments, feedId}) {
                                         <div className='comment-nickname'>{item.userNickname}</div>
                                     </div>
                                     <div className='comment-content'>{item.content}</div>
+                                    <div style={{marginTop: '10px', fontSize: '12px'}}>답글 보기</div>
                                 </CardBody>
+                                <CardFooter>
+                                    <div className='comment-modify-btn'>수정</div>
+                                    <div className='comment-delete-btn' onClick={onOpen}>삭제</div>
+                                    <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal'>
+                                        <ModalOverlay />
+                                        <ModalContent>
+                                            <ModalHeader>경고</ModalHeader>
+                                            <ModalCloseButton />
+                                            <ModalBody>
+                                            작성중인 글이 모두 지워집니다. 그래도 나가시겠습니까?
+                                            </ModalBody>
+                                            <ModalFooter>
+                                                <Button colorScheme='red' mr={3} onClick={onClose}>
+                                                    취소
+                                                </Button>
+                                                <Button variant='ghost' onClick={()=>{deleteComment(item.feedCommentId)}}>확인</Button>
+                                            </ModalFooter>
+                                        </ModalContent>
+                                        </Modal>                                
+                                </CardFooter>
                             </Card>
                             )
                         })}    
