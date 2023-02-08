@@ -1,6 +1,6 @@
 package com.runstory.domain.user.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @DynamicInsert
 public class Follow {
