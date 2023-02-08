@@ -6,10 +6,10 @@ import {
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 
-const SearchPageMsg = () => {
+const FeedSearchResult = () => {
     return (
         <div className="user-search-result">
-            <table border="1" className='imgs'>
+            <table border="1" className='imgs-table'>
                 <tr>
                     <td><Image
                     boxSize='120px'
@@ -77,4 +77,4 @@ const SearchPageMsg = () => {
     );
 }
 
-export default SearchPageMsg;
+export default FeedSearchResult;
