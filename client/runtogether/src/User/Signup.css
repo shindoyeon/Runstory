@@ -6,8 +6,9 @@
 
 .SignupSection {
   margin : auto;
-  margin-top: 35%;
-  /* border-radius: 10%; */
+  margin-top: 15%;
+  margin-bottom: 15%;
+  /* border-radius: 12%; */
   max-width: 420px;
   min-height: 300px;
   display: flex;
@@ -90,4 +91,21 @@ padding: 0.5rem;
 
 .line {
   display: inline-block;
+}
+
+.signup-detail-label {
+  margin-top: 14px;
+}
+
+input::placeholder {
+  font-size: 15px;
+  font-style: italic;
+}
+
+.signup-button {
+  justify-content: center;
+  font-size: 30px;
+  border-radius: 20%;
+  border-color: black;
+  margin-top: 10px
 }
