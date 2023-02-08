@@ -2,6 +2,7 @@ package com.runstory.service;
 
 import com.runstory.domain.chat.ChatRoom;
 import com.runstory.domain.chat.ChatRoomUser;
+import com.runstory.domain.chat.dto.ChatListDto;
 import com.runstory.domain.chat.dto.ChatRoomDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.ChatRoomRepository;
@@ -125,19 +126,39 @@ public class ChatService {
     }
 
     // 채팅방 전체 user-chat-list 조회
-    public ArrayList<Long> getUserChatRoomList(Long userSeq){
-        ArrayList<Long> list = new ArrayList<>();
+    public List<ChatListDto> getUserChatRoomList(Long userSeq){
 
         User user = userRepository.findByUserSeq(userSeq);
 
-        List<ChatRoomUser> rooms = chatRoomUserRepository.findByUser(user);
-
-        for(ChatRoomUser room : rooms){
-            list.add(room.getChatRoom().getChatRoomId());
+        List<ChatRoomUser> list = user.getRooms(); //내가 포함 된 채팅 리스트
+        List<ChatRoom> chatRoomList = new ArrayList<>();
+        for (ChatRoomUser chatRoomUser : list){
+            ChatRoom chatRoom = chatRoomUser.getChatRoom();
+            chatRoomList.add(chatRoom);
         }
+
+        List<ChatListDto> result = new ArrayList<>();
+        for (ChatRoom chatRoom : chatRoomList){
+            List<ChatRoomUser> chatRoomUserList = chatRoomUserRepository.findByChatRoom(chatRoom);
+            for (ChatRoomUser chatRoomUser: chatRoomUserList){
+                System.out.println("여기입니다.:"+chatRoomUser.getChatRoomUserId());
+                User opponent = chatRoomUser.getUser();
+                if(opponent.getUserSeq() == userSeq) {
+                    System.out.println("범임은 너임?");
+                    continue;
+                }
+                ChatListDto chatListDto = new ChatListDto();
+                chatListDto.setRoomId(chatRoom.getChatRoomId());
+                chatListDto.setUserSeq(opponent.getUserSeq());
+                chatListDto.setUserNickname(opponent.getUserNickname());
+                chatListDto.setProfileImgFilePath(opponent.getProfileImgFilePath());
+                result.add(chatListDto);
+            }
+        }
+
         // hashmap 을 for 문을 돌린 후
         // value 값만 뽑아내서 list 에 저장 후 reutrn
 //        room.getUsers().forEach((key, value) -> list.add(value));
-        return list;
+        return result;
     }
 }

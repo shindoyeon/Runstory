@@ -4,6 +4,7 @@ import com.runstory.api.response.BaseResponse;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.chat.ChatRoom;
 import com.runstory.domain.chat.ChatRoomUser;
+import com.runstory.domain.chat.dto.ChatListDto;
 import com.runstory.domain.chat.dto.ChatRoomDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.ChatRoomRepository;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -53,13 +55,6 @@ public class ChatRoomController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Long myId = userDetails.getUserSeq();
 
-//        String roomName = "";
-//        if(myId <= userId){
-//            roomName += (myId+"-"+userId);
-//        }else {
-//            roomName += (userId+"-"+myId);
-//        }
-
         // 이미 만든 채팅방이 있는지 확인
         User my = userRepository.findByUserSeq(myId);
         User user = userRepository.findByUserSeq(userId);
@@ -90,7 +85,7 @@ public class ChatRoomController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Long userSeq = userDetails.getUserSeq();
 
-        ArrayList<Long> list =  chatService.getUserChatRoomList(userSeq);
+        List<ChatListDto> list =  chatService.getUserChatRoomList(userSeq);
 
         return BaseResponse.success(list);
     }
