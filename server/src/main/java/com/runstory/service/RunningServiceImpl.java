@@ -2,6 +2,7 @@ package com.runstory.service;
 
 import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
+import com.runstory.common.util.FileUtil;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.net.InetAddress;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -45,12 +47,17 @@ public class RunningServiceImpl implements RunningService {
     public void createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq, MultipartFile runningImg) throws Exception{// User user 현재 유저를 들고와야한다.
         // 유저 전체의 데이터를 들고온다.
         User user = userRepository.findByUserSeq(userSeq);
-        String path = "/home/ubuntu/images"; // /home/ubuntu/images;
-        String imageFileName = runningImg.getOriginalFilename();
-        File file = new File(path+imageFileName);
-        runningImg.transferTo(file);
+//        String path = "/var/lib/runstory"; // /home/ubuntu/images;
+//        String imageFileName = runningImg.getOriginalFilename();
+//        File file = new File(path+imageFileName);
+//        runningImg.transferTo(file);
 
-        Running running = new Running(runningCrewReqDto, user, imageFileName, path);
+        String hostname = InetAddress.getLocalHost().getHostName();
+        FileUtil fileUtil = new FileUtil();
+        HashMap<String, String> file = fileUtil.fileCreate(hostname, "running",runningImg);
+
+//        Running running = new Running(runningCrewReqDto, user, imageFileName, path);
+        Running running = new Running(runningCrewReqDto, user, file.get("filename"), file.get("filepath"));
         runningrepository.save(running);
         RunningDetail runningDetail = new RunningDetail(runningCrewReqDto);
         runningDetailRepository.save(runningDetail);
@@ -128,14 +135,19 @@ public class RunningServiceImpl implements RunningService {
     @Override
     @Transactional
     public void updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto, MultipartFile runningImg) throws Exception{
-        String path = "/home/ubuntu/images"; //  /home/ubuntu/images
-        String imageFileName = runningImg.getOriginalFilename();
-        File file = new File(path+imageFileName);
-        runningImg.transferTo(file);
+//        String path = "/var/lib/runstory/"; //  /home/ubuntu/images
+//        String imageFileName = runningImg.getOriginalFilename();
+//        File file = new File(path+imageFileName);
+//        runningImg.transferTo(file);
+
+        String hostname = InetAddress.getLocalHost().getHostName();
+        FileUtil fileUtil = new FileUtil();
+        HashMap<String, String> file = fileUtil.fileCreate(hostname, "running",runningImg);
 
         Running running = runningrepository.getById(newRunningCrewReqDto.getId()); // 값을 들고온다.
         RunningDetail runningDetail = runningDetailRepository.getById(newRunningCrewReqDto.getId());
-        running.RunningUpdate(newRunningCrewReqDto, imageFileName, path);
+//        running.RunningUpdate(newRunningCrewReqDto, imageFileName, path);
+        running.RunningUpdate(newRunningCrewReqDto, file.get("filename"), file.get("filepath"));
         runningrepository.save(running);
         runningDetail.runningDetailUpdate(newRunningCrewReqDto);
         runningDetailRepository.save(runningDetail);
