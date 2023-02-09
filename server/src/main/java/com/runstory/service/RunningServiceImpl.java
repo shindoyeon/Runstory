@@ -45,7 +45,7 @@ public class RunningServiceImpl implements RunningService {
     public void createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq, MultipartFile runningImg) throws Exception{// User user 현재 유저를 들고와야한다.
         // 유저 전체의 데이터를 들고온다.
         User user = userRepository.findByUserSeq(userSeq);
-        String path = "/home/ubuntu/images"; // /home/ubuntu/images;
+        String path = "/home/ubuntu/images/"; // /home/ubuntu/images;
         String imageFileName = runningImg.getOriginalFilename();
         File file = new File(path+imageFileName);
         runningImg.transferTo(file);
@@ -128,7 +128,7 @@ public class RunningServiceImpl implements RunningService {
     @Override
     @Transactional
     public void updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto, MultipartFile runningImg) throws Exception{
-        String path = "/home/ubuntu/images"; //  /home/ubuntu/images
+        String path = "/home/ubuntu/images/"; //  /home/ubuntu/images
         String imageFileName = runningImg.getOriginalFilename();
         File file = new File(path+imageFileName);
         runningImg.transferTo(file);
