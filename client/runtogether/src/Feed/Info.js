@@ -23,8 +23,9 @@ const Info = () => {
                     <ProfileIdPhoto></ProfileIdPhoto>
                     <Card style={{boxShadow:'none'}} direction={{base: 'column'}}>
                         <ProfileStatus></ProfileStatus>
-                        {/* <ProfileFollow></ProfileFollow> */}
-                        {/* <FollowBtn></FollowBtn> */}
+                        <Card style={{boxShadow:'none'}} direction={{base:'row'}}></Card>
+                        
+                        
                     </Card>
                 </Box>
             </div>
