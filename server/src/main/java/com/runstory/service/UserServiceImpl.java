@@ -185,13 +185,13 @@ public class UserServiceImpl implements UserService {
 		String name = imageFileName;
 		String path="";
 		File file = null;
-		Path p = Paths.get("/home/ubuntu/runstory/client/runtogether/public/user/"+name);
+
 		if(hostname.substring(0,7).equals("DESKTOP")){
 			path = "C:/runTogether/uploads/user/";
 			file = new File(path+name);
 		}else{
 			System.out.println("서버 파일 저장");
-			path = "./";
+			path = "/home/ubuntu/images/";
 			file=new File(path+name);
 		}
 		image.transferTo(file);
