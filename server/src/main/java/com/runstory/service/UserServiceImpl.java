@@ -3,6 +3,7 @@ package com.runstory.service;
 import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
 import com.runstory.api.response.SimpleUserResDto;
+import com.runstory.common.util.FileUtil;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.net.InetAddress;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -172,33 +174,19 @@ public class UserServiceImpl implements UserService {
 	public void changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception{
 		User user = userRepository.findByUserId(userId);
 		// 수정하는 경우 기존 파일 삭제
-		if (!isRegistered) {
-			File file = new File(user.getProfileImgFilePath());
-			boolean result = file.delete();
-			System.out.println("파일 삭제 결과 : "+result);
-		}
-
+//		if (!isRegistered) {
+//			File file = new File(user.getProfileImgFilePath());
+//			boolean result = file.delete();
+//			System.out.println("파일 삭제 결과 : "+result);
+//		}
 		String hostname = InetAddress.getLocalHost().getHostName();
 
-		//서버에 파일 저장
-		String imageFileName = image.getOriginalFilename();
-		String name = imageFileName;
-		String path="";
-		File file = null;
-
-		if(hostname.substring(0,7).equals("DESKTOP")){
-			path = "C:/runTogether/uploads/user/";
-			file = new File(path+name);
-		}else{
-			System.out.println("서버 파일 저장");
-			path = "/home/ubuntu/docker-volume/jenkins/workspace/runstory/server/build/libs/uploads/";
-			file=new File(path+name);
-		}
-		image.transferTo(file);
+		FileUtil fileUtil = new FileUtil();
+		HashMap<String, String> file = fileUtil.fileCreate(hostname, "user",image);
 
 		// DB 변경
-		user.setProfileImgFilePath(path);
-		user.setProfileImgFileName(imageFileName);
+		user.setProfileImgFilePath(file.get("filepath"));
+		user.setProfileImgFileName(file.get("filename"));
 		userRepository.save(user);
 	}
 	@Override
