@@ -8,7 +8,7 @@ const {Kakao} = window;
 //     redirectUri: 'https://developers.kakao.com/tool/demo/oauth'
 //   })
 // }
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=0cff5728182aa5eebe52ef3c23e4c210&redirect_uri=http://localhost:8080/auth/login/kakao`;
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=0cff5728182aa5eebe52ef3c23e4c210&redirect_uri=https://i8a806.p.ssafy.io/api/auth/login/kakao`;
 
   const kakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
