@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./SignupHashtagList.css";
+import {
+  Button,
+} from '@chakra-ui/react';
 
 function SignupHashtagList() {
   const data = [{id:1, name: '산책'}, 

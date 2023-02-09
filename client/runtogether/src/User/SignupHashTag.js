@@ -25,6 +25,7 @@ function RegisterHashtag() {
         <SignupHashtagMsg></SignupHashtagMsg>
           <div className='signup-hashtag-list'>
           <SignupHashtagList></SignupHashtagList>
+
           <Button onClick={navigateHome} style={{margin:'0 auto', marginBottom:'50px'}}> 
           완료
           </Button>

@@ -174,7 +174,7 @@ const Register = () => {
         <Header></Header>
             {success ? (
                 <section className="SignupSection" style={{width : '90%'}}>
-                    <h1>회원가입을 축하합니다!</h1>
+                    <h1>해시태그 선택창으로 이동합니다</h1>
                     <p>
                         <a href="/user/login">로그인</a>
                     </p>
@@ -344,7 +344,7 @@ const Register = () => {
                             placeholder='핸드폰 번호를 입력하세요'
                             />
 
-                        <Button onClick={navigateTag} style={{margin:'0 auto' ,marginTop:'10px' }}> 
+                        <Button disabled={success} onClick={navigateTag} style={{margin:'0 auto' ,marginTop:'10px' }}> 
                         완료
                         </Button> 
                      </form>
