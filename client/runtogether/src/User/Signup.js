@@ -6,22 +6,23 @@ import axios from './api/axios';
 import './Signup.css'
 import {
     ChakraProvider,
-    Link,
     Button,
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import Address from './Address'
 import { useNavigate } from "react-router-dom";
+import imageCompression from 'browser-image-compression';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = '/user/signup';
 
-// 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 
+// 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
 const Register = () => {
     const userRef = useRef();
     const errRef = useRef();
+    const imgRef = useRef();
 
     const [id, setId] = useState('');
     const [validName, setValidName] = useState(false);
@@ -48,6 +49,9 @@ const Register = () => {
     const [userAddress, setUserAddress] = useState({
         address:'',
     });
+
+    const [userimgFile, setUserImgFile] = useState("");
+    const [previewImg, setPreviewImg] = useState();
     
     const handleInput = (e) => {
         setUserAddress({
@@ -83,7 +87,31 @@ const Register = () => {
         setErrMsg('');
     }, [id, password, matchPwd])
   
-    
+    const encodeFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        return new Promise((resolve) => {
+          reader.onload = () => {
+            setPreviewImg(reader.result);
+            resolve();
+          };
+        });
+      };
+
+  	const fileHandler = (event) => {
+    	const [file] = event.target.files;
+      
+      	imageCompression(file, {
+        	maxSizeMB: 1,
+          	maxWidthOrHeight: 100,
+        }).then((compressedFile) => {
+        	const newFile = new File([compressedFile], file.name, {type: file.type});
+          
+          	//미리보기 관련 함수 추가
+          	encodeFile(newFile);
+          	setUserImgFile(newFile);
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -103,9 +131,10 @@ const Register = () => {
                 " 나이 :" +userAge+
                 " 닉네임 :" +userNickname+
                 " 주소 :" +userAddress+
-                " 폰번호 :"+userPhonenum)
+                " 폰번호 :"+userPhonenum+
+                "이미지 : "+userimgFile)
             await axios.post(REGISTER_URL,
-                JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum }),
+                JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum, userimgFile }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -126,6 +155,7 @@ const Register = () => {
             setUserNickname('');
             setUserAddress('');
             setUserPhonenum('');
+            setUserImgFile('');
 
         } catch (err) {
             if (!err?.response) {
@@ -313,7 +343,8 @@ const Register = () => {
                             value={userPhonenum}
                             placeholder='핸드폰 번호를 입력하세요'
                             />
-                        <Button onClick={navigateTag} style={{margin:'0 auto'}} mt='5px'> 
+
+                        <Button onClick={navigateTag} style={{margin:'0 auto' ,marginTop:'10px' }}> 
                         완료
                         </Button> 
                      </form>
@@ -321,6 +352,12 @@ const Register = () => {
                         이미 회원가입을 하셨다면?
                      <a href="/user/login" style={{ marginLeft:'10px', textDecoration: 'underline'}}>로그인페이지로 이동</a>
                     </p>
+                    <p>
+                        프로필 사진을 추가하고 싶으시다면? 
+                        <img src={previewImg}/>
+                        <input type="file" accept="image/*" onChange={(event) => fileHandler(event)}/>
+                    </p>
+
                 </section>
             )}
     <Footer></Footer>
