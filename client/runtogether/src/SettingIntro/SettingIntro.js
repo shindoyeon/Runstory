@@ -29,7 +29,9 @@ const SettingIntro = () => {
   return (
     <ChakraProvider>
       <Header></Header>
-        <SettingIntroMsg/>
+      <div className='setting-intro-title'>
+          차단설정
+      </div>
             <Container>
             <div className='setting-detail'> 
               <Button style={{fontSize:'20px'}} onClick={navigateMypage}> 

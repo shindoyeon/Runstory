@@ -1,23 +1,21 @@
 import React from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import AlarmSettingMsg from './AlarmSettingMsg';
-import Alarm from './AlarmSettingBody';
 import {
   ChakraProvider,
 } from '@chakra-ui/react';
+import './SettingBlock.css'
 
-const AlarmSetting = () => {
+function UserBlockList() {
   return (
     <ChakraProvider>
       <Header></Header>
-      <div className='alarm-intro-title'>
-          알림설정
+      <div className='block-title'>
+          차단설정
       </div>
-      <Alarm></Alarm>
       <Footer></Footer>
     </ChakraProvider>
   )
 }
 
-export default AlarmSetting;
+export default UserBlockList;

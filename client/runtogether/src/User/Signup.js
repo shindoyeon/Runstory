@@ -16,7 +16,7 @@ import imageCompression from 'browser-image-compression';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = '/user/signup';
+const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
 const Register = () => {
@@ -100,6 +100,7 @@ const Register = () => {
 
   	const fileHandler = (event) => {
     	const [file] = event.target.files;
+        
       
       	imageCompression(file, {
         	maxSizeMB: 1,
@@ -112,9 +113,18 @@ const Register = () => {
           	setUserImgFile(newFile);
         });
     };
+    // var file = {
+    //     img = 'userimgFile',
+    // }
 
+
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("key", JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum, userimgFile }));
+        formData.append("value", JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum, userimgFile }));
+
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(id);
         const v2 = PWD_REGEX.test(password);  
@@ -124,24 +134,25 @@ const Register = () => {
         }
         try {
             console.log(
-                "try문  id :"+id+
+                "콘솔 찍어보기"+
+                " id :"+id+
                 " password : "+password+
                 " 이름 :" +userName+
                 " 성별 :" +userGender+
                 " 나이 :" +userAge+
                 " 닉네임 :" +userNickname+
-                " 주소 :" +userAddress+
+                " 주소 :" +userAddress.address+
                 " 폰번호 :"+userPhonenum+
-                "이미지 : "+userimgFile)
-            await axios.post(REGISTER_URL,
-                JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum, userimgFile }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-                );
-                // TODO: remove console.logs before deployment
-                // console.log(response)
+                " 이미지 : "+userimgFile.name)
+                await axios.post(REGISTER_URL,
+                    {
+                        data: formData,
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                        // withCredentials: true
+                    }
+                    );
+                    // TODO: remove console.logs before deployment
+                    // console.log(response)
                 // console.log(JSON.stringify(response?.data));
                 //console.log(JSON.stringify(response))
             setSuccess(true);
@@ -344,9 +355,10 @@ const Register = () => {
                             placeholder='핸드폰 번호를 입력하세요'
                             />
 
-                        <Button disabled={success} onClick={navigateTag} style={{margin:'0 auto' ,marginTop:'10px' }}> 
+                        {/* <Button disabled={success} onClick={navigateTag} style={{margin:'0 auto' ,marginTop:'10px' }}> 
                         완료
-                        </Button> 
+                        </Button>  */}
+                        <button onClick={handleSubmit}>완료</button>
                      </form>
                     <p>
                         이미 회원가입을 하셨다면?

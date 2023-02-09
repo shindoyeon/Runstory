@@ -13,6 +13,7 @@ import Profile from './Feed/Feed';
 import FollowPage from './FollowList/FollowList';
 import SettingIntro from './SettingIntro/SettingIntro';
 import AlarmSetting from './SettingAlarm/AlarmSetting';
+import UserBlockList from './SettingBlock/SettingBlock';
 import MyPage from './SettingMyPage/SettingMyPage';
 import Login from './User/Login';
 import Register from './User/Signup';
@@ -41,6 +42,7 @@ function App() {
                     <Route path='/feed/follow' element={<FollowPage />} />
                     <Route path='/setting-intro' element={<SettingIntro />} />
                     <Route path='/setting-alarm' element={<AlarmSetting />} />
+                    <Route path='/setting-block' element={<UserBlockList />} />
                     <Route path='/user' element={<MyPage />} />
                     <Route path='/notice' element={<Notice />} />
                     <Route path='/draw-map' element={<DrawMap />} />
