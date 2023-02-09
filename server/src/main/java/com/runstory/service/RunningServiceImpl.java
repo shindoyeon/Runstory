@@ -65,7 +65,6 @@ public class RunningServiceImpl implements RunningService {
                     .build();
             selectedHashtagRepository.save(selectedHashtag);
         }
-        return running.getRunningId();
     }
 
     @Override
@@ -170,7 +169,6 @@ public class RunningServiceImpl implements RunningService {
 //                selectedHashtagRepository.deleteById(selectedHashtag.getSelectedHashtagId());
 //            }
 //        }
-        return newRunningCrewReqDto.getId();
     }
 
     // Reservation
