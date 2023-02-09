@@ -5,25 +5,48 @@ import {
   Container,
   Divider,
   ChakraProvider,
+  Button,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
 import './SettingIntro.css'
 import SettingIntroMsg from './SettingIntroMsg';
+import  {useNavigate} from 'react-router-dom'; 
 
 const SettingIntro = () => {
+  const navigate = useNavigate(); // navigate 변수 생성
+  const navigateMypage = () => { 
+    navigate("/user");
+  };
+  const navigateAlarm = () => {
+    navigate("/setting-alarm");
+  };
+  const navigateBlock = () => {
+    navigate("/setting-block");
+  };
+  const navigateQuestion = () => {
+    navigate("/setting-question");
+  };
+
   return (
     <ChakraProvider>
       <Header></Header>
         <SettingIntroMsg/>
             <Container>
             <div className='setting-detail'> 
-              <Link to='/user'>마이페이지</Link>
-              <Divider w='50%' ml='25%'/>
+              <Button style={{fontSize:'20px'}} onClick={navigateMypage}> 
+              마이페이지
+               </Button>
+              <Divider mt='10px' w='50%' ml='25%'/>
+              <Button style={{fontSize:'20px'}} onClick={navigateBlock}> 
               차단설정
-              <Divider w='50%' ml='25%'/>
-              <Link to='/setting-alarm'>알림설정</Link>
-              <Divider w='50%' ml='25%'/>
+               </Button>
+              <Divider mt='10px' w='50%' ml='25%'/>
+              <Button style={{fontSize:'20px'}} onClick={navigateAlarm}> 
+              알림설정
+              </Button>
+              <Divider mt='10px' w='50%' ml='25%'/>
+              <Button style={{fontSize:'20px'}} onClick={navigateQuestion}> 
               문의하기
+               </Button>
             </div>
             </Container>
       <Footer></Footer>
