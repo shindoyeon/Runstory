@@ -14,7 +14,7 @@ import Footer from '../common/Footer';
 import  {useNavigate} from 'react-router-dom'; 
 
 
-const LOGIN_URL = 'http://i8a806.p.ssafy.io/api/auth/login';
+const LOGIN_URL = 'https://i8a806.p.ssafy.io/api/auth/login';
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
