@@ -2,12 +2,9 @@ package com.runstory.api.controller;
 
 import com.runstory.api.request.RunningCrewReqDto;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.HashMap;
 import java.util.List;
-
 import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.api.response.RunningMainResDto;
@@ -16,13 +13,10 @@ import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.service.RunningService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
-
-import javax.mail.Multipart;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 
