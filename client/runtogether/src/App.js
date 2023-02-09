@@ -17,6 +17,7 @@ import UserBlockList from './SettingBlock/SettingBlock';
 import MyPage from './SettingMyPage/SettingMyPage';
 import Login from './User/Login';
 import Register from './User/Signup';
+import FindPwd from './User/FindPassword';
 import RegisterHashtag from './User/SignupHashtag'
 import Notice from './Notice/Notice';
 import DrawMap from './DrawMap/DrawMap';
@@ -34,6 +35,7 @@ function App() {
                     <Route path='/user/login' element={<Login />} />
                     <Route path='/user/signup' element={<Register />} />
                     <Route path='/user/signup/hashtag' element={<RegisterHashtag />} />
+                    <Route path='/user/findpassword' element={<FindPwd />} />
                     <Route path='/create-feed' element={<CreateFeed />} />
                     <Route path='/running-crew-list' element={<RunningCrewList />} />
                     <Route path='/create-running-crew' element={<RecruitCrew />} />
