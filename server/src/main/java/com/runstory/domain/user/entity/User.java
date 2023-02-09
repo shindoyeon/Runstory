@@ -1,5 +1,6 @@
 package com.runstory.domain.user.entity;
 
+import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.running.Running;
@@ -95,4 +96,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<RunningDibs> runningDibs = new ArrayList<>();
 
+    public void UserExperienceUpdate(int level,int distance){
+        this.level = level;
+        this.experience = distance;
+    }
 }
