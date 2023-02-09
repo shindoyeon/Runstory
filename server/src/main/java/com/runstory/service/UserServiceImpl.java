@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
 			file = new File(path+name);
 		}else{
 			System.out.println("서버 파일 저장");
-			path = "/home/ubuntu/images/";
+			path = "/home/ubuntu/docker-volume/jenkins/workspace/runstory/server/build/libs/uploads/";
 			file=new File(path+name);
 		}
 		image.transferTo(file);
