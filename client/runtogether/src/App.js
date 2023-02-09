@@ -11,9 +11,9 @@ import RecruitCrew from './RecruitCrew/RecruitCrew';
 import Search from './Search/Search';
 import Profile from './Feed/Feed';
 import FollowPage from './FollowList/FollowList';
-import SettingIntro from './Setting/SettingIntro';
-import AlarmSetting from './Setting/AlarmSetting';
-import User from './Setting/User';
+import SettingIntro from './SettingIntro/SettingIntro';
+import AlarmSetting from './SettingAlarm/AlarmSetting';
+import MyPage from './SettingMyPage/SettingMyPage';
 import Login from './User/Login';
 import Register from './User/Signup';
 import RegisterHashtag from './User/SignupHashtag'
@@ -41,7 +41,7 @@ function App() {
                     <Route path='/feed/follow' element={<FollowPage />} />
                     <Route path='/setting-intro' element={<SettingIntro />} />
                     <Route path='/setting-alarm' element={<AlarmSetting />} />
-                    <Route path='/user' element={<User />} />
+                    <Route path='/user' element={<MyPage />} />
                     <Route path='/notice' element={<Notice />} />
                     <Route path='/draw-map' element={<DrawMap />} />
                     {/* <Route path='/feed' element={<Feed />} /> */}
