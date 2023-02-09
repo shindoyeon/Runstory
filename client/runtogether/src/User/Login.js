@@ -60,6 +60,7 @@ const Login = () => {
                 setId('test');
                 setPassword('qwer1234!');
                 setSuccess(true);
+                
             } catch (err) {
                 if (!err?.response) {
                     setErrMsg('에러');
@@ -110,7 +111,7 @@ const Login = () => {
                         <Divider style={{margin: '5px'}}/>
                         <KakaoLogin/>
                         <Button onClick={navigateHome} style={{margin:'0 auto', marginTop:'10px'}}> 
-                        완료
+                        로그인
                         </Button>
                     </form> 
                     <p className="line">
