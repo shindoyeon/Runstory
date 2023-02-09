@@ -1,8 +1,9 @@
 FROM nginx:stable-alpine
-FROM node:16-alpine3.11
+FROM node:18-alpine
 WORKDIR /runtogether/src/app
 COPY package*.json ./
 COPY package*.json ../
+
 
 RUN npm install
 RUN npm i @fortawesome/free-solid-svg-icons
