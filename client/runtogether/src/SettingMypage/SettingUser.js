@@ -5,7 +5,7 @@ import Footer from '../common/Footer';
 import {
   ChakraProvider,
 } from '@chakra-ui/react';
-import './User.css';
+import './SettingUser.css';
 
 function User() {
   return (
@@ -14,6 +14,7 @@ function User() {
       <div className='user-title'>
           마이페이지
       </div>
+      
       <Footer></Footer>
     </ChakraProvider>
   )
