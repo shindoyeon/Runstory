@@ -17,6 +17,7 @@ import {
 
   function FeedCard(props) {
     const feed = props.feed;
+    var fileSrc = feed.filePath+feed.imgfileName;
 
     async function postLike(feedId) {
         await axios.post("http://i8a806.p.ssafy.io/api/feed/feed-like/"+feedId, {
@@ -89,7 +90,7 @@ import {
                             marginTop='10px'
                             width='90%'
                             borderRadius='lg'
-                            src={feed.feedFiles[0].filePath}
+                            src={fileSrc}
                         />
                             {/* 내용 */}
                         {/* <div className="feed-content">{feed.content}</div> */}
