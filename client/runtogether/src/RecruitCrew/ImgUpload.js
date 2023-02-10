@@ -20,7 +20,7 @@ const ImgUpload = () => {
         preview.style.width = '90%';
         preview.style.height = '50vh';
         preview.style.margin = '0 auto';
-        preview.style.marginBottom = '3%';
+        preview.style.marginBottom = '10px';
         preview.style.objectFit = 'fill';
         preview.style.border = '1px solid #616161';
         preview.style.overflow = 'hidden';
@@ -28,6 +28,20 @@ const ImgUpload = () => {
         var previewBox = document.getElementById('preview-box');
         previewBox.style.display = 'inline';
         previewBox.appendChild(preview);
+        var deleteImg = document.createElement('div')
+        deleteImg.textContent = '삭제';
+        deleteImg.id = preview.src;
+        deleteImg.style.borderRadius = "20px";
+        deleteImg.style.backgroundColor = "#EEB6B6";
+        deleteImg.style.textAlign = "center";
+        deleteImg.style.width = "10%";
+        deleteImg.style.height = "20px";
+        deleteImg.style.lineHeight = "20px";
+        deleteImg.style.fontSize = "14px";
+        deleteImg.style.color = "#6A6A6A";
+        deleteImg.style.margin = "0 auto";
+        deleteImg.style.marginBottom = "20px";
+        previewBox.appendChild(deleteImg);
       }
     };
   return (
