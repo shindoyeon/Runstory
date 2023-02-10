@@ -1,8 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+<<<<<<< HEAD
 import axios from '../common/axios';
 // import axios from './axios';
+=======
+import axios from './api/axios';
+>>>>>>> ed35fa13769d50398c2cb71aeb6d677f0632e4f5
 import './Signup.css'
 import {
     ChakraProvider,
@@ -18,7 +22,8 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
-const Register = () => {
+const Register = ({userResult}) => {
+    console.log("회원가입");
     const userRef = useRef();
     const errRef = useRef();
     const imgRef = useRef();
@@ -68,7 +73,7 @@ const Register = () => {
     const navigateTag = () => { // 취소 클릭 시 홈으로 가기 위함
         navigate("/user/signup/hashtag");
       };
-
+   
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -112,7 +117,10 @@ const Register = () => {
           	setUserImgFile(newFile);
         });
     };
+<<<<<<< HEAD
 
+=======
+>>>>>>> ed35fa13769d50398c2cb71aeb6d677f0632e4f5
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -197,20 +205,20 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
                         </label>
                         <input
-                            className="SignupInput"
-                            type="text"
-                            id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setId(e.target.value)}
-                            value={id}
-                            required
-                            aria-invalid={validName ? "false" : "true"}
-                            aria-describedby="uidnote"
-                            onFocus={() => setUserFocus(true)}
-                            onBlur={() => setUserFocus(false)}
-                            placeholder='아이디를 입력하세요'
-                        />
+                        className="SignupInput"
+                        type="text"
+                        id="username"
+                        ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setId(e.target.value)}
+                        value={id}
+                        required
+                        aria-invalid={validName ? "false" : "true"}
+                        aria-describedby="uidnote"
+                        onFocus={() => setUserFocus(true)}
+                        onBlur={() => setUserFocus(false)}
+                        placeholder='아이디를 입력하세요'
+                    />
                         <p id="usernote" className={userFocus && id && !validName ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             4~24자까지<br />

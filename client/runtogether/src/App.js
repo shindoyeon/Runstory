@@ -17,6 +17,7 @@ import UserBlockList from './SettingBlock/SettingBlock';
 import Question from './SettingQuestion/SettingQuestion';
 import MyPage from './SettingMyPage/SettingMyPage';
 import Login from './User/Login';
+import Oauth from './User/OAuthRedirectHandler'
 import Register from './User/Signup';
 import FindPwd from './User/FindPassword';
 import RegisterHashtag from './User/SignupHashtag'
@@ -34,6 +35,7 @@ function App() {
                 <Routes>
                     <Route path='/' element={<MainPage />} />
                     <Route path='/user/login' element={<Login />} />
+                    <Route path='/oauth/callback/kakao' element={<Oauth />} />
                     <Route path='/user/signup' element={<Register />} />
                     <Route path='/user/signup/hashtag' element={<RegisterHashtag />} />
                     <Route path='/user/findpassword' element={<FindPwd />} />
