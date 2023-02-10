@@ -45,7 +45,7 @@ export default function TempFeed() {
             "https://i8a806.p.ssafy.io/api/main/feed?lastfeedid=100000&size=5",
           ),
           axios.get(
-            "https://i8a806.p.ssafy.io/api/main/running-hashtag"
+            "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/main/running-hashtag"
           )
         ]);
         setFeeds(data[0].data.data);
