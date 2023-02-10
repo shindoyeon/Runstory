@@ -42,7 +42,7 @@ export default function TempFeed() {
       (async () => {
         const data = await axios.all(
           [axios.get(
-            "https://i8a806.p.ssafy.io/api/main/feed?lastfeedid=100000&size=5",
+            "https://i8a806.p.ssafy.io/api/main/feed?lastfeedid=1000000&size=10000000",
           ),
           axios.get(
             "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/main/running-hashtag"

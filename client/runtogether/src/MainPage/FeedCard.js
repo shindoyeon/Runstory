@@ -90,7 +90,7 @@ import {
                             marginTop='10px'
                             width='90%'
                             borderRadius='lg'
-                            src={fileSrc}
+                            src={isNaN(fileSrc)?"":fileSrc}
                         />
                             {/* 내용 */}
                         {/* <div className="feed-content">{feed.content}</div> */}
