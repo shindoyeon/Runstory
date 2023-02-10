@@ -4,6 +4,7 @@ import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.FeedResDto;
 import com.runstory.api.response.SimpleFeedResDto;
+import com.runstory.common.util.FileUtil;
 import com.runstory.domain.feed.PublicScope;
 import com.runstory.domain.feed.dto.FeedCommentDto;
 import com.runstory.domain.feed.dto.FeedDto;
@@ -23,14 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -153,13 +152,11 @@ public class FeedService {
     }
     @Transactional
     public void saveFiles(Feed feed, MultipartFile [] files) throws IOException {
-        for(MultipartFile file: files){
-            String fileName = file.getOriginalFilename();
-            String filePath = "C:/runTogether/uploads/feed/" + UUID.randomUUID()+fileName;
-            Path path = Paths.get(filePath);
-            Files.write(path, file.getBytes());
-
-            FeedFile feedFile = new FeedFile(feed, fileName,filePath);
+        for(MultipartFile feedfile: files){
+            String hostname = InetAddress.getLocalHost().getHostName();
+            FileUtil fileUtil = new FileUtil();
+            HashMap<String, String> file = fileUtil.fileCreate(hostname, "feeds",feedfile);
+            FeedFile feedFile = new FeedFile(feed, file.get("filename"), file.get("filepath"));
             feedFileRepository.save(feedFile);
         }
     }

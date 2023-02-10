@@ -2,13 +2,36 @@ import React from 'react';
 import {
     Image, Card, CardBody, CardFooter, CardHeader
   } from '@chakra-ui/react';
-import './UserSearchResult.css';
+import './UserSearchResult.css'
 
-
-const UserSearchResult = () => {
+const UserSearchResult = ({userResult}) => {
     return (
         <div className="user-search-result">
-           <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
+                {userResult.map((item) => {
+                    return(
+                    <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
+                    <CardHeader>
+                        <Image
+                            boxSize='50px'
+                            objectFit='contain'
+                            object-position='top'
+                            src={item.img}
+                            alt='no image'
+                            borderRadius='50%'
+                        />
+                    </CardHeader>
+                    <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
+                        {item.nickName}
+                    </CardBody>
+                    <CardFooter>
+                        <div className='follow-btn'>
+                            <p className='follow'>팔로우</p>
+                        </div>
+                    </CardFooter>
+                </Card>)
+                })}
+                
+           {/* <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
                 <CardHeader>
                     <Image
                         boxSize='50px'
@@ -65,7 +88,7 @@ const UserSearchResult = () => {
                         <p className='follow'>팔로우</p>
                     </div>
                 </CardFooter>
-            </Card>
+            </Card> */}
         </div>
     );
 }

@@ -21,7 +21,7 @@ const Info = () => {
             <div>
                 <Box direction={{base: 'row'}} ms='10 %' mt='10px' display='flex'>
                     <ProfileIdPhoto></ProfileIdPhoto>
-                    <Card direction={{base: 'column'}}>
+                    <Card style={{boxShadow:'none'}} direction={{base: 'column'}}>
                         <ProfileStatus></ProfileStatus>
                         {/* <ProfileFollow></ProfileFollow> */}
                         {/* <FollowBtn></FollowBtn> */}

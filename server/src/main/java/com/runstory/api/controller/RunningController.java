@@ -2,9 +2,9 @@ package com.runstory.api.controller;
 
 import com.runstory.api.request.RunningCrewReqDto;
 
+
 import java.util.HashMap;
 import java.util.List;
-
 import com.runstory.api.response.BaseResponse;
 import com.runstory.api.response.RunningDetailSumDto;
 import com.runstory.api.response.RunningMainResDto;
@@ -15,9 +15,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/running")
@@ -25,13 +26,14 @@ public class RunningController {
     @Autowired
     private RunningService runningservice;
 
-    @PostMapping("") // RunningCrew 생성
+    @PostMapping(value = "") // RunningCrew 생성
     @ApiOperation(value = "Running Crew Create")
-    public BaseResponse<?> createRunningCrew(@ApiIgnore Authentication authentication,@RequestBody RunningCrewReqDto runningCrewReqDto, HttpServletRequest request){
+    public BaseResponse<?> createRunningCrew(@ApiIgnore Authentication authentication, @RequestPart(value = "running") RunningCrewReqDto runningCrewReqDto, @RequestPart(value = "img") MultipartFile runningImg) throws Exception{
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        System.out.println(runningImg);
         Long userSeq = userDetails.getUserSeq(); // 로그인된 유저 Seq를 들고 온다.
-        Long result =  runningservice.createRunningCrew(runningCrewReqDto, userSeq);
-        return BaseResponse.success(result);
+        runningservice.createRunningCrew(runningCrewReqDto, userSeq, runningImg);
+        return BaseResponse.success("모임이 추가되었습니다.");
     }
 
 
@@ -69,9 +71,9 @@ public class RunningController {
         return BaseResponse.success(id + "가 삭제되었습니다.");
     }
 
-    @PutMapping("/detail") // 상세페이지 수정
-    public BaseResponse<?> runningCrewUpdate(@ApiIgnore Authentication authentication, @RequestBody RunningCrewReqDto newRunningCrewReqDto){
-        Long id = runningservice.updateRunningCrew(newRunningCrewReqDto);
+    @PutMapping(value = "/detail") // 상세페이지 수정
+    public BaseResponse<?> runningCrewUpdate(@ApiIgnore Authentication authentication, @RequestPart(value = "running") RunningCrewReqDto newRunningCrewReqDto, @RequestPart(value = "img") MultipartFile runningImg) throws Exception{
+        runningservice.updateRunningCrew(newRunningCrewReqDto, runningImg);
         return BaseResponse.success("Change ok");
     }
 
@@ -98,8 +100,8 @@ public class RunningController {
         }
     }
 
-    // 러닝 찜하기 옵션 (Entity를 하나 만들어야하므로 마지막에 하자..!)
-    @PostMapping("/{runningid}/dibs")
+    // 러닝 찜하기 옵션 
+    @PostMapping("/{runningid}/dibs") // 예약 취소
     public BaseResponse<?> runningCreateDibs(@ApiIgnore Authentication authentication, @PathVariable Long runningid){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = runningservice.createDibsRunningCrew(runningid, userSeq);
@@ -110,7 +112,7 @@ public class RunningController {
         }
     }
 
-    @DeleteMapping("/{runningid}/dibs") // 같이 뛰기 취소!
+    @DeleteMapping("/{runningid}/dibs") // 예약 취소
     public BaseResponse<?> runningDeleteDibs(@ApiIgnore Authentication authentication, @PathVariable Long runningid){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = runningservice.deleteDibsRunningCrew(runningid, userSeq);
@@ -118,6 +120,17 @@ public class RunningController {
             return BaseResponse.success("already delete");
         }else{
             return BaseResponse.success("ok");
+        }
+    }
+
+    @GetMapping("/{runningId}/valid")
+    public BaseResponse<?> runningValid(@ApiIgnore Authentication authentication, @PathVariable Long runningId,@PathParam("valid") boolean valid){
+        Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
+        if (valid){
+            runningservice.runningValid(runningId, userSeq);
+            return BaseResponse.success("ok");
+        }else{
+            return BaseResponse.success("not Success");
         }
     }
 
