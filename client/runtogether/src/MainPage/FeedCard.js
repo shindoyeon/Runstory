@@ -96,7 +96,7 @@ import {
                                 marginTop='10px'
                             width='90%'
                             borderRadius='lg'
-                            backgroundImage={fileSrc}
+                            src={fileSrc}
                             alt=""
                             />
                         )
