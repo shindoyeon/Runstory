@@ -52,7 +52,6 @@ const Register = ({userResult}) => {
     const [userGender, setUserGender] = useState('');
     const [userAge, setUserAge] = useState('');
     const [userNickname, setUserNickname] = useState('');
-    // const [userAddress, setUserAddress] = useState('');
     const [userPhonenum, setUserPhonenum] = useState('');
     const [popup, setPopup] = useState(false);
     const [userAddress, setUserAddress] = useState({
@@ -131,8 +130,18 @@ const Register = ({userResult}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("key", JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum, userimgFile }));
-        formData.append("value", JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum, userimgFile }));
+        formData.append("userId",id);
+        formData.append("userPwd",password);
+        formData.append("userName",userName);
+        formData.append("userNickname",userNickname);
+        formData.append("emailAuth",);
+        formData.append("phoneNum",userPhonenum);
+        formData.append("gender",userGender);
+        formData.append("address",userAddress);
+        formData.append("age",userAge);
+        formData.append("roleType",);
+        formData.append("regType",);
+        formData.append("hashtags",);
 
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(id);
