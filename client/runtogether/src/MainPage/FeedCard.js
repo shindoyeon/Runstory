@@ -17,7 +17,7 @@ import {
 
   function FeedCard(props) {
     const feed = props.feed;
-    var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
+    // var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
     
 
     async function postLike(feedId) {
@@ -85,14 +85,20 @@ import {
                     </CardHeader>
                     {/* 피드 내용 */}
                     <div className='card-body'>
-                        <Image
+                    {feed.feedFiles.map((item2, idx) => {
+                        var fileSrc = item2.fileName+item2.filePath;
+                        console.log(fileSrc);
+                        return(
+                            <Image
                             border='1px solid #CBD9E7'
                             margin='0 auto'
                             marginTop='10px'
                             width='90%'
                             borderRadius='lg'
                             src={isNaN(fileSrc)?"":fileSrc}
-                        />
+                            />
+                        )
+                    })}
                             {/* 내용 */}
                         {/* <div className="feed-content">{feed.content}</div> */}
                         <div className='feed-content' onClick={moreContent}>{feed.content}</div>
