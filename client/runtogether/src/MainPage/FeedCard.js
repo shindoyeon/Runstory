@@ -17,7 +17,8 @@ import {
 
   function FeedCard(props) {
     const feed = props.feed;
-    var fileSrc = feed.feedFiles.fileName+feed.feedFiles.filePath;
+    var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
+    
 
     async function postLike(feedId) {
         await axios.post("http://i8a806.p.ssafy.io/api/feed/feed-like/"+feedId, {
