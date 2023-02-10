@@ -22,6 +22,10 @@ const ChattingRoom = () => {
   
     //   return () => disconnect();
     // }, []);
+
+    const userSeq = 1;
+    const roomId = 3;
+    const userNickname = "좋아";
   
     const connect = () => {
       client.current = new StompJs.Client({
@@ -33,13 +37,13 @@ const ChattingRoom = () => {
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
         onConnect: () => {
+          init();
           subscribe();
         },
         onStompError: (frame) => {
           console.error(frame);
         },
       });
-  
       client.current.activate();
     };
     
@@ -52,7 +56,7 @@ const ChattingRoom = () => {
     
     // 메시지 수신
     const subscribe = () => {
-      client.current.subscribe(`/sub/chat/room/1`, ({ body }) => {
+      client.current.subscribe(`/sub/chat/room/`+roomId, ({ body }) => {
         setChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
       });
     };
@@ -62,18 +66,39 @@ const ChattingRoom = () => {
         if (!client.current.connected) {
             return;
         }
+        let date = new Date();
         client.current.publish({
         destination: "/pub/sendMessage",
         body: JSON.stringify({
                 type: "ENTER",
-                roomId: 1,
-                sender:"tang_tang",
+                userSeq:userSeq,
+                roomId: roomId,
+                sender:userNickname,
                 message: message,
-                time:"지금"
+                time:date
             }),
         });
         setMessage("");
     }
+
+     // 이전 메시지 가져오기
+    const init = () => {
+      if (!client.current.connected) {
+          return;
+      }
+      client.current.publish({
+      destination: "/pub/enterUser",
+      body: JSON.stringify({
+              type: "TALK",
+              userSeq:userSeq,
+              roomId: roomId,
+              sender:userNickname,
+              message: "",
+              time:""
+          }),
+      });
+  }
+
 
     // 모달 닫기
     function closeModal() {
@@ -102,14 +127,14 @@ const ChattingRoom = () => {
                     
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>songheew 님과의 채팅방</ModalHeader>
+                    <ModalHeader>{userNickname} 님과의 채팅방</ModalHeader>
                     <ModalCloseButton />
 
                     <ModalBody>
                     {chatMessages && chatMessages.length > 0 && (
                         <>
                             {chatMessages.map((_chatMessage, index) => (
-                                _chatMessage.sender==="tang_tang"?<MsgByMe msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByMe>
+                                _chatMessage.userSeq===userSeq?<MsgByMe msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByMe>
                             :
                             <MsgByOther msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByOther>
                                 
