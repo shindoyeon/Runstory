@@ -5,7 +5,7 @@ import img from './고무신.png';
 const ProfileName = () => {
   return (
     <div>
-      <Card style={{boxShadow:'none'}} direction={{base: 'row'}} ml='10px' mt='10px'>  
+      <Card style={{width:'100%' , boxShadow:'none'}} direction={{base: 'row'}} ml='10px' mt='10px'>  
        <Image
          boxSize='50px'
          src={img}
