@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import axios from './api/axios';
+import axios from '../common/axios';
 import './Login.css'
 import {Divider,
     ChakraProvider,
@@ -14,7 +14,6 @@ const FINDPWD_URL = 'http://i8a806.p.ssafy.io/api/user/find/pwd';
 const Login = () => {
     const userRef = useRef();
     const errRef = useRef();
-
     const [userName, setUserName] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
     const [userId, setUserId] = useState('');

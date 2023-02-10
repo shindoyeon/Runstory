@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useContext } from 'react';
 import AuthContext from "./context/AuthProvider";
-import axios from './api/axios';
+import axios from '../common/axios';
 import KakaoLogin from './KakaoLogin';
 import './Login.css'
 import {
