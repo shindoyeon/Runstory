@@ -42,7 +42,7 @@ export default function TempFeed() {
       (async () => {
         const data = await axios.all(
           [axios.get(
-            "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/main/feed"
+            "https://i8a806.p.ssafy.io/api/main/feed?lastfeedid=5&size=5",
           ),
           axios.get(
             "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/main/running-hashtag"
@@ -51,6 +51,9 @@ export default function TempFeed() {
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx+5)));
         setrunningCrew(data[1].data.data);
+        if (feeds.length===0) {
+          return;
+        }
       })();
     }, [feeds.length]);
     
