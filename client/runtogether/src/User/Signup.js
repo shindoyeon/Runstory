@@ -19,6 +19,7 @@ const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
 const Register = ({userResult}) => {
+    console.log("회원가입");
     const userRef = useRef();
     const errRef = useRef();
     const imgRef = useRef();
@@ -210,10 +211,6 @@ const Register = ({userResult}) => {
                         onBlur={() => setUserFocus(false)}
                         placeholder='아이디를 입력하세요'
                     />
-                    {console.log(userResult.id)}
-                        {userResult.id===""?
-                        document.getElementById('username').value = ""
-                        :document.getElementById('username').value = userResult.id}
                         <p id="usernote" className={userFocus && id && !validName ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             4~24자까지<br />
