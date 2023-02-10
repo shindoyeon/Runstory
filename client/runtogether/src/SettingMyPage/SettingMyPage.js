@@ -5,18 +5,20 @@ import Footer from '../common/Footer';
 import {
   ChakraProvider,
 } from '@chakra-ui/react';
-import './User.css';
+import './SettingMyPage.css';
+import SettingMyPagePhoto from './SettingMyPagePhoto'
 
-function User() {
+function MyPage() {
   return (
     <ChakraProvider>
       <Header></Header>
       <div className='user-title'>
           마이페이지
       </div>
+      <SettingMyPagePhoto></SettingMyPagePhoto>
       <Footer></Footer>
     </ChakraProvider>
   )
 }
 
-export default User;
+export default MyPage;

@@ -13,3 +13,9 @@
   align-items: center;
 }
 
+.setting-intro-title {
+  margin-top: 70px;
+  margin-left: 3%;
+  font-weight: bold;
+  font-size: 16px;
+}

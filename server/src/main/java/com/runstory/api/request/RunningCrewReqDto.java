@@ -4,18 +4,14 @@ import com.runstory.domain.running.GenderType;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
+
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RunningCrewReqDto {
     private Long id;
-    private String imgFilePath;
-    private String imgFileName;
     private String crewName;
     private String runningContent;
     private String startLocation;
@@ -39,5 +35,6 @@ public class RunningCrewReqDto {
 
     // SelectedHashTag에 들어가기 위한 dto
     private List<Long> hastag;
+
 
 }
