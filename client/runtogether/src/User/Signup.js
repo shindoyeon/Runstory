@@ -18,7 +18,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
-const Register = () => {
+const Register = ({userResult}) => {
     const userRef = useRef();
     const errRef = useRef();
     const imgRef = useRef();
@@ -68,7 +68,7 @@ const Register = () => {
     const navigateTag = () => { // 취소 클릭 시 홈으로 가기 위함
         navigate("/user/signup/hashtag");
       };
-
+   
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -196,20 +196,24 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
                         </label>
                         <input
-                            className="SignupInput"
-                            type="text"
-                            id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setId(e.target.value)}
-                            value={id}
-                            required
-                            aria-invalid={validName ? "false" : "true"}
-                            aria-describedby="uidnote"
-                            onFocus={() => setUserFocus(true)}
-                            onBlur={() => setUserFocus(false)}
-                            placeholder='아이디를 입력하세요'
-                        />
+                        className="SignupInput"
+                        type="text"
+                        id="username"
+                        ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setId(e.target.value)}
+                        value={id}
+                        required
+                        aria-invalid={validName ? "false" : "true"}
+                        aria-describedby="uidnote"
+                        onFocus={() => setUserFocus(true)}
+                        onBlur={() => setUserFocus(false)}
+                        placeholder='아이디를 입력하세요'
+                    />
+                    {console.log(userResult.id)}
+                        {userResult.id===""?
+                        document.getElementById('username').value = ""
+                        :document.getElementById('username').value = userResult.id}
                         <p id="usernote" className={userFocus && id && !validName ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             4~24자까지<br />
