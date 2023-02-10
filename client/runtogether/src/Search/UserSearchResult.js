@@ -8,7 +8,6 @@ import './UserSearchResult.css';
 const UserSearchResult = ({userResult}) => {
     return (
         <div className="user-search-result">
-            {console.log(userResult)}
                 {userResult.map((item) => {
                     return(
                     <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
