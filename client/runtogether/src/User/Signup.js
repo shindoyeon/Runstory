@@ -1,12 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-<<<<<<< HEAD
 import axios from '../common/axios';
-// import axios from './axios';
-=======
-import axios from './api/axios';
->>>>>>> ed35fa13769d50398c2cb71aeb6d677f0632e4f5
 import './Signup.css'
 import {
     ChakraProvider,
@@ -117,10 +112,6 @@ const Register = ({userResult}) => {
           	setUserImgFile(newFile);
         });
     };
-<<<<<<< HEAD
-
-=======
->>>>>>> ed35fa13769d50398c2cb71aeb6d677f0632e4f5
     
     const handleSubmit = async (e) => {
         e.preventDefault();
