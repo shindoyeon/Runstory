@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from './api/axios';
+import axios from '../common/axios';
 import Signup from './Signup'
 const OAuth2RedirectHandler = () => {
   const data=null;

@@ -4,6 +4,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../common/axios';
 import './Signup.css'
 import {
+    Input,
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
     ChakraProvider,
   } from '@chakra-ui/react';
 import Header from '../common/Header';
@@ -52,6 +62,10 @@ const Register = ({userResult}) => {
     const [userimgFile, setUserImgFile] = useState("");
     const [previewImg, setPreviewImg] = useState();
     
+    // 이메일 인증버튼 모달을 위한 작성란
+    const initialRef = useRef(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const handleInput = (e) => {
         setUserAddress({
             ...userAddress,
@@ -113,6 +127,7 @@ const Register = ({userResult}) => {
         });
     };
     
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -189,12 +204,17 @@ const Register = ({userResult}) => {
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1 style={{textAlign:'center' ,fontSize:'30px'}}>회원가입</h1>
                     <form className="SignupForm" onSubmit={handleSubmit}>
-
                         <label className='SignLabel' htmlFor="username">
-                            아이디
-                            <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
-                            <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
-                        </label>
+                            <div className="id-and-check">
+                                <div>
+                                아이디
+                                <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
+                                <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
+                                </div>
+                            <button className='check-btn' onClick={onOpen}>인증코드 전송</button>
+                            </div>
+
+                            </label>
                         <input
                         className="SignupInput"
                         type="text"
@@ -363,8 +383,25 @@ const Register = ({userResult}) => {
                         <img src={previewImg}/>
                         <input type="file" accept="image/*" onChange={(event) => fileHandler(event)}/>
                     </p>
-
-                </section>
+            {/* 모달창 코드 */}
+                <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal'>
+                    <ModalOverlay />
+                    <ModalContent>
+                    <ModalHeader>이메일 인증</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pt='10px' pb='10px'>
+                    입력하신 이메일로 인증번호를 전송했습니다.
+                    </ModalBody>
+                    <Input style={{width:'90%'}} ml='15px' ref={initialRef} placeholder='인증번호를 입력해주세요' />
+                    <ModalFooter>
+                    <Button colorScheme='red' mr={3} onClick={onClose}>
+                        취소
+                    </Button>
+                    <Button variant='ghost' onClick={onClose}>확인</Button>
+                    </ModalFooter>
+                    </ModalContent>
+            </Modal>
+            </section>
             )}
     <Footer></Footer>
     </ChakraProvider>
