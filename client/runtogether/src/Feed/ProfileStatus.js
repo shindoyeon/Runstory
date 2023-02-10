@@ -7,13 +7,14 @@ const ProfileName = () => {
     <div>
       <Card style={{width:'100%' , boxShadow:'none'}} direction={{base: 'row'}} ml='10px' mt='10px'>  
        <Image
-         boxSize='50px'
-         src={img}
-         alt='gomusin'
+          boxSize='50px'
+          src={img}
+          alt='gomusin'
          />
         <Text
-         fontWeight='extrabold'  
-         fontSize='2xl'   
+          ml='3px'
+          fontWeight='extrabold'  
+          fontSize='2xl'   
          >
          멀캠15층날다람쥐
         </Text>

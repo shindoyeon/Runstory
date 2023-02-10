@@ -1,11 +1,11 @@
 import React from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import AlarmSettingMsg from './AlarmSettingMsg';
 import Alarm from './AlarmSettingBody';
 import {
   ChakraProvider,
 } from '@chakra-ui/react';
+import './AlarmSetting.css'
 
 const AlarmSetting = () => {
   return (

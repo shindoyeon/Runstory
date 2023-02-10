@@ -17,12 +17,12 @@ import './Info.css'
 
 const Info = () => {
     return (
-        <ChakraProvider theme={theme} style={{width: "90%"}}>
-            <Box direction={{base: 'row'}} display='flex'>
+        <ChakraProvider theme={theme}>
+            <Box style={{width:'110%'}} direction={{base: 'row'}} display='flex'>
                 <ProfileIdPhoto></ProfileIdPhoto>
-                <Card style={{width:"120%" ,boxShadow:'none'}} direction={{base: 'column'}}>
+                <Card style={{width:"150%" ,boxShadow:'none'}} direction={{base: 'column'}}>
                     <ProfileStatus></ProfileStatus>
-                    <Card mt='10px' pl='20px' ml='20px' style={{justifyContent:'space-around' , boxShadow:'none'}} direction={{base:'row'}}>
+                    <Card mt='10px' ml='20px' mr='10px' style={{justifyContent:'space-around' , boxShadow:'none'}} direction={{base:'row'}}>
                         <ProfileFollower></ProfileFollower>
                         <ProfileFollowing></ProfileFollowing>
                     </Card>
