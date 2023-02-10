@@ -17,6 +17,7 @@ import  {useNavigate} from 'react-router-dom';
 const LOGIN_URL = 'https://i8a806.p.ssafy.io/api/auth/login';
 
 const Login = () => {
+    console.log("login");
     const { setAuth } = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
@@ -48,8 +49,7 @@ const Login = () => {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ id, password }),
                 {
-                    headers: { 'Content-Type': 'application/json',
-                    "Access-Control-Allow-Origin": "*" },
+                    headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
                 );
