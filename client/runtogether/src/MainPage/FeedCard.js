@@ -17,6 +17,8 @@ import {
 
   function FeedCard(props) {
     const feed = props.feed;
+    // var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
+    
 
     async function postLike(feedId) {
         await axios.post("http://i8a806.p.ssafy.io/api/feed/feed-like/"+feedId, {
@@ -83,14 +85,22 @@ import {
                     </CardHeader>
                     {/* 피드 내용 */}
                     <div className='card-body'>
-                        <Image
-                            border='1px solid #CBD9E7'
-                            margin='0 auto'
-                            marginTop='10px'
+                    {feed.feedFiles.map((item2, idx) => {
+                        // console.log(item2)
+                        var fileSrc = item2.fileName+item2.filePath;
+                        console.log(fileSrc);
+                        return(
+                            <img
+                                border='1px solid #CBD9E7'
+                                margin='0 auto'
+                                marginTop='10px'
                             width='90%'
                             borderRadius='lg'
-                            src={feed.feedFiles[0].filePath}
-                        />
+                            src={fileSrc}
+                            alt=""
+                            />
+                        )
+                    })}
                             {/* 내용 */}
                         {/* <div className="feed-content">{feed.content}</div> */}
                         <div className='feed-content' onClick={moreContent}>{feed.content}</div>

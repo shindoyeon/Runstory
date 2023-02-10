@@ -75,18 +75,18 @@ function Comment({comments, feedId}) {
                                         <div className='comment-nickname'>{item.userNickname}</div>
                                     </div>
                                     <div className='comment-content'>{item.content}</div>
-                                    <div style={{marginTop: '10px', fontSize: '12px'}}>답글 보기</div>
+                                    {/* <div style={{marginTop: '10px', fontSize: '12px'}}>답글 보기</div> */}
                                 </CardBody>
                                 <CardFooter>
-                                    <div className='comment-modify-btn'>수정</div>
+                                    {/* <div className='comment-modify-btn'>수정</div> */}
                                     <div className='comment-delete-btn' onClick={onOpen}>삭제</div>
                                     <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal'>
                                         <ModalOverlay />
                                         <ModalContent>
-                                            <ModalHeader>경고</ModalHeader>
+                                            <ModalHeader>댓글 삭제</ModalHeader>
                                             <ModalCloseButton />
                                             <ModalBody>
-                                            작성중인 글이 모두 지워집니다. 그래도 나가시겠습니까?
+                                            댓글을 삭제하시겠습니까?
                                             </ModalBody>
                                             <ModalFooter>
                                                 <Button colorScheme='red' mr={3} onClick={onClose}>
@@ -95,11 +95,16 @@ function Comment({comments, feedId}) {
                                                 <Button variant='ghost' onClick={()=>{deleteComment(item.feedCommentId)}}>확인</Button>
                                             </ModalFooter>
                                         </ModalContent>
-                                        </Modal>                                
+                                    </Modal>                                
                                 </CardFooter>
+                                {item.feedRecomments.map((item2, idx2) => {
+                                    return(
+                                        <>{item2.user}{item2.content}</>
+                                    )
+                                })}
                             </Card>
                             )
-                        })}    
+                        })}
                     </div>
                 </ModalBody>
                 <ModalFooter>
