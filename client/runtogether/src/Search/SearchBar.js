@@ -11,9 +11,13 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    useDisclosure
+    useDisclosure,
+    Tabs, TabList, TabPanels, Tab, TabPanel
   } from '@chakra-ui/react';
 import axios from 'axios';
+// import SearchResult from "./SearchResult";
+import UserSearchResult from './UserSearchResult';
+import FeedSearchResult from './FeedSearchResult';
 
 const SearchBar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -27,13 +31,11 @@ const SearchBar = () => {
 
     const handleSubmit = (event) => { // 검색 버튼 클릭 시 이벤트 함수
         event.preventDefault();
-        // console.log(searchKeyword)
         onClose()
         search(searchKeyword)
     };
 
     function search(keyword) {
-        console.log(keyword)
         setUserResult(getUserSearchResult(keyword));
         setFeedResult(getFeedSearchResult(keyword));
         setRunningCrewResult(getRunningCrewSearchResult(keyword));
@@ -68,7 +70,7 @@ const SearchBar = () => {
 
     const [hashtags, setHashtags] = useState([]);
   
-    useEffect(() => {
+    useEffect(() => { // 해시태그 목록 가져오기
         (async () => {
         const data = await axios.get(
         "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/hashtag"
@@ -111,9 +113,25 @@ const SearchBar = () => {
             </Modal>
             <Input readOnly width='50%' size='m' variant='flushed' placeholder='검색하러가기' textAlign='center' ms={3} onClick={onOpen} />
             <button type='submit'><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
-            {userResult.map((item, idx) => {
-                console.log("HI")
-            })}
+            {/* <SearchResult></SearchResult> */}
+            <Tabs marginTop='15px' colorScheme="pink" isFitted='true'>
+                <TabList>
+                    <Tab>USER</Tab>
+                    <Tab>FEED</Tab>
+                    <Tab>RUNNING CREW</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <UserSearchResult userResult={userResult}></UserSearchResult>
+                    </TabPanel>
+                    <TabPanel>
+                        <FeedSearchResult feedResult={feedResult}></FeedSearchResult>
+                    </TabPanel>
+                    <TabPanel>
+                        <FeedSearchResult feedResult={runningCrewResult}></FeedSearchResult>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
             </div>
     );
 }
