@@ -83,14 +83,14 @@ import {
                     </CardHeader>
                     {/* 피드 내용 */}
                     <div className='card-body'>
-                        {/* <Image
+                        <Image
                             border='1px solid #CBD9E7'
                             margin='0 auto'
                             marginTop='10px'
                             width='90%'
                             borderRadius='lg'
                             src={feed.feedFiles[0].filePath}
-                        /> */}
+                        />
                             {/* 내용 */}
                         {/* <div className="feed-content">{feed.content}</div> */}
                         <div className='feed-content' onClick={moreContent}>{feed.content}</div>
