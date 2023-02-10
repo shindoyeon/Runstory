@@ -24,8 +24,8 @@ const ChattingRoom = () => {
     // }, []);
 
     const userSeq = 1;
-    const roomId = 3;
-    const userNickname = "좋아";
+    const roomId = 4;
+    const userNickname = "날다람쥐222";
   
     const connect = () => {
       client.current = new StompJs.Client({
