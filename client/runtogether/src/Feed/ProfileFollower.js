@@ -4,14 +4,21 @@ import {
   Card,
 } from '@chakra-ui/react';
 import './ProfileFollower.css'
+import axios from '../common/axios';
+import { useNavigate } from "react-router-dom";
 
 // 나를 팔로워하는 사람들
 const Profilefollower = () => {
+  const navigate = useNavigate();
+  const navigateFollow = () => { 
+      navigate("/feed/follow");
+    };
+
 
   // const ProFollower :  
   return (
     <ChakraProvider>
-    <Card style={{ boxShadow:'none'}} direction={{base:'column'}}>
+    <Card onClick={navigateFollow} style={{ boxShadow:'none'}} direction={{base:'column'}}>
       <div>
       팔로워
       </div>
