@@ -11,7 +11,9 @@ const AlarmSetting = () => {
   return (
     <ChakraProvider>
       <Header></Header>
-      <AlarmSettingMsg></AlarmSettingMsg>
+      <div className='alarm-intro-title'>
+          알림설정
+      </div>
       <Alarm></Alarm>
       <Footer></Footer>
     </ChakraProvider>

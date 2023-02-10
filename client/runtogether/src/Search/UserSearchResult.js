@@ -2,8 +2,7 @@ import React from 'react';
 import {
     Image, Card, CardBody, CardFooter, CardHeader
   } from '@chakra-ui/react';
-import './UserSearchResult.css';
-
+import './UserSearchResult.css'
 
 const UserSearchResult = () => {
     return (
