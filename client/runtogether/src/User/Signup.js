@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import axios from './api/axios';
+import axios from 'axios';
 import './Signup.css'
 import {
     Input,
@@ -188,7 +188,7 @@ const Signup2 = () => {
                     <ModalBody style={{margin: '0 auto', width: '100%'}}>
                         <div style={{display: 'flex'}}>
                             <Input width="70%" size='m' variant='outline' placeholder='email' value={email} ps={2} onChange={handleEmailChange} />
-                            <div onClick={emailAuthSend} style={{width: '25%', marginLeft: '5%', fontSize: '11px', color: '#6A6A6A', backgroundColor: '#EEB6B6', padding: '0 10px', fontWeight: 'bold', textAlign: 'center', borderRadius: '20px', height: '23px', lineHeight: '23px'}}>인증 코드 전송</div>
+                            <button onClick={emailAuthSend} style={{width: '25%', marginLeft: '5%', fontSize: '11px', color: '#6A6A6A', backgroundColor: '#EEB6B6', padding: '0 10px', fontWeight: 'bold', textAlign: 'center', borderRadius: '20px', height: '23px', lineHeight: '23px'}}>인증 코드 전송</button>
                         </div>
                         <p style={{textAlign: 'left'}} id='email-check'></p>
                         
