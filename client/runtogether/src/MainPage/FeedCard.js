@@ -86,18 +86,16 @@ import {
                     {/* 피드 내용 */}
                     <div className='card-body'>
                     {feed.feedFiles.map((item2, idx) => {
-                        // console.log(item2)
-                        var fileSrc = item2.fileName+item2.filePath;
-                        console.log(fileSrc);
+                        var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
                         return(
-                            <img
+                            <Image
                                 border='1px solid #CBD9E7'
                                 margin='0 auto'
                                 marginTop='10px'
-                            width='90%'
-                            borderRadius='lg'
-                            src={fileSrc}
-                            alt=""
+                                width='90%'
+                                borderRadius='lg'
+                                src={fileSrc}
+                                alt=""
                             />
                         )
                     })}

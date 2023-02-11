@@ -17,7 +17,7 @@ import  {useNavigate} from 'react-router-dom';
 const LOGIN_URL = 'https://i8a806.p.ssafy.io/api/auth/login';
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
+    console.log("login");
     const userRef = useRef();
     const errRef = useRef();
 
@@ -25,7 +25,6 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-    // const dispatch = useDispatch();
     
     useEffect(() => {
         userRef.current.focus();
@@ -48,19 +47,15 @@ const Login = () => {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ id, password }),
                 {
-                    headers: { 'Content-Type': 'application/json',
-                    "Access-Control-Allow-Origin": "*" },
+                    headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
                 );
-                console.log(JSON.stringify(response?.data));
-                // const roles = response?.data?.roles;
-                const accessToken = response?.data?.accessToken;
-                setAuth({ id, password, accessToken });
-                setId('test');
-                setPassword('qwer1234!');
-                setSuccess(true);
-                
+                const data = response.data.data;
+                const ACCESS_TOKEN = data.accessToken;
+                console.log(ACCESS_TOKEN);
+                localStorage.setItem("access-token", ACCESS_TOKEN);
+                navigate("/");
             } catch (err) {
                 if (!err?.response) {
                     setErrMsg('에러');
@@ -85,11 +80,11 @@ const Login = () => {
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1 style={{ fontSize:'30px', textAlign:'center'}}>로그인</h1>
                     <form className='LoginForm' onSubmit={handleSubmit}>
-                        <label className='LoginLabel' htmlFor="username">아이디</label>
+                        <label className='LoginLabel' htmlFor="userid">아이디</label>
                         <input
                             className='LoginInput'
                             type="text"
-                            id="username"
+                            id="userid"
                             ref={userRef}
                             autoComplete="off"
                             onChange={(e) => setId(e.target.value)}
@@ -110,7 +105,7 @@ const Login = () => {
                             />
                         <Divider style={{margin: '5px'}}/>
                         <KakaoLogin/>
-                        <Button onClick={navigateHome} style={{margin:'0 auto', marginTop:'10px'}}> 
+                        <Button onClick={handleSubmit} style={{margin:'0 auto', marginTop:'10px'}}> 
                         로그인
                         </Button>
                     </form> 

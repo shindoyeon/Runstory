@@ -17,13 +17,13 @@ const FeedSearchResult = ({feedResult}) => {
         for(var idx in table_value) {
             if(idx%3===0) {
                 html += '<tr>';
-                html += '<td>'+table_value[idx].filePath+'</td>';
+                html += '<td>'+idx.filePath+'</td>';
             }
             if(idx%3===1) {
-                html += '<td>'+table_value[idx].filePath+'</td>';
+                html += '<td>'+idx.filePath+'</td>';
             }
             if(idx%3===2) {
-                html += '<td>'+table_value[idx].filePath+'</td>';
+                html += '<td>'+idx.filePath+'</td>';
                 html += '</tr>'
             }
         }
