@@ -21,13 +21,13 @@ import {
     
 
     async function postLike(feedId) {
-        await axios.post("http://i8a806.p.ssafy.io/api/feed/feed-like/"+feedId, {
+        await axios.post("https://i8a806.p.ssafy.io/api/main/feed-like/"+feedId, {
             feedId: feedId
         });
     }
 
     async function deleteLike(feedId) {
-        await axios.delete("http://i8a806.p.ssafy.io/api/feed/feed-unlike/"+feedId, {
+        await axios.delete("https://i8a806.p.ssafy.io/api/main/feed-unlike/"+feedId, {
             feedId: feedId
         });
     }
