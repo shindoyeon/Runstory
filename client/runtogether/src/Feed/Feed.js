@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useEffect} from 'react';
+import {useNavigate} from 'react-router-dom'; 
 import {
     ChakraProvider,
     theme,
@@ -16,7 +17,15 @@ import './Feed.css'
 
 // 개인피드페이지 -> 사용자 본인이면 햄버거 / 타인의 피드페이지면 햄버거x 팔로우, 차단버튼
 // 개인피드페이지 
-const Profile = () => {
+const Feed = () => {
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(localStorage.getItem("access-token")===null){
+            navigate("/user/login");
+        }
+    },[]);
+
     return (
         <ChakraProvider>
         <Header></Header>
@@ -31,4 +40,4 @@ const Profile = () => {
     )
 }
 
-export default Profile;
+export default Feed;
