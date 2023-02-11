@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from './api/axios';
-// import axios from './axios';
 import './Signup.css'
 import {
     ChakraProvider,
@@ -19,7 +18,8 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
-const Register = () => {
+const Register = ({userResult}) => {
+    console.log("회원가입");
     const userRef = useRef();
     const errRef = useRef();
     const imgRef = useRef();
@@ -43,7 +43,6 @@ const Register = () => {
     const [userGender, setUserGender] = useState('');
     const [userAge, setUserAge] = useState('');
     const [userNickname, setUserNickname] = useState('');
-    // const [userAddress, setUserAddress] = useState('');
     const [userPhonenum, setUserPhonenum] = useState('');
     const [popup, setPopup] = useState(false);
     const [userAddress, setUserAddress] = useState({
@@ -69,7 +68,7 @@ const Register = () => {
     const navigateTag = () => { // 취소 클릭 시 홈으로 가기 위함
         navigate("/user/signup/hashtag");
       };
-
+   
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -113,17 +112,22 @@ const Register = () => {
           	setUserImgFile(newFile);
         });
     };
-    // var file = {
-    //     img = 'userimgFile',
-    // }
-
-
     
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("key", JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum, userimgFile }));
-        formData.append("value", JSON.stringify({ id, password, userName, userGender, userAge, userNickname, userAddress, userPhonenum, userimgFile }));
+        formData.append("userId",id);
+        formData.append("userPwd",password);
+        formData.append("userName",userName);
+        formData.append("userNickname",userNickname);
+        formData.append("emailAuth",);
+        formData.append("phoneNum",userPhonenum);
+        formData.append("gender",userGender);
+        formData.append("address",userAddress);
+        formData.append("age",userAge);
+        formData.append("roleType",);
+        formData.append("regType",);
+        formData.append("hashtags",);
 
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(id);
@@ -202,20 +206,20 @@ const Register = () => {
                             <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
                         </label>
                         <input
-                            className="SignupInput"
-                            type="text"
-                            id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setId(e.target.value)}
-                            value={id}
-                            required
-                            aria-invalid={validName ? "false" : "true"}
-                            aria-describedby="uidnote"
-                            onFocus={() => setUserFocus(true)}
-                            onBlur={() => setUserFocus(false)}
-                            placeholder='아이디를 입력하세요'
-                        />
+                        className="SignupInput"
+                        type="text"
+                        id="username"
+                        ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setId(e.target.value)}
+                        value={id}
+                        required
+                        aria-invalid={validName ? "false" : "true"}
+                        aria-describedby="uidnote"
+                        onFocus={() => setUserFocus(true)}
+                        onBlur={() => setUserFocus(false)}
+                        placeholder='아이디를 입력하세요'
+                    />
                         <p id="usernote" className={userFocus && id && !validName ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             4~24자까지<br />

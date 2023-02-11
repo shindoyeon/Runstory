@@ -13,14 +13,14 @@ import * as serviceWorker from './serviceWorker';
 // const container = document.getElementById('root');
 
 ReactDOM.render(
-    <React.StrictMode>
+      <>
       <ColorModeScript />
       <AuthProvider>
         <App/>
         <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
         <script>Kakao.init("자바스크립트 앱키");</script>
       </AuthProvider>
-    </React.StrictMode>,
+      </>,
     document.getElementById('root')
 );
 
