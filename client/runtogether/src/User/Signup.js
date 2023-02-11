@@ -97,13 +97,6 @@ function Register({userResult}){
       }
     })
 
-    function checkEmail (email) {
-        console.log(email);
-        const res = axios.get(`http://localhost:8080/api/auth/email?userEmail=${email}`);
-        console.log(res.data);
-        // return res.data;
-    }
-
     const navigate = useNavigate(); // navigate 변수 생성
     const navigateTag = () => { // 취소 클릭 시 홈으로 가기 위함
         navigate("/user/signup/hashtag");
@@ -149,6 +142,13 @@ function Register({userResult}){
         });
     };
 
+    function checkEmail (email) {
+        console.log(email);
+        const res = axios.get(`http://localhost:8080/api/auth/email?userEmail=${email}`);
+        console.log(res.data);
+        // return res.data;
+    }
+    
     return (
         <ChakraProvider>    
         <Header></Header>
@@ -163,7 +163,7 @@ function Register({userResult}){
                 <section className="SignupSection" style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1 style={{textAlign:'center' ,fontSize:'30px'}}>회원가입</h1>
-                    <form className="SignupForm" onSubmit={checkEmail}>
+                    <form className="SignupForm">
                         <label className='SignLabel' htmlFor="userid">
                             <div className="id-and-check">
                                 <div>
