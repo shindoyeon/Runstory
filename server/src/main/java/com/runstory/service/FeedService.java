@@ -262,8 +262,9 @@ public class FeedService {
     }
 
     @Transactional
-    public void deleteFeedLike(Long feedLikeId){
-        feedLikeRepository.deleteById(feedLikeId);
+    public void deleteFeedLike(Long feedId, Long userId){
+        FeedLike feedLike = feedLikeRepository.findByFeedIdAndUserId(feedId, userId);
+        feedLikeRepository.deleteById(feedLike.getFeedLikeId());
     }
 
     // Feed 댓글 생성
