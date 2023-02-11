@@ -29,7 +29,7 @@ const ChattingRoom = () => {
   
     const connect = () => {
       client.current = new StompJs.Client({
-        brokerURL: "ws://i8a806.p.ssafy.io/api/ws-stomp", // 웹소켓 서버로 직접 접속
+        brokerURL: "wss://i8a806.p.ssafy.io/api/ws-stomp", // 웹소켓 서버로 직접 접속
         // brokerURL: "ws://localhost:8080/ws-stomp", // 웹소켓 서버로 직접 접속
         connectHeaders: {
           "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaWhpQG5hdmVyLmNvbSIsImlzcyI6InNzYWZ5LmNvbSIsImV4cCI6MTY3NzEzNzA0OCwiaWF0IjoxNjc1ODQxMDQ4fQ.jJqXZbSS1BA03_SvVuyVvwaNZ_dwsiy6JdsFuALjzTvqo1RR-6kj-ywgMxMFupnvMpxeclEJXqYCag6etccQ9Q",
