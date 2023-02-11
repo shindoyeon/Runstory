@@ -11,22 +11,27 @@ import './Feed.css'
 
 
 // 개인피드페이지 -> 사용자 본인이면 햄버거 / 타인의 피드페이지면 햄버거x 팔로우, 차단버튼
-// 개인피드페이지 
+// 개인피드페이지
 // ~~의 페이지임을 명시
 const Profile = () => {
-    return (      
-    <div style={{width: '90%'}}>
-        <ChakraProvider>
-        <Header></Header>
-        <ProfileMsg></ProfileMsg>
-        <div className="profile">
-            <Info></Info>
-            <ProfileFeed></ProfileFeed>
-        <Footer></Footer>
-        </div>
+    useEffect(()=>{
+        if(localStorage.getItem("access-token")===null){
+            navigate("/user/login");
+        }
+    },[]);
+    return (
+        <div style={{width: '90%'}}>
+            <ChakraProvider>
+                <Header></Header>
+                <ProfileMsg></ProfileMsg>
+                <div className="profile">
+                    <Info></Info>
+                    <ProfileFeed></ProfileFeed>
+                    <Footer></Footer>
+                </div>
 
-        </ChakraProvider>
-    </div>
+            </ChakraProvider>
+        </div>
     )
 }
 
