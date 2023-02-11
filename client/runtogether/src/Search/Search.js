@@ -10,7 +10,7 @@ import SearchBar from './SearchBar';
 // import SearchResultMsg from './SearchResultMsg';
 // import FeedSearchResult from './FeedSearchResult'
 // import UserSearchResult from './UserSearchResult'
-import SearchResult from './SearchResult'
+// import SearchResult from './SearchResult'
 
 function Search() {
   
