@@ -2,7 +2,6 @@ import React, {useState, useRef} from 'react';
 import { Card, IconButton, Avatar  } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons'
 import './ProfileIdPhoto.css';
-import Imagefile from './권태윤.png'
     
 // 본인의 이미지 버튼 수정 ->
 // 여기서 구현하고 마이페이지로 넘길 것
@@ -34,11 +33,10 @@ function ProfileIdPhoto(){
     
   return (
     <>
-    <Card>
     <Avatar
         className='profile-img profile-img-wrap profile-img-upload' 
         src={selectedImage} 
-        style={{margin:'20px'}} 
+        style={{margin:'20px' ,width:'100px', height:'100px'}} 
         onClick={()=>{fileInput.current.click()}}/>
       <input 
         type='file' 
@@ -51,7 +49,6 @@ function ProfileIdPhoto(){
         {selectedImage && (
           <img src={Imagefile} ref={fileInput}/>)} 
         </div> */}
-    </Card>
     </>
   );
 };

@@ -6,8 +6,9 @@
 
 .SignupSection {
   margin : auto;
-  margin-top: 35%;
-  border-radius: 10%;
+  margin-top: 16%;
+  margin-bottom: 15%;
+  /* border-radius: 12%; */
   max-width: 420px;
   min-height: 300px;
   display: flex;
@@ -24,7 +25,7 @@
   padding-bottom: 1rem;
 }
 
-.SignupButton,
+
 textarea {
 font-size: 22px;
 padding: 0.25rem;
@@ -38,13 +39,8 @@ border-radius: 0.5rem;
   margin-top : 5px;
 }
 
-.SignLabel,
-.SignupButton {
+.SignLabel {
 margin-top: 1rem;
-}
-
-.SignupButton {
-padding: 0.5rem;
 }
 
 .instructions {
@@ -90,4 +86,19 @@ padding: 0.5rem;
 
 .line {
   display: inline-block;
+}
+
+.signup-detail-label {
+  margin-top: 14px;
+}
+
+input::placeholder {
+  font-size: 15px;
+  font-style: italic;
+}
+
+
+.address-button {
+  /* justify-content: left; */
+  text-align: left;
 }

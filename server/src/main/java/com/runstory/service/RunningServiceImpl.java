@@ -2,6 +2,7 @@ package com.runstory.service;
 
 import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.api.response.RunningMainResDto;
+import com.runstory.common.util.FileUtil;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
@@ -15,7 +16,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.net.InetAddress;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,10 +44,20 @@ public class RunningServiceImpl implements RunningService {
 
     @Override
     @Transactional
-    public Long createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq){// User user 현재 유저를 들고와야한다.
+    public void createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq, MultipartFile runningImg) throws Exception{// User user 현재 유저를 들고와야한다.
         // 유저 전체의 데이터를 들고온다.
         User user = userRepository.findByUserSeq(userSeq);
-        Running running = new Running(runningCrewReqDto, user);
+//        String path = "/var/lib/runstory"; // /home/ubuntu/images;
+//        String imageFileName = runningImg.getOriginalFilename();
+//        File file = new File(path+imageFileName);
+//        runningImg.transferTo(file);
+
+        String hostname = InetAddress.getLocalHost().getHostName();
+        FileUtil fileUtil = new FileUtil();
+        HashMap<String, String> file = fileUtil.fileCreate(hostname, "running",runningImg);
+
+//        Running running = new Running(runningCrewReqDto, user, imageFileName, path);
+        Running running = new Running(runningCrewReqDto, user, file.get("filename"), file.get("filepath"));
         runningrepository.save(running);
         RunningDetail runningDetail = new RunningDetail(runningCrewReqDto);
         runningDetailRepository.save(runningDetail);
@@ -56,7 +72,6 @@ public class RunningServiceImpl implements RunningService {
                     .build();
             selectedHashtagRepository.save(selectedHashtag);
         }
-        return running.getRunningId();
     }
 
     @Override
@@ -120,10 +135,20 @@ public class RunningServiceImpl implements RunningService {
     // DetailPage 수정하기
     @Override
     @Transactional
-    public Long updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto){
-        Running running = runningrepository.getById(newRunningCrewReqDto.getId()); // 값읋 들고온다.
+    public void updateRunningCrew(RunningCrewReqDto newRunningCrewReqDto, MultipartFile runningImg) throws Exception{
+//        String path = "/var/lib/runstory/"; //  /home/ubuntu/images
+//        String imageFileName = runningImg.getOriginalFilename();
+//        File file = new File(path+imageFileName);
+//        runningImg.transferTo(file);
+
+        String hostname = InetAddress.getLocalHost().getHostName();
+        FileUtil fileUtil = new FileUtil();
+        HashMap<String, String> file = fileUtil.fileCreate(hostname, "running",runningImg);
+
+        Running running = runningrepository.getById(newRunningCrewReqDto.getId()); // 값을 들고온다.
         RunningDetail runningDetail = runningDetailRepository.getById(newRunningCrewReqDto.getId());
-        running.RunningUpdate(newRunningCrewReqDto);
+//        running.RunningUpdate(newRunningCrewReqDto, imageFileName, path);
+        running.RunningUpdate(newRunningCrewReqDto, file.get("filename"), file.get("filepath"));
         runningrepository.save(running);
         runningDetail.runningDetailUpdate(newRunningCrewReqDto);
         runningDetailRepository.save(runningDetail);
@@ -157,7 +182,6 @@ public class RunningServiceImpl implements RunningService {
 //                selectedHashtagRepository.deleteById(selectedHashtag.getSelectedHashtagId());
 //            }
 //        }
-        return newRunningCrewReqDto.getId();
     }
 
     // Reservation
@@ -218,6 +242,22 @@ public class RunningServiceImpl implements RunningService {
         }else{ // 만약 있으면
             runningDibsRepository.deleteById(previousDibsUser.getId());
             return userSeq;
+        }
+    }
+
+    @Override
+    public void runningValid(Long runningId, Long userSeq){ // m로 생각하고 사용한다.
+        User user = userRepository.findByUserSeq(userSeq);
+        int distance = (int) runningrepository.getById(runningId).getDistance();
+        int newlevel = user.getLevel();
+        int newDistance =  user.getExperience() + distance;
+
+        if (newDistance > 100000){
+            newlevel ++;
+            newDistance -= 100000;
+            user.UserExperienceUpdate(newlevel,newDistance);
+        }else{
+            user.UserExperienceUpdate(newlevel, newDistance);
         }
     }
 

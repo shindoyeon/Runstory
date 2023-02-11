@@ -1,7 +1,7 @@
 .LoginSection {
     margin : auto;
     margin-top: 40%;
-    border-radius: 10%;
+    /* border-radius: 10%; */
     max-width: 420px;
     min-height: 300px;
     display: flex;
@@ -26,9 +26,24 @@
     margin-top : 5px;
 }
 
-.LoginLabel,
+.LoginLabel{
+    margin-top: 1rem;
+}
+
+.Button {
+  justify-content: center;
+  font-size: 30px;
+  border-radius: 20%;
+  border-color: black;
+  margin-top: 10px  
+}
+
 .LoginButton {
-  margin-top: 1rem;
+  justify-content: center;
+  font-size: 30px;
+  border-radius: 20%;
+  border-color: black;
+  margin-top: 10px
 }
 
 .instructions {
@@ -75,3 +90,9 @@
 .line {
     display: inline-block;
 }
+
+input::placeholder {
+    font-size: 15px;
+    font-style: italic;
+  }
+  

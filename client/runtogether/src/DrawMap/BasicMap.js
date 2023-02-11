@@ -1,12 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './BasicMap.css';
 import html2canvas from 'html2canvas';
-import _ from "lodash";
 // import {
 //     Image, Card, CardBody, CardFooter, CardHeader
 //   } from '@chakra-ui/react';
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
+import axios from 'axios';
+import MapSearchResult from './MapSearchResult';
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Input
+} from '@chakra-ui/react'
 
 function BasicMap() {
   const Tmapv2 = window.Tmapv2;
@@ -50,7 +60,7 @@ function BasicMap() {
     // });
   }, []);
 
-
+    
     function clearDrawing() {
       window.location.replace("/draw-map")
     }
@@ -102,12 +112,78 @@ function BasicMap() {
       link.click();
       document.body.removeChild(link);
     }
+
+    const [keyword, setKeyword] = useState("");
+    const handleKeywordChange = ({ target: { value } }) => setKeyword(value); // 글 작성 시 content 설정
+    const [result, setResult] = useState([]);
+
+    const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
+        event.preventDefault();
+        var searchResult = searchLoc();
+    };
+
+    async function searchLoc() {
+      var result = await axios.get("https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result", {
+          headers: {
+            appkey: "l7xxe210feb29ba24deda6a06b0d0e88366a"
+          },
+          params: {
+            "searchKeyword" : keyword, // 검색 키워드
+            "resCoordType" : "EPSG3857", // 요청 좌표계
+            "reqCoordType" : "WGS84GEO", // 응답 좌표계
+            "count" : 100 // 가져올 갯수
+          }
+        })
+        setResult(result.data.searchPoiInfo.pois.poi)
+    }
+
+    function panLoc(e) {
+      var latLng = e.target.id.split(" ");
+      var lat = latLng[0];
+      var lng = latLng[1];
+      console.log(lat, lng)
+      var temp = new Tmapv2.LatLng(lat, lng);
+      console.log(tmap)
+      tmap[1].panTo(temp);
+    }
     
     return (
       <div id='canvas'>
-        <div id="map" style={{width:"95%", height:"40vh", margin: "0 auto", marginTop: "0px", border: "2px solid black" }}></div> 
-        <div className="del-btn" onClick={clearDrawing}>다시 그리기</div>
-        <div className="save-btn" onClick={onCapture}>이미지로 저장하기</div>
+        <div id="map" style={{width:"100%", height:"40vh", margin: "0 auto", marginTop: "-20px" }}></div> 
+        <div display='inline-block'>
+          <div className="del-btn" onClick={clearDrawing}>다시 그리기</div>
+          <div className="save-btn" onClick={onCapture}>이미지로 저장하기</div>
+        </div>
+        <div style={{maxHeight: '40vh', overflow: 'scroll', width: '100%', margin: '0 auto'}}>
+        <div width="100%" style={{margin: '0 auto', textAlign: 'center', marginBottom: '10px'}}>
+          <form onSubmit={handleSubmit}>
+            <Input width='50%' marginLeft='3%' marginRight='3%' size='xs' marginTop='30px' value={keyword} name='keyword' onChange={handleKeywordChange} placeholder="검색어를 입력해주세요"/>
+            <button type='submit'>검색</button>
+          </form>
+          </div>
+          <Table size='sm' textAlign={'center'} variant={'striped'} isCentered>
+              <Thead>
+                <Tr>
+                  <Th textAlign={'center'}>No.</Th>
+                  <Th textAlign={'center'}>장소 ID</Th>
+                  <Th textAlign={'center'}>장소명</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {result.map((item, idx) => {
+                    var id = item.frontLat + " " + item.frontLon
+                    return(
+                        <Tr id={id} onClick={panLoc}>
+                            <Td id={id} textAlign={'center'}>{idx+1}</Td>
+                            <Td id={id} textAlign={'center'}>{item.id}</Td>
+                            <Td id={id} textAlign={'center'}>{item.name}</Td>
+                        </Tr>
+                    )
+                })}
+              </Tbody>
+          </Table>
+        </div>
+        {/* <MapSearchResult result={result}></MapSearchResult> */}
         {/* <button onClick={clearDrawing}>라인 삭제하기</button> */}
         {/* <button onClick={drawPolyline} onTouchStart={drawPolyline}>라인 그리기</button> */}
         {/* <button onClick={clearDrawing} onTouchStart={clearDrawing}>라인 삭제하기</button> */}

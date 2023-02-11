@@ -123,9 +123,9 @@ public class Running {
     }
 
 
-    public Running(RunningCrewReqDto runningCrewReqDto, User user) {
-        this.imgFilePath = runningCrewReqDto.getImgFilePath();
-        this.imgFileName = runningCrewReqDto.getImgFileName();
+    public Running(RunningCrewReqDto runningCrewReqDto, User user, String imageFileName, String path) {
+        this.imgFilePath = path;
+        this.imgFileName = imageFileName;
         this.crewName = runningCrewReqDto.getCrewName();
         this.runningContent = runningCrewReqDto.getRunningContent();
         this.startLocation = runningCrewReqDto.getStartLocation();
@@ -140,9 +140,9 @@ public class Running {
         this.user = user;
     }
 
-    public void RunningUpdate(RunningCrewReqDto runningCrewReqDto) {
-        this.imgFilePath = runningCrewReqDto.getImgFilePath();
-        this.imgFileName = runningCrewReqDto.getImgFileName();
+    public void RunningUpdate(RunningCrewReqDto runningCrewReqDto, String imageFileName, String path) {
+        this.imgFilePath = path;
+        this.imgFileName = imageFileName;
         this.crewName = runningCrewReqDto.getCrewName();
         this.runningContent = runningCrewReqDto.getRunningContent();
         this.startLocation = runningCrewReqDto.getStartLocation();

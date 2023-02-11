@@ -17,15 +17,17 @@ import {
 
   function FeedCard(props) {
     const feed = props.feed;
+    // var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
+    
 
     async function postLike(feedId) {
-        await axios.post(""+feedId, {
+        await axios.post("http://i8a806.p.ssafy.io/api/feed/feed-like/"+feedId, {
             feedId: feedId
         });
     }
 
     async function deleteLike(feedId) {
-        await axios.delete(""+feedId, {
+        await axios.delete("http://i8a806.p.ssafy.io/api/feed/feed-unlike/"+feedId, {
             feedId: feedId
         });
     }
@@ -83,14 +85,20 @@ import {
                     </CardHeader>
                     {/* 피드 내용 */}
                     <div className='card-body'>
-                        <Image
-                            border='1px solid #CBD9E7'
-                            margin='0 auto'
-                            marginTop='10px'
-                            width='90%'
-                            borderRadius='lg'
-                            src={feed.feedFiles[0].filePath}
-                        />
+                    {feed.feedFiles.map((item2, idx) => {
+                        var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
+                        return(
+                            <Image
+                                border='1px solid #CBD9E7'
+                                margin='0 auto'
+                                marginTop='10px'
+                                width='90%'
+                                borderRadius='lg'
+                                src={fileSrc}
+                                alt=""
+                            />
+                        )
+                    })}
                             {/* 내용 */}
                         {/* <div className="feed-content">{feed.content}</div> */}
                         <div className='feed-content' onClick={moreContent}>{feed.content}</div>
