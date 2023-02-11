@@ -36,9 +36,10 @@ const SearchBar = () => {
     };
 
     function search(keyword) {
-        setUserResult(getUserSearchResult(keyword));
-        setFeedResult(getFeedSearchResult(keyword));
-        setRunningCrewResult(getRunningCrewSearchResult(keyword));
+        console.log(keyword)
+        // setUserResult(getUserSearchResult(keyword));
+        // setFeedResult(getFeedSearchResult(keyword));
+        // setRunningCrewResult(getRunningCrewSearchResult(keyword));
     }
 
     async function getUserSearchResult(keyword) {
