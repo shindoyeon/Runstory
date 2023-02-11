@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../common/axios';
@@ -27,13 +27,14 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
-const Register = ({userResult}) => {
-    console.log("회원가입");
+function Register({userResult}){
+    // console.log(userResult);
     const userRef = useRef();
     const errRef = useRef();
     const imgRef = useRef();
 
     const [id, setId] = useState('');
+    const [emailMsg, setEmailMsg] = useState("");
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 
@@ -75,7 +76,33 @@ const Register = ({userResult}) => {
     const handleComplete = () => {
         setPopup(!popup);
     }
+    //이메일 유효성 검사
+    const validateEmail = (id) => {
+        return id
+          .toLowerCase()
+          .match(/([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/);
+      };
 
+    const isEmailValid = validateEmail(id);
+
+    //이메일 
+  const onChangeEmail = useCallback( async (e) => {
+    const currEmail = e.target.value;
+    setId(currEmail);
+
+    if (!validateEmail(currEmail)) {
+      setEmailMsg("이메일 형식이 올바르지 않습니다.")
+    } else {
+        setEmailMsg("올바른 이메일 형식입니다.")
+      }
+    })
+
+    function checkEmail (email) {
+        console.log(email);
+        const res = axios.get(`http://localhost:8080/api/auth/email?userEmail=${email}`);
+        console.log(res.data);
+        // return res.data;
+    }
 
     const navigate = useNavigate(); // navigate 변수 생성
     const navigateTag = () => { // 취소 클릭 시 홈으로 가기 위함
@@ -85,10 +112,6 @@ const Register = ({userResult}) => {
     useEffect(() => {
         userRef.current.focus();
     }, [])
-
-    useEffect(() => {
-        setValidName(USER_REGEX.test(id));
-    }, [id])
 
     useEffect(() => {
         setValidPwd(PWD_REGEX.test(password));
@@ -125,78 +148,6 @@ const Register = ({userResult}) => {
           	setUserImgFile(newFile);
         });
     };
-    
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append("userId",id);
-        formData.append("userPwd",password);
-        formData.append("userName",userName);
-        formData.append("userNickname",userNickname);
-        formData.append("emailAuth",);
-        formData.append("phoneNum",userPhonenum);
-        formData.append("gender",userGender);
-        formData.append("address",userAddress);
-        formData.append("age",userAge);
-        formData.append("roleType",);
-        formData.append("regType",);
-        formData.append("hashtags",);
-
-        // if button enabled with JS hack
-        const v1 = USER_REGEX.test(id);
-        const v2 = PWD_REGEX.test(password);  
-        if (!v1 || !v2) {
-            setErrMsg("일치하지 않음");
-            return;
-        }
-        try {
-            console.log(
-                "콘솔 찍어보기"+
-                " id :"+id+
-                " password : "+password+
-                " 이름 :" +userName+
-                " 성별 :" +userGender+
-                " 나이 :" +userAge+
-                " 닉네임 :" +userNickname+
-                " 주소 :" +userAddress.address+
-                " 폰번호 :"+userPhonenum+
-                " 이미지 : "+userimgFile.name)
-                await axios.post(REGISTER_URL,
-                    {
-                        data: formData,
-                        headers: { 'Content-Type': 'multipart/form-data' },
-                        // withCredentials: true
-                    }
-                    );
-                    // TODO: remove console.logs before deployment
-                    // console.log(response)
-                // console.log(JSON.stringify(response?.data));
-                //console.log(JSON.stringify(response))
-            setSuccess(true);
-            //clear state and controlled inputs
-            setId('');
-            setPassword('');
-            setMatchPwd('');
-            setUserName('');
-            setUserAge('');
-            setUserGender('');
-            setUserNickname('');
-            setUserAddress('');
-            setUserPhonenum('');
-            setUserImgFile('');
-
-        } catch (err) {
-            if (!err?.response) {
-                setErrMsg('서버에 반응이 없습니다.');
-            } else if (err.response?.status === 409) {
-                setErrMsg('사용된 사용자이름');
-            } else {
-                setErrMsg('등록 실패')
-            }
-            errRef.current.focus();
-        }
-    }
 
     return (
         <ChakraProvider>    
@@ -212,40 +163,30 @@ const Register = ({userResult}) => {
                 <section className="SignupSection" style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1 style={{textAlign:'center' ,fontSize:'30px'}}>회원가입</h1>
-                    <form className="SignupForm" onSubmit={handleSubmit}>
-                        <label className='SignLabel' htmlFor="username">
+                    <form className="SignupForm" onSubmit={checkEmail}>
+                        <label className='SignLabel' htmlFor="userid">
                             <div className="id-and-check">
                                 <div>
                                 아이디
-                                <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
-                                <FontAwesomeIcon icon={faTimes} className={validName || !id ? "hide" : "invalid"} />
                                 </div>
-                            <button className='check-btn' onClick={onOpen}>인증코드 전송</button>
+                            <button className='check-btn' onClick={checkEmail(id)}>인증코드 전송</button>
                             </div>
-
                             </label>
                         <input
                         className="SignupInput"
                         type="text"
-                        id="username"
+                        id="userid"
                         ref={userRef}
                         autoComplete="off"
-                        onChange={(e) => setId(e.target.value)}
+                        onChange={onChangeEmail}
                         value={id}
-                        required
                         aria-invalid={validName ? "false" : "true"}
                         aria-describedby="uidnote"
                         onFocus={() => setUserFocus(true)}
                         onBlur={() => setUserFocus(false)}
                         placeholder='아이디를 입력하세요'
                     />
-                        <p id="usernote" className={userFocus && id && !validName ? "instructions" : "offscreen"}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            4~24자까지<br />
-                            문자로 시작해야 합니다.<br />
-                            문자, 숫자, 밑줄, '-'만 가능합니다.
-                        </p>
-
+                        <p className={isEmailValid ? 'success' : 'error'}>{emailMsg}</p>
                         <label className='SignLabel' htmlFor="password">
                             비밀번호
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
@@ -257,7 +198,6 @@ const Register = ({userResult}) => {
                             id="password"
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
-                            required
                             aria-invalid={validPwd ? "false" : "true"}
                             aria-describedby="pwdnote"
                             onFocus={() => setPwdFocus(true)}
@@ -282,7 +222,6 @@ const Register = ({userResult}) => {
                             id="confirm_pwd"
                             onChange={(e) => setMatchPwd(e.target.value)}
                             value={matchPwd}
-                            required
                             aria-invalid={validMatch ? "false" : "true"}
                             aria-describedby="confirmnote"
                             onFocus={() => setMatchFocus(true)}
@@ -357,7 +296,6 @@ const Register = ({userResult}) => {
                             className="SignupInput" 
                             placeholder="주소를 입력하세요"  
                             type="text" 
-                            required={true} 
                             name="address" 
                             onChange={handleInput} 
                             value={userAddress.address}
@@ -381,7 +319,7 @@ const Register = ({userResult}) => {
                         {/* <Button disabled={success} onClick={navigateTag} style={{margin:'0 auto' ,marginTop:'10px' }}> 
                         완료
                         </Button>  */}
-                        <button onClick={handleSubmit}>완료</button>
+                        <button onClick={checkEmail}>완료</button>
                      </form>
                     <p>
                         이미 회원가입을 하셨다면?
