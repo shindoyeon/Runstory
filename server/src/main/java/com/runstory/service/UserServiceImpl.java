@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception{
+	public String changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception{
 		User user = userRepository.findByUserId(userId);
 		// 수정하는 경우 기존 파일 삭제
 //		if (!isRegistered) {
@@ -189,6 +189,7 @@ public class UserServiceImpl implements UserService {
 		user.setProfileImgFilePath(file.get("filepath"));
 		user.setProfileImgFileName(file.get("filename"));
 		userRepository.save(user);
+		return file.get("filename");
 	}
 	@Override
 	@Transactional
