@@ -28,6 +28,7 @@ import {
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
+import BetweenBodyFooter from '../common/BetweenBodyFooter'
 import Address from './Address'
 import { useNavigate } from "react-router-dom";
 import imageCompression from 'browser-image-compression';
@@ -300,7 +301,8 @@ const Signup = (props) => {
                     </ModalFooter>
                     </ModalContent>
             </Modal>
-        <form style={{width: '80%', margin: '80px auto', textAlign: 'center', border: '1px solid #6A6A6A', borderRadius: '20px',paddingTop: '10px', paddingBottom: '10px', boxShadow: '3px 3px #6A6A6A'}} onSubmit={join}>
+            <div style={{width: '80%', margin: '0 auto', marginTop: '80px', marginBottom: '5px', fontSize: '30px', textAlign: 'center'}}>RUNSTORY</div>
+        <form style={{width: '80%', margin: '0 auto', textAlign: 'center', border: '1px solid #cccccc', borderRadius: '20px',paddingTop: '10px', paddingBottom: '10px', boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} onSubmit={join}>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>이메일</div>
             {/* <div style={{marginLeft: '10%', textAlign: 'center', border: '1px solid #6A6A6A', width: '35%', color: '#6A6A6A', display: 'none'}} id='auth-email'></div> */}
             <Input required id='email-input' border='1px solid #6A6A6A' width="80%" size='xs' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='이메일'/>
@@ -356,8 +358,12 @@ const Signup = (props) => {
             {/* <div id='current-age'></div> */}
             <div style={{marginLeft: '10%', textAlign: 'left'}}>해시태그</div>
             <Input id='hashtag-input' border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='선택' textAlign='left' ps={2} mb={3} onClick={openHashtagSelect} readOnly/>
-            <button type='submit' >회원가입하기</button>
+            <button type='submit' style={{borderRadius: '20px', color: '#6A6A6A', backgroundColor: '#EEB6B6', padding: '0 10px', margin: '5px', fontSize: '14px'}}>회원가입</button>
+            <div style={{display:'flex', fontSize: '12px', justifyContent: 'center', marginTop: '3px'}}>
+                <div>이미 RUNSTORY 회원이신가요?</div>&nbsp;<div style={{color: '#6A6A6A'}}><a href='https://i8a806.p.ssafy.io/user/login' style={{textDecoration: 'underline'}}>로그인하러가기</a></div>
+            </div>
         </form>
+        <BetweenBodyFooter></BetweenBodyFooter>
         <Footer></Footer>
         </>
     )
