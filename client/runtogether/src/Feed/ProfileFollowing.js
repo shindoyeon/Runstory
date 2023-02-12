@@ -8,7 +8,8 @@ import axios from '../common/axios';
 import { useNavigate } from "react-router-dom";
 
 // 내가 팔로워하는 사람들
-const Profilefollowing = () => {
+const Profilefollowing = (props) => {
+  console.log("팔로잉 : "+props.following)
   const navigate = useNavigate();
   const navigateFollow = () => { 
       navigate("/feed/follow");
@@ -20,7 +21,7 @@ const Profilefollowing = () => {
       <div>
       팔로잉
       </div>
-      0 명
+      {props.following} 명
     </Card>
     </ChakraProvider>
     )
