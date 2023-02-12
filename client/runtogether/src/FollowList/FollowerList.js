@@ -1,5 +1,4 @@
 import React from 'react';
-import ImageFile from './권태윤.png'
 import {
   Card,
   Image,
