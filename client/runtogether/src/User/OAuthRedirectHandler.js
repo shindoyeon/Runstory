@@ -30,4 +30,4 @@ const OAuth2RedirectHandler = () => {
   // return <Signup userResult={data}></Signup>
 };
 
-export default OAuthRedirectHandler;
+export default OAuth2RedirectHandler;
