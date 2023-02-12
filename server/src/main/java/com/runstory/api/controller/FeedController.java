@@ -100,7 +100,7 @@ public class FeedController {
 
         if(follow==null)
             return BaseResponse.success(null);
-        return BaseResponse.success(null);
+        return BaseResponse.success(follow.getFollowId());
     }
 
     @DeleteMapping("/follow/{followid}")
