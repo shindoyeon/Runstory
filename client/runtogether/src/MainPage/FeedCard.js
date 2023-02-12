@@ -17,6 +17,7 @@ import {
 
   function FeedCard(props) {
     const feed = props.feed;
+    // console.log(feed)
     // var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
     
 
@@ -35,15 +36,15 @@ import {
     }
 
     const clickLike = (feedId, e) => {
-        if(e.target.style.color==='red') {
-            e.target.style.color='grey';
-            deleteLike(feedId);
-            // 좋아요 DELETE
-        }
-        else {
+        if(feed.feedLikeId===null) {
             e.target.style.color='red';
             postLike(feedId);
             // 좋아요 POST
+        }
+        else {
+            e.target.style.color='grey';
+            deleteLike(feedId);
+            // 좋아요 DELETE
         }
     }
 
