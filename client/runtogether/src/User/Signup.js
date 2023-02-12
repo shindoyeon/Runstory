@@ -24,13 +24,15 @@ import {
     useDisclosure,
     PinInput,
     PinInputField,
+    Button
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import Address from './Address'
 import { useNavigate } from "react-router-dom";
 import imageCompression from 'browser-image-compression';
-
+import DaumPostcodeEmbed from 'react-daum-postcode';
+import Hashtag from '../CreateFeed/HashTag'
 const EMAIL_REGEX = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -38,8 +40,9 @@ const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
 
-const Signup2 = () => {
+const Signup = () => {
     const { isOpen: isEmailOpen, onOpen: onEmailOpen, onClose: onEmailClose } = useDisclosure()
+    const { isOpen: isHashtagOpen, onOpen: onHashtagOpen, onClose: onHashtagClose } = useDisclosure()
 
     const [email, setEmail] = useState();
     const [authcode, setAuthcode] = useState();
@@ -51,7 +54,6 @@ const Signup2 = () => {
     const [authcodeInput6, setAuthcodeInput6] = useState();
     const [authcodeInput7, setAuthcodeInput7] = useState();
     const [authcodeInput8, setAuthcodeInput8] = useState();
-    const [emailAuthPass, setEmailAuthPass] = useState(false);
     const [password, setPassword] = useState();
     const [password2, setPassword2] = useState();
     const [name, setName] = useState();
@@ -106,12 +108,8 @@ const Signup2 = () => {
         var authcodeInput = authcodeInput1+""+authcodeInput2+""+authcodeInput3+""+authcodeInput4
         +""+authcodeInput5+""+authcodeInput6+""+authcodeInput7+""+authcodeInput8;
         if(authcode===authcodeInput) {
-            setEmailAuthPass(true);
-            var authEmail = document.getElementById('auth-email');
-            authEmail.style.border = '0px solid black';
-            authEmail.style.width = '100%';
-            authEmail.style.textAlign = 'left';
-            authEmail.innerText = email;
+            var emailInput = document.getElementById('email-input');
+            emailInput.placeholder = email;
             onEmailClose();
         }
         else {
@@ -136,6 +134,7 @@ const Signup2 = () => {
         }
     }, [email])
 
+    // 비밀번호 유효성 검사
     useEffect(() => {
         var pwValidCheck = document.getElementById('pw-valid-check');
         if(password===undefined) {
@@ -146,7 +145,7 @@ const Signup2 = () => {
             pwValidCheck.innerText = "✅사용가능한 비밀번호입니다.";
             return;
         }
-        pwValidCheck.innerText = "❌영어, 숫자, 특수문자(!@#$%)를 포함한 8~24자"
+        pwValidCheck.innerText = "❌영어, 숫자, 특수문자를 포함한 8~24자"
     }, [password])
 
     // 비밀번호랑 비밀번호 확인란 확인하기
@@ -211,34 +210,52 @@ const Signup2 = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        <form style={{width: '70%', margin: '80px auto', textAlign: 'center'}} onSubmit={join}>
-            <div style={{textAlign: 'left'}}>email</div>
-            <div style={{textAlign: 'center', border: '1px solid black', width: '35%'}} onClick={onEmailOpen} id='auth-email'>이메일 인증하기</div>
-            {/* <Input width="100%" size='m' height='30px' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='email'/> */}
-            <div style={{textAlign: 'left'}}>password</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='password' value={password} ps={2} mb={3} onChange={handlePasswordChange} />
-            <p style={{textAlign: 'left'}} id='pw-valid-check'></p>
-            <div style={{textAlign: 'left'}}>password check</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='password check' value={password2} ps={2} mb={3} onChange={handlePassword2Change} />
-            <p style={{textAlign: 'left'}} id='pwcheck'></p>
-            <div style={{textAlign: 'left'}}>name</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='name' value={name} ps={2} mb={3} onChange={handleNameChange} />
-            <div style={{textAlign: 'left'}}>nickname</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='nickname' value={nickname} ps={2} mb={3} onChange={handleNicknameChange} />
-            <div style={{textAlign: 'left'}}>phone number</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='phone number' value={phoneNum} ps={2} mb={3} onChange={handlePhoneNumChange} />
-            <div style={{textAlign: 'left'}}>gender</div>
+            <Modal isOpen={isHashtagOpen} onClose={onHashtagClose} size='sm' isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Hashtag 선택</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody style={{margin: '0 auto', width: '100%'}}>
+                        <Hashtag></Hashtag>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='red' mr={3} onClick={onHashtagClose}>
+                            취소
+                        </Button>
+                        <Button variant='ghost'>완료</Button>
+                    </ModalFooter>
+                    </ModalContent>
+            </Modal>
+        <form style={{width: '80%', margin: '80px auto', textAlign: 'center', border: '1px solid #6A6A6A', borderRadius: '20px',paddingTop: '10px', paddingBottom: '10px', boxShadow: '3px 3px #6A6A6A'}} onSubmit={join}>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>email</div>
+            {/* <div style={{marginLeft: '10%', textAlign: 'center', border: '1px solid #6A6A6A', width: '35%', color: '#6A6A6A', display: 'none'}} id='auth-email'></div> */}
+            <Input id='email-input' border='1px solid #6A6A6A' width="80%" size='xs' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='email'/>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>password</div>
+            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='password' value={password} ps={2} mb={3} onChange={handlePasswordChange} />
+            <p style={{marginLeft: '10%', textAlign: 'left'}} id='pw-valid-check'></p>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>password check</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='password check' value={password2} ps={2} mb={3} onChange={handlePassword2Change} />
+            <p style={{marginLeft: '10%', textAlign: 'left'}} id='pwcheck'></p>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>name</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='name' value={name} ps={2} mb={3} onChange={handleNameChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>nickname</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='nickname' value={nickname} ps={2} mb={3} onChange={handleNicknameChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>phone number</div>
+            <Input border='1px solid #6A6A6A' type='number' width='80%' size='xs' variant='outline' placeholder='phone number' value={phoneNum} ps={2} mb={3} onChange={handlePhoneNumChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>gender</div>
             <RadioGroup onChange={setGender} value={gender} mb={2}>
-                <Stack direction='row' style={{marginTop: '5px'}}>
+                <Stack direction='row' style={{marginTop: '5px', marginLeft: '10%'}}>
                     <Radio value='1' size='sm' colorScheme={"pink"}>Male</Radio>
                     <Radio style={{marginLeft: '10px'}} value='2' size='sm' colorScheme={"pink"}>Female</Radio>
                 </Stack>
                 </RadioGroup>
-            <div style={{textAlign: 'left'}}>address</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='address' value={address} textAlign='center' mb={3} onChange={handleAddressChange} />
-            <div style={{textAlign: 'left'}}>age</div>
-            <p id='current-age'></p>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>address</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='address' value={address} ps={2} mb={3} onChange={handleAddressChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>age</div>
+            <div style={{marginLeft: '10%', textAlign: 'left'}} id='current-age'></div>
             <Slider
+                w='80%'
+                textAlign={'left'}
                 id='slider'
                 defaultValue={0}
                 min={0}
@@ -262,8 +279,9 @@ const Signup2 = () => {
                 <SliderThumb />
                 </Tooltip>
             </Slider>
-            <div style={{textAlign: 'left'}}>hashtags</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='hashtags' value={hashtags} textAlign='center' mb={3} onChange={handleHashtagsChange} />
+            {/* <div id='current-age'></div> */}
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>hashtags</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='hashtags' value={hashtags} textAlign='left' ps={2} mb={3} onClick={onHashtagOpen} readOnly/>
             <button type='submit'>회원가입하기</button>
         </form>
         <Footer></Footer>
@@ -271,7 +289,7 @@ const Signup2 = () => {
     )
 }
 
-export default Signup2;
+export default Signup;
 
 
 // import { useRef, useState, useEffect } from "react";
