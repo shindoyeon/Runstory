@@ -40,11 +40,12 @@ const Info = (props) => {
             setFollower(data.data.data.follwerCnt);
             setFolloweingStatus(data.data.data.followStatus);
         })();
-    }, []);
+    }, [followingStatus]);
 
     const follow =  (() => {
         //아직 팔로우 안 한 경우
         if(!followingStatus){
+            console.log("토큰이다"+accessToken);
             (async () => {
                 const data = await axios.post(
                     "https://i8a806.p.ssafy.io/api/feed/follow/" + userSeq, {
@@ -59,13 +60,10 @@ const Info = (props) => {
             })();
         //이미 팔로우 한 경우
         }else{
+            console.log("삭제해라 토큰이다"+accessToken);
             (async () => {
                 await axios.delete(
-                    "https://i8a806.p.ssafy.io/api/feed/follow/" + followId, {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
-                    }
+                    "https://i8a806.p.ssafy.io/api/feed/follow/" + followId
                 );
 
                 setFollowId(null);
@@ -73,7 +71,7 @@ const Info = (props) => {
         }
         
 
-        
+
         setFolloweingStatus(!followingStatus);
     })
     
