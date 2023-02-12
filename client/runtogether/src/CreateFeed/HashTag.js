@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import './HashTag.css';
 import axios from '../common/axios';
 
-const HashTag = (props) => {
+const HashTag = ({selectedHashtagsId, selectedHashtagsName}) => {
   const [hashtags, setHashtags] = useState([]);
-  var selectedhashtags = [];
+  // const [selectedHashtags, setSelectedHashtags] = useState(new Set())
   useEffect(() => {
     (async () => {
       const res = await axios({url: '/feed/hashtag', method: "GET"});
@@ -16,14 +16,14 @@ const HashTag = (props) => {
       if(e.target.classList.contains("hashtag-selected")) {
           e.target.classList.remove('hashtag-selected');
           e.target.classList.add('hashtag');
-          // console.log(e.target.classList) // 이걸로 게시글 POST 데이터 넘겨주면 되겠다
-          selectedhashtags.pop(e.target.value);
-          props.setSelectedhashtags(enters => [...enters, e.target.value]);
+          selectedHashtagsId.delete(e.target.value)
+          selectedHashtagsName.delete(e.target.id)
       }
       else {
           e.target.classList.remove('hashtag')
           e.target.classList.add('hashtag-selected')
-          selectedhashtags.push(e.target.value);
+          selectedHashtagsId.add(e.target.value)
+          selectedHashtagsName.add(e.target.id)
       }
     }
 
@@ -39,7 +39,7 @@ const HashTag = (props) => {
               // hashtag: 회색, hashtag selected: 빨강
               onClick={clickHashtag}                
               className="hashtag"
-              id="hashtag"
+              id={item.hashtagName}
             >
               # {item.hashtagName}
             </button>

@@ -65,7 +65,9 @@ const Signup = (props) => {
     const [showTooltip, setShowTooltip] = useState(false)
     const [roleType, setRoleType] = useState();
     const [regType, setRegType] = useState();
-    const [selectedhashtags, setSelectedhashtags] = useState([]);
+    const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set());
+    const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set());
+    const [hashtags, setHashtags] = useState();
     const [profileImg, setProfileImg] = useState();
     
     const handleEmailChange = ({ target: { value } }) => setEmail(value);
@@ -85,13 +87,12 @@ const Signup = (props) => {
     // const handleGenderChange = ({ target: { value } }) => setGender(value);
     const handleAddressChange = ({ target: { value } }) => setAddress(value);
     const handleAgeChange = ({ target: { value } }) => setAge(value);
-    const handleHashtagsChange = ({ target: { value } }) => setSelectedhashtags(value);
+    const handleHashtagsChange = ({ target: { value } }) => setHashtags(value);
     const handleProfileImgChange = ({ target: { value } }) => setProfileImg(value);
 
     const join = (event) => { // 작성 버튼 클릭 시 이벤트 함수
         event.preventDefault();
 
-        console.log(selectedhashtags);
         const formData = new FormData();
         formData.append('userId', email);
         formData.append('userPwd', password);
@@ -104,7 +105,7 @@ const Signup = (props) => {
         formData.append('age', age);
         formData.append('roleType', "USER");
         formData.append('regType', "LOCAL");
-        formData.append('hashtags', selectedhashtags);
+        formData.append('hashtags', hashtags);
 
         const data = axios({
              url: 'http://localhost:8080/api/user/signup',
@@ -203,10 +204,28 @@ const Signup = (props) => {
         currentAge.innerText = age + " 세";
     }, [age])
 
+    // 해시태그 선택 모달을 열면 변수들 초기화부터
+    function openHashtagSelect() {
+        setSelectedHashtagsId(new Set())
+        setSelectedHashtagsName(new Set())
+        onHashtagOpen();
+    }
+
+    // 선택한 해시태그 placeholder에 표시해주기
+    function saveHashtag() {
+        var temp = "";
+        selectedHashtagsName.forEach((v) => temp += v + " / ");
+        temp = temp.slice(0, -3);
+        setHashtags(temp);
+        var hashtagInput = document.getElementById('hashtag-input');
+        hashtagInput.placeholder = temp;
+        onHashtagClose();
+    }
+
     return (
         <>
         <Header></Header>
-        <Modal isOpen={isEmailOpen} onClose={onEmailClose} size='sm' isCentered>
+        <Modal isOpen={isEmailOpen} onClose={onEmailClose} size='xs' isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Email 인증</ModalHeader>
@@ -237,19 +256,19 @@ const Signup = (props) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Modal isOpen={isHashtagOpen} onClose={onHashtagClose} size='sm' isCentered>
+            <Modal isOpen={isHashtagOpen} onClose={onHashtagClose} size='xs' isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Hashtag 선택</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody style={{margin: '0 auto', width: '100%'}}>
-                        <Hashtag setSelectedhashtags={setSelectedhashtags}></Hashtag>
+                        <Hashtag style={{width: '120%'}} selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></Hashtag>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='red' mr={3} onClick={onHashtagClose}>
                             취소
                         </Button>
-                        <Button variant='ghost' mr={3} onClick={onHashtagClose}>완료</Button>
+                        <Button variant='ghost' mr={3} onClick={saveHashtag}>완료</Button>
                     </ModalFooter>
                     </ModalContent>
             </Modal>
@@ -308,7 +327,7 @@ const Signup = (props) => {
             </Slider>
             {/* <div id='current-age'></div> */}
             <div style={{marginLeft: '10%', textAlign: 'left'}}>해시태그</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='선택' value={selectedhashtags} textAlign='left' ps={2} mb={3} onClick={onHashtagOpen} readOnly/>
+            <Input id='hashtag-input' border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='선택' textAlign='left' ps={2} mb={3} onClick={openHashtagSelect} readOnly/>
             <button type='submit' >회원가입하기</button>
         </form>
         <Footer></Footer>
