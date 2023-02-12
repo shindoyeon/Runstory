@@ -1,16 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import './HashTag.css';
-import axios from 'axios';
+import axios from '../common/axios';
 
-const HashTag = () => {
+const HashTag = (props) => {
   const [hashtags, setHashtags] = useState([]);
-  
+  var selectedhashtags = [];
   useEffect(() => {
     (async () => {
-      const data = await axios.get(
-    "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/hashtag"
-  );
-      setHashtags(data.data.data.hashtags);
+      const res = await axios({url: '/feed/hashtag', method: "GET"});
+      setHashtags(res.data.data);
     })();
   }, []);
 
@@ -18,11 +16,14 @@ const HashTag = () => {
       if(e.target.classList.contains("hashtag-selected")) {
           e.target.classList.remove('hashtag-selected');
           e.target.classList.add('hashtag');
-          // console.log(e.target.value) // 이걸로 게시글 POST 데이터 넘겨주면 되겠다
+          // console.log(e.target.classList) // 이걸로 게시글 POST 데이터 넘겨주면 되겠다
+          selectedhashtags.pop(e.target.value);
+          props.setSelectedhashtags(enters => [...enters, e.target.value]);
       }
       else {
           e.target.classList.remove('hashtag')
           e.target.classList.add('hashtag-selected')
+          selectedhashtags.push(e.target.value);
       }
     }
 
@@ -38,6 +39,7 @@ const HashTag = () => {
               // hashtag: 회색, hashtag selected: 빨강
               onClick={clickHashtag}                
               className="hashtag"
+              id="hashtag"
             >
               # {item.hashtagName}
             </button>

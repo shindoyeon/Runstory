@@ -40,7 +40,7 @@ const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
 
-const Signup = () => {
+const Signup = (props) => {
     const { isOpen: isEmailOpen, onOpen: onEmailOpen, onClose: onEmailClose } = useDisclosure()
     const { isOpen: isHashtagOpen, onOpen: onHashtagOpen, onClose: onHashtagClose } = useDisclosure()
 
@@ -65,7 +65,7 @@ const Signup = () => {
     const [showTooltip, setShowTooltip] = useState(false)
     const [roleType, setRoleType] = useState();
     const [regType, setRegType] = useState();
-    const [hashtags, setHashtags] = useState();
+    const [selectedhashtags, setSelectedhashtags] = useState([]);
     const [profileImg, setProfileImg] = useState();
     
     const handleEmailChange = ({ target: { value } }) => setEmail(value);
@@ -85,12 +85,33 @@ const Signup = () => {
     // const handleGenderChange = ({ target: { value } }) => setGender(value);
     const handleAddressChange = ({ target: { value } }) => setAddress(value);
     const handleAgeChange = ({ target: { value } }) => setAge(value);
-    const handleHashtagsChange = ({ target: { value } }) => setHashtags(value);
+    const handleHashtagsChange = ({ target: { value } }) => setSelectedhashtags(value);
     const handleProfileImgChange = ({ target: { value } }) => setProfileImg(value);
 
-    async function join() {
-        const data = await axios.post();
-    }
+    const join = (event) => { // 작성 버튼 클릭 시 이벤트 함수
+        event.preventDefault();
+
+        console.log(selectedhashtags);
+        const formData = new FormData();
+        formData.append('userId', email);
+        formData.append('userPwd', password);
+        formData.append('userName', name);
+        formData.append('userNickname', nickname);
+        formData.append('emailAuth', true);
+        formData.append('phoneNum', phoneNum);
+        formData.append('gender', gender);
+        formData.append('address', address);
+        formData.append('age', age);
+        formData.append('roleType', "USER");
+        formData.append('regType', "LOCAL");
+        formData.append('hashtags', selectedhashtags);
+
+        const data = axios({
+             url: 'http://localhost:8080/api/user/signup',
+              method: "POST", data: formData,
+               headers: { 'Content-Type': 'multipart/form-data' } });
+    };
+
     //이메일 유효성 검사
     const validateEmail = (id) => {
         return id
@@ -222,42 +243,42 @@ const Signup = () => {
                     <ModalHeader>Hashtag 선택</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody style={{margin: '0 auto', width: '100%'}}>
-                        <Hashtag></Hashtag>
+                        <Hashtag setSelectedhashtags={setSelectedhashtags}></Hashtag>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='red' mr={3} onClick={onHashtagClose}>
                             취소
                         </Button>
-                        <Button variant='ghost'>완료</Button>
+                        <Button variant='ghost' mr={3} onClick={onHashtagClose}>완료</Button>
                     </ModalFooter>
                     </ModalContent>
             </Modal>
         <form style={{width: '80%', margin: '80px auto', textAlign: 'center', border: '1px solid #6A6A6A', borderRadius: '20px',paddingTop: '10px', paddingBottom: '10px', boxShadow: '3px 3px #6A6A6A'}} onSubmit={join}>
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>email</div>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>이메일</div>
             {/* <div style={{marginLeft: '10%', textAlign: 'center', border: '1px solid #6A6A6A', width: '35%', color: '#6A6A6A', display: 'none'}} id='auth-email'></div> */}
-            <Input id='email-input' border='1px solid #6A6A6A' width="80%" size='xs' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='email'/>
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>password</div>
-            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='password' value={password} ps={2} mb={3} onChange={handlePasswordChange} />
+            <Input id='email-input' border='1px solid #6A6A6A' width="80%" size='xs' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='이메일'/>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호</div>
+            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='비밀번호' value={password} ps={2} mb={3} onChange={handlePasswordChange} />
             <p style={{marginLeft: '10%', textAlign: 'left'}} id='pw-valid-check'></p>
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>password check</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='password check' value={password2} ps={2} mb={3} onChange={handlePassword2Change} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호 확인</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='비밀번호 재입력' value={password2} ps={2} mb={3} onChange={handlePassword2Change} />
             <p style={{marginLeft: '10%', textAlign: 'left'}} id='pwcheck'></p>
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>name</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='name' value={name} ps={2} mb={3} onChange={handleNameChange} />
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>nickname</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='nickname' value={nickname} ps={2} mb={3} onChange={handleNicknameChange} />
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>phone number</div>
-            <Input border='1px solid #6A6A6A' type='number' width='80%' size='xs' variant='outline' placeholder='phone number' value={phoneNum} ps={2} mb={3} onChange={handlePhoneNumChange} />
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>gender</div>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>이름</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='이름' value={name} ps={2} mb={3} onChange={handleNameChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>닉네임</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='닉네임' value={nickname} ps={2} mb={3} onChange={handleNicknameChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>전화번호</div>
+            <Input border='1px solid #6A6A6A' type='number' width='80%' size='xs' variant='outline' placeholder='전화번호' value={phoneNum} ps={2} mb={3} onChange={handlePhoneNumChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>성별</div>
             <RadioGroup onChange={setGender} value={gender} mb={2}>
                 <Stack direction='row' style={{marginTop: '5px', marginLeft: '10%'}}>
-                    <Radio value='1' size='sm' colorScheme={"pink"}>Male</Radio>
-                    <Radio style={{marginLeft: '10px'}} value='2' size='sm' colorScheme={"pink"}>Female</Radio>
+                    <Radio value='1' size='sm' colorScheme={"pink"}>남성</Radio>
+                    <Radio style={{marginLeft: '10px'}} value='2' size='sm' colorScheme={"pink"}>여성</Radio>
                 </Stack>
                 </RadioGroup>
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>address</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='address' value={address} ps={2} mb={3} onChange={handleAddressChange} />
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>age</div>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>주소</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onChange={handleAddressChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>나이</div>
             <div style={{marginLeft: '10%', textAlign: 'left'}} id='current-age'></div>
             <Slider
                 w='80%'
@@ -286,9 +307,9 @@ const Signup = () => {
                 </Tooltip>
             </Slider>
             {/* <div id='current-age'></div> */}
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>hashtags</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='hashtags' value={hashtags} textAlign='left' ps={2} mb={3} onClick={onHashtagOpen} readOnly/>
-            <button type='submit'>회원가입하기</button>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>해시태그</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='선택' value={selectedhashtags} textAlign='left' ps={2} mb={3} onClick={onHashtagOpen} readOnly/>
+            <button type='submit' >회원가입하기</button>
         </form>
         <Footer></Footer>
         </>
