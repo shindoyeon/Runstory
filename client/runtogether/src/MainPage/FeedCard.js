@@ -13,7 +13,7 @@ import {
   import { faComment } from "@fortawesome/free-regular-svg-icons";
   import './Feed.css';
   import Comment from './Comment';
-  import axios from 'axios';
+  import axios from '../api/axios';
 
   function FeedCard(props) {
     const feed = props.feed;
@@ -21,14 +21,16 @@ import {
     
 
     async function postLike(feedId) {
-        await axios.post("http://i8a806.p.ssafy.io/api/feed/feed-like/"+feedId, {
-            feedId: feedId
+        await axios({
+            url: "/feed/feed-like/"+feedId,
+            method: "POST"
         });
     }
 
     async function deleteLike(feedId) {
-        await axios.delete("http://i8a806.p.ssafy.io/api/feed/feed-unlike/"+feedId, {
-            feedId: feedId
+        await axios({
+            url: "/feed/feed-unlike/"+feedId,
+            method: "DELETE"
         });
     }
 
@@ -86,18 +88,16 @@ import {
                     {/* 피드 내용 */}
                     <div className='card-body'>
                     {feed.feedFiles.map((item2, idx) => {
-                        // console.log(item2)
-                        var fileSrc = item2.fileName+item2.filePath;
-                        console.log(fileSrc);
+                        var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
                         return(
-                            <img
+                            <Image
                                 border='1px solid #CBD9E7'
                                 margin='0 auto'
                                 marginTop='10px'
-                            width='90%'
-                            borderRadius='lg'
-                            src={fileSrc}
-                            alt=""
+                                width='90%'
+                                borderRadius='lg'
+                                src={fileSrc}
+                                alt=""
                             />
                         )
                     })}
@@ -108,7 +108,7 @@ import {
                     <Divider></Divider>
                         {feed.feedLikeId===null ?
                         <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '25px'}} onClick={(e)=>{clickLike(feed.feedId, e)}}/>:
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={(e)=>{clickLike(feed.feedId, e)}}/>}
+                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={(e)=>{clickLike(feed.feedLikeId, e)}}/>}
                         <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '25px'}} onClick={onOpen}/>
                     </div>
                 </div>

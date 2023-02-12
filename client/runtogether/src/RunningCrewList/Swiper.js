@@ -13,7 +13,7 @@ const Swiper = () => {
   useEffect(() => {
     (async () => {
       const data = await axios.get(
-    "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/running"
+    "http://i8a806.p.ssafy.io/api/running"
   );
       setInfo(data.data.data);
       setInfoTitle(Object.keys(data.data.data))

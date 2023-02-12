@@ -21,6 +21,7 @@ import FindPwd from './User/FindPassword';
 import RegisterHashtag from './User/SignupHashtag'
 import Notice from './Notice/Notice';
 import DrawMap from './DrawMap/DrawMap';
+import Chatting from './Chatting/Chatting'
 import Chatting from './Chatting/Chatting';
 import RunningDetail from "./RunningDetail/RunningDetail";
 
@@ -35,6 +36,7 @@ function App() {
                 <Routes>
                     <Route path='/' element={<MainPage />} />
                     <Route path='/user/login' element={<Login />} />
+                    <Route path='/oauth/callback/kakao' element={<Oauth />} />
                     <Route path='/user/signup' element={<Register />} />
                     <Route path='/user/signup/hashtag' element={<RegisterHashtag />} />
                     <Route path='/user/findpassword' element={<FindPwd />} />
@@ -42,7 +44,7 @@ function App() {
                     <Route path='/running-crew-list' element={<RunningCrewList />} />
                     <Route path='/create-running-crew' element={<RecruitCrew />} />
                     <Route path='/search' element={<Search />} />
-                    <Route path='/feed' element={<Profile />} />
+                    <Route path='/feed' element={<Feed />} />
                     <Route path='/feed/follow' element={<FollowPage />} />
                     <Route path='/setting-intro' element={<SettingIntro />} />
                     <Route path='/setting-alarm' element={<AlarmSetting />} />
