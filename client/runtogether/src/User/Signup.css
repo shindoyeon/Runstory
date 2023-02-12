@@ -102,3 +102,21 @@ input::placeholder {
   /* justify-content: left; */
   text-align: left;
 }
+
+.id-and-check {
+  justify-content: space-between;
+  display:flex;
+}
+
+.check-btn {
+  position: relative;
+  font-size: 14px;
+  color: #6A6A6A;
+  background-color: #EEB6B6;
+  display: inline-block;
+  padding: 0 10px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 20px;
+  border-radius: 20px;
+}

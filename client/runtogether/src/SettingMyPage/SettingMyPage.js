@@ -6,7 +6,8 @@ import {
   ChakraProvider,
 } from '@chakra-ui/react';
 import './SettingMyPage.css';
-import SettingMyPagePhoto from './SettingMyPagePhoto'
+import SettingMyPagePhoto from './SettingMyPagePhoto';
+import DeleteProfileButton from './DeleteProfileButton';
 
 function MyPage() {
   return (
@@ -16,6 +17,8 @@ function MyPage() {
           마이페이지
       </div>
       <SettingMyPagePhoto></SettingMyPagePhoto>
+      {/* delete 버튼 안뜸... */}
+      <DeleteProfileButton></DeleteProfileButton> 
       <Footer></Footer>
     </ChakraProvider>
   )

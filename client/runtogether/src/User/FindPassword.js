@@ -14,7 +14,6 @@ const FINDPWD_URL = 'http://localhost:8080/api/user/find/pwd';
 const Login = () => {
     const userRef = useRef();
     const errRef = useRef();
-
     const [userName, setUserName] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
     const [userId, setUserId] = useState('');

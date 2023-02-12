@@ -5,7 +5,7 @@ import Imgfile from './이미지1.png';
 
 const ProfileFeeds = () => {
   return (
-    <ChakraProvider>
+    // <ChakraProvider>
     <div className='wrapper'>
       <Image
         className='item'
@@ -68,7 +68,7 @@ const ProfileFeeds = () => {
         alt='Tae yoon'  
         />
     </div>
-    </ChakraProvider>
+    // </ChakraProvider>
   )
   };
   
