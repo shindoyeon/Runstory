@@ -1,22 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import {Box, Spacer} from '@chakra-ui/react';
+import {Box, Button, Spacer} from '@chakra-ui/react';
 import { HStack } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import axios from "axios";
+import axios from '../api/axios'
 import BooleanRunning from "./BooleanRunning";
+import Hashtags from "./Hashtags";
 
 function RunningDetail(){
     const {runningId} = useParams();
-    let [runnings, setRunnings] = useState([]);
+    const [runnings, setRunnings] = useState([]);
 
     useEffect(() => {
         (async () => {
-            const url = `https://i8a806.p.ssafy.io/api/running/detail/${runningId}`;
+            const url = "running/detail/" + runningId;
             const data = await axios.get(url)
                 .then(function(response) {
-                    setRunnings(response.data);
+                    setRunnings(response.data.data);
+                    console.log(response);
+                    console.log(response.data.data.id);
+                    console.log(runnings);
                     console.log("성공");
                 })
                 .catch(function(error) {
@@ -24,11 +28,24 @@ function RunningDetail(){
                 })
         })();
     }, []);
+    var hashtagnames = ["산책","조깅"];
+    var comments = ["댓글 1", "댓글 2"];
 
+    function Authentication() {
+        const url = `https://i8a806.p.ssafy.io/api/running/${runningId}/valid`;
+        axios.get(url)
+            .then(function(response) {
+                console.log("성공");
+            })
+            .catch(function(error) {
+                console.log("실패");
+            })
+
+    }
     return (
     <div>
       <Header></Header>
-        <div style={{marginTop:"16%", marginLeft:"6%", marginRight:"6%"}}>
+        <div style={{marginTop:"10%", marginLeft:"6%", marginRight:"6%"}}>
             <div>
             <p>러닝 크루 상세</p>
             </div>
@@ -39,19 +56,22 @@ function RunningDetail(){
             </div>
             <div style={{marginTop:"5%"}}>
                 <HStack spacing='24px'>
-                    <button style={{textAlign:"center", background: "grey"}}>hastag1</button>
-                    <button style={{textAlign:"center", background: "grey"}}>hastag2 </button>
-                    <button style={{textAlign:"center", background: "grey"}}> hastag3</button>
+                    {/*{*/}
+                    {/*    runnings.selectedHashtags.map(function(hashtagname){*/}
+                    {/*        return (<button style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}>{hashtagname.hashtag*/}
+                    {/*        }</button>)*/}
+                    {/*    })*/}
+                    {/*}*/}
                 </HStack>
             </div>
             <div style={{marginTop:"15%", marginBottom:"8%"}}>
                 <HStack spacing='24px'>
                     <div>
-                        <Box w='170px' bg='teal.500' style={{ background: "white", borderBottom:"0px "}}> 같이 뛰실 분  구해요</Box>
+                        <Box w='170px' bg='teal.500' style={{ background: "white", borderBottom:"0px "}}> 같이 뛰실 분 구해요</Box>
                         <p style={{borderTop:"0px"}}>이름</p>
                     </div>
-                    <Box w='70px' h='6' bg='teal.500' style={{textAlign:"center", background: "grey"}}> 인증  </Box>
-                    <Box w='70px' h='6' bg='teal.500' style={{textAlign:"center", background: "grey"}}> 채팅방</Box>
+                    <Spacer />
+                    <button style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}} onClick={Authentication}> 인증  </button>
                 </HStack>
             </div>
 
@@ -69,8 +89,8 @@ function RunningDetail(){
             <div style={{marginTop:"10%", marginBottom:"8%"}}>
                 <HStack spacing='24px'>
                     <Spacer />
-                    <BooleanRunning Something="true" truevalue="예약취소" falsevalue= "예약하기" />
-                    <BooleanRunning Something="false" truevalue="찜하기취소" falsevalue= "찜하기" />
+                    <BooleanRunning Something="true" truevalue="예약취소" falsevalue= "예약하기" api="`https://i8a806.p.ssafy.io/api/running/${runningId}/reservation`"/>
+                    <BooleanRunning Something="false" truevalue="찜하기취소" falsevalue= "찜하기" api="`https://i8a806.p.ssafy.io/api/running/${runningId}/dibs`"/>
                 </HStack>
             </div>
             <div>
@@ -79,6 +99,13 @@ function RunningDetail(){
                     <Spacer />
                     <Box w='70px' h='6' bg='teal.500' style={{textAlign:"center", background: "grey"}}> + </Box>
                 </HStack>
+            </div>
+            <div style={{marginTop:"20px"}}>
+                {
+                    comments.map(function(comment){
+                        return (<div style={{textAlign:"center", background: "grey", height:"100px", marginBottom:"20px"}}>{comment}</div>)
+                    })
+                }
             </div>
 
         </div>

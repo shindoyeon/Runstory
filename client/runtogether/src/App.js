@@ -9,7 +9,7 @@ import RunningCrewList from './RunningCrewList/RunningCrewList';
 import CreateFeed from './CreateFeed/CreateFeed';
 import RecruitCrew from './RecruitCrew/RecruitCrew';
 import Search from './Search/Search';
-import Profile from './Feed/Feed';
+import Feed from './Feed/Feed';
 import FollowPage from './FollowList/FollowList';
 import SettingIntro from './SettingIntro/SettingIntro';
 import AlarmSetting from './SettingAlarm/AlarmSetting';
@@ -18,12 +18,12 @@ import MyPage from './SettingMyPage/SettingMyPage';
 import Login from './User/Login';
 import Register from './User/Signup';
 import FindPwd from './User/FindPassword';
-import RegisterHashtag from './User/SignupHashtag'
+import RegisterHashtag from './User/SignupHashtag';
 import Notice from './Notice/Notice';
 import DrawMap from './DrawMap/DrawMap';
-import Chatting from './Chatting/Chatting'
 import Chatting from './Chatting/Chatting';
 import RunningDetail from "./RunningDetail/RunningDetail";
+import Oauth from "./User/OAuthRedirectHandler";
 
 // import Feed from './Feed/Feed';
 
