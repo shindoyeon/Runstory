@@ -100,7 +100,7 @@ public class FeedController {
 
         if(follow==null)
             return BaseResponse.success(null);
-        return BaseResponse.success(null);
+        return BaseResponse.success(follow.getFollowId());
     }
 
     @DeleteMapping("/follow/{followid}")
@@ -164,11 +164,11 @@ public class FeedController {
         else return BaseResponse.fail();
     }
 
-    @DeleteMapping("/feed-unlike/{feedlikeid}")
+    @DeleteMapping("/feed-unlike/{feedid}")
     @ApiOperation(value = "피드 좋아요 취소", notes = "")
-    public BaseResponse deleteFeedLike(@ApiIgnore Authentication authentication, @PathVariable("feedlikeid") Long feedLikeId){
+    public BaseResponse deleteFeedLike(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId){
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
-        feedService.deleteFeedLike(feedLikeId);
+        feedService.deleteFeedLike(feedId,userDetails.getUserSeq());
         return BaseResponse.success(null);
     }
 

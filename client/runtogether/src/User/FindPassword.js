@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import axios from './api/axios';
+import axios from '../api/axios';
 import './Login.css'
 import {Divider,
     ChakraProvider,
@@ -9,12 +9,11 @@ import Footer from '../common/Footer';
 import  {useNavigate} from 'react-router-dom'; 
 
 
-const FINDPWD_URL = 'http://i8a806.p.ssafy.io/api/user/find/pwd';
+const FINDPWD_URL = 'http://localhost:8080/api/user/find/pwd';
 
 const Login = () => {
     const userRef = useRef();
     const errRef = useRef();
-
     const [userName, setUserName] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
     const [userId, setUserId] = useState('');
@@ -37,13 +36,8 @@ const Login = () => {
         try {
             const response = await axios.post(FINDPWD_URL,
                 JSON.stringify({ userName, phoneNum, userId }),
-                {
-                    headers: { 'Content-Type': 'application/json',
-                    "Access-Control-Allow-Origin": "*" },
-                    withCredentials: true
-                }
-                );
-                console.log(JSON.stringify(response?.data));
+                {headers: { 'Content-Type': 'application/json' }});
+                console.log(response);
             } catch (err) {
                 if (!err?.response) {
                     setErrMsg('에러');
