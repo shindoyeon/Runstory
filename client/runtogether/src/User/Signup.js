@@ -89,6 +89,12 @@ const Signup2 = () => {
     async function join() {
         const data = await axios.post();
     }
+    //이메일 유효성 검사
+    const validateEmail = (id) => {
+        return id
+          .toLowerCase()
+          .match(/([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/);
+      };
 
     // 인증 코드 이메일 전송
     async function emailAuthSend() {
