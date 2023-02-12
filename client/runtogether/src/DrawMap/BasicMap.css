@@ -27,3 +27,13 @@
     font-weight: bold;
     line-height: 13px;
 }
+
+.search-btn {
+    color: #6A6A6A;
+    text-align: center;
+    display: inline-block;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 13px;
+}
