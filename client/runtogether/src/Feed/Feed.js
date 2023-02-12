@@ -17,7 +17,7 @@ import {useNavigate} from 'react-router-dom';
 // 개인피드페이지
 // ~~의 페이지임을 명시
 const Profile = () => {
-    const userSeq = 16;
+    const user = 27; //해당 피드 주인 seq번호 (아마 받아오지 않을까...전 페이지에서.....???)
     const [nickname, setNickname] = useState("");
     const [photo, setPhoto] = useState({
         photoUrl: "",
@@ -30,9 +30,10 @@ const Profile = () => {
         if (localStorage.getItem("access-token") === null) {
             navigate("/user/login");
         }
+
         (async () => {
             const data = await axios.get(
-                "https://i8a806.p.ssafy.io/api/feed/profile/" + userSeq
+                "https://i8a806.p.ssafy.io/api/feed/profile/" + user,
             );
             console.log(data.data.data)
             setLevel(data.data.data.level);
@@ -49,7 +50,7 @@ const Profile = () => {
                     <ProfileMsg ></ProfileMsg>
 
                     <div className="profile"></div>
-                    <Info level={level} nickname={nickname} photo={photo}></Info>
+                    <Info user={user} level={level} nickname={nickname} photo={photo}></Info>
                     <ProfileFeed></ProfileFeed>
                     <Footer></Footer>
 
