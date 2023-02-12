@@ -10,10 +10,11 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import './Feed.css'
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom'; 
 
 
 // 개인피드페이지 -> 사용자 본인이면 햄버거 / 타인의 피드페이지면 햄버거x 팔로우, 차단버튼
-// 개인피드페이지 
+// 개인피드페이지
 // ~~의 페이지임을 명시
 const Profile = () => {
     const userSeq = 16;
@@ -23,7 +24,12 @@ const Profile = () => {
         photoName: ""
     });
     const [level, setLevel] = useState(0);
+    const navigate = useNavigate();
+
     useEffect(() => {
+        if (localStorage.getItem("access-token") === null) {
+            navigate("/user/login");
+        }
         (async () => {
             const data = await axios.get(
                 "https://i8a806.p.ssafy.io/api/feed/profile/" + userSeq
@@ -31,20 +37,25 @@ const Profile = () => {
             console.log(data.data.data)
             setLevel(data.data.data.level);
             setNickname(data.data.data.userNickName);
-            setPhoto({photoUrl:data.data.data.profileImgFilePath,photoName:data.data.data.profileImgFileName});
+            setPhoto({ photoUrl: data.data.data.profileImgFilePath, photoName: data.data.data.profileImgFileName });
         })();
     }, []);
 
     return (
-        <ChakraProvider theme={theme}>
-            <div>
-                <Header></Header>
-                <ProfileMsg ></ProfileMsg>
-                <Info level={level} nickname={nickname} photo={photo}></Info>
-                <ProfileFeed></ProfileFeed>
-                <Footer></Footer>
-            </div>
-        </ChakraProvider>
+        <div style={{ width: '90%' }}>
+            <ChakraProvider theme={theme}>
+                <div>
+                    <Header></Header>
+                    <ProfileMsg ></ProfileMsg>
+
+                    <div className="profile"></div>
+                    <Info level={level} nickname={nickname} photo={photo}></Info>
+                    <ProfileFeed></ProfileFeed>
+                    <Footer></Footer>
+
+                </div>
+            </ChakraProvider >
+        </div >
     )
 }
 
