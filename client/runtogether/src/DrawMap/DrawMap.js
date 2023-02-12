@@ -12,16 +12,12 @@ import BetweenBodyFooter from '../common/BetweenBodyFooter'
 
 function DrawMap() {
     return (
-        // <ChakraProvider theme={theme}>
           <div>
             <Header></Header>
             <BetweenBodyFooter></BetweenBodyFooter>
             <BasicMap></BasicMap>
-            {/* <BasicMap2></BasicMap2> */}
-            {/* <MapInWeb></MapInWeb> */}
             <Footer></Footer>
           </div>
-        // </ChakraProvider>
       );
 }
 
