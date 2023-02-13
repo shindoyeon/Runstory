@@ -7,7 +7,7 @@ import {
     ChakraProvider,
     Divider
   } from '@chakra-ui/react';
-  import React, {useState} from 'react';
+  import React, {useState, useEffect} from 'react';
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
   import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
   import { faComment } from "@fortawesome/free-regular-svg-icons";
