@@ -1,12 +1,12 @@
 import React from "react";
-import axios from "axios";
+import axios from "../api/axios";
 
 const BooleanRunning = (props) => {
 
     function Canceled() {
         const url = props.api;
         axios.delete(url)
-            .then(function(response) {
+            .then(function(response) { // Rerendering 필요...
                 console.log("성공");
             })
             .catch(function(error) {
@@ -27,10 +27,10 @@ const BooleanRunning = (props) => {
 
     }
 
-    if ( props.Something == "true" ) {
-        return <button onClick={Canceled}>{props.truevalue}</button>;
+    if (props.Something) {
+        return <button onClick={Canceled} style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}>{props.truevalue}</button>;
     } else {
-        return <button onClick={Join}>{props.falsevalue}</button>;
+        return <button onClick={Join} style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}>{props.falsevalue}</button>;
     }
 }
 export default BooleanRunning
