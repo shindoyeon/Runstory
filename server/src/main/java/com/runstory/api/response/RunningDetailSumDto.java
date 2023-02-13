@@ -59,7 +59,7 @@ public class RunningDetailSumDto {
     // 해당 사람이 인증이 되어있는지를 확인해주는 로직 처리
     private boolean validation;
 
-    public RunningDetailSumDto(Running running, RunningDetail runningDetail, Long userseq, boolean validation){
+    public RunningDetailSumDto(Running running, RunningDetail runningDetail, Long userseq, Boolean validation){
         this.id = running.getRunningId();
         this.userId = running.getUser().getUserSeq();
         this.userNickName = running.getUser().getUserNickname();
