@@ -7,15 +7,13 @@ import com.runstory.common.util.FileUtil;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
+import com.runstory.domain.user.RegType;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
 import com.runstory.repository.HashtagRepository;
 import com.runstory.repository.SelectedHashtagRepository;
 import com.runstory.repository.UserRepository;
-import java.io.File;
 import java.net.InetAddress;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,15 +61,18 @@ public class UserServiceImpl implements UserService {
 		user.setRoleType(userRegisterInfo.getRoleType());
 		user.setRegType(userRegisterInfo.getRegType());
 		userRepository.save(user);
-		List<Long> list = userRegisterInfo.getHashtags();
-		for (Long hashtagId : list) {
-			Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
-			SelectedHashtag selectedHashtag = new SelectedHashtag();
 
-			selectedHashtag.setHashtag(hashtag);
-			selectedHashtag.setUser(user);
-			selectedHashtag.setHashtagType(HashtagType.valueOf("USER"));
-			selectedHashtagRepository.save(selectedHashtag);
+		if(user.getRegType() == RegType.LOCAL) {
+			List<Long> list = userRegisterInfo.getHashtags();
+			for (Long hashtagId : list) {
+				Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
+				SelectedHashtag selectedHashtag = new SelectedHashtag();
+
+				selectedHashtag.setHashtag(hashtag);
+				selectedHashtag.setUser(user);
+				selectedHashtag.setHashtagType(HashtagType.valueOf("USER"));
+				selectedHashtagRepository.save(selectedHashtag);
+			}
 		}
 		return user;
 	}

@@ -234,12 +234,13 @@ public class FeedService {
 
     /**
      * 검색페이지 해시태그 기반 피드 검색
-     * @param hashtagId
+     * @param keyword
      * @param lastFeedId
      * @param size
      * @return
      */
-    public List<SimpleFeedResDto> searchByHashtag(Long hashtagId, Long lastFeedId, int size){
+    public List<SimpleFeedResDto> searchByHashtag(String keyword, Long lastFeedId, int size){
+        Long hashtagId = hashtagRepository.findHashtagByHashtagName(keyword).getHashtagId();
         PageRequest pageRequest = PageRequest.of(0, size);
         //해시태그에 맞는 피드 아이디 리스트를 가져온다.
         List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByHashtag_HashtagIdAndFeedNotNull(hashtagId);

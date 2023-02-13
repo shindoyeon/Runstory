@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from '../common/axios';
-import Axios from 'axios';
 import Signup from './Signup'
 const OAuth2RedirectHandler = () => {
   const navigate = useNavigate();
@@ -9,12 +8,11 @@ const OAuth2RedirectHandler = () => {
   async function getUser(){
     try {
       var code = new URL(window.location.href).searchParams.get("code");
-      const response = await Axios.get(`http://localhost:8080/api/auth/login/kakao?code=${code}`);
-      const data = response.data.data;
-      
-      //회원가입 성공
-      console.log(data);
-      
+      console.log(code);
+      const response = await axios({url: `/auth/login/kakao?code=${code}`, method: "GET"});
+      const ACCESS_TOKEN = response.data.data.accessToken;
+      localStorage.setItem("access-token", ACCESS_TOKEN);
+      navigate("/");
     } catch (error) {
       console.error(error);
     } 
