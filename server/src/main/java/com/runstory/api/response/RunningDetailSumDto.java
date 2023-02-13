@@ -55,8 +55,10 @@ public class RunningDetailSumDto {
     private boolean isRunner;
     private boolean isDibs;
 
+    // 해당 사람이 인증이 되어있는지를 확인해주는 로직 처리
+    private boolean validation;
 
-    public RunningDetailSumDto(Running running, RunningDetail runningDetail, Long userseq){
+    public RunningDetailSumDto(Running running, RunningDetail runningDetail, Long userseq, Boolean validation){
         this.id = running.getRunningId();
         this.userId = running.getUser().getUserSeq();
         this.imgFilePath = running.getImgFilePath();
@@ -79,6 +81,7 @@ public class RunningDetailSumDto {
         this.isCreater = false;
         this.isRunner = false;
         this.isDibs = false;
+        this.validation = validation;
 
         int man = runningDetail.getMan();
         int women = runningDetail.getWomen();

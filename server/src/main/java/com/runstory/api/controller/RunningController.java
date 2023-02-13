@@ -124,14 +124,10 @@ public class RunningController {
     }
 
     @GetMapping("/{runningId}/valid")
-    public BaseResponse<?> runningValid(@ApiIgnore Authentication authentication, @PathVariable Long runningId,@PathParam("valid") boolean valid){
+    public BaseResponse<?> runningValid(@ApiIgnore Authentication authentication, @PathVariable Long runningId){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
-        if (valid){
-            runningservice.runningValid(runningId, userSeq);
-            return BaseResponse.success("ok");
-        }else{
-            return BaseResponse.success("not Success");
-        }
+        runningservice.runningValid(runningId, userSeq);
+        return BaseResponse.success("ok");
     }
 
 
