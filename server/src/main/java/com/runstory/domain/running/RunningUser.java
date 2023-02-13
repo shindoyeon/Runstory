@@ -28,7 +28,7 @@ public class RunningUser {
 
 
     @Column(columnDefinition = "boolean default false")
-    private boolean authentication;
+    private Boolean authentication;
 
     public RunningUser(Running running, User user){
         this.running = running;
