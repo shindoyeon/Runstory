@@ -24,6 +24,9 @@ import HashTag from '../CreateFeed/HashTag';
 const ArticleForm = () => {
     const { isOpen, onOpen, onClose } = useDisclosure(); // 모달창을 위한 변수
 
+    const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set()); // 해시태그
+    const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set()); // 해시태그
+
     const navigate = useNavigate(); // navigate 변수 생성
  
     const navigateHome = () => { // 취소 클릭 시 홈으로 가기 위함
@@ -105,7 +108,7 @@ const ArticleForm = () => {
 
     return (
         <form className='article-form'>
-            <HashTag></HashTag>
+            <HashTag selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></HashTag>
             <div className='title'>TITLE</div>
             <input className='title-input' placeholder='제목을 입력해주세요' type='text'></input>
             <div className='content' type='text'>CONTENT</div>
