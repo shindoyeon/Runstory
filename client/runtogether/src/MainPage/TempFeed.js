@@ -75,7 +75,7 @@ export default function TempFeed() {
             `https://i8a806.p.ssafy.io/api/main/feed?lastfeedid=${lastfeedid}&size=${size}`
           ),
           axios.get(
-            `http://localhost:8080/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
+            `https://i8a806.p.ssafy.io/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
         setFeeds(data[0].data.data);
