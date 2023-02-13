@@ -45,9 +45,9 @@ function BasicMap() {
       zoom: 17
     };
     setTmap(new Tmapv2.Map(container, options))
-    // new Tmapv2.extension.MeasureDistance({
-		// 	map: tmap
-    // });
+    new Tmapv2.extension.MeasureDistance({
+			map: tmap
+    });
   }, []);
 
   useEffect(() => {
