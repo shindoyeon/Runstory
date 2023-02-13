@@ -27,12 +27,13 @@ public class RunningUser {
     private User user;
 
 
-    @Column(columnDefinition = "boolean default false")
+    @Column(columnDefinition = "Boolean default false")
     private Boolean authentication;
 
     public RunningUser(Running running, User user){
         this.running = running;
         this.user = user;
+        this.authentication = false;
     }
 
     public void RunningUserUpdate(Boolean Authentication){

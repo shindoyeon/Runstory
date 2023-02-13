@@ -25,6 +25,9 @@ import DrawMap from './DrawMap/DrawMap';
 import Chatting from './Chatting/Chatting';
 import RunningDetail from "./RunningDetail/RunningDetail";
 import Oauth from "./User/OAuthRedirectHandler";
+import Detail from './Feed/Detail';
+import Comment from './Feed/Comment';
+
 
 // import Feed from './Feed/Feed';
 
@@ -57,6 +60,8 @@ function App() {
                     <Route path='/feed' element={<Feed />} />
                     <Route path='/running/detail/:runningId' element={<RunningDetail />} />
                     <Route path='/chatting' element={<Chatting />} />
+                    <Route path = '/detail' element={<Detail/>}/>
+                    <Route path = '/comment' element={<Comment />}/>
                 </Routes>
             </BrowserRouter>
             {/* <MainPage></MainPage> */}

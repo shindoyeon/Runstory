@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,20 +27,20 @@ import java.util.stream.Collectors;
 public class MainController {
     private final FeedService feedService;
     private final RunningService runningService;
-    @GetMapping("/running-location")
-    @ApiOperation(value = "현재위치 기반 러닝 모임 조회", notes = "")
-    public BaseResponse<?> getRunningCrewByLocation (@RequestParam float latitude, @RequestParam float longitude){
-        List<RunningMainResDto> runnings = runningService.findByLocation(latitude, longitude);
-        RunningMainResDto result = (runnings.size()==0)?null:runnings.get(0);
-        return BaseResponse.success(result);
-    }
 
-    @GetMapping("/running-today")
-    @ApiOperation(value = "오늘마감 러닝 모임 조회", notes = "")
-    public BaseResponse<?> getRunningCrewByToday (){
-        List<RunningMainResDto> runnings = runningService.findByToday();
-        RunningMainResDto result = (runnings.size()==0)?null:runnings.get(0);
-        return BaseResponse.success(result);
+    @GetMapping("/running")
+    @ApiOperation(value = "상단바 러닝 모임 조회", notes = "")
+    public BaseResponse<?> getRunningCrewByToday (@RequestParam float latitude, @RequestParam float longitude){
+        List <RunningMainResDto> result = new ArrayList<>();
+        List<RunningMainResDto> runnings1 = runningService.findByToday();
+        RunningMainResDto today = (runnings1.size()==0)?null:runnings1.get(0);
+        System.out.println("크루네임: "+today.getCrewName());
+        result.add(today);
+        List<RunningMainResDto> runnings2 = runningService.findByLocation(latitude, longitude);
+        RunningMainResDto location = (runnings2.size()==0)?null:runnings2.get(0);
+        System.out.println("크루네임: "+location.getCrewName());
+        result.add(location);
+        return BaseResponse.success(null);
     }
 
     @GetMapping("/user-feed")

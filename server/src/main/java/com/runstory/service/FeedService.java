@@ -2,6 +2,8 @@ package com.runstory.service;
 
 import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
+
+import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.FeedResDto;
 import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.common.util.FileUtil;
@@ -15,6 +17,11 @@ import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.entity.Follow;
 import com.runstory.domain.user.entity.User;
+import com.runstory.repository.FeedRepository;
+import com.runstory.repository.FeedRepositoryCustom;
+import com.runstory.repository.FollowRepository;
+import com.runstory.repository.SelectedHashtagRepository;
+import com.runstory.repository.UserRepository;
 import com.runstory.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,8 +47,8 @@ public class FeedService {
     private final FeedRepositoryCustom feedRepositoryCustom;
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
-    private final  HashtagRepository hashtagRepository;
     private final SelectedHashtagRepository selectedHashtagRepository;
+    private final  HashtagRepository hashtagRepository;
     private final FeedFileRepository feedFileRepository;
     private final FeedLikeRepository feedLikeRepository;
     private final FeedCommentRepository feedCommentRepository;
