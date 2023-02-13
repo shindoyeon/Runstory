@@ -256,12 +256,12 @@ public class UserController {
 	public ResponseEntity<?> changeProfileImg(@ApiIgnore Authentication authentication, @RequestBody MultipartFile image) {
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
-
+		String newImageName = "";
 		try {
-			userService.changeUserImage(false,userId,image);
+			newImageName = userService.changeUserImage(false,userId,image);
 		}catch (Exception e){
 			System.out.println("에러 : "+e);
 		}
-		return ResponseEntity.ok(BaseResponse.success(null));
+		return ResponseEntity.ok(BaseResponse.success(newImageName));
 	}
 }

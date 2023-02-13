@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 // 나를 팔로워하는 사람들
 const Profilefollower = (props) => {
-  console.log("팔로워"+props.follower)
   const navigate = useNavigate();
   const navigateFollow = () => { 
       navigate("/feed/follow");

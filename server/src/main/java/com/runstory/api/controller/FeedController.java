@@ -96,6 +96,7 @@ public class FeedController {
     @ApiOperation(value = "사용자 팔로우")
     public BaseResponse<?> followUser(@ApiIgnore Authentication authentication, @PathVariable("follow-userid") Long followUserId){
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        System.out.println("userSeq : "+userDetails.getUserSeq());
         Follow follow = followService.saveFollow(userDetails.getUserSeq(), followUserId);
 
         if(follow==null)

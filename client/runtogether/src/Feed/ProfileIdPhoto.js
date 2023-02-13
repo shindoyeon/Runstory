@@ -2,6 +2,7 @@ import React, { useState, useRef,useEffect } from 'react';
 import { Card, IconButton, Avatar } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons'
 import './ProfileIdPhoto.css';
+import axios from 'axios';
 
 // 본인의 이미지 버튼 수정 ->
 // 여기서 구현하고 마이페이지로 넘길 것
@@ -20,10 +21,17 @@ function ProfileIdPhoto(props) {
     })();
   }, [props]);
 
-  const onChange = (e) => {
+  const onChange = async (e) => {
     if (e.target.files[0]) {
       setSelectedImage(e.target.files[0])
-      
+      const data = await axios.put('http://i8a806.p.ssafy.io/api/user/profileimg',{image: e.target.files[0],},{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`
+        },
+      })
+      console.log(data)
+
     } else { //업로드 취소할 시
       setSelectedImage(selectedImage)
       return
@@ -44,7 +52,7 @@ function ProfileIdPhoto(props) {
         className='profile-img profile-img-wrap profile-img-upload'
         src={selectedImage}
         style={{ margin: '20px', width: '100px', height: '100px' }}
-        onClick={() => { fileInput.current.click() }} />
+        onClick={() => { props.isMypage && fileInput.current.click() }} />
       <input
         type='file'
         style={{ display: 'none' }}

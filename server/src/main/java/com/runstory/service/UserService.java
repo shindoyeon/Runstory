@@ -25,7 +25,7 @@ public interface UserService {
 	void changePwd(String userId, String pwd);
 	void deleteUser(String userId);
 	void changeUserInfo(String type, String userId,String value);
-	void changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception;
+	String changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception;
 	@Transactional
 	void changeUserHashtage(String userId, List<Long> list);
 	String getToken(String userId);
