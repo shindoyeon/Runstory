@@ -77,6 +77,7 @@ export default function TempFeed() {
       }
 
       if (feeds.length === 0) {
+        setIsMore(false);
         return;
       }
     })();
