@@ -47,7 +47,7 @@ public class RunningServiceImpl implements RunningService {
     public void createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq, MultipartFile runningImg) throws Exception{// User user 현재 유저를 들고와야한다.
         // 유저 전체의 데이터를 들고온다.
         User user = userRepository.findByUserSeq(userSeq);
-//        String path = "/var/lib/runstory"; // /home/ubuntu/images;
+//        String path = "/var/lib/runstory"; // /home/ubuntu/images;x`
 //        String imageFileName = runningImg.getOriginalFilename();
 //        File file = new File(path+imageFileName);
 //        runningImg.transferTo(file);
@@ -119,14 +119,13 @@ public class RunningServiceImpl implements RunningService {
         Running running = runningrepository.getById(id);
         RunningDetail runningDetail = runningDetailRepository.getById(id);
         RunningUser runningUser = runningUserRepository.findByRunningAndUser(running, user);
-        Boolean validation;
-        if (runningUser == null){
-            validation = true;
+        if (runningUser == null){ // Table에 존재하지 않는다면
+            RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, true);
+            return runningDetailSumDto;
         }else{
-            validation = runningUser.getAuthentication();
+            RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, runningUser.getAuthentication());
+            return runningDetailSumDto;
         }
-        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, validation);
-        return runningDetailSumDto;
     }
 
     // DetailPage 삭제하기

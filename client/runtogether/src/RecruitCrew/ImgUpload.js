@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 
-const ImgUpload = () => {
+const ImgUpload = (props) => {
     const fileInput = React.useRef(null);
 
     const handleButtonClick = e => {
@@ -16,6 +16,7 @@ const ImgUpload = () => {
     }
 
     const handleChange = e => {
+      props.setImage([...(props.image), e.target.files[0]]);
       var reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = event => {

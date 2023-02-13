@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image} from '@chakra-ui/react';
 
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=0cff5728182aa5eebe52ef3c23e4c210&redirect_uri=http://localhost:3000/oauth/callback/kakao&response_type=code`;
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=0cff5728182aa5eebe52ef3c23e4c210&redirect_uri=https://i8a806.p.ssafy.io/oauth/callback/kakao&response_type=code`;
 
 const KakaoLogin = () => {
   console.log("kakao login");

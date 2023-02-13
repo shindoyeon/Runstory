@@ -1,11 +1,11 @@
-
-.profile-img-wrap{
+/* 
+.img-wrap{
   width: 120px;
   height: 120px;
   overflow: hidden;
   border-radius: 50%;
 }
-.profile-img-upload:before{
+.img-upload:before{
   content: "\f093";
   font-size: 90px;
   position: absolute;
@@ -14,7 +14,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: hsl(0, 0%, 100%);
+  color: #63d3a6;
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -22,7 +22,7 @@
   transition: .5s ease;
   background-color: #fff;
 }
-.profile-img {
+img {
   width: auto;
   height: 100%;
 }
@@ -39,4 +39,4 @@ label{
   border-radius: 50%;
   border-color: black;
 }
-
+ */
