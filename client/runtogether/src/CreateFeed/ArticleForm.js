@@ -26,7 +26,6 @@ const ArticleForm = () => {
     const [content, setContent] = useState(""); // 피드 내용
     const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set()); // 해시태그
     const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set()); // 해시태그
-
     // const [files, setFiles] = useState<File[]>([]);
     // const fileInput = React.useRef(null); // 사진
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,15 +35,24 @@ const ArticleForm = () => {
 
     const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
         event.preventDefault();
-        alert(`작성된 내용: ${content}, 공개범위: ${value}`); // 데이터 잘 들어왔는지 확인용!!!
-        axios.get('http://i8a806.p.ssafy.io/api/user', {}, 
-        {
-          headers: {
-          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjc2NzA5NTE2LCJpYXQiOjE2NzU0MTM1MTZ9.3SEuTifJa-8arsuzUPbckWYr4Eqe4jnWZMXBo0eDyNk0-M-HBkWiiXgCqZXQ7WB4CqS4TtAaTUida6pKUH5MCg"
-          }
-        }
-      )
+        var selectedHashTags = Array.from(selectedHashtagsId)
+        // console.log(selectedHashTags)
+        alert(`작성된 내용: ${content}, 공개범위: ${value}, 해시태그: ${selectedHashTags}`); // 데이터 잘 들어왔는지 확인용!!!
+        console.log(registerFeed(content, value, selectedHashTags))
     };
+
+    async function registerFeed(content, value, selectedHashTags) {
+      const formData = new FormData();
+      var temp = {'content': content, 'publicScope': value, 'selectedHashTags': selectedHashTags}
+      formData.append('files', [""]);
+      formData.append('feed', temp)
+      const data = await axios({
+          url: 'http://i8a806.p.ssafy.io/api/feed',
+          method: "POST", data: formData,
+          headers: { 'Content-Type': 'multipart/form-data' } });
+
+      return data;
+    }
 
     // const handleButtonClick = e => {
     //     fileInput.current.click();
@@ -67,10 +75,10 @@ const ArticleForm = () => {
             <div className='content-and-range'>
             <div className='content' type='text'>CONTENT</div>
                 <div className='range'>
-                    <RadioGroup onChange={setValue} value={value} className='radio-range'>
-                        <Radio size='sm' value='1' mx={1}>전체 공개</Radio>
-                        <Radio size='sm' value='2' mx={1}>일부 공개</Radio>
-                        <Radio size='sm' value='3' mx={1}>비공개</Radio>
+                    <RadioGroup onChange={setValue} value={value} className='radio-range' colorScheme={'pink'}>
+                        <Radio size='sm' value='PUBLIC' mx={1} defaultChecked>전체 공개</Radio>
+                        <Radio size='sm' value='FRIEND' mx={1}>팔로워 공개</Radio>
+                        <Radio size='sm' value='PRIVATE' mx={1}>비공개</Radio>
                     </RadioGroup>
                 </div>
             </div>
