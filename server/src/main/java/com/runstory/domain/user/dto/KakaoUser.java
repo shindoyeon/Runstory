@@ -1,9 +1,5 @@
 package com.runstory.domain.user.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop;
-import java.util.List;
-import java.util.Properties;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -34,7 +30,7 @@ public class KakaoUser {
         private String gender_needs_agreement;
         private String gender;
         private Profile profile;
-
+        private String email;
         @Getter
         public class Profile{
             private String nickname;

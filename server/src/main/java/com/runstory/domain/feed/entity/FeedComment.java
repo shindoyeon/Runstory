@@ -1,39 +1,26 @@
 package com.runstory.domain.feed.entity;
 
-import com.runstory.api.request.CommentReqDto;
-import com.runstory.domain.feed.dto.FeedCommentDto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
 import com.runstory.domain.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@DynamicInsert
-@DynamicUpdate
 @Builder
-
 public class FeedComment {
 
     @Comment("피드 댓글 아이디")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feed_comment_id")
     private Long feedCommentId;
     @Comment("피드 아이디")
     @ManyToOne(fetch = LAZY)
@@ -47,22 +34,14 @@ public class FeedComment {
     @Column(length = 500)
     private String content;
     @Comment("등록일자")
-    @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedComment", orphanRemoval = true   )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedComment")
     private List<FeedRecomment> feedRecomments = new ArrayList<>();
 
-    public FeedComment(FeedCommentDto feedCommentDto, User user, Feed feed){;
-        this.user = user;
-        this.feed = feed;
-        this.content = feedCommentDto.getContent();
-        this.regdate = feedCommentDto.getRegdate();
-
-
-    }
-    public void update(CommentReqDto commentReqDto) {
-        this.content = commentReqDto.getContent();
+    @PrePersist
+    public void prePersist(){
+        this.regdate=LocalDateTime.now();
     }
 }
-

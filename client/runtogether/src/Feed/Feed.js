@@ -1,42 +1,63 @@
-// import React from 'react';
-// import './Feed.css';
-// import {
-//   ChakraProvider,
-//   theme,
-//   Box,
-//   Card,
-//   Image,
-// } from '@chakra-ui/react';
-// import Header from '../common/Header';
-// import Footer from '../common/Footer';
-// import FeedPersonalButton from './FeedPersonalButton';
-// import ProfilePhoto from './ProfilePhoto';
-// import ProfileStatus from './ProfileStatus';
-// import ProfileFollow from './ProfileFollow';
-// import ProfileFeed from './ProfileFeed';
+import React, { useState, useEffect } from 'react'
+import {
+    ChakraProvider,
+    theme,
+} from '@chakra-ui/react';
+import Info from './Info'
+import ProfileFeed from './ProfileFeed';
+import ProfileMsg from './ProfileMsg';
+import Header from '../common/Header';
+import Footer from '../common/Footer';
+import './Feed.css'
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom'; 
 
-// function Feed() {
-//   return (
-//     <ChakraProvider theme={theme}>
-//         <Header></Header>
-//             <FeedPersonalButton></FeedPersonalButton>
-//             <Box direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex'>
-//               <ProfilePhoto></ProfilePhoto>
-//               <ProfileStatus></ProfileStatus>
-//               <ProfileFollow></ProfileFollow>
-//             </Box>
 
-//             <Card>
-//               <Image>
-                
-//               </Image>
-//             </Card>
-//         <Footer></Footer>
-//     </ChakraProvider>
-//   );
-// }
+// 개인피드페이지 -> 사용자 본인이면 햄버거 / 타인의 피드페이지면 햄버거x 팔로우, 차단버튼
+// 개인피드페이지
+// ~~의 페이지임을 명시
+const Profile = () => {
+    const user = 27; //해당 피드 주인 seq번호 (아마 받아오지 않을까...전 페이지에서.....???)
+    const [nickname, setNickname] = useState("");
+    const [photo, setPhoto] = useState({
+        photoUrl: "",
+        photoName: ""
+    });
+    const [level, setLevel] = useState(0);
+    const navigate = useNavigate();
 
-// export default Feed;
+    useEffect(() => {
+        if (localStorage.getItem("access-token") === null) {
+            navigate("/user/login");
+        }
 
-// // 컴포넌트 : 프로필사진 및 변경 
-// // 내부 
+        (async () => {
+            const data = await axios.get(
+                "https://i8a806.p.ssafy.io/api/feed/profile/" + user,
+            );
+            console.log(data.data.data)
+            setLevel(data.data.data.level);
+            setNickname(data.data.data.userNickName);
+            setPhoto({ photoUrl: data.data.data.profileImgFilePath, photoName: data.data.data.profileImgFileName });
+        })();
+    }, []);
+
+    return (
+        <div style={{ width: '90%' }}>
+            <ChakraProvider theme={theme}>
+                <div>
+                    <Header></Header>
+                    <ProfileMsg ></ProfileMsg>
+
+                    <div className="profile"></div>
+                    <Info user={user} level={level} nickname={nickname} photo={photo}></Info>
+                    <ProfileFeed></ProfileFeed>
+                    <Footer></Footer>
+
+                </div>
+            </ChakraProvider >
+        </div >
+    )
+}
+
+export default Profile;

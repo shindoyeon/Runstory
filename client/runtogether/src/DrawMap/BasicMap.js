@@ -1,32 +1,36 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './BasicMap.css';
 import html2canvas from 'html2canvas';
-import _ from "lodash";
 // import {
 //     Image, Card, CardBody, CardFooter, CardHeader
 //   } from '@chakra-ui/react';
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
+import axios from 'axios';
+import SearchLocation from './SearchLocation';
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Input
+} from '@chakra-ui/react'
+
 
 function BasicMap() {
   const Tmapv2 = window.Tmapv2;
   var [location, setLocation] = useState();
   var [error, setError] = useState();
-
-  // const [curLatitude, setCurLatitude] = useState(33.450701)
-  // const [curLongtitude, setCurLongtitude] = useState(126.570667)
-
-  // const [position, setPosition] = useState()
-  var tmap = useState();
+  const [tmap, setTmap] = useState(new Tmapv2.LatLng(0, 0));
   var linePath = [];
   var container = useState();
-  var options = useState();
+  var options;
   var polyline = useState();
 
   var touchedX;
   var touchedY;
-  // var [touchedX, setTouchedX] = useState();
-  // var [touchedY, setTouchedY] = useState();
 
   useEffect(() => {
     var lat = 37.566535;
@@ -40,17 +44,17 @@ function BasicMap() {
       center: new Tmapv2.LatLng(lat, lng),
       zoom: 17
     };
-    tmap = new Tmapv2.Map(container, options);
-
-    tmap.addListener("touchstart", onTouchstart); // 모바일에서 지도 터치 시작시, 이벤트 리스너 등록.
-    tmap.addListener("touchend", onTouchend); // 모바일에서 지도 터치 터치가 끝났을때, 이벤트 리스너 등록.
-
+    setTmap(new Tmapv2.Map(container, options))
     // new Tmapv2.extension.MeasureDistance({
 		// 	map: tmap
     // });
   }, []);
 
-
+  useEffect(() => {
+    tmap.addListener("touchstart", onTouchstart); // 모바일에서 지도 터치 시작시, 이벤트 리스너 등록.
+    tmap.addListener("touchend", onTouchend); // 모바일에서 지도 터치 터치가 끝났을때, 이벤트 리스너 등록.
+  }, [tmap])
+  
     function clearDrawing() {
       window.location.replace("/draw-map")
     }
@@ -102,16 +106,28 @@ function BasicMap() {
       link.click();
       document.body.removeChild(link);
     }
+
+    // const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
+    //     event.preventDefault();
+    //     searchLoc();
+    //     console.log(tmap)
+    // };
     
     return (
-      <div id='canvas'>
-        <div id="map" style={{width:"95%", height:"40vh", margin: "0 auto", marginTop: "0px", border: "2px solid black" }}></div> 
-        <div className="del-btn" onClick={clearDrawing}>다시 그리기</div>
-        <div className="save-btn" onClick={onCapture}>이미지로 저장하기</div>
-        {/* <button onClick={clearDrawing}>라인 삭제하기</button> */}
-        {/* <button onClick={drawPolyline} onTouchStart={drawPolyline}>라인 그리기</button> */}
-        {/* <button onClick={clearDrawing} onTouchStart={clearDrawing}>라인 삭제하기</button> */}
-      </div>
+        <div id='canvas'>
+          <div id="map" style={{width:"100%", height:"40vh", margin: "0 auto", marginTop: "-20px" }}></div> 
+          <div display='inline-block'>
+            <div className="del-btn" onClick={clearDrawing}>다시 그리기</div>
+            <div className="save-btn" onClick={onCapture}>이미지로 저장하기</div>
+          </div>
+          <div style={{maxHeight: '40vh', overflow: 'scroll', width: '100%', margin: '0 auto'}}>
+          <SearchLocation tmap={tmap}></SearchLocation>
+          </div>
+          {/* <MapSearchResult result={result}></MapSearchResult> */}
+          {/* <button onClick={clearDrawing}>라인 삭제하기</button> */}
+          {/* <button onClick={drawPolyline} onTouchStart={drawPolyline}>라인 그리기</button> */}
+          {/* <button onClick={clearDrawing} onTouchStart={clearDrawing}>라인 삭제하기</button> */}
+        </div>
     );
   }
 

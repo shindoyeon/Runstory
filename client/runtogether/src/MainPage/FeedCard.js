@@ -3,16 +3,7 @@ import {
     CardHeader,
     Image,
     Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-    ModalBody,
-    ModalFooter,
     useDisclosure,
-    Input,
-    Button,
-    CardBody,
     ChakraProvider,
     Divider
   } from '@chakra-ui/react';
@@ -22,43 +13,64 @@ import {
   import { faComment } from "@fortawesome/free-regular-svg-icons";
   import './Feed.css';
   import Comment from './Comment';
+  import axios from '../api/axios';
 
   function FeedCard(props) {
     const feed = props.feed;
+    // console.log(feed)
+    // var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
+    
 
-    function clickLike(e) {
-        if(e.target.style.color==='red') {
-            e.target.style.color='grey';
-            // 좋아요 취소 POST
-        }
-        else {
+    async function postLike(feedId) {
+        await axios({
+            url: "/feed/feed-like/"+feedId,
+            method: "POST"
+        });
+    }
+
+    async function deleteLike(feedId) {
+        await axios({
+            url: "/feed/feed-unlike/"+feedId,
+            method: "DELETE"
+        });
+    }
+
+    const clickLike = (feedId, e) => {
+        if(feed.feedLikeId===null) {
             e.target.style.color='red';
+            postLike(feedId);
             // 좋아요 POST
         }
-  }
+        else {
+            e.target.style.color='grey';
+            deleteLike(feedId);
+            // 좋아요 DELETE
+        }
+    }
 
 
   // 게시글이 길 때, 컨텐츠를 보이게 했다 안 보이게 했다 하는 함수
-  function moreContent(e) {
-    if(e.target.classList.contains("feed-content-open")) {
-        e.target.classList.remove('feed-content-open');
-        e.target.classList.add('feed-content');
+    function moreContent(e) {
+        if(e.target.classList.contains("feed-content-open")) {
+            e.target.classList.remove('feed-content-open');
+            e.target.classList.add('feed-content');
+        }
+        else {
+            e.target.classList.remove('feed-content')
+            e.target.classList.add('feed-content-open')
+        }
     }
-    else {
-        e.target.classList.remove('feed-content')
-        e.target.classList.add('feed-content-open')
-    }
-  }
 
-  // 모달창을 열기 위한 변수
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const comments = feed.feedComments;
+
+    // 모달창을 열기 위한 변수
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const comments = feed.feedComments;
 
     return (
     <div height="50vh" margin='0 auto'>
         <ChakraProvider height='5vh'>
             <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal' scrollBehavior='inside' height={'10vh'}>
-                <Comment comments={comments}></Comment>
+                <Comment comments={comments} feedId={feed.feedId}></Comment>
             </Modal>
             </ChakraProvider>
         <Card className='card' variant='outline' boxShadow='rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;'>
@@ -76,22 +88,28 @@ import {
                     </CardHeader>
                     {/* 피드 내용 */}
                     <div className='card-body'>
-                        <Image
-                            border='1px solid #CBD9E7'
-                            margin='0 auto'
-                            marginTop='10px'
-                            width='90%'
-                            borderRadius='lg'
-                            src={feed.feedFiles[0].filePath}
-                        />
+                    {feed.feedFiles.map((item2, idx) => {
+                        var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
+                        return(
+                            <Image
+                                border='1px solid #CBD9E7'
+                                margin='0 auto'
+                                marginTop='10px'
+                                width='90%'
+                                borderRadius='lg'
+                                src={fileSrc}
+                                alt=""
+                            />
+                        )
+                    })}
                             {/* 내용 */}
                         {/* <div className="feed-content">{feed.content}</div> */}
                         <div className='feed-content' onClick={moreContent}>{feed.content}</div>
                     <div className='like-comment'> 
                     <Divider></Divider>
-                        {feed.feedLikeStatus ?
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} value={feed.feedId} onClick={clickLike}/> :    //꽉차있는 하트를 return
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '25px'}} value={feed.feedId} onClick={clickLike}/>}
+                        {feed.feedLikeId===null ?
+                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '25px'}} onClick={(e)=>{clickLike(feed.feedId, e)}}/>:
+                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={(e)=>{clickLike(feed.feedLikeId, e)}}/>}
                         <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '25px'}} onClick={onOpen}/>
                     </div>
                 </div>
