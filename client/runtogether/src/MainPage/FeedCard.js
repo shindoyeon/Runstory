@@ -35,14 +35,16 @@ import {
         });
     }
 
-    const clickLike = (feedId, e) => {
-        if(feed.feedLikeId===null) {
-            e.target.style.color='red';
+    const clickLike = (feedId) => {
+        // e.preventDefault();
+        var color = document.getElementById(feedId).style.color;
+        if(color==='grey') {
+            document.getElementById(feedId).style.color='red';
             postLike(feedId);
             // 좋아요 POST
         }
         else {
-            e.target.style.color='grey';
+            document.getElementById(feedId).style.color='grey';
             deleteLike(feedId);
             // 좋아요 DELETE
         }
@@ -108,8 +110,8 @@ import {
                     <div className='like-comment'> 
                     <Divider></Divider>
                         {feed.feedLikeId===null ?
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '25px'}} onClick={(e)=>{clickLike(feed.feedId, e)}}/>:
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={(e)=>{clickLike(feed.feedLikeId, e)}}/>}
+                        <FontAwesomeIcon className='like' icon={faHeart} id={feed.feedId} style={{ color: 'grey', fontSize: '25px'}} onClick={()=>{clickLike(feed.feedId)}}/>:
+                        <FontAwesomeIcon className='like' icon={faHeart} id={feed.feedId} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={()=>{clickLike(feed.feedId)}}/>}
                         <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '25px'}} onClick={onOpen}/>
                     </div>
                 </div>
