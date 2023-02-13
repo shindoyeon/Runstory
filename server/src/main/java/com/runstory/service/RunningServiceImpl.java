@@ -115,9 +115,11 @@ public class RunningServiceImpl implements RunningService {
     // DetailPage 들고오기
     @Override
     public RunningDetailSumDto findRunningDetail(Long id, Long userseq){
+        User user = userRepository.findByUserSeq(userseq);
         Running running = runningrepository.getById(id);
         RunningDetail runningDetail = runningDetailRepository.getById(id);
-        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq);
+        Boolean validation = runningUserRepository.findByRunningAndUser(running, user).getAuthentication();
+        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, validation);
         return runningDetailSumDto;
     }
 
@@ -246,19 +248,28 @@ public class RunningServiceImpl implements RunningService {
     }
 
     @Override
+    @Transactional
     public void runningValid(Long runningId, Long userSeq){ // m로 생각하고 사용한다.
         User user = userRepository.findByUserSeq(userSeq);
+        Running running = runningrepository.getById(runningId);
         int distance = (int) runningrepository.getById(runningId).getDistance();
         int newlevel = user.getLevel();
         int newDistance =  user.getExperience() + distance;
-
+        System.out.println(newDistance);
         if (newDistance > 100000){
             newlevel ++;
             newDistance -= 100000;
             user.UserExperienceUpdate(newlevel,newDistance);
+            userRepository.save(user);
         }else{
             user.UserExperienceUpdate(newlevel, newDistance);
+            System.out.println(user.getExperience());
+            userRepository.save(user);
         }
+        RunningUser runningUser = runningUserRepository.findByRunningAndUser(running, user);
+        System.out.println(runningUser.getId());
+        runningUser.RunningUserUpdate(true);
+        runningUserRepository.save(runningUser);
     }
 
     // Comment
