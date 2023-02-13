@@ -40,6 +40,7 @@ function RunningDetail(){
         axios.get(url)
             .then(function(response) {
                 console.log("성공");
+                window.location.replace("/running/detail/" + runningId)
             })
             .catch(function(error) {
                 console.log("실패");
@@ -47,7 +48,7 @@ function RunningDetail(){
 
     }
     return (
-    <div>
+    <div style={{marginBottom: "15%"}}>
       <Header></Header>
         <div style={{marginTop:"15%", marginLeft:"6%", marginRight:"6%"}}>
             <div>
@@ -78,10 +79,13 @@ function RunningDetail(){
                 <HStack spacing='24px'>
                     <div>
                         <Box w='170px' bg='teal.500' style={{ background: "white", borderBottom:"0px "}}> {runnings.crewName}</Box>
-                        <p style={{borderTop:"0px"}}>{runnings.userId}</p>
+                        <p style={{borderTop:"0px"}}>{runnings.userNickName}</p>
                     </div>
                     <Spacer />
-                    <button style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}} onClick={Authentication}> 인증  </button>
+                    {runnings.validation 
+                    ? null
+                    : <button style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}} onClick={Authentication}> 인증 </button>
+                    }
                 </HStack>
             </div>
 
@@ -112,15 +116,20 @@ function RunningDetail(){
             <div>
                 {
                     comments.map(function(comment){
+                        var url = "https://i8a806.p.ssafy.io/runstory/user/" + comment.profileImgName;
                         return (
-                        <div style={{textAlign:"center", background: "grey", height:"100px", marginBottom:"20px", padding:"3%", background: "rgb(192,192,192)", borderRadius:"20px"}}>
+                        <div style={{textAlign:"center", background: "grey", height:"150px", marginBottom:"20px", padding:"3%", background: "rgb(192,192,192)", borderRadius:"20px"}}>
+                            <div style={{marginBottom:"5%"}}>
                             <HStack spacing='24px'>
-                                <Box w='150px' h='6' bg='teal.500' style={{background: "rgb(192,192,192)" }}> {comment.userId}  </Box>
+                                <img alt="" src={url} width="8%" height="10%"/>
+                                <Box w='150px' h='6' bg='teal.500' style={{background: "rgb(192,192,192)" }}> {comment.userNickName}  </Box>
                                 <Spacer />
-                                <Box w='400px' h='6' bg='teal.500' style={{background: "rgb(192,192,192)"}}> {comment.content} </Box>
-                                <Spacer />
-                                <Box w='100px' h='6' bg='teal.500' style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}> {comment.regdate} </Box>
+                                <Box w='150px' h='6' bg='teal.500' style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}> {comment.regdate} </Box>
                             </HStack>
+                            </div>
+                            <div>
+                                <Box w='400px' h='6' bg='teal.500' style={{background: "rgb(192,192,192)"}}> {comment.content} </Box>
+                            </div>
                         </div>
                         )
                     })
