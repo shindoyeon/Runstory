@@ -11,10 +11,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 const UserSearchResult = ({keyword}) => {
     // console.log(userResult)
     const [userResult, setUserResult] = useState([]);
-    const [isMore, setIsMore] = useState(true);
-    const [arr, setArr] = useState([]);
-    var startIdx = 0;
-
+    
     useEffect(() => {
         (async () => {
           // const data = null;
@@ -33,15 +30,17 @@ const UserSearchResult = ({keyword}) => {
                 }
             });
             setUserResult(data.data.data);
-            setArr(Array.from(userResult.slice(startIdx, startIdx + 5)));
           }
-    
-          if (userResult.length === 0) {
-            setIsMore(false);
-            return;
+          var noResultMsg = document.getElementById('no-result')
+          console.log(userResult.length)
+          if(userResult.length===0) {
+            noResultMsg.style.display = 'block';
+          }
+          else {
+            noResultMsg.style.display = 'none';
           }
         })();
-      }, [userResult.length, keyword]);
+      }, [keyword]);
 
     // async function getUserSearchResult(keyword) {
     //     const data = await axioswithH({
@@ -57,28 +56,10 @@ const UserSearchResult = ({keyword}) => {
     //     return data.data.data;
     // }
 
-    // 무한 스크롤을 하기 위함
-    function loadMore() {
-        startIdx = arr.length;
-        var endIdx = startIdx + 5;
-        if (arr.length === userResult.length || userResult.length === 0) {
-            setIsMore(false);
-            return;
-        }
-        setTimeout(() => {
-        setArr(arr.concat(Array.from(userResult.slice(startIdx, endIdx))));
-        }, 1500);
-    };
-
     return (
         <div className="user-search-result">
-        <InfiniteScroll
-          dataLength={arr.length}
-          next={loadMore}
-          hasMore={isMore}
-          loader={<p style={{ textAlign: "center" }}><Spinner textAlign={'center'} /></p>}
-        >
-                {arr.map((item) => {
+                <p id='no-result' style={{display: 'none'}}>검색 결과가 없습니다.</p>
+                {userResult.map((item) => {
                     return(
                         <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
                         <CardHeader>
@@ -97,7 +78,6 @@ const UserSearchResult = ({keyword}) => {
                                 boxSize='50px'
                                 objectFit='cover'
                                 object-position='top'
-
                                 src={`https://i8a806.p.ssafy.io/runstory/user/`+item.profileImgFileName}
                                 alt='no image'
                                 borderRadius='50%'
@@ -110,7 +90,6 @@ const UserSearchResult = ({keyword}) => {
                         </CardBody>
                     </Card>)
             })}
-            </InfiniteScroll>
         </div>
     );
 }

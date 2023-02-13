@@ -1,18 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import {Box, Button, Spacer} from '@chakra-ui/react';
+import {Box, Button, Spacer, Image, Divider, Modal, useDisclosure,
+ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
+ModalBody, Card, CardBody, CardFooter, ModalFooter, Input} from '@chakra-ui/react';
 import { HStack } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import axios from '../api/axios'
 import BooleanRunning from "./BooleanRunning";
-import Hashtags from "./Hashtags";
+import BetweenBodyFooter from "../common/BetweenBodyFooter";
+
 
 function RunningDetail(){
     const {runningId} = useParams();
     const [runnings, setRunnings] = useState([]);
     const [hashtags, setHashtags] = useState([]);
     const [comments, setComments] = useState([]);
+    const [comment, setComment] = useState("");
 
     useEffect(() => {
         (async () => {
@@ -34,6 +38,7 @@ function RunningDetail(){
     var reservation = `https://i8a806.p.ssafy.io/api/running/${runningId}/reservations`;
     var dibsurl = `https://i8a806.p.ssafy.io/api/running/${runningId}/dibs`;
 
+    const {isOpen, onOpen, onClose} = useDisclosure();
 
     function Authentication() {
         const url = `running/${runningId}/valid`;
@@ -47,74 +52,120 @@ function RunningDetail(){
             })
 
     }
-    return (
-    <div style={{marginBottom: "15%"}}>
-      <Header></Header>
-        <div style={{marginTop:"15%", marginLeft:"6%", marginRight:"6%"}}>
-            <div>
-            <p>러닝 크루 상세</p>
-            </div>
-            <div style={{  position: "relative", width: "300px", height: "200px", overflow: "hidden", textAlign : "center"}}>
-                <img alt={url}
-                     src= {url}
-                     className="chakra-image css-11lcdup" style={{position: "absolute", top: "0", left: "0", width: "100%", height: "100%", objectFit: "cover"}} />
-            </div>
-            <div style={{marginTop:"5%"}}>
-                <HStack spacing='24px'>
-                    { hashtags.map(function(r){
-                        console.log(r.hashtag.hashtagName)
-                        return (<div style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}>{r.hashtag.hashtagName}</div>)
-                    })}
-                    {/*{runnings.selectedHashtags.map(function (hashtagname) {*/}
-                    {/*    return (<div>{hashtagname["hashtag"]["hashtagName"]}</div>)})}*/}
-                    {/*{*/}
-                    {/*    runnings.selectedHashags.map(function(hashtagname){*/}
-                    {/*        return (<button style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}>{hashtagname.hashtag.hashtagName*/}
-                    {/*        }</button>)*/}
-                    {/*    })*/}
-                    {/*}*/}
-                </HStack>
-            </div>
-            <div style={{marginTop:"15%", marginBottom:"8%"}}>
-                <HStack spacing='24px'>
-                    <div>
-                        <Box w='170px' bg='teal.500' style={{ background: "white", borderBottom:"0px "}}> {runnings.crewName}</Box>
-                        <p style={{borderTop:"0px"}}>{runnings.userNickName}</p>
-                    </div>
-                    <Spacer />
-                    {runnings.validation 
-                    ? null
-                    : <button style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}} onClick={Authentication}> 인증 </button>
-                    }
-                </HStack>
-            </div>
 
+    const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
+  
+    const handleSubmit = (e) => { // 작성 버튼 클릭 시 이벤트 함수
+        alert(`작성된 내용: ${comment}`); // 데이터 잘 들어왔는지 확인용!!!
+    };
+    return (
+    <div>
+        <Header></Header>
+        <BetweenBodyFooter></BetweenBodyFooter>
+        <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal' scrollBehavior='inside' height={'10vh'}>
+        <ModalOverlay />
+                <ModalContent>
+                <ModalHeader size='xs'>댓글</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody border='2px' borderColor='gray.200'>
+                    <div className="comments">
+                    {comments.map(function(comment){
+                        var url = "https://i8a806.p.ssafy.io/runstory/user/" + comment.profileImgName;
+                        return (
+                            <Card direction={{base: 'row'}} width='100%' margin='0 auto' mt='10px'>
+                                <CardBody alignItems='center'>
+                                    <div className='card-header-left'>
+                                        {console.log(comment)}
+                                        {comment.profileImgName===null?
+                                        <Image
+                                            boxSize='30px'
+                                            borderRadius='full'
+                                            objectFit='contain'
+                                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                                            alt='no image'
+                                        />
+                                        :
+                                        <Image
+                                            boxSize='30px'
+                                            borderRadius='full'
+                                            objectFit='contain'
+                                            src={url}
+                                            alt='Dan Abramov'
+                                        />
+                                        }
+
+                                        <div style={{width: "100px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: "elipsis"}}>{comment.userNickName}</div>
+                                    </div>
+                                    <div className='comment-content'>{comment.content}</div>
+                                </CardBody>
+                                <CardFooter>
+                                    {/* <div className='comment-modify-btn'>수정</div> */}
+                                    <div className='comment-delete-btn'>삭제</div>                       
+                                </CardFooter>
+                            </Card>
+                        )
+                    })}
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <form margin='0 auto' className='comment-form'
+                        onSubmit={(e)=>{handleSubmit(e)}}>
+                            <Input className='comment-input' placeholder='댓글을 입력해주세요' type='text' size='xs' width={'80%'}
+                            name='comment'
+                            value={comment}
+                            onChange={handleCommentChange}></Input>
+                            <Button className='submit-btn' type='submit' margin-left='2%' size='xs'><p>등록</p></Button>
+                    </form>
+                </ModalFooter>
+                </ModalContent>
+        </Modal>
+        <div style={{marginBottom: '3%'}}>
+            <div style={{width: "80%", margin: '0 auto'}}>
+                <div className="user-nickname">
+                    {runnings.crewName}
+                    <BooleanRunning Something={runnings.runner} truevalue="예약 취소" falsevalue= "예약하기" api={reservation} id = {runningId}/>
+                    <BooleanRunning Something={runnings.dibs} truevalue="찜 취소" falsevalue= "찜하기" api={dibsurl} id = {runningId}/>
+                    {runnings.validation 
+                        ? null
+                        : <button className="follow-btn" onClick={Authentication}> 인증 </button>
+                    }
+                </div>
+                <div style={{fontSize: "12px"}}>written by {runnings.userNickName}</div>
+            </div>
+        </div>
+        <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
+        <div style={{marginTop: '3%'}}>
+            <div style={{width: '100%', margin: '0 auto'}}>
+                {url===null? "":
+                    <Image
+                        border='1px solid #CBD9E7'
+                        margin='0 auto'
+                        marginTop='10px'
+                        width='80%'
+                        borderRadius='lg'
+                        src={url}
+                        alt={url}
+                    />
+                } 
+            </div>
+            <div style={{marginTop:"1%", marginLeft: "10%"}}>
+                { hashtags.map(function(r){
+                    return (<div className="hashtag-selected"># {r.hashtag.hashtagName}</div>)
+                })}
+            </div>  
+            <div style={{width: '80%', marginLeft: '10%', marginTop: '3%', marginBottom: '5%', fontSize: '16px'}}>{runnings.runningContent}</div>
+            <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
+            <div style={{width: '80%', marginLeft: "10%", marginTop:"5%"}}>
+                <div style={{fontSize: '14px', marginBottom: "1%"}}>시작 위치: {runnings.startLocation}</div>
+                <div style={{fontSize: '14px', marginBottom: "1%"}}>모집 성별: 남자 {runnings.man} 명 / 여자 {runnings.women} 명 / 성별 무관 {runnings.total} 명</div>
+                <div style={{fontSize: '14px', marginBottom: "5%"}}>시간: {runnings.startTime} - {runnings.endTime}</div>
+            </div>
+            <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
             <div>
-                <blockquote>
-                    {runnings.runningContent}
-                </blockquote>
-            </div>
-            <div style={{marginTop:"10%"}}>
-                <p>{runnings.startLocation}</p>
-                <p>남자 : {runnings.man} / 여자 : {runnings.women} / 상관없음 : {runnings.total}</p>
-                <p>{runnings.startTime} - {runnings.endTime}</p>
-            </div>
-            <div style={{marginTop:"10%", marginBottom:"8%"}}>
-                <HStack spacing='24px'>
-                    <Spacer />
-                    <BooleanRunning Something={runnings.runner} truevalue="예약취소" falsevalue= "예약하기" api={reservation} id = {runningId}/>
-                    <BooleanRunning Something={runnings.dibs} truevalue="찜하기취소" falsevalue= "찜하기" api={dibsurl} id = {runningId}/>
-                </HStack>
-            </div>
-            <div style={{marginBottom:"2%"}}>
-                <HStack spacing='24px'>
-                    <Box w='70px' h='6' bg='teal.500' style={{textAlign:"center", background: "white", textDecoration:"underline" }}> 댓글  </Box>
-                    <Spacer />
-                    <Box w='70px' h='6' bg='teal.500' style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}> + </Box>
-                </HStack>
+                <div style={{width: "80%", marginLeft: '10%', marginTop: "7%" }} onClick={onOpen}>💬 댓글 보기</div>
             </div>
             <div>
-                {
+                {/* {
                     comments.map(function(comment){
                         var url = "https://i8a806.p.ssafy.io/runstory/user/" + comment.profileImgName;
                         return (
@@ -133,7 +184,7 @@ function RunningDetail(){
                         </div>
                         )
                     })
-                }
+                } */}
             </div>
         </div>
       <Footer></Footer>

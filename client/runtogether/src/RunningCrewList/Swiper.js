@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Swiper.css";
-import axios from 'axios';
+import axios from '../api/axios'
 import SliderImg from "./SliderImg"
 
 const Swiper = () => { 
@@ -11,6 +11,7 @@ const Swiper = () => {
   const [infoTitle, setInfoTitle] = useState([]);
   const [isLogined, setIsLogined] = useState();
   
+
   // 러닝 메인 조회
   useEffect(() => {
     if(localStorage.getItem('access-token') === null) {
@@ -18,15 +19,19 @@ const Swiper = () => {
     }
     else {
     (async () => {
-      const data = await axios.get("https://i8a806.p.ssafy.io/api/running", {
-        headers: {
-          Authorization: localStorage.getItem('access-token')
-        },
-        params: {
-          "latitude" : 37.5034, // 검색 키워드
-          "longitude": 127.05,
-        }
-    })
+      const data = await axios.get('https://i8a806.p.ssafy.io/api/running?latitude=37.5034&longitude=127.05')
+            .then(function(response) {
+                setInfo(response.data.data);
+                // setHashtags(response.data.data.selectedHashtags)
+                // setComments(response.data.data.runningboardcomments)
+                console.log(response.data);
+                // console.log("성공");
+            })
+            .catch(function(error) {
+                console.log("실패");
+            })
+    })()};
+  }, []);
 
 
 
@@ -35,10 +40,7 @@ const Swiper = () => {
   //   "http://i8a806.p.ssafy.io/api/running",
   //   {latitude: 36, longitude: 127}
   // );
-      setInfo(data.data.data);
-      setInfoTitle(Object.keys(data.data.data))
-    })()};
-  }, []);
+  
 
     return (
       <div className='swiper-slide'>
