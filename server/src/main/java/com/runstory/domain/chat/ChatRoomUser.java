@@ -10,12 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
-@Data
+@Getter
+@Setter
 @DynamicInsert
 public class ChatRoomUser {
     @Comment("사용자 채팅 방 아이디")
@@ -33,6 +35,6 @@ public class ChatRoomUser {
     private User user;
 
     @Comment("등록일자")
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
 }

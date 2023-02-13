@@ -1,71 +1,116 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-    Image, Card, Stack, CardBody, Heading, Text, CardFooter, Button, CardHeader
+    Image, Card, CardBody, CardHeader, Spinner
   } from '@chakra-ui/react';
-import './UserSearchResult.css'
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
+import './UserSearchResult.css';
+import axioswithH from '../api/axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
+import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-const UserSearchResult = () => {
+const UserSearchResult = ({keyword}) => {
+    // console.log(userResult)
+    const [userResult, setUserResult] = useState([]);
+    const [isMore, setIsMore] = useState(true);
+    const [arr, setArr] = useState([]);
+    var startIdx = 0;
+
+    useEffect(() => {
+        (async () => {
+          // const data = null;
+          if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
+            alert("로그인이 필요한 페이지입니다.")
+          }
+          else { //회원 조회 시
+            const data = await axioswithH({
+                url: '/search',
+                method: "POST",
+                data: {
+                    type: 0, keyword: keyword, lastId: 1000
+                },
+                header: {
+                    Authorization: localStorage.getItem('access-token')
+                }
+            });
+            setUserResult(data.data.data);
+            setArr(Array.from(userResult.slice(startIdx, startIdx + 5)));
+          }
+    
+          if (userResult.length === 0) {
+            setIsMore(false);
+            return;
+          }
+        })();
+      }, [userResult.length, keyword]);
+
+    // async function getUserSearchResult(keyword) {
+    //     const data = await axioswithH({
+    //         url: '/search',
+    //         method: "POST",
+    //         data: {
+    //             type: 0, keyword: keyword, lastId: 1000
+    //         },
+    //         header: {
+    //             Authorization: localStorage.getItem('access-token')
+    //         }
+    //     });
+    //     return data.data.data;
+    // }
+
+    // 무한 스크롤을 하기 위함
+    function loadMore() {
+        startIdx = arr.length;
+        var endIdx = startIdx + 5;
+        if (arr.length === userResult.length || userResult.length === 0) {
+            setIsMore(false);
+            return;
+        }
+        setTimeout(() => {
+        setArr(arr.concat(Array.from(userResult.slice(startIdx, endIdx))));
+        }, 1500);
+    };
+
     return (
         <div className="user-search-result">
-           <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
-                <CardHeader>
-                    <Image
-                                        boxSize='50px'
-                                        objectFit='cover'
-                                        src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
-                                        alt='Dan Abramov'
-                                        borderRadius={100}
-                                    />
-                </CardHeader>
-                <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
-                    tang_tang
-                </CardBody>
-                <CardFooter>
-                    <div className='follow-btn'>
-                        <p className='follow'>팔로우</p>
-                    </div>
-                </CardFooter>
-            </Card>
-            <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
-                <CardHeader>
-                    <Image
-                                        boxSize='50px'
-                                        objectFit='cover'
-                                        src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
-                                        alt='Dan Abramov'
-                                        borderRadius={100}
-                                    />
-                </CardHeader>
-                <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
-                    tang_tang
-                </CardBody>
-                <CardFooter>
-                    <div className='follow-btn'>
-                        <p className='follow'>팔로우</p>
-                    </div>
-                </CardFooter>
-            </Card>
-            <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
-                <CardHeader>
-                    <Image
-                                        boxSize='50px'
-                                        objectFit='cover'
-                                        src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
-                                        alt='Dan Abramov'
-                                        borderRadius={100}
-                                    />
-                </CardHeader>
-                <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
-                    tang_tang
-                </CardBody>
-                <CardFooter>
-                    <div className='follow-btn'>
-                        <p className='follow'>팔로우</p>
-                    </div>
-                </CardFooter>
-            </Card>
+        <InfiniteScroll
+          dataLength={arr.length}
+          next={loadMore}
+          hasMore={isMore}
+          loader={<p style={{ textAlign: "center" }}><Spinner textAlign={'center'} /></p>}
+        >
+                {arr.map((item) => {
+                    return(
+                        <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
+                        <CardHeader>
+                            {console.log(item)}
+                            {item.profileImgFileName===null?
+                            <Image
+                            boxSize='50px'
+                            objectFit='cover'
+                            object-position='top'
+                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                            alt='no image'
+                            borderRadius='50%'
+                            />
+                            :
+                            <Image
+                                boxSize='50px'
+                                objectFit='cover'
+                                object-position='top'
+
+                                src={`https://i8a806.p.ssafy.io/runstory/user/`+item.profileImgFileName}
+                                alt='no image'
+                                borderRadius='50%'
+                            />}
+                            
+                            
+                        </CardHeader>
+                        <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
+                            {item.userNickname}
+                        </CardBody>
+                    </Card>)
+            })}
+            </InfiniteScroll>
         </div>
     );
 }

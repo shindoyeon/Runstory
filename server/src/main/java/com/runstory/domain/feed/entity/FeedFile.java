@@ -2,13 +2,15 @@ package com.runstory.domain.feed.entity;
 
 import javax.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor
 public class FeedFile {
 
     @Comment("피드 파일 아이디")
@@ -25,4 +27,10 @@ public class FeedFile {
     @Comment("파일명")
     @Column(length = 500)
     private String fileName;
+
+    public FeedFile(Feed feed, String filePath, String fileName) {
+        this.feed = feed;
+        this.filePath = filePath;
+        this.fileName = fileName;
+    }
 }

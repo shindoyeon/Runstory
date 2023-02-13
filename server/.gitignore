@@ -1,12 +1,13 @@
 HELP.md
+.node_modules
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
 #project settings file
 application.properties
+email.properties
 .env
 
 ### STS ###

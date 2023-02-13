@@ -3,6 +3,7 @@ package com.runstory.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -30,5 +31,10 @@ public class SwaggerConfig {
                 .termsOfServiceUrl("https://edu.ssafy.com") // 임시로 에듀싸피로 함
                 .version("1.0.0")
                 .build();
+    }
+
+    @Bean
+    public InternalResourceViewResolver defaultViewResolver() {
+        return new InternalResourceViewResolver();
     }
 }

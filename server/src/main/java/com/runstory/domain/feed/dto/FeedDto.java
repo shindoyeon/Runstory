@@ -4,13 +4,14 @@ import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.PublicScope;
 import com.runstory.domain.user.dto.UserDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class FeedDto {
     private Long feedId;
     private UserDto user;
@@ -28,6 +29,5 @@ public class FeedDto {
         this.publicScope=feed.getPublicScope();
         this.regdate=feed.getRegdate();
         this.updatedate=feed.getUpdatedate();
-        System.out.println(regdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
     }
 }

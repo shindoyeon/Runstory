@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ChakraProvider,
   theme,
@@ -7,20 +7,23 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import SearchPageMsg from './SearchPageMsg';
 import SearchBar from './SearchBar';
-import SearchResultMsg from './SearchResultMsg';
-import FeedSearchResult from './FeedSearchResult'
-import UserSearchResult from './UserSearchResult'
+// import SearchResultMsg from './SearchResultMsg';
+// import FeedSearchResult from './FeedSearchResult'
+// import UserSearchResult from './UserSearchResult'
+// import SearchResult from './SearchResult'
 
 function Search() {
+  
   return (
     <ChakraProvider theme={theme}>
       <div>
         <Header></Header>
         <SearchPageMsg></SearchPageMsg>
         <SearchBar></SearchBar>
-        <SearchResultMsg></SearchResultMsg>
+        {/* <SearchResult></SearchResult> */}
+        {/* <SearchResultMsg></SearchResultMsg> */}
         {/* <FeedSearchResult></FeedSearchResult> */}
-        <UserSearchResult></UserSearchResult>
+        {/* <UserSearchResult></UserSearchResult> */}
         <Footer></Footer>
       </div>
     </ChakraProvider>

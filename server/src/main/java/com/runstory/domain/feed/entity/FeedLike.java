@@ -4,13 +4,15 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.runstory.domain.user.entity.User;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor
 public class FeedLike {
 
     @Comment("피드 좋아요 아이디")
@@ -27,4 +29,14 @@ public class FeedLike {
     private User user;
     @Column(columnDefinition = "datetime NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime regdate;
+
+    @PrePersist
+    public void prepersist(){
+        this.regdate = LocalDateTime.now();
+    }
+
+    public FeedLike(Feed feed, User user){
+        this.feed = feed;
+        this.user = user;
+    }
 }

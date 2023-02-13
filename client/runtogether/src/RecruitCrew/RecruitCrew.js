@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ChakraProvider,
   theme,
@@ -8,7 +8,6 @@ import Footer from '../common/Footer';
 import BetweenBodyFooter from '../common/BetweenBodyFooter';
 import RecruitCrewPageMsg from './RecruitCrewPageMsg';
 import ImgUpload from './ImgUpload';
-import HashTag from './HashTag';
 import ArticleForm from './ArticleForm';
 
 function RecruitCrew() {
@@ -18,7 +17,6 @@ function RecruitCrew() {
         <Header></Header>
         <RecruitCrewPageMsg></RecruitCrewPageMsg>
         <ImgUpload></ImgUpload>
-        <HashTag></HashTag>
         <ArticleForm></ArticleForm>
         <BetweenBodyFooter></BetweenBodyFooter>
         <Footer></Footer>

@@ -1,9 +1,10 @@
 package com.runstory.domain.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.running.Running;
+import com.runstory.domain.running.RunningDibs;
 import com.runstory.domain.running.RunningUser;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,33 +27,33 @@ public class User {
     @Comment("사용자아이디")
     private String userId;
     @Comment("비밀번호")
-    @Column(length = 50, nullable = false)
+    @Column(length = 1000, nullable = false) //암호화하면 글자수가 길어짐
     private String userPwd;
     @Comment("이름")
     @Column(length = 30, nullable = false)
     private  String userName;
     @Comment("별명")
-    @Column(length = 30, nullable = false)
+    @Column(length = 100, nullable = false)
     private String userNickname;
     @Comment("이메일인증여부(TRUE: 이메일인증성공, FALSE: 이메일인증실패)")
     @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean emailAuth;
 
     @Comment("전화번호")
-    @Column(length = 50, nullable = false)
+    @Column(length = 50)
     private String phoneNum;
     @Comment("성별(1: 남자, 2:여자)")
-    @Column(nullable = false)
+    @Column
     private int gender;
     @Comment("주소")
-    @Column(length = 200, nullable = false)
+    @Column(length = 200)
     private String address;
     @Comment("나이")
-    @Column(nullable = false)
+    @Column
     private int age;
 
     @Comment("토큰")
-    @Column(length = 100)
+    @Column(length = 300)
     private String token;
 
     @Comment("역할(USER: 일반사용자, ADMIN: 관리자)")
@@ -60,10 +61,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
     @Comment("레벨")
-    @Column(columnDefinition = "int default 1", nullable = false)
+    @Column(columnDefinition = "int default 1")
     private int level;
     @Comment("발걸음수(레벨이 상승하면 경험치 0으로 리셋)")
-    @Column(columnDefinition = "int default 0", nullable = false)
+    @Column(columnDefinition = "int default 0")
     private int experience;
     @Comment("프로필이미지경로")
     @Column(length = 500)//, nullable = false)
@@ -87,4 +88,15 @@ public class User {
     private List<ChatRoomUser> rooms = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private  List<Feed> feeds = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Running> runnings = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<RunningDibs> runningDibs = new ArrayList<>();
+
+    public void UserExperienceUpdate(int level,int distance){
+        this.level = level;
+        this.experience = distance;
+    }
 }

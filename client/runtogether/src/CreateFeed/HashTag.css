@@ -1,5 +1,5 @@
 .container {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     margin-left: 3%;
     margin-right: 2%;
 }
@@ -21,6 +21,14 @@
     background-color: #EEB6B6;
 } */
 
-.selected {
+.hashtag-selected {
+    margin-left: 5px;
+    font-size: 11px;
+    color: #6A6A6A;
     background-color: #EEB6B6;
+    display: inline-block;
+    padding: 0 10px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 20px;
 }

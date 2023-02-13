@@ -1,24 +1,25 @@
 package com.runstory.domain.running;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import lombok.Data;
+import javax.persistence.*;
+
+import com.runstory.domain.running.dto.RunningBoardCommentDto;
+import com.runstory.domain.user.entity.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor
 public class RunningBoardComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(length = 1000, nullable = false)
     @Comment("댓글 내용")
@@ -28,11 +29,18 @@ public class RunningBoardComment {
     @Comment("생성일자")
     private LocalDateTime regdate;
 
-    @Comment("변경일자")
-    private LocalDateTime updatedate;
-
-    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name= "running_id", foreignKey = @ForeignKey(name="fk_runningboardcomment_to_running"))
+    @JoinColumn(name= "running_id")
     private Running running;
+
+    @PrePersist
+    public void prePersist(){
+        this.regdate = LocalDateTime.now();
+    }
+
+    public RunningBoardComment(RunningBoardCommentDto runningBoardCommentDto, User user, Running running){
+        this.user = user;
+        this.content = runningBoardCommentDto.getContent();
+        this.running = running;
+    }
 }
