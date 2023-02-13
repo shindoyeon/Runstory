@@ -14,6 +14,7 @@ import {
   import './Feed.css';
   import Comment from './Comment';
   import axios from '../api/axios';
+  import { Link } from 'react-router-dom';
 
   function FeedCard(props) {
     const feed = props.feed;
@@ -63,7 +64,6 @@ import {
         }
     }
 
-
     // 모달창을 열기 위한 변수
     const { isOpen, onOpen, onClose } = useDisclosure();
     const comments = feed.feedComments;
@@ -79,12 +79,14 @@ import {
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header' > 
                         <div className='card-header-left'>
-                            <Image
-                                borderRadius='full'
-                                boxSize='40px'
-                                src={feed.profileImgFilePath}
-                                alt='Dan Abramov'
-                                />
+                            <Link to={"/feed"} state={{userId: feed.userId}}>
+                                <Image
+                                    borderRadius='full'
+                                    boxSize='40px'
+                                    src={feed.profileImgFilePath}
+                                    alt='Dan Abramov'
+                                    />
+                            </Link>
                             <div className='nickname'>{feed.userNickname}</div>
                         </div>
                     </CardHeader>
