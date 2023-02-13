@@ -21,6 +21,7 @@ import java.util.List;
 public class RunningDetailSumDto {
     private Long id;
     private Long userId; // 현재 로그인중인 userId
+    private String userNickName;
     private String imgFilePath;
     private String imgFileName;
     private String crewName;
@@ -61,6 +62,7 @@ public class RunningDetailSumDto {
     public RunningDetailSumDto(Running running, RunningDetail runningDetail, Long userseq, Boolean validation){
         this.id = running.getRunningId();
         this.userId = running.getUser().getUserSeq();
+        this.userNickName = running.getUser().getUserNickname();
         this.imgFilePath = running.getImgFilePath();
         this.imgFileName = running.getImgFileName();
         this.crewName = running.getCrewName();
@@ -122,11 +124,13 @@ public class RunningDetailSumDto {
         for (RunningBoardComment comment : running.getRunningboardcomments()){
             String userid = comment.getUser().getUserId();
             String userFileName = comment.getUser().getProfileImgFileName();
+            String userNickName = comment.getUser().getUserNickname();
             RunningBoardCommentDto runningBoardCommentDto = RunningBoardCommentDto.builder()
                     .userId(userid)
                     .content(comment.getContent())
                     .regdate(comment.getRegdate())
                     .profileImgName(userFileName)
+                    .userNickName(userNickName)
                     .build();
             runningboardcomments.add(runningBoardCommentDto);
         }

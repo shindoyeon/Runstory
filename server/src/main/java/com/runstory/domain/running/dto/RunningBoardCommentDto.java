@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class RunningBoardCommentDto {
     // Username 과 userId 같이 넘기기
     private String userId;
+    private String userNickName;
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regdate;
