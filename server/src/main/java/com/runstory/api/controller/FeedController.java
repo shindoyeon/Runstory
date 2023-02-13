@@ -18,6 +18,7 @@ import com.runstory.domain.user.entity.UserBlock;
 import com.runstory.service.FeedService;
 import com.runstory.service.FollowService;
 import com.runstory.service.UserService;
+import io.lettuce.core.ScriptOutputType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -127,10 +128,10 @@ public class FeedController {
 
     @PostMapping("")
     @ApiOperation(value = "피드 등록")
-    public BaseResponse<?> createFeed(@ApiIgnore Authentication authentication, @RequestPart FeedReqDto feed, @RequestPart MultipartFile [] files) throws IOException {
+    public BaseResponse<?> createFeed(@ApiIgnore Authentication authentication,FeedReqDto feed) throws IOException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         feed.setUserId(userDetails.getUserSeq());
-        Feed result = feedService.saveFeed(feed, files);
+        Feed result = feedService.saveFeed(feed,feed.getFiles());
         return BaseResponse.success(null);
     }
 
