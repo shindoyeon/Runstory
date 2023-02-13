@@ -6,15 +6,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class FeedReqDto {
     private Long userId;
     private String content;
     private List<Long> selectedHashTags;
-    private PublicScope publicScope;
+    private int publicScope;
     private LocalDateTime regdate;
     private LocalDateTime updatedate;
+    MultipartFile[] files;
 
     @Override
     public String toString() {
