@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runstory.api.request.UserLoginPostReqDto;
+import com.runstory.api.request.UserRegisterPostReq;
 import com.runstory.api.response.BaseResponse;
-import com.runstory.api.response.KakaoSignupInfo;
 import com.runstory.api.response.UserLoginPostResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.common.model.response.BaseResponseBody;
 import com.runstory.common.util.JwtTokenUtil;
+import com.runstory.domain.user.RegType;
+import com.runstory.domain.user.RoleType;
 import com.runstory.domain.user.dto.KakaoUser;
 import com.runstory.domain.user.dto.OAuthToken;
 import com.runstory.domain.user.entity.User;
@@ -22,6 +24,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -141,6 +144,93 @@ public class AuthController {
         return ResponseEntity.ok(BaseResponse.success(result));
     }
 
+    @GetMapping("/login/kakao/token")
+    @ApiOperation(value = "회원가입된 카카오 로그인 사용자인지 체크, 안했으면 토큰을 던져줘 카카오 로그인 연결 끊기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = UserLoginPostResDto.class),
+            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+            @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    public ResponseEntity<?> kakaoLoginCheck(@RequestParam String code, @Value("${restApiKey}") String key, @Value("${redirectUrl}") String url) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", key);
+        params.add("redirect_uri", url);
+        params.add("code", code);
+        params.add("client_secret", "");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+
+        RestTemplate rt = new RestTemplate();
+
+        ResponseEntity<String> response = rt.exchange(
+                "https://kauth.kakao.com/oauth/token", //{요청할 서버 주소}
+                HttpMethod.POST, //{요청할 방식}
+                request, // {요청할 때 보낼 데이터}
+                String.class //{요청시 반환되는 데이터 타입}
+        );
+        ObjectMapper objectMapper = new ObjectMapper();
+        OAuthToken oauthToken = null;
+        //Model과 다르게 되있으면 그리고 getter setter가 없으면 오류가 날 것이다.
+        try {
+            oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        //카카오 로그인 연결을 끊기 위한 토큰
+        String token = oauthToken.getAccess_token();
+        System.out.println("토큰 : "+token);
+
+        // 추가 개인 정보 얻기
+        headers.set("Authorization", "Bearer " + oauthToken.getAccess_token());
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        params = new LinkedMultiValueMap<>();
+
+        request = new HttpEntity<>(params, headers);
+
+        rt = new RestTemplate();
+
+        response = rt.exchange(
+                "https://kapi.kakao.com/v2/user/me", //{요청할 서버 주소}
+                HttpMethod.POST, //{요청할 방식}
+                request, // {요청할 때 보낼 데이터}
+                String.class //{요청시 반환되는 데이터 타입}
+        );
+
+        System.out.println("마지막 결과 : "+response);
+
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        KakaoUser kakaoUser = null;
+        //Model과 다르게 되있으면 그리고 getter setter가 없으면 오류가 날 것이다.
+        try {
+            kakaoUser = objectMapper.readValue(response.getBody(), KakaoUser.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        Long id = kakaoUser.getId();
+        System.out.println("결과 : "+id);
+        String userId = id+"";
+        User user = userService.getUserByUserId(userId);
+        HashMap<String, Object> userInfo = new HashMap<>();
+
+        //회원가입을 안한 카카오 로그인 사용자->연결을 끊어줘야함
+        if(user==null) {
+            userInfo.put("user", false);
+            userInfo.put("token", token);
+            return ResponseEntity.ok(BaseResponse.success(userInfo));
+        }
+        userInfo.put("user", true);
+        userInfo.put("token",token);
+        return ResponseEntity.ok(BaseResponse.success(userInfo));
+    }
+
     @GetMapping("/login/kakao")
     @ApiOperation(value = "카카오 로그인", notes = "<strong>카카오 로그인</strong>을 통해 로그인 한다.")
     @ApiResponses({
@@ -182,6 +272,7 @@ public class AuthController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        //카카오 로그인 연결을 끊기 위한 토큰
         String token = oauthToken.getAccess_token();
         System.out.println("토큰 : "+token);
 
@@ -218,12 +309,21 @@ public class AuthController {
         System.out.println("결과 : "+id);
         String userId = id+"";
         User user = userService.getUserByUserId(userId);
+      
         if(user==null) {
-            // 회원가입 하지 안한 회원인 경우 회원가입으로!!!
-//            user = userService.socialSignUp(kakaoUser);
-            return ResponseEntity.ok(BaseResponse.success(new KakaoSignupInfo(kakaoUser)));
+            //회원가입
+            UserRegisterPostReq req = new UserRegisterPostReq();
+            req.setUserId(kakaoUser.getId()+"");
+            req.setUserPwd(passwordEncoder.encode("0000"));
+            req.setUserName(kakaoUser.getProperties().getNickname());
+            req.setUserNickname(kakaoUser.getKakao_account().getEmail());
+            req.setEmailAuth(true);
+            req.setGender(kakaoUser.getKakao_account().getGender()=="male"?1:2);
+            req.setRoleType(RoleType.USER);
+            req.setRegType(RegType.KAKAO);
+            User newUser = userService.createUser(req);
         }
-
+        //로그인 시 사용하는 토큰
         String accessToken = JwtTokenUtil.getAccessToken(userId);
         String refreshToken = JwtTokenUtil.getRefreshToken(userId);
 
@@ -240,7 +340,6 @@ public class AuthController {
         result.put("accessToken", accessToken);
         result.put("refreshToken", refreshToken);
         return ResponseEntity.ok(BaseResponse.success(result));
-//        return ResponseEntity.ok(UserLoginPostResDto.of(200, "Success", accessToken, refreshToken));
     }
 
     @PostMapping("/logout")

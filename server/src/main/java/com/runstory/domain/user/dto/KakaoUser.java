@@ -30,7 +30,7 @@ public class KakaoUser {
         private String gender_needs_agreement;
         private String gender;
         private Profile profile;
-
+        private String email;
         @Getter
         public class Profile{
             private String nickname;

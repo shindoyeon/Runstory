@@ -111,7 +111,7 @@ public class UserController {
 		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
-	@GetMapping("/nickname/test/{nickname}")
+	@GetMapping("/nickname/{nickname}")
 	@ApiOperation(value = "닉네임 중복 체크", notes = "변경할 닉네임 중복 체크")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
@@ -256,12 +256,12 @@ public class UserController {
 	public ResponseEntity<?> changeProfileImg(@ApiIgnore Authentication authentication, @RequestBody MultipartFile image) {
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
-
+		String newImageName = "";
 		try {
-			userService.changeUserImage(false,userId,image);
+			newImageName = userService.changeUserImage(false,userId,image);
 		}catch (Exception e){
 			System.out.println("에러 : "+e);
 		}
-		return ResponseEntity.ok(BaseResponse.success(null));
+		return ResponseEntity.ok(BaseResponse.success(newImageName));
 	}
 }

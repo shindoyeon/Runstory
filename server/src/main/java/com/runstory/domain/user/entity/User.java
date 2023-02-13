@@ -27,7 +27,6 @@ public class User {
     @Comment("사용자아이디")
     private String userId;
     @Comment("비밀번호")
-//    @Column(length = 50, nullable = false)
     @Column(length = 1000, nullable = false) //암호화하면 글자수가 길어짐
     private String userPwd;
     @Comment("이름")
@@ -41,16 +40,16 @@ public class User {
     private Boolean emailAuth;
 
     @Comment("전화번호")
-    @Column(length = 50, nullable = false)
+    @Column(length = 50)
     private String phoneNum;
     @Comment("성별(1: 남자, 2:여자)")
-    @Column(nullable = false)
+    @Column
     private int gender;
     @Comment("주소")
-    @Column(length = 200, nullable = false)
+    @Column(length = 200)
     private String address;
     @Comment("나이")
-    @Column(nullable = false)
+    @Column
     private int age;
 
     @Comment("토큰")
