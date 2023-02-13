@@ -39,10 +39,15 @@ const SearchBar = () => {
 
     function search(keyword) {
         console.log(keyword)
-        if(tabIndex===0)   setUserResult(getUserSearchResult(keyword));
-        else if(tabIndex===1)  setFeedResult(getFeedSearchResult(keyword));
-        else setRunningCrewResult(getRunningCrewSearchResult(keyword));
+        setUserResult(getUserSearchResult(keyword));
+        setFeedResult(getFeedSearchResult(keyword));
+        setRunningCrewResult(getRunningCrewSearchResult(keyword));
     }
+
+    // useEffect(() => {
+    //     setUserResult(getUserSearchResult(searchKeyword));
+    // }, [userResult])
+
 
     async function getUserSearchResult(keyword) {
         const data = await axioswithH({
@@ -52,8 +57,7 @@ const SearchBar = () => {
                 type: 0, keyword: keyword, lastId: 1000
             }
         });
-        console.log(data.data);
-        return data.data;
+        setUserResult(data.data.data)
     }
 
     async function getFeedSearchResult(keyword) {
@@ -65,7 +69,6 @@ const SearchBar = () => {
                 type: 1, keyword: keyword, lastId: 1000
             }
         });
-        console.log(data.data);
         return data.data;
     }
 
@@ -77,7 +80,6 @@ const SearchBar = () => {
                 type: 2, keyword: keyword, lastId: 1000
             }
         });
-        console.log(data.data);
         return data.data;
     }
 
