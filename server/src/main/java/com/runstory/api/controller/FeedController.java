@@ -3,6 +3,7 @@ package com.runstory.api.controller;
 import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.BaseResponse;
+import com.runstory.api.response.FeedResDto;
 import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.feed.dto.FeedCommentDto;
@@ -18,14 +19,12 @@ import com.runstory.domain.user.entity.UserBlock;
 import com.runstory.service.FeedService;
 import com.runstory.service.FollowService;
 import com.runstory.service.UserService;
-import io.lettuce.core.ScriptOutputType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 import com.runstory.service.UserBlockService;
 
@@ -124,6 +123,14 @@ public class FeedController {
     public BaseResponse<?> getHashtag(){
         List<HashtagDto> hashtags = feedService.getHashtags();
         return BaseResponse.success(hashtags);
+    }
+
+    @GetMapping("/detail/{feedid}")
+    @ApiOperation(value = "피드 상세 조회")
+    public BaseResponse<?> getFeedDetail(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        FeedResDto result = feedService.findByFeedId(userDetails.getUserSeq(),feedId);
+        return BaseResponse.success(result);
     }
 
     @PostMapping("")
