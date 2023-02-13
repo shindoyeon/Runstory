@@ -123,7 +123,7 @@ public class RunningServiceImpl implements RunningService {
         if (runningUser == null){ // Table에 존재하지 않는다면
             validation = true;
         }else{
-            validation = runningUser.getAuthentication();
+            validation = runningUser.isAuthentication();
         }
         RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, validation);
         return runningDetailSumDto;
