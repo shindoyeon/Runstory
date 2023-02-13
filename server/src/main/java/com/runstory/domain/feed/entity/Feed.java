@@ -53,13 +53,7 @@ public class Feed {
     public Feed(FeedReqDto f, User user) {
         this.user = user;
         this.content = f.getContent();
-        if(f.getPublicScope()==1){
-            this.publicScope = PublicScope.PUBLIC;
-        }else if(f.getPublicScope()==2){
-            this.publicScope = PublicScope.FRIEND;
-        }else{
-            this.publicScope = PublicScope.PRIVATE;
-        }
+        this.publicScope = f.getPublicScope();
     }
 
     @PrePersist
