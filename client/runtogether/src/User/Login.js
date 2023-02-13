@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useContext } from 'react';
 import AuthContext from "./context/AuthProvider";
-import axios from './api/axios';
+import axios from 'axios';
 import KakaoLogin from './KakaoLogin';
 import './Login.css'
 import {
@@ -46,11 +46,7 @@ const Login = () => {
         try {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ id, password }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-                );
+                {headers: { 'Content-Type': 'application/json' }});
                 const data = response.data.data;
                 const ACCESS_TOKEN = data.accessToken;
                 console.log(ACCESS_TOKEN);
@@ -115,7 +111,7 @@ const Login = () => {
                     </p>
                     <p className="line">
                         비밀번호를 잊었다면? : 
-                            <a style={{textDecoration:'underline', marginLeft: '10px' }} href="/user/signup">비밀번호 찾기</a>
+                            <a style={{textDecoration:'underline', marginLeft: '10px' }} href="/user/findpassword">비밀번호 찾기</a>
                     </p>
                 </section>
             )}

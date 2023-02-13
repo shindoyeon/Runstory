@@ -25,6 +25,10 @@ const SettingIntro = () => {
   const navigateQuestion = () => {
     navigate("/setting-question");
   };
+  const navigateLogout = () => {
+    localStorage.removeItem('access-token');
+    navigate("/");
+  };
 
   return (
     <ChakraProvider>
@@ -48,6 +52,10 @@ const SettingIntro = () => {
               <Divider mt='10px' w='50%' ml='25%'/>
               <Button style={{fontSize:'20px'}} onClick={navigateQuestion}> 
               문의하기
+               </Button>
+              <Divider mt='10px' w='50%' ml='25%'/>
+              <Button style={{fontSize:'20px'}} onClick={navigateLogout}> 
+              로그아웃
                </Button>
             </div>
             </Container>

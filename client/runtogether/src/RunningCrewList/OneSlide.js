@@ -22,7 +22,7 @@ function OneSlide({runningCrew}) {
     const [runningCrewInfo, setRunningCrewInfo] = useState([]);
 
     async function getModalInfo(runningCrewId) {
-        const data = await axios.get("https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/running/detail/"+runningCrewId);
+        const data = await axios.get("https://i8a806.p.ssafy.io/api/running/detail/"+runningCrewId);
         setRunningCrewInfo(data.data.data)
     }
 
