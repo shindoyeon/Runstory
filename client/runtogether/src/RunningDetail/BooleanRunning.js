@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import axios from "../api/axios";
+import './RunningDetail.css'
 
 const BooleanRunning = (props) => {
 
@@ -29,9 +30,9 @@ const BooleanRunning = (props) => {
     }
 
     if (props.Something) {
-        return <button onClick={() => Canceled()} style={{ textAlign: "center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight: "3%", borderRadius: "30px" }}>{props.truevalue}</button>;
+        return <div onClick={() => Canceled()} className="unfollow-btn">{props.truevalue}</div>;
     } else {
-        return <button onClick={() => Join()} style={{ textAlign: "center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight: "3%", borderRadius: "30px" }}>{props.falsevalue}</button>;
+        return <div onClick={() => Join()} className="follow-btn">{props.falsevalue}</div>;
     }
 }
 export default BooleanRunning
