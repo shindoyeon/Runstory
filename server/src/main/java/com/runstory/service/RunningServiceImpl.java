@@ -119,14 +119,13 @@ public class RunningServiceImpl implements RunningService {
         Running running = runningrepository.getById(id);
         RunningDetail runningDetail = runningDetailRepository.getById(id);
         RunningUser runningUser = runningUserRepository.findByRunningAndUser(running, user);
-        Boolean validation;
         if (runningUser == null){ // Table에 존재하지 않는다면
-            validation = true;
+            RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, true);
+            return runningDetailSumDto;
         }else{
-            validation = runningUser.getAuthentication();
+            RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, runningUser.getAuthentication());
+            return runningDetailSumDto;
         }
-        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, validation);
-        return runningDetailSumDto;
     }
 
     // DetailPage 삭제하기

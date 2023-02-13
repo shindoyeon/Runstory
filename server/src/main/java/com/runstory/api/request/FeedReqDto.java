@@ -13,7 +13,7 @@ public class FeedReqDto {
     private Long userId;
     private String content;
     private List<Long> selectedHashTags;
-    private int publicScope;
+    private PublicScope publicScope;
     private LocalDateTime regdate;
     private LocalDateTime updatedate;
     MultipartFile[] files;

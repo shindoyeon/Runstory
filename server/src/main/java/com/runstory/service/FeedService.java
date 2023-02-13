@@ -183,13 +183,7 @@ public class FeedService {
         if(f!=null) {
             //내용 수정
             f.setContent(feed.getContent());
-            if(feed.getPublicScope()==1){
-                f.setPublicScope(PublicScope.PUBLIC);
-            }else if(feed.getPublicScope()==2){
-                f.setPublicScope(PublicScope.FRIEND);
-            }else{
-                f.setPublicScope(PublicScope.PRIVATE);
-            }
+            f.setPublicScope(feed.getPublicScope());
 
             //해시태그 수정
             List<Long> tags = feed.getSelectedHashTags();
