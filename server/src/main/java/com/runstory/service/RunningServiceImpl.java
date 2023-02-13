@@ -255,7 +255,6 @@ public class RunningServiceImpl implements RunningService {
         int distance = (int) runningrepository.getById(runningId).getDistance();
         int newlevel = user.getLevel();
         int newDistance =  user.getExperience() + distance;
-        System.out.println(newDistance);
         if (newDistance > 100000){
             newlevel ++;
             newDistance -= 100000;
@@ -263,11 +262,9 @@ public class RunningServiceImpl implements RunningService {
             userRepository.save(user);
         }else{
             user.UserExperienceUpdate(newlevel, newDistance);
-            System.out.println(user.getExperience());
             userRepository.save(user);
         }
         RunningUser runningUser = runningUserRepository.findByRunningAndUser(running, user);
-        System.out.println(runningUser.getId());
         runningUser.RunningUserUpdate(true);
         runningUserRepository.save(runningUser);
     }
