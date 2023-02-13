@@ -111,7 +111,7 @@ public class UserController {
 		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
-	@GetMapping("/nickname/test/{nickname}")
+	@GetMapping("/nickname/{nickname}")
 	@ApiOperation(value = "닉네임 중복 체크", notes = "변경할 닉네임 중복 체크")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
