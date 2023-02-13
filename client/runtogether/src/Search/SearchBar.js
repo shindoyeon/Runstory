@@ -25,6 +25,7 @@ const SearchBar = () => {
 
     const [tabIndex, setTabIndex] = useState(0)
     const [searchKeyword, setSearchKeyword] = useState();
+    const [realKeyword, setRealKeyword] = useState();
     const [userResult, setUserResult] = useState([]);
     const [feedResult, setFeedResult] = useState([]);
     const [runningCrewResult, setRunningCrewResult] = useState([]);
@@ -33,31 +34,14 @@ const SearchBar = () => {
 
     const handleSubmit = (event) => { // 검색 버튼 클릭 시 이벤트 함수
         event.preventDefault();
+        setRealKeyword(searchKeyword)
         onClose()
-        search(searchKeyword)
     };
 
     function search(keyword) {
         console.log(keyword)
-        setUserResult(getUserSearchResult(keyword));
         setFeedResult(getFeedSearchResult(keyword));
         setRunningCrewResult(getRunningCrewSearchResult(keyword));
-    }
-
-    // useEffect(() => {
-    //     setUserResult(getUserSearchResult(searchKeyword));
-    // }, [userResult])
-
-
-    async function getUserSearchResult(keyword) {
-        const data = await axioswithH({
-            url: '/search',
-            method: "POST",
-            data: {
-                type: 0, keyword: keyword, lastId: 1000
-            }
-        });
-        setUserResult(data.data.data)
     }
 
     async function getFeedSearchResult(keyword) {
@@ -67,9 +51,12 @@ const SearchBar = () => {
             method: "POST",
             data: {
                 type: 1, keyword: keyword, lastId: 1000
+            },
+            header: {
+                Authorization: localStorage.getItem('access-token')
             }
         });
-        return data.data;
+        console.log(data)
     }
 
     async function getRunningCrewSearchResult(keyword) {
@@ -78,9 +65,12 @@ const SearchBar = () => {
             method: "POST",
             data: {
                 type: 2, keyword: keyword, lastId: 1000
+            },
+            header: {
+                Authorization: localStorage.getItem('access-token')
             }
         });
-        return data.data;
+        
     }
 
     const [hashtags, setHashtags] = useState([]);
@@ -135,13 +125,13 @@ const SearchBar = () => {
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <UserSearchResult userResult={userResult}></UserSearchResult>
+                        <UserSearchResult keyword={realKeyword}></UserSearchResult>
                     </TabPanel>
                     <TabPanel>
-                        <FeedSearchResult feedResult={feedResult}></FeedSearchResult>
+                        <FeedSearchResult keyword={searchKeyword}></FeedSearchResult>
                     </TabPanel>
                     <TabPanel>
-                        <FeedSearchResult feedResult={runningCrewResult}></FeedSearchResult>
+                        <FeedSearchResult keyword={searchKeyword}></FeedSearchResult>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
