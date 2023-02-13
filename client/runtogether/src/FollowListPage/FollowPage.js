@@ -12,6 +12,7 @@ import {
    Tab, 
    TabPanel } from '@chakra-ui/react'
   
+// 들어가면 보이는 메인페이지  
 const FollowPage= () => {
   return (
     <ChakraProvider>

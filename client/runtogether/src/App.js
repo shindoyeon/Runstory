@@ -10,7 +10,7 @@ import CreateFeed from './CreateFeed/CreateFeed';
 import RecruitCrew from './RecruitCrew/RecruitCrew';
 import Search from './Search/Search';
 import Feed from './Feed/Feed';
-import FollowPage from './FollowList/FollowList';
+import FollowPage from './FollowListPage/FollowPage';
 import SettingIntro from './SettingIntro/SettingIntro';
 import AlarmSetting from './SettingAlarm/AlarmSetting';
 import UserBlockList from './SettingBlock/SettingBlock';

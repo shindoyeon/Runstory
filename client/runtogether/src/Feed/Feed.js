@@ -128,6 +128,10 @@ const Profile = () => {
         setFollowingStatus(!followingStatus);
     })
     
+    const navigateFollow = () => { // 클릭 시 팔로우리스트페이지로 이동
+        navigate("/feed/follow");
+      };
+
     // 로그아웃
     function logout() {
         localStorage.removeItem('access-token');
@@ -185,11 +189,11 @@ const Profile = () => {
                         { !isMypage && followingStatus && <div className='unfollow-btn' onClick={follow}>언팔로우</div> }
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
-                        <div style={{display: 'block'}}>
+                        <button onClick={{navigateFollow}} style={{display: 'block'}}>
                             <div className="follower">{follower}</div>
                             <div className="follower">팔로워</div>
-                        </div>
-                        <div style={{display: 'block'}}>
+                        </button>
+                        <div onClick={{navigateFollow}} style={{display: 'block'}}>
                             <div className="following">{following}</div>
                             <div className="following">팔로잉</div>
                         </div>

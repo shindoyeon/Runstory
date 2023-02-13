@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import "./FollowerList.css"
 
-// 나를 팔로우하고 있는 사람
+// 나를 팔로우하고 있는 사람의 리스트
 const FollowerList= () => {
   const followers = [
     {
@@ -64,3 +64,4 @@ const FollowerList= () => {
 }
 
 export default FollowerList;
+
