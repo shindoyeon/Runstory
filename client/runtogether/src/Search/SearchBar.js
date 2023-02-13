@@ -47,36 +47,37 @@ const SearchBar = () => {
     async function getUserSearchResult(keyword) {
         const data = await axioswithH({
             url: '/search',
-            method: "GET",
+            method: "POST",
             data: {
-                type: 0,
-                keyword: keyword,
-                lastId: Number.MAX_SAFE_INTEGER + 1
-            },
+                type: 0, keyword: keyword, lastId: 1000
+            }
         });
+        console.log(data.data);
         return data.data;
     }
 
     async function getFeedSearchResult(keyword) {
+        
         const data = await axioswithH({
             url: '/search',
-            method: "GET",
+            method: "POST",
             data: {
                 type: 1, keyword: keyword, lastId: 1000
-            },
-            headers: { "Content-type": "application/json" }
+            }
         });
+        console.log(data.data);
         return data.data;
     }
 
     async function getRunningCrewSearchResult(keyword) {
         const data = await axioswithH({
             url: '/search',
-            method: "GET",
-            data:{type: 2,
-                keyword: keyword,
-                lastId: Number.MAX_SAFE_INTEGER + 1},
+            method: "POST",
+            data: {
+                type: 2, keyword: keyword, lastId: 1000
+            }
         });
+        console.log(data.data);
         return data.data;
     }
 
