@@ -33,7 +33,7 @@ public class User {
     @Column(length = 30, nullable = false)
     private  String userName;
     @Comment("별명")
-    @Column(length = 30, nullable = false)
+    @Column(length = 100, nullable = false)
     private String userNickname;
     @Comment("이메일인증여부(TRUE: 이메일인증성공, FALSE: 이메일인증실패)")
     @Column(columnDefinition = "boolean default false", nullable = false)
@@ -61,10 +61,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
     @Comment("레벨")
-    @Column(columnDefinition = "int default 1", nullable = false)
+    @Column(columnDefinition = "int default 1")
     private int level;
     @Comment("발걸음수(레벨이 상승하면 경험치 0으로 리셋)")
-    @Column(columnDefinition = "int default 0", nullable = false)
+    @Column(columnDefinition = "int default 0")
     private int experience;
     @Comment("프로필이미지경로")
     @Column(length = 500)//, nullable = false)
