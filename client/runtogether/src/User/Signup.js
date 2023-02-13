@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import axios from '../common/axios';
+import axios from 'axios';
 import './Signup.css'
 import {
     Input,
@@ -142,11 +142,10 @@ const Signup = (props) => {
         formData.append('hashtags', Array.from(selectedHashtagsId));
 
         const data = axios({
-            url: '/user/signup',
-            method: "POST", data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
-    };
+             url: 'http://localhost:8080/api/user/signup',
+              method: "POST", data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' } });
+        };
 
     // 인증 코드 이메일 전송
     async function emailAuthSend() {
@@ -154,10 +153,7 @@ const Signup = (props) => {
             alert("❌이메일 형식이 맞지 않습니다.");
             return;
         }
-        const data = await axios({
-            url: `/auth/email?userEmail=${email}`,
-            method: "GET"
-        });
+        const data = await axios.get(`https://i8a806.p.ssafy.io/api/auth/email?userEmail=${email}`);
         setAuthcode(data.data.data.authenticationCode);
     }
 
@@ -288,7 +284,7 @@ const Signup = (props) => {
     const imgChange = (e) => {
         if(e.target.files[0]){
             setFile(e.target.files[0])
-        }else{ //업로드 취소할 시
+        } else{ //업로드 취소할 시
             setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
             return;
         }
