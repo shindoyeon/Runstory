@@ -51,7 +51,7 @@ function App() {
                     <Route path='/user' element={<MyPage />} />
                     <Route path='/notice' element={<Notice />} />
                     <Route path='/draw-map' element={<DrawMap />} />
-                    {/* <Route path='/feed' element={<Feed />} /> */}
+                    <Route path='/feed' element={<Feed />} />
                     <Route path='/chatting' element={<Chatting />} />
                 </Routes>
             </BrowserRouter>
