@@ -7,66 +7,71 @@ const ProfileFeeds = () => {
   return (
     // <ChakraProvider>
     <div className='wrapper'>
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'a
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
-      <Image
-        className='item'
-        src={Imgfile}
-        alt='Tae yoon'  
-        />
+      <table border="1" className='imgs-table'>
+        <tr>
+            <td>
+                <Image
+                    boxSize='120px'
+                    objectFit='cover'
+                    src='https://bit.ly/dan-abramov'
+                    alt='Dan Abramov'
+                    borderRadius={5}
+            /></td>
+            <td><Image
+            boxSize='120px'
+            objectFit='cover'
+            src='https://bit.ly/dan-abramov'
+            alt='Dan Abramov'
+            borderRadius={5}
+        /></td>
+        <td><Image
+            boxSize='120px'
+            objectFit='cover'
+            src='https://bit.ly/dan-abramov'
+            alt='Dan Abramov'
+            borderRadius={5}
+        /></td>
+        </tr>
+        <tr>
+            <td><Image
+            boxSize='120px'
+            objectFit='cover'
+            src='https://bit.ly/dan-abramov'
+            alt='Dan Abramov'
+            borderRadius={5}
+        /></td>
+            <td><Image
+            boxSize='120px'
+            objectFit='cover'
+            src='https://bit.ly/dan-abramov'
+            alt='Dan Abramov'
+            borderRadius={5}
+        /></td>
+        <td><Image
+            boxSize='120px'
+            objectFit='cover'
+            src='https://bit.ly/dan-abramov'
+            alt='Dan Abramov'
+            borderRadius={5}
+        /></td>
+        </tr>
+        <tr>
+            <td><Image
+            boxSize='120px'
+            objectFit='cover'
+            src='https://bit.ly/dan-abramov'
+            alt='Dan Abramov'
+            borderRadius={5}
+        /></td>
+            <td><Image
+            boxSize='120px'
+            objectFit='cover'
+            src='https://bit.ly/dan-abramov'
+            alt='Dan Abramov'
+            borderRadius={5}
+        /></td>
+        </tr>
+    </table>
     </div>
     // </ChakraProvider>
   )
