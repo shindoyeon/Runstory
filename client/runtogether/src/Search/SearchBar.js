@@ -14,7 +14,8 @@ import {
     useDisclosure,
     Tabs, TabList, TabPanels, Tab, TabPanel
   } from '@chakra-ui/react';
-import axios from 'axios';
+import axios from '../common/axios';
+import axioswithH from '../api/axios';
 // import SearchResult from "./SearchResult";
 import UserSearchResult from './UserSearchResult';
 import FeedSearchResult from './FeedSearchResult';
@@ -22,6 +23,7 @@ import FeedSearchResult from './FeedSearchResult';
 const SearchBar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const [tabIndex, setTabIndex] = useState(0)
     const [searchKeyword, setSearchKeyword] = useState();
     const [userResult, setUserResult] = useState([]);
     const [feedResult, setFeedResult] = useState([]);
@@ -37,35 +39,45 @@ const SearchBar = () => {
 
     function search(keyword) {
         console.log(keyword)
-        // setUserResult(getUserSearchResult(keyword));
-        // setFeedResult(getFeedSearchResult(keyword));
-        // setRunningCrewResult(getRunningCrewSearchResult(keyword));
+        if(tabIndex===0)   setUserResult(getUserSearchResult(keyword));
+        else if(tabIndex===1)  setFeedResult(getFeedSearchResult(keyword));
+        else setRunningCrewResult(getRunningCrewSearchResult(keyword));
     }
 
     async function getUserSearchResult(keyword) {
-        const data = await axios.get("", {
-            type: 0,
-            keyword: keyword,
-            lastId: 0
+        const data = await axioswithH({
+            url: '/search',
+            method: "POST",
+            data: {
+                type: 0, keyword: keyword, lastId: 1000
+            }
         });
+        console.log(data.data);
         return data.data;
     }
 
     async function getFeedSearchResult(keyword) {
-        const data = await axios.get("", {
-            type: 1,
-            keyword: keyword,
-            lastId: 0
+        
+        const data = await axioswithH({
+            url: '/search',
+            method: "POST",
+            data: {
+                type: 1, keyword: keyword, lastId: 1000
+            }
         });
+        console.log(data.data);
         return data.data;
     }
 
     async function getRunningCrewSearchResult(keyword) {
-        const data = await axios.get("", {
-            type: 2,
-            keyword: keyword,
-            lastId: 0
+        const data = await axioswithH({
+            url: '/search',
+            method: "POST",
+            data: {
+                type: 2, keyword: keyword, lastId: 1000
+            }
         });
+        console.log(data.data);
         return data.data;
     }
 
@@ -73,11 +85,9 @@ const SearchBar = () => {
   
     useEffect(() => { // 해시태그 목록 가져오기
         (async () => {
-        const data = await axios.get(
-        "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/hashtag"
-    );
-        setHashtags(data.data.data.hashtags);
-        })();
+            const res = await axios({url: '/feed/hashtag', method: "GET"});
+            setHashtags(res.data.data);
+          })();
     }, []);
 
     return (
@@ -112,14 +122,14 @@ const SearchBar = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Input readOnly width='50%' size='m' variant='flushed' placeholder='검색하러가기' textAlign='center' ms={3} onClick={onOpen} />
+            <Input readOnly width='50%' size='m' variant='flushed' placeholder='검색하러가기' value={searchKeyword} textAlign='center' ms={3} onClick={onOpen} />
             <button type='submit'><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
             {/* <SearchResult></SearchResult> */}
-            <Tabs marginTop='15px' colorScheme="pink" isFitted='true'>
+            <Tabs marginTop='15px' colorScheme="pink" isFitted='true' onChange={(index) => setTabIndex(index)}>
                 <TabList>
-                    <Tab>USER</Tab>
-                    <Tab>FEED</Tab>
-                    <Tab>RUNNING CREW</Tab>
+                    <Tab id="user">USER</Tab>
+                    <Tab id="feed">FEED</Tab>
+                    <Tab id="running">RUNNING CREW</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
