@@ -221,36 +221,35 @@ const Signup = (props) => {
     }, [password, password2])
 
     // 닉네임 중복 체크 axios
-    async function duplicateCheck() {
-        const data = await axios.get("https://i8a806.p.ssafy.io/api/user/nickname/"+nickname);
-        console.log(nickname)
-        console.log(data.data)
-        return data.data;
-    }
+    // async function duplicateCheck(nickname) {
+    //     const data = await axios.get("https://i8a806.p.ssafy.io/api/user/nickname/"+nickname);
+    //     return data;
+    // }
 
     // 닉네임 유효성 체크
-    useEffect(() => {
-        var nicknameCheck = document.getElementById("nickname-check");
-        const data = duplicateCheck();
-        if(nickname === undefined) {
-            nicknameCheck.innerText = ""
-            return;
-        }
-        if(data.message === 'SUCCESS') {
-            nicknameCheck.innerText = "";
-        }
-        else {
-            nicknameCheck.innerText = "❌이미 존재하는 닉네임입니다."
-        }
-        if(USER_REGEX.test(nickname)) {
-            nicknameCheck.innerText = "";
-        }
-        else {
-            nicknameCheck.innerText = "❌아이디는 4~24자여야합니다."
-            return;
-        }
+    // useEffect(() => {
+    //     const data = duplicateCheck(nickname);
+    //     var nicknameCheck = document.getElementById("nickname-check");
+    //     if(nickname === undefined) {
+    //         nicknameCheck.innerText = ""
+    //         return;
+    //     }
+    //     console.log(data)
+    //     if(data.message === 'SUCCESS') {
+    //         nicknameCheck.innerText = "";
+    //     }
+    //     else {
+    //         nicknameCheck.innerText = "❌이미 존재하는 닉네임입니다."
+    //     }
+    //     if(USER_REGEX.test(nickname)) {
+    //         nicknameCheck.innerText = "";
+    //     }
+    //     else {
+    //         nicknameCheck.innerText = "❌아이디는 4~24자여야합니다."
+    //         return;
+    //     }
         
-    }, [nickname])
+    // }, [nickname])
 
 
     // 나이 표시해주기
