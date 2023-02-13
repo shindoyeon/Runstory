@@ -16,21 +16,6 @@ import "slick-carousel/slick/slick-theme.css";
 import SliderImg from "./SliderImg.js";
 import SliderTitle from "./SliderTitle.js"
 
-// const axiosTest = async () => {
-//   const res = await axios.get(
-//     "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/main/feed"
-//   );
-//   return res.data;
-// };
-
-// const axiosTest2 = async () => {
-//   const res = await axios.get(
-//     "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/main/running-hashtag"
-//     );
-//     console.log("들어오냐?")
-//   return res.data;
-// };
-
 export default function TempFeed() {
   const [feeds, setFeeds] = useState([]);
   const [runningCrew, setrunningCrew] = useState([]);
@@ -41,7 +26,7 @@ export default function TempFeed() {
   useEffect(() => {
     const size = 1000;
     const lastfeedid = Number.MAX_SAFE_INTEGER + 1;
-    if (localStorage.getItem("access-token") === null) { }
+    
     (async () => {
       // const data = null;
       if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
