@@ -17,13 +17,16 @@ import UserBlockList from './SettingBlock/SettingBlock';
 import Question from './SettingQuestion/SettingQuestion';
 import MyPage from './SettingMyPage/SettingMyPage';
 import Login from './User/Login';
-import Oauth from './User/OAuthRedirectHandler'
 import Register from './User/Signup';
 import FindPwd from './User/FindPassword';
-import RegisterHashtag from './User/SignupHashtag'
+import RegisterHashtag from './User/SignupHashtag';
 import Notice from './Notice/Notice';
 import DrawMap from './DrawMap/DrawMap';
-import Chatting from './Chatting/Chatting'
+import Chatting from './Chatting/Chatting';
+import RunningDetail from "./RunningDetail/RunningDetail";
+import Oauth from "./User/OAuthRedirectHandler";
+
+// import Feed from './Feed/Feed';
 
 import "./App.css";
 
@@ -52,6 +55,7 @@ function App() {
                     <Route path='/notice' element={<Notice />} />
                     <Route path='/draw-map' element={<DrawMap />} />
                     <Route path='/feed' element={<Feed />} />
+                    <Route path='/running/detail/:runningId' element={<RunningDetail />} />
                     <Route path='/chatting' element={<Chatting />} />
                 </Routes>
             </BrowserRouter>

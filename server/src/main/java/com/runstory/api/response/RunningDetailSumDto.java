@@ -6,8 +6,11 @@ import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.running.*;
 import com.runstory.domain.running.dto.RunningBoardCommentDto;
 import com.runstory.domain.running.dto.RunningUserDto;
+import com.runstory.domain.user.entity.User;
+import com.runstory.repository.UserRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,9 +39,9 @@ public class RunningDetailSumDto {
 
     // runningDetail에 대한 dto
     private GenderType genderType;
-    private int man;
-    private int women;
-    private int total;
+    private int man; // 남자만일 경우
+    private int women; // 여자만일 경우
+    private int total; // 상관없을 경우
     private int minAge;
     private int maxAge;
     private boolean hasDog;
@@ -70,15 +73,36 @@ public class RunningDetailSumDto {
         this.endLatitude = running.getEndLatitude();
         this.distance = running.getDistance();
         this.genderType = runningDetail.getGenderType();
-        this.man = runningDetail.getMan();
-        this.women = runningDetail.getWomen();
-        this.total = runningDetail.getTotal();
         this.minAge = runningDetail.getMinAge();
         this.maxAge = runningDetail.getMaxAge();
         this.hasDog = runningDetail.isHasDog();
         this.isCreater = false;
         this.isRunner = false;
         this.isDibs = false;
+
+        int man = runningDetail.getMan();
+        int women = runningDetail.getWomen();
+        int total = runningDetail.getTotal();
+        // 남자, 여자, 성별 무관에 따른 인원 수를 확인해주는 로직 처리
+        for (RunningUser runningUser : running.getRunningusers()){
+            int gender = runningUser.getUser().getGender();
+            if (gender == 1){ // 남성일 경우
+                if (man > 0){
+                    man --;
+                }else if(total > 0){
+                    total --;
+                }
+            }else{ // 여성일 경우
+                if (women > 0){
+                    women --;
+                }else if(total > 0){
+                    total --;
+                }
+            }
+        }
+        this.man = man;
+        this.women = women;
+        this.total = total;
 
         // 생성자인지를 확인하는 방법
         if (running.getUser().getUserSeq().equals(userseq)){
@@ -94,10 +118,12 @@ public class RunningDetailSumDto {
         // 댓글 기능
         for (RunningBoardComment comment : running.getRunningboardcomments()){
             String userid = comment.getUser().getUserId();
+            String userFileName = comment.getUser().getProfileImgFileName();
             RunningBoardCommentDto runningBoardCommentDto = RunningBoardCommentDto.builder()
                     .userId(userid)
                     .content(comment.getContent())
                     .regdate(comment.getRegdate())
+                    .profileImgName(userFileName)
                     .build();
             runningboardcomments.add(runningBoardCommentDto);
         }

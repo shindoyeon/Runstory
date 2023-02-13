@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import axios from 'axios';
+import axios from '../common/axios';
 import './Signup.css'
 import {
     Input,
@@ -142,10 +142,11 @@ const Signup = (props) => {
         formData.append('hashtags', Array.from(selectedHashtagsId));
 
         const data = axios({
-             url: 'http://localhost:8080/api/user/signup',
-              method: "POST", data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' } });
-        };
+            url: '/user/signup',
+            method: "POST", data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+    };
 
     // 인증 코드 이메일 전송
     async function emailAuthSend() {
@@ -153,7 +154,10 @@ const Signup = (props) => {
             alert("❌이메일 형식이 맞지 않습니다.");
             return;
         }
-        const data = await axios.get(`https://i8a806.p.ssafy.io/api/auth/email?userEmail=${email}`);
+        const data = await axios({
+            url: `/auth/email?userEmail=${email}`,
+            method: "GET"
+        });
         setAuthcode(data.data.data.authenticationCode);
     }
 

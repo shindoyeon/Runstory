@@ -14,7 +14,8 @@ import {
     useDisclosure,
     Tabs, TabList, TabPanels, Tab, TabPanel
   } from '@chakra-ui/react';
-import axios from 'axios';
+import axios from '../common/axios';
+import axiosh from '../api/axios';
 // import SearchResult from "./SearchResult";
 import UserSearchResult from './UserSearchResult';
 import FeedSearchResult from './FeedSearchResult';
@@ -22,6 +23,7 @@ import FeedSearchResult from './FeedSearchResult';
 const SearchBar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const [searchType, setSearchType] = useState();
     const [searchKeyword, setSearchKeyword] = useState();
     const [userResult, setUserResult] = useState([]);
     const [feedResult, setFeedResult] = useState([]);
@@ -31,6 +33,7 @@ const SearchBar = () => {
 
     const handleSubmit = (event) => { // 검색 버튼 클릭 시 이벤트 함수
         event.preventDefault();
+        console.log("dd");
         onClose()
         search(searchKeyword)
     };
@@ -43,28 +46,34 @@ const SearchBar = () => {
     }
 
     async function getUserSearchResult(keyword) {
-        const data = await axios.get("", {
-            type: 0,
-            keyword: keyword,
-            lastId: 0
+        const data = await axiosh({
+            url: '/search',
+            method: "GET",
+            data:{type: 0,
+                keyword: keyword,
+                lastId: Number.MAX_SAFE_INTEGER + 1},
         });
         return data.data;
     }
 
     async function getFeedSearchResult(keyword) {
-        const data = await axios.get("", {
-            type: 1,
-            keyword: keyword,
-            lastId: 0
+        const data = await axiosh({
+            url: '/search',
+            method: "GET",
+            data:{type: 1,
+                keyword: keyword,
+                lastId: Number.MAX_SAFE_INTEGER + 1},
         });
         return data.data;
     }
 
     async function getRunningCrewSearchResult(keyword) {
-        const data = await axios.get("", {
-            type: 2,
-            keyword: keyword,
-            lastId: 0
+        const data = await axiosh({
+            url: '/search',
+            method: "GET",
+            data:{type: 2,
+                keyword: keyword,
+                lastId: Number.MAX_SAFE_INTEGER + 1},
         });
         return data.data;
     }
@@ -73,11 +82,9 @@ const SearchBar = () => {
   
     useEffect(() => { // 해시태그 목록 가져오기
         (async () => {
-        const data = await axios.get(
-        "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/hashtag"
-    );
-        setHashtags(data.data.data.hashtags);
-        })();
+            const res = await axios({url: '/feed/hashtag', method: "GET"});
+            setHashtags(res.data.data);
+          })();
     }, []);
 
     return (
