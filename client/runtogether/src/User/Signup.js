@@ -24,7 +24,8 @@ import {
     useDisclosure,
     PinInput,
     PinInputField,
-    Button
+    Button,
+    Avatar
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
@@ -32,7 +33,7 @@ import BetweenBodyFooter from '../common/BetweenBodyFooter'
 import Address from './Address'
 import { useNavigate } from "react-router-dom";
 import imageCompression from 'browser-image-compression';
-import DaumPostcodeEmbed from 'react-daum-postcode';
+import DaumPostcode from 'react-daum-postcode';
 import Hashtag from '../CreateFeed/HashTag'
 const EMAIL_REGEX = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -44,6 +45,7 @@ const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 const Signup = (props) => {
     const { isOpen: isEmailOpen, onOpen: onEmailOpen, onClose: onEmailClose } = useDisclosure()
     const { isOpen: isHashtagOpen, onOpen: onHashtagOpen, onClose: onHashtagClose } = useDisclosure()
+    const { isOpen: isAddressOpen, onOpen: onAddressOpen, onClose: onAddressClose } = useDisclosure()
 
     const [email, setEmail] = useState();
     const [authcode, setAuthcode] = useState();
@@ -69,8 +71,10 @@ const Signup = (props) => {
     const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set());
     const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set());
     const [hashtags, setHashtags] = useState();
-    const [profileImg, setProfileImg] = useState();
-    
+    const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+    const [file, setFile] = useState()
+    const fileInput = useRef(null)
+
     const handleEmailChange = ({ target: { value } }) => setEmail(value);
     const handleAuthcodeInputChange1 = ({ target: { value } }) => setAuthcodeInput1(value);
     const handleAuthcodeInputChange2 = ({ target: { value } }) => setAuthcodeInput2(value);
@@ -140,15 +144,8 @@ const Signup = (props) => {
         const data = axios({
              url: 'http://localhost:8080/api/user/signup',
               method: "POST", data: formData,
-               headers: { 'Content-Type': 'multipart/form-data' } });
-    };
-
-    //이메일 유효성 검사
-    const validateEmail = (id) => {
-        return id
-          .toLowerCase()
-          .match(/([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/);
-      };
+            headers: { 'Content-Type': 'multipart/form-data' } });
+        };
 
     // 인증 코드 이메일 전송
     async function emailAuthSend() {
@@ -223,6 +220,38 @@ const Signup = (props) => {
         pwcheck.innerText = "❌비밀번호 확인란을 다시 확인해주세요."
     }, [password, password2])
 
+    // 닉네임 중복 체크 axios
+    // async function duplicateCheck(nickname) {
+    //     const data = await axios.get("https://i8a806.p.ssafy.io/api/user/nickname/"+nickname);
+    //     return data;
+    // }
+
+    // 닉네임 유효성 체크
+    // useEffect(() => {
+    //     const data = duplicateCheck(nickname);
+    //     var nicknameCheck = document.getElementById("nickname-check");
+    //     if(nickname === undefined) {
+    //         nicknameCheck.innerText = ""
+    //         return;
+    //     }
+    //     console.log(data)
+    //     if(data.message === 'SUCCESS') {
+    //         nicknameCheck.innerText = "";
+    //     }
+    //     else {
+    //         nicknameCheck.innerText = "❌이미 존재하는 닉네임입니다."
+    //     }
+    //     if(USER_REGEX.test(nickname)) {
+    //         nicknameCheck.innerText = "";
+    //     }
+    //     else {
+    //         nicknameCheck.innerText = "❌아이디는 4~24자여야합니다."
+    //         return;
+    //     }
+        
+    // }, [nickname])
+
+
     // 나이 표시해주기
     useEffect(() => {
         var currentAge = document.getElementById("current-age");
@@ -250,6 +279,47 @@ const Signup = (props) => {
         hashtagInput.placeholder = temp;
         onHashtagClose();
     }
+
+    // 프로필 사진 변경
+    const imgChange = (e) => {
+        if(e.target.files[0]){
+            setFile(e.target.files[0])
+        }else{ //업로드 취소할 시
+            setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+            return;
+        }
+        //화면에 프로필 사진 표시
+        const reader = new FileReader();
+        reader.onload = () => {
+            if(reader.readyState === 2){
+                setProfileImg(reader.result)
+            }
+        }
+        reader.readAsDataURL(e.target.files[0])
+        console.log(e.target.files[0])
+    }
+    
+    const handleComplete = (data) => {
+        let fullAddress = data.address;
+        let extraAddress = "";
+        // console.log(data);
+        if (data.addressType === "R") {
+          if (data.bname !== "") {
+            extraAddress += data.bname;
+          }
+          if (data.buildingName !== "") {
+            extraAddress +=
+              extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+          }
+          fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+        }
+    
+        console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+      };
+    
+      const handleSearch = (data) => {
+        // console.log(data);
+      };
 
     return (
         <>
@@ -294,15 +364,48 @@ const Signup = (props) => {
                         <Hashtag style={{width: '120%'}} selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></Hashtag>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='red' mr={3} onClick={onHashtagClose}>
+                        <Button colorScheme='red' size='sm' mr={3} onClick={onHashtagClose}>
                             취소
                         </Button>
-                        <Button variant='ghost' mr={3} onClick={saveHashtag}>완료</Button>
+                        <Button variant='ghost' size='sm' mr={3} onClick={saveHashtag}>완료</Button>
                     </ModalFooter>
                     </ModalContent>
             </Modal>
+            <Modal isOpen={isAddressOpen} onClose={onAddressClose} size='xs' isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>주소 검색</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody style={{margin: '0 auto', width: '100%', overflow: 'scroll'}}>
+                        <div style={{overflow: 'scroll', fontSize: '12px'}}>
+                            <DaumPostcode className="postmodal" onComplete={handleComplete} onSearch={handleSearch}></DaumPostcode>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='red' size='sm' mr={3} onClick={onHashtagClose}>
+                            취소
+                        </Button>
+                        <Button variant='ghost' size='sm' mr={3} onClick={saveHashtag}>완료</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
             <div style={{width: '80%', margin: '0 auto', marginTop: '80px', marginBottom: '5px', fontSize: '30px', textAlign: 'center'}}>RUNSTORY</div>
         <form style={{width: '80%', margin: '0 auto', textAlign: 'center', border: '1px solid #cccccc', borderRadius: '20px',paddingTop: '10px', paddingBottom: '10px', boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} onSubmit={join}>
+            <div style={{textAlign: 'center'}}>
+                <Avatar 
+                    src={profileImg}
+                    isCentered
+                    size={'xl'} 
+                    onClick={()=>{fileInput.current.click()}}/>
+                <input 
+                    type='file' 
+                    style={{display:'none'}}
+                    accept='image/jpg,impge/png,image/jpeg' 
+                    name='profile_img'
+                    onChange={imgChange}
+                    ref={fileInput}/>
+            </div>
+            <div style={{textAlign: 'center', marginBottom: '10px'}}>프로필 사진을 설정해보세요!</div>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>이메일</div>
             {/* <div style={{marginLeft: '10%', textAlign: 'center', border: '1px solid #6A6A6A', width: '35%', color: '#6A6A6A', display: 'none'}} id='auth-email'></div> */}
             <Input required id='email-input' border='1px solid #6A6A6A' width="80%" size='xs' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='이메일'/>
@@ -316,6 +419,7 @@ const Signup = (props) => {
             <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='이름' value={name} ps={2} mb={3} onChange={handleNameChange} />
             <div style={{marginLeft: '10%', textAlign: 'left'}}>닉네임</div>
             <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='닉네임' value={nickname} ps={2} mb={3} onChange={handleNicknameChange} />
+            <p style={{marginLeft: '10%', textAlign: 'left'}} id='nickname-check'></p>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>전화번호</div>
             <Input border='1px solid #6A6A6A' type='number' width='80%' size='xs' variant='outline' placeholder='전화번호' value={phoneNum} ps={2} mb={3} onChange={handlePhoneNumChange} />
             <div style={{marginLeft: '10%', textAlign: 'left'}}>성별</div>
@@ -326,7 +430,7 @@ const Signup = (props) => {
                 </Stack>
                 </RadioGroup>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>주소</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onChange={handleAddressChange} />
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onClick={onAddressOpen} readOnly />
             <div style={{marginLeft: '10%', textAlign: 'left'}}>나이</div>
             <div style={{marginLeft: '10%', textAlign: 'left'}} id='current-age'></div>
             <Slider

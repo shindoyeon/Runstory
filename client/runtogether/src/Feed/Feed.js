@@ -8,6 +8,7 @@ import ProfileFeed from './ProfileFeed';
 import ProfileMsg from './ProfileMsg';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
+import BetweenBodyFooter from '../common/BetweenBodyFooter';
 import './Feed.css'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'; 
@@ -43,7 +44,7 @@ const Profile = () => {
     }, []);
 
     return (
-        <div style={{ width: '90%' }}>
+        <div style={{ width: '100%' }}>
             <ChakraProvider theme={theme}>
                 <div>
                     <Header></Header>
@@ -52,6 +53,7 @@ const Profile = () => {
                     <div className="profile"></div>
                     <Info user={user} level={level} nickname={nickname} photo={photo}></Info>
                     <ProfileFeed></ProfileFeed>
+                    <BetweenBodyFooter></BetweenBodyFooter>
                     <Footer></Footer>
 
                 </div>
