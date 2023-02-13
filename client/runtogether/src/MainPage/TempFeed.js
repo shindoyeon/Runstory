@@ -67,7 +67,6 @@ export default function TempFeed() {
   useEffect(() => {
     const size = 1000;
     const lastfeedid = Number.MAX_SAFE_INTEGER + 1;
-    console.log(state.center);
     (async () => {
       // const data = null;
       if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
@@ -76,13 +75,12 @@ export default function TempFeed() {
             `https://i8a806.p.ssafy.io/api/main/feed?lastfeedid=${lastfeedid}&size=${size}`
           ),
           axios.get(
-            `https://i8a806.p.ssafy.io/api/main/running-location?latitude=${state.center.lat}&longitude=${state.center.lng}`
+            `http://localhost:8080/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
-          console.log(data[1].data.data);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
-        setrunningCrew(data[1].data);
+        setrunningCrew(data[1].data.data);
       }
       else { //회원 조회 시
         const data = await axios.all(
@@ -95,9 +93,11 @@ export default function TempFeed() {
           }
           ),
           axios.get(
-            `https://i8a806.p.ssafy.io/api/main/running-location?latitude=${state.center.lat}&longitude=${state.center.lng}`
+            `https://i8a806.p.ssafy.io/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
+          console.log(state.center);
+          console.log(data[1].data.data);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
         setrunningCrew(data[1].data.data);
@@ -139,8 +139,8 @@ export default function TempFeed() {
 
   return (
     <>
-      {/* <div className='swiper-slide'>
-        <Slider {...settings}>
+      <div className='swiper-slide'>
+        {runningCrew===null?null:<Slider {...settings}>
           <div className='slide'>
             <div className='imgs'>
               {
@@ -177,7 +177,7 @@ export default function TempFeed() {
               }
             </div>
           </div>
-        </Slider>
+        </Slider>}
       </div>
 
       <div className='entire-feed'>
@@ -204,7 +204,7 @@ export default function TempFeed() {
             )
           })}
         </InfiniteScroll>
-      </div> */}
+      </div>
     </>
   );
 }
