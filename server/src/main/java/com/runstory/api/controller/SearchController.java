@@ -41,8 +41,7 @@ public class SearchController {
         }
         else if(search.getType()== SearchType.FEED.ordinal()){
             //해시태그 문자열 -> Long 처리
-            Long hashtagId = Long.parseLong(search.getKeyword());
-            result = feedService.searchByHashtag(hashtagId, search.getLastId(), search.getSize());
+            result = feedService.searchByHashtag(search.getKeyword(), search.getLastId(), search.getSize());
         }
         else if(search.getType()== SearchType.RUNNING.ordinal()){
             result = runningService.searchByCrewName(search.getKeyword(), search.getLastId(), search.getSize());
