@@ -120,10 +120,10 @@ public class RunningServiceImpl implements RunningService {
         RunningDetail runningDetail = runningDetailRepository.getById(id);
         RunningUser runningUser = runningUserRepository.findByRunningAndUser(running, user);
         Boolean validation;
-        if (runningUser == null){
+        if (runningUser == null){ // Table에 존재하지 않는다면
             validation = true;
         }else{
-            validation = runningUser.getAuthentication();
+            validation = runningUser.isAuthentication();
         }
         RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, validation);
         return runningDetailSumDto;

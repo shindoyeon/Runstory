@@ -11,10 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
@@ -28,7 +25,7 @@ public class SearchController {
     private final UserService userService;
     private final FeedService feedService;
     private final RunningService runningService;
-    @GetMapping("")
+    @PostMapping("")
     @ApiOperation(value = "사용자, 러닝모임, 피드를 조회한다")
     public BaseResponse<?> searchByKeyword(@ApiIgnore Authentication authentication, @RequestBody SearchReqDto search){
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
