@@ -118,9 +118,12 @@ public class RunningServiceImpl implements RunningService {
         User user = userRepository.findByUserSeq(userseq);
         Running running = runningrepository.getById(id);
         RunningDetail runningDetail = runningDetailRepository.getById(id);
-        Boolean validation = runningUserRepository.findByRunningAndUser(running, user).getAuthentication();
-        if (validation == null){
+        RunningUser runningUser = runningUserRepository.findByRunningAndUser(running, user);
+        Boolean validation;
+        if (runningUser == null){
             validation = true;
+        }else{
+            validation = runningUser.getAuthentication();
         }
         RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, validation);
         return runningDetailSumDto;
