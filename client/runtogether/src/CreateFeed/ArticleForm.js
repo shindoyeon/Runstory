@@ -24,6 +24,9 @@ import axios from 'axios';
 const ArticleForm = () => {
     const [value, setValue] = useState('1'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
     const [content, setContent] = useState(""); // 피드 내용
+    const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set()); // 해시태그
+    const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set()); // 해시태그
+
     // const [files, setFiles] = useState<File[]>([]);
     // const fileInput = React.useRef(null); // 사진
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -60,7 +63,7 @@ const ArticleForm = () => {
     return (
         <form className='article-form' onSubmit={handleSubmit}>
             <ImgUpload></ImgUpload>
-            <HashTag></HashTag>
+            <HashTag selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></HashTag>
             <div className='content-and-range'>
             <div className='content' type='text'>CONTENT</div>
                 <div className='range'>

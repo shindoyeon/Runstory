@@ -34,7 +34,7 @@ const SettingIntro = () => {
     <ChakraProvider>
       <Header></Header>
       <div className='setting-intro-title'>
-          차단설정
+          개인설정페이지
       </div>
             <Container>
             <div className='setting-detail'> 

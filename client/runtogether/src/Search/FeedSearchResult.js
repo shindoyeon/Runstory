@@ -8,33 +8,33 @@ import {
 const FeedSearchResult = ({feedResult}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    function createTable(feedResult) {
-        var table_value = new Array();
-        var html = '<table>';
-        for(var result in feedResult) {
-            table_value.push(result);
-        }
-        for(var idx in table_value) {
-            if(idx%3===0) {
-                html += '<tr>';
-                html += '<td>'+idx.filePath+'</td>';
-            }
-            if(idx%3===1) {
-                html += '<td>'+idx.filePath+'</td>';
-            }
-            if(idx%3===2) {
-                html += '<td>'+idx.filePath+'</td>';
-                html += '</tr>'
-            }
-        }
-        html += '</table>'
-        var container = document.getElementById('feed-search-result');
-        container.append(html);
-    }
+    // function createTable(feedResult) {
+    //     var table_value = new Array();
+    //     var html = '<table>';
+    //     for(var result in feedResult) {
+    //         table_value.push(result);
+    //     }
+    //     for(var idx in table_value) {
+    //         if(idx%3===0) {
+    //             html += '<tr>';
+    //             html += '<td>'+idx.filePath+'</td>';
+    //         }
+    //         if(idx%3===1) {
+    //             html += '<td>'+idx.filePath+'</td>';
+    //         }
+    //         if(idx%3===2) {
+    //             html += '<td>'+idx.filePath+'</td>';
+    //             html += '</tr>'
+    //         }
+    //     }
+    //     html += '</table>'
+    //     var container = document.getElementById('feed-search-result');
+    //     container.append(html);
+    // }
 
-    useEffect(() => {
-        createTable(feedResult);
-    }, [])
+    // useEffect(() => {
+    //     createTable(feedResult);
+    // }, [])
 
 
     return (

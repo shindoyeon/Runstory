@@ -7,7 +7,7 @@ import {
     ChakraProvider,
     Divider
   } from '@chakra-ui/react';
-  import React, {useState} from 'react';
+  import React, {useState, useEffect} from 'react';
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
   import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
   import { faComment } from "@fortawesome/free-regular-svg-icons";
@@ -17,6 +17,7 @@ import {
 
   function FeedCard(props) {
     const feed = props.feed;
+    // console.log(feed)
     // var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
     
 
@@ -34,16 +35,18 @@ import {
         });
     }
 
-    const clickLike = (feedId, e) => {
-        if(e.target.style.color==='red') {
-            e.target.style.color='grey';
-            deleteLike(feedId);
-            // 좋아요 DELETE
-        }
-        else {
-            e.target.style.color='red';
+    const clickLike = (feedId) => {
+        // e.preventDefault();
+        var color = document.getElementById(feedId).style.color;
+        if(color==='grey') {
+            document.getElementById(feedId).style.color='red';
             postLike(feedId);
             // 좋아요 POST
+        }
+        else {
+            document.getElementById(feedId).style.color='grey';
+            deleteLike(feedId);
+            // 좋아요 DELETE
         }
     }
 
@@ -107,8 +110,8 @@ import {
                     <div className='like-comment'> 
                     <Divider></Divider>
                         {feed.feedLikeId===null ?
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'grey', fontSize: '25px'}} onClick={(e)=>{clickLike(feed.feedId, e)}}/>:
-                        <FontAwesomeIcon className='like' icon={faHeart} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={(e)=>{clickLike(feed.feedLikeId, e)}}/>}
+                        <FontAwesomeIcon className='like' icon={faHeart} id={feed.feedId} style={{ color: 'grey', fontSize: '25px'}} onClick={()=>{clickLike(feed.feedId)}}/>:
+                        <FontAwesomeIcon className='like' icon={faHeart} id={feed.feedId} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={()=>{clickLike(feed.feedId)}}/>}
                         <FontAwesomeIcon className='comment' icon={faComment} style={{ fontSize: '25px'}} onClick={onOpen}/>
                     </div>
                 </div>

@@ -24,13 +24,17 @@ import {
     useDisclosure,
     PinInput,
     PinInputField,
+    Button,
+    Avatar
   } from '@chakra-ui/react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
+import BetweenBodyFooter from '../common/BetweenBodyFooter'
 import Address from './Address'
 import { useNavigate } from "react-router-dom";
 import imageCompression from 'browser-image-compression';
-
+import DaumPostcode from 'react-daum-postcode';
+import Hashtag from '../CreateFeed/HashTag'
 const EMAIL_REGEX = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -38,8 +42,10 @@ const REGISTER_URL = 'https://i8a806.p.ssafy.io/api/user/signup';
 
 // 아이디, 비밀번호, 비밀번호 확인, 이름, 성별, 나이, 닉네임, 주소, 전화 , 이미지 
 
-const Signup2 = () => {
+const Signup = (props) => {
     const { isOpen: isEmailOpen, onOpen: onEmailOpen, onClose: onEmailClose } = useDisclosure()
+    const { isOpen: isHashtagOpen, onOpen: onHashtagOpen, onClose: onHashtagClose } = useDisclosure()
+    const { isOpen: isAddressOpen, onOpen: onAddressOpen, onClose: onAddressClose } = useDisclosure()
 
     const [email, setEmail] = useState();
     const [authcode, setAuthcode] = useState();
@@ -51,7 +57,6 @@ const Signup2 = () => {
     const [authcodeInput6, setAuthcodeInput6] = useState();
     const [authcodeInput7, setAuthcodeInput7] = useState();
     const [authcodeInput8, setAuthcodeInput8] = useState();
-    const [emailAuthPass, setEmailAuthPass] = useState(false);
     const [password, setPassword] = useState();
     const [password2, setPassword2] = useState();
     const [name, setName] = useState();
@@ -63,9 +68,13 @@ const Signup2 = () => {
     const [showTooltip, setShowTooltip] = useState(false)
     const [roleType, setRoleType] = useState();
     const [regType, setRegType] = useState();
+    const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set());
+    const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set());
     const [hashtags, setHashtags] = useState();
-    const [profileImg, setProfileImg] = useState();
-    
+    const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+    const [file, setFile] = useState()
+    const fileInput = useRef(null)
+
     const handleEmailChange = ({ target: { value } }) => setEmail(value);
     const handleAuthcodeInputChange1 = ({ target: { value } }) => setAuthcodeInput1(value);
     const handleAuthcodeInputChange2 = ({ target: { value } }) => setAuthcodeInput2(value);
@@ -86,9 +95,57 @@ const Signup2 = () => {
     const handleHashtagsChange = ({ target: { value } }) => setHashtags(value);
     const handleProfileImgChange = ({ target: { value } }) => setProfileImg(value);
 
-    async function join() {
-        const data = await axios.post();
+    // 양식을 모두 채웠는지 확인하는 메소드
+    function checkNoBlank() {
+        if(email===undefined || email==="") {
+            return false;
+        }
+        if(password===undefined || password==="") {
+            return false;
+        }
+        if(name===undefined || name==="") {
+            return false;
+        }
+        if(phoneNum===undefined || phoneNum==="") {
+            return false;
+        }
+        if(address===undefined || address==="") {
+            return false;
+        }
+        if(age===undefined || age===0) {
+            return false;
+        }
+        if(hashtags===undefined) {
+            return false;
+        }
+        return true;
     }
+    const join = (event) => { // 작성 버튼 클릭 시 이벤트 함수
+        event.preventDefault();
+        
+        if(!checkNoBlank()) {
+            alert("양식을 모두 기입해주세요.");
+            return;
+        }
+        const formData = new FormData();
+        formData.append('userId', email);
+        formData.append('userPwd', password);
+        formData.append('userName', name);
+        formData.append('userNickname', nickname);
+        formData.append('emailAuth', true);
+        formData.append('phoneNum', phoneNum);
+        formData.append('gender', gender);
+        formData.append('address', address);
+        formData.append('age', age);
+        formData.append('roleType', "USER");
+        formData.append('regType', "LOCAL");
+        formData.append('hashtags', Array.from(selectedHashtagsId));
+
+        const data = axios({
+             url: 'http://localhost:8080/api/user/signup',
+              method: "POST", data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' } });
+        };
 
     // 인증 코드 이메일 전송
     async function emailAuthSend() {
@@ -98,7 +155,6 @@ const Signup2 = () => {
         }
         const data = await axios.get(`https://i8a806.p.ssafy.io/api/auth/email?userEmail=${email}`);
         setAuthcode(data.data.data.authenticationCode);
-        console.log(data.data.data.authenticationCode)
     }
 
     // 인증 번호 확인
@@ -106,12 +162,8 @@ const Signup2 = () => {
         var authcodeInput = authcodeInput1+""+authcodeInput2+""+authcodeInput3+""+authcodeInput4
         +""+authcodeInput5+""+authcodeInput6+""+authcodeInput7+""+authcodeInput8;
         if(authcode===authcodeInput) {
-            setEmailAuthPass(true);
-            var authEmail = document.getElementById('auth-email');
-            authEmail.style.border = '0px solid black';
-            authEmail.style.width = '100%';
-            authEmail.style.textAlign = 'left';
-            authEmail.innerText = email;
+            var emailInput = document.getElementById('email-input');
+            emailInput.placeholder = email;
             onEmailClose();
         }
         else {
@@ -136,6 +188,7 @@ const Signup2 = () => {
         }
     }, [email])
 
+    // 비밀번호 유효성 검사
     useEffect(() => {
         var pwValidCheck = document.getElementById('pw-valid-check');
         if(password===undefined) {
@@ -146,7 +199,7 @@ const Signup2 = () => {
             pwValidCheck.innerText = "✅사용가능한 비밀번호입니다.";
             return;
         }
-        pwValidCheck.innerText = "❌영어, 숫자, 특수문자(!@#$%)를 포함한 8~24자"
+        pwValidCheck.innerText = "❌영어, 숫자, 특수문자를 포함한 8~24자"
     }, [password])
 
     // 비밀번호랑 비밀번호 확인란 확인하기
@@ -167,6 +220,39 @@ const Signup2 = () => {
         pwcheck.innerText = "❌비밀번호 확인란을 다시 확인해주세요."
     }, [password, password2])
 
+    // 닉네임 중복 체크 axios
+    async function duplicateCheck() {
+        const data = await axios.get("https://i8a806.p.ssafy.io/api/user/nickname/"+nickname);
+        console.log(nickname)
+        console.log(data.data)
+        return data.data;
+    }
+
+    // 닉네임 유효성 체크
+    useEffect(() => {
+        var nicknameCheck = document.getElementById("nickname-check");
+        const data = duplicateCheck();
+        if(nickname === undefined) {
+            nicknameCheck.innerText = ""
+            return;
+        }
+        if(data.message === 'SUCCESS') {
+            nicknameCheck.innerText = "";
+        }
+        else {
+            nicknameCheck.innerText = "❌이미 존재하는 닉네임입니다."
+        }
+        if(USER_REGEX.test(nickname)) {
+            nicknameCheck.innerText = "";
+        }
+        else {
+            nicknameCheck.innerText = "❌아이디는 4~24자여야합니다."
+            return;
+        }
+        
+    }, [nickname])
+
+
     // 나이 표시해주기
     useEffect(() => {
         var currentAge = document.getElementById("current-age");
@@ -177,10 +263,69 @@ const Signup2 = () => {
         currentAge.innerText = age + " 세";
     }, [age])
 
+    // 해시태그 선택 모달을 열면 변수들 초기화부터
+    function openHashtagSelect() {
+        setSelectedHashtagsId(new Set())
+        setSelectedHashtagsName(new Set())
+        onHashtagOpen();
+    }
+
+    // 선택한 해시태그 placeholder에 표시해주기
+    function saveHashtag() {
+        var temp = "";
+        selectedHashtagsName.forEach((v) => temp += v + " / ");
+        temp = temp.slice(0, -3);
+        setHashtags(temp);
+        var hashtagInput = document.getElementById('hashtag-input');
+        hashtagInput.placeholder = temp;
+        onHashtagClose();
+    }
+
+    // 프로필 사진 변경
+    const imgChange = (e) => {
+        if(e.target.files[0]){
+            setFile(e.target.files[0])
+        }else{ //업로드 취소할 시
+            setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+            return;
+        }
+        //화면에 프로필 사진 표시
+        const reader = new FileReader();
+        reader.onload = () => {
+            if(reader.readyState === 2){
+                setProfileImg(reader.result)
+            }
+        }
+        reader.readAsDataURL(e.target.files[0])
+        console.log(e.target.files[0])
+    }
+    
+    const handleComplete = (data) => {
+        let fullAddress = data.address;
+        let extraAddress = "";
+        // console.log(data);
+        if (data.addressType === "R") {
+          if (data.bname !== "") {
+            extraAddress += data.bname;
+          }
+          if (data.buildingName !== "") {
+            extraAddress +=
+              extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+          }
+          fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+        }
+    
+        console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+      };
+    
+      const handleSearch = (data) => {
+        // console.log(data);
+      };
+
     return (
         <>
         <Header></Header>
-        <Modal isOpen={isEmailOpen} onClose={onEmailClose} size='sm' isCentered>
+        <Modal isOpen={isEmailOpen} onClose={onEmailClose} size='xs' isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Email 인증</ModalHeader>
@@ -195,15 +340,15 @@ const Signup2 = () => {
                         {/* <Input width="70%" size='m' variant='outline' placeholder='인증코드' ps={2} mt={5} onChange={handleAuthcodeChange} /> */}
                     </ModalBody>
                     <ModalFooter style={{margin: '0 auto', display: 'block', textAlign: 'center'}}>
-                        <PinInput manageFocus='true' type='alphanumeric' size='sm'>
-                            <PinInputField value={authcodeInput1} onChange={handleAuthcodeInputChange1} m={1}/>
-                            <PinInputField value={authcodeInput2} onChange={handleAuthcodeInputChange2} m={1}/>
-                            <PinInputField value={authcodeInput3} onChange={handleAuthcodeInputChange3} m={1}/>
-                            <PinInputField value={authcodeInput4} onChange={handleAuthcodeInputChange4} m={1}/>
-                            <PinInputField value={authcodeInput5} onChange={handleAuthcodeInputChange5} m={1}/>
-                            <PinInputField value={authcodeInput6} onChange={handleAuthcodeInputChange6} m={1}/>
-                            <PinInputField value={authcodeInput7} onChange={handleAuthcodeInputChange7} m={1}/>
-                            <PinInputField value={authcodeInput8} onChange={handleAuthcodeInputChange8} m={1}/>
+                        <PinInput type='alphanumeric' size='xs'>
+                            <PinInputField value={authcodeInput1} onChange={handleAuthcodeInputChange1} m={0.5}/>
+                            <PinInputField value={authcodeInput2} onChange={handleAuthcodeInputChange2} m={0.5}/>
+                            <PinInputField value={authcodeInput3} onChange={handleAuthcodeInputChange3} m={0.5}/>
+                            <PinInputField value={authcodeInput4} onChange={handleAuthcodeInputChange4} m={0.5}/>
+                            <PinInputField value={authcodeInput5} onChange={handleAuthcodeInputChange5} m={0.5}/>
+                            <PinInputField value={authcodeInput6} onChange={handleAuthcodeInputChange6} m={0.5}/>
+                            <PinInputField value={authcodeInput7} onChange={handleAuthcodeInputChange7} m={0.5}/>
+                            <PinInputField value={authcodeInput8} onChange={handleAuthcodeInputChange8} m={0.5}/>
                         </PinInput>
                         <br></br>
                         <p id='email-auth-check'></p>
@@ -211,34 +356,87 @@ const Signup2 = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        <form style={{width: '70%', margin: '80px auto', textAlign: 'center'}} onSubmit={join}>
-            <div style={{textAlign: 'left'}}>email</div>
-            <div style={{textAlign: 'center', border: '1px solid black', width: '35%'}} onClick={onEmailOpen} id='auth-email'>이메일 인증하기</div>
-            {/* <Input width="100%" size='m' height='30px' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='email'/> */}
-            <div style={{textAlign: 'left'}}>password</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='password' value={password} ps={2} mb={3} onChange={handlePasswordChange} />
-            <p style={{textAlign: 'left'}} id='pw-valid-check'></p>
-            <div style={{textAlign: 'left'}}>password check</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='password check' value={password2} ps={2} mb={3} onChange={handlePassword2Change} />
-            <p style={{textAlign: 'left'}} id='pwcheck'></p>
-            <div style={{textAlign: 'left'}}>name</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='name' value={name} ps={2} mb={3} onChange={handleNameChange} />
-            <div style={{textAlign: 'left'}}>nickname</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='nickname' value={nickname} ps={2} mb={3} onChange={handleNicknameChange} />
-            <div style={{textAlign: 'left'}}>phone number</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='phone number' value={phoneNum} ps={2} mb={3} onChange={handlePhoneNumChange} />
-            <div style={{textAlign: 'left'}}>gender</div>
+            <Modal isOpen={isHashtagOpen} onClose={onHashtagClose} size='xs' isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Hashtag 선택</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody style={{margin: '0 auto', width: '100%'}}>
+                        <Hashtag style={{width: '120%'}} selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></Hashtag>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='red' size='sm' mr={3} onClick={onHashtagClose}>
+                            취소
+                        </Button>
+                        <Button variant='ghost' size='sm' mr={3} onClick={saveHashtag}>완료</Button>
+                    </ModalFooter>
+                    </ModalContent>
+            </Modal>
+            <Modal isOpen={isAddressOpen} onClose={onAddressClose} size='xs' isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>주소 검색</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody style={{margin: '0 auto', width: '100%', overflow: 'scroll'}}>
+                        <div style={{overflow: 'scroll', fontSize: '12px'}}>
+                            <DaumPostcode className="postmodal" onComplete={handleComplete} onSearch={handleSearch}></DaumPostcode>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='red' size='sm' mr={3} onClick={onHashtagClose}>
+                            취소
+                        </Button>
+                        <Button variant='ghost' size='sm' mr={3} onClick={saveHashtag}>완료</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <div style={{width: '80%', margin: '0 auto', marginTop: '80px', marginBottom: '5px', fontSize: '30px', textAlign: 'center'}}>RUNSTORY</div>
+        <form style={{width: '80%', margin: '0 auto', textAlign: 'center', border: '1px solid #cccccc', borderRadius: '20px',paddingTop: '10px', paddingBottom: '10px', boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'}} onSubmit={join}>
+            <div style={{textAlign: 'center'}}>
+                <Avatar 
+                    src={profileImg}
+                    isCentered
+                    size={'xl'} 
+                    onClick={()=>{fileInput.current.click()}}/>
+                <input 
+                    type='file' 
+                    style={{display:'none'}}
+                    accept='image/jpg,impge/png,image/jpeg' 
+                    name='profile_img'
+                    onChange={imgChange}
+                    ref={fileInput}/>
+            </div>
+            <div style={{textAlign: 'center', marginBottom: '10px'}}>프로필 사진을 설정해보세요!</div>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>이메일</div>
+            {/* <div style={{marginLeft: '10%', textAlign: 'center', border: '1px solid #6A6A6A', width: '35%', color: '#6A6A6A', display: 'none'}} id='auth-email'></div> */}
+            <Input required id='email-input' border='1px solid #6A6A6A' width="80%" size='xs' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='이메일'/>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호</div>
+            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='비밀번호' value={password} ps={2} mb={3} onChange={handlePasswordChange} />
+            <p style={{marginLeft: '10%', textAlign: 'left'}} id='pw-valid-check'></p>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호 확인</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='비밀번호 재입력' value={password2} ps={2} mb={3} onChange={handlePassword2Change} />
+            <p style={{marginLeft: '10%', textAlign: 'left'}} id='pwcheck'></p>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>이름</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='이름' value={name} ps={2} mb={3} onChange={handleNameChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>닉네임</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='닉네임' value={nickname} ps={2} mb={3} onChange={handleNicknameChange} />
+            <p style={{marginLeft: '10%', textAlign: 'left'}} id='nickname-check'></p>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>전화번호</div>
+            <Input border='1px solid #6A6A6A' type='number' width='80%' size='xs' variant='outline' placeholder='전화번호' value={phoneNum} ps={2} mb={3} onChange={handlePhoneNumChange} />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>성별</div>
             <RadioGroup onChange={setGender} value={gender} mb={2}>
-                <Stack direction='row' style={{marginTop: '5px'}}>
-                    <Radio value='1' size='sm' colorScheme={"pink"}>Male</Radio>
-                    <Radio style={{marginLeft: '10px'}} value='2' size='sm' colorScheme={"pink"}>Female</Radio>
+                <Stack direction='row' style={{marginTop: '5px', marginLeft: '10%'}}>
+                    <Radio value='1' size='sm' colorScheme={"pink"}>남성</Radio>
+                    <Radio style={{marginLeft: '10px'}} value='2' size='sm' colorScheme={"pink"}>여성</Radio>
                 </Stack>
                 </RadioGroup>
-            <div style={{textAlign: 'left'}}>address</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='address' value={address} textAlign='center' mb={3} onChange={handleAddressChange} />
-            <div style={{textAlign: 'left'}}>age</div>
-            <p id='current-age'></p>
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>주소</div>
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onClick={onAddressOpen} readOnly />
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>나이</div>
+            <div style={{marginLeft: '10%', textAlign: 'left'}} id='current-age'></div>
             <Slider
+                w='80%'
+                textAlign={'left'}
                 id='slider'
                 defaultValue={0}
                 min={0}
@@ -262,16 +460,21 @@ const Signup2 = () => {
                 <SliderThumb />
                 </Tooltip>
             </Slider>
-            <div style={{textAlign: 'left'}}>hashtags</div>
-            <Input width='100%' size='m' height='30px' variant='outline' placeholder='hashtags' value={hashtags} textAlign='center' mb={3} onChange={handleHashtagsChange} />
-            <button type='submit'>회원가입하기</button>
+            {/* <div id='current-age'></div> */}
+            <div style={{marginLeft: '10%', textAlign: 'left'}}>해시태그</div>
+            <Input id='hashtag-input' border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='선택' textAlign='left' ps={2} mb={3} onClick={openHashtagSelect} readOnly/>
+            <button type='submit' style={{borderRadius: '20px', color: '#6A6A6A', backgroundColor: '#EEB6B6', padding: '0 10px', margin: '5px', fontSize: '14px'}}>회원가입</button>
+            <div style={{display:'flex', fontSize: '12px', justifyContent: 'center', marginTop: '3px'}}>
+                <div>이미 RUNSTORY 회원이신가요?</div>&nbsp;<div style={{color: '#6A6A6A'}}><a href='https://i8a806.p.ssafy.io/user/login' style={{textDecoration: 'underline'}}>로그인하러가기</a></div>
+            </div>
         </form>
+        <BetweenBodyFooter></BetweenBodyFooter>
         <Footer></Footer>
         </>
     )
 }
 
-export default Signup2;
+export default Signup;
 
 
 // import { useRef, useState, useEffect } from "react";
