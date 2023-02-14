@@ -3,9 +3,9 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import {Box, Button, Spacer, Divider, Image, useDisclosure,
 Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
-ModalBody, Card, CardBody, CardFooter, ModalFooter, Input} from '@chakra-ui/react';
+ModalBody, Card, CardBody, CardFooter, ModalFooter, Input, Avatar} from '@chakra-ui/react';
 import { HStack } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import axios from '../api/axios'
 import Hashtags from "./Hashtags";
 import BetweenBodyFooter from "../common/BetweenBodyFooter";
@@ -47,7 +47,7 @@ function RunningDetail(){
                         setIsLiked(true);
                     }
                     // setUser(response.data.data.feedComments[0].simpleUserResDto)
-                    console.log(response.data.data)
+                    // console.log(response.data.data)
                     console.log("성공");
                 })
                 .catch(function(error) {
@@ -103,14 +103,18 @@ function RunningDetail(){
 
     return (
     <div style={{marginBottom: "15%"}}>
-        {console.log(feeds)}
         <Header></Header>
         <BetweenBodyFooter></BetweenBodyFooter>
         <div style={{marginBottom: '3%'}}>
-            <div style={{width: "80%", margin: '0 auto'}}>
+            <div style={{width: "80%", margin: '0 auto', display: 'flex'}}>
+                <NavLink to={"/feed/" + feeds.userId}>
+                    <Avatar name='author-profile-img' src={profileurl} style={{border: "1px dotted #6A6A6A", marginRight: '3%'}} />
+                </NavLink>
                 {/* <img alt="" src={profileurl} width="8%" height="10%"/> */}
-                <div className="user-nickname">{feeds.regdate} 날의 피드</div>
-                <div style={{fontSize: "12px"}}>written by {feeds.userNickname}</div>
+                <div style={{display: 'block'}}>
+                    <div className="user-nickname">{feeds.regdate} 날의 피드</div>
+                    <div style={{fontSize: "12px"}}>written by {feeds.userNickname}</div>
+                </div>
             </div>
         </div>
         <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
@@ -142,7 +146,9 @@ function RunningDetail(){
                 </div>
                 :
                 <div style={{display: 'flex', height: '40px', justifyContent: 'end'}}>
-                    <div style={{lineHeight: '40px', fontSize: '14px'}}>나 외에 {feeds.feedLikeCnt}명이 이 피드를 좋아합니다.</div>
+                    {feeds.feedLikeCnt===0? <div style={{lineHeight: '40px', fontSize: '14px'}}>내가 이 피드를 좋아합니다.</div>:
+                    <div style={{lineHeight: '40px', fontSize: '14px'}}>나 외에 {feeds.feedLikeCnt}명이 이 피드를 좋아합니다.</div>}
+                    
                     <FontAwesomeIcon className='like' icon={faHeart} id={feeds.feedId} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={()=>{clickLike(feeds.feedId)}}/>
                 </div>}
             
@@ -151,7 +157,7 @@ function RunningDetail(){
         <div style={{width: '80%', marginLeft: '10%', marginTop: '3%', marginBottom: '5%', fontSize: '16px'}}>{feeds.content}</div>
        
         <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
-        <p>{console.log({isComment}.isComment)}</p>
+        {/* <p>{console.log({isComment}.isComment)}</p> */}
         <div>
         {
             {isComment}.isComment === "true" ?
