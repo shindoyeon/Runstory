@@ -5,7 +5,6 @@ import {Box, Button, Spacer} from '@chakra-ui/react';
 import { HStack } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import axios from '../api/axios'
-import BooleanRunning from "./BooleanRunning";
 import Hashtags from "./Hashtags";
 
 function RunningDetail(){
@@ -13,9 +12,9 @@ function RunningDetail(){
     const [feeds, setFeeds] = useState([]);
     const [hashtags, setHashtags] = useState([]);
     const [feedcomments, setFeedcomments] = useState([]);
-    const [user, setuser] = useState([]);
+    const [user, setUser] = useState([]);
     const [feedfiles, setFeedfiles] = useState([]);
-
+    const [isComment, setIsComment] = useState("");
     useEffect(() => {
         (async () => {
             const url = "feed/detail/" + feedId;
@@ -23,9 +22,15 @@ function RunningDetail(){
                 .then(function(response) {
                     setFeeds(response.data.data);
                     setHashtags(response.data.data.selectedHashtags)
-                    setFeedcomments(response.data.data.feedComments[0])
                     setFeedfiles(response.data.data.feedFiles[0])
-                    setuser(response.data.data.feedComments[0].simpleUserResDto)
+                    setFeedcomments(response.data.data.feedComments[0])
+                    if (response.data.data.feedComments.length === 0){
+                        setIsComment("false")
+                    }else{
+                        setIsComment("true")
+                        setUser(response.data.data.feedComments[0].simpleUserResDto)
+                    }
+                    // setUser(response.data.data.feedComments[0].simpleUserResDto)
                     console.log(response.data.data)
                     console.log("성공");
                 })
@@ -36,7 +41,7 @@ function RunningDetail(){
     }, []);
     var profileurl = "https://i8a806.p.ssafy.io/runstory/user/" + feeds.profileImgFileName;
     var feedurl = "https://i8a806.p.ssafy.io/runstory/feeds/" + feedfiles.filePath;
-    var commentsurl = "https://i8a806.p.ssafy.io/runstory/user/" + user.profileImgFileName;
+    var commenturl = "https://i8a806.p.ssafy.io/runstory/user/" + user.profileImgFileName;
 
     function GotoComment() {
         const url = `running/${feedId}/comment`;
@@ -78,13 +83,27 @@ function RunningDetail(){
         <div>
             <p style={{textDecoration: "underline"}}>댓글</p>
         </div>
+        <p>{isComment}</p>
+        <p>{console.log({isComment}.isComment)}</p>
         <div>
-            <HStack spacing='24px'>
-                <img alt = "{user.profileImgFileName}" src={commentsurl}/> 
-                <p>{user.userNickname}</p>
-                <p>{feedcomments.content}</p>
-                <button onClick={GotoComment}>버튼임.</button>
-            </HStack>
+        {
+            {isComment}.isComment === "true" ?
+                (<div>
+                    <HStack spacing='24px'>
+                        <img alt = "" src={commenturl} width="20%"/>
+                        <p>{user.userNickname}</p>
+                        <p>{feedcomments.content}</p>
+                        <p>{feedcomments.regdate}</p>
+                        <div>
+                            <div style={{width: "80%", marginLeft: '10%', marginTop: "7%" }} onClick={GotoComment}>💬 댓글 보기</div>
+                        </div>
+                    </HStack>
+                </div>)
+            : 
+            (<div>
+                <p>댓글 달아라! 좀! </p>
+            </div>)
+        }
         </div>
       <Footer></Footer>
     </div>
