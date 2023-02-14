@@ -125,8 +125,8 @@ const Profile = () => {
     })
     
     const navigateFollow = () => { // 클릭 시 팔로우리스트페이지로 이동
-        navigate("https://i8a806.p.ssafy.io/api/feed/follow");
-      };
+        navigate("/feed/follow/"+userId);
+    };
 
     // 로그아웃
     function logout() {

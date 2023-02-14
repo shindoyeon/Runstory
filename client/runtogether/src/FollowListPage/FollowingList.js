@@ -8,55 +8,39 @@ import {
   CardHeader
 } from '@chakra-ui/react';
 import "./FollowingList.css"
+import {NavLink} from "react-router-dom";
 
 // 나를 팔로우하고 있는 사람
-const FollowingList= () => {
-  const followings = [
-    {
-      author: 'tang_tang',
-      profileImg: 'https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66effd194bae87d73dd00522794070855d',
-      content: '닉네임1'
-    },
-    {
-        author: 'tang_tang',
-        profileImg: 'https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66ba2da8249bd9ffef143efb890203e009',
-        content: '닉네임2'
-    },
-    {
-        author: 'songheew',
-        profileImg: 'https://bit.ly/dan-abramov',
-        content: '닉네임3'
-    },
-    {
-        author: 'doyeon__shin',
-        profileImg: 'https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a',
-        content: '닉네임4'
-    },
-  ]
-  const [arr] = React.useState(followings)
+const FollowingList= ({followList}) => {
+  const followings = followList;
+  const basePath = "https://i8a806.p.ssafy.io/runstory/user/";
+
   return (
     <div className='followings-list'>
-      {arr.map((item, idx) => {
+      {followings.map((item, idx) => {
         return (
         <>
         <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
+                
                 <CardHeader>
+                <NavLink to={"/feed/" + item.userId} width='100%'> 
                     <Image
                         boxSize='50px'
                         objectFit='cover'
-                        src={item.profileImg}
+                        src={basePath+item.profileImgFileName}
                         alt='Dan Abramov'
                         borderRadius={100}
                     />
+                </NavLink>
                 </CardHeader>
                 <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
-                    {item.content}
+                    {item.userNickname}
                 </CardBody>
-                <CardFooter>
-                    <div className='following-remove-btn'>
-                        <p className='remove'>팔로우 해제</p>
-                    </div>
-                </CardFooter>
+                  {/* <CardFooter>
+                      <div className='following-remove-btn'>
+                          <p className='remove'>팔로잉 해제</p>
+                      </div>
+                  </CardFooter> */}
             </Card>
         </>)
             })}

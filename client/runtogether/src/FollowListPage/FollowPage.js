@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';  
 import Followers from './FollowerList';
@@ -11,9 +11,38 @@ import {
    TabPanels, 
    Tab, 
    TabPanel } from '@chakra-ui/react'
+   import axios from '../api/axios';
+   import {Link,useParams} from 'react-router-dom'
   
 // 들어가면 보이는 메인페이지  
 const FollowPage= () => {
+  const [followList, setFollowList] = useState([]);
+  const [followerList, setFollowerList] = useState([]);
+
+  const {userId} = useParams();
+  // console.log(userId);
+
+  useEffect(() => {
+
+    (async () => { // 피드 주인
+        const data = await axios.get(
+            "https://i8a806.p.ssafy.io/api/feed/follow/" + userId,
+        );
+        console.log(data.data.data);
+        const follow = data.data.data.followings;
+        // follow.map((f)=>{
+        //   console.log(f)
+        //   setFollowList(...followList, f);
+        // })
+        
+        setFollowList(data.data.data.followings);
+        setFollowerList(data.data.data.followers);
+        
+      })();
+  }, []);
+
+
+
   return (
     <ChakraProvider>
       <Header></Header>
@@ -25,10 +54,10 @@ const FollowPage= () => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <Followers/>
+          <Followers followerList={followerList}/>
         </TabPanel>
         <TabPanel>
-          <Followings/>
+          <Followings followList={followList}/>
         </TabPanel>
       </TabPanels>
       </Tabs>
