@@ -13,7 +13,7 @@ import axioswithH from '../api/axios';
 const FeedSearchResult = ({keyword}) => {
     // const { isOpen, onOpen, onClose } = useDisclosure()
     const [feedResult, setFeedResult] = useState([]);
-
+    const [arr, setArr] = useState([]);
     useEffect(() => {
         (async () => {
           // const data = null;
@@ -31,7 +31,8 @@ const FeedSearchResult = ({keyword}) => {
                     Authorization: localStorage.getItem('access-token')
                 }
             });
-            setFeedResult(data.data.data);
+            var temp = sliceFeedResult(data.data.data);
+            setFeedResult(temp);
           }
     
           if (feedResult.length === 0) {
@@ -39,73 +40,47 @@ const FeedSearchResult = ({keyword}) => {
           }
         })();
       }, [keyword]);
-    // function createTable(feedResult) {
-    //     var table_value = new Array();
-    //     var html = '<table>';
-    //     for(var result in feedResult) {
-    //         table_value.push(result);
-    //     }
-    //     for(var idx in table_value) {
-    //         if(idx%3===0) {
-    //             html += '<tr>';
-    //             html += '<td>'+idx.filePath+'</td>';
-    //         }
-    //         if(idx%3===1) {
-    //             html += '<td>'+idx.filePath+'</td>';
-    //         }
-    //         if(idx%3===2) {
-    //             html += '<td>'+idx.filePath+'</td>';
-    //             html += '</tr>'
-    //         }
-    //     }
-    //     html += '</table>'
-    //     var container = document.getElementById('feed-search-result');
-    //     container.append(html);
-    // }
 
-    // useEffect(() => {
-    //     createTable(feedResult);
-    // }, [])
-
+    // feed result 3개씩 slice
+    function sliceFeedResult(data) {
+      const tempArr = [];
+      for(let i = 0; i < data.length; i+=3) {
+        tempArr.push(data.slice(i, i+3))
+      }
+      return tempArr;
+    }
+        
+          // var row = `<tr>
+          //             <td>${data[i].이름}</td>
+          //             <td>${data[i].나이}</td>
+          //             <td>${data[i].성별}</td>
+          //            </tr>`
+          // table.innerHTML += row
+      
 
     return (
         <div className="user-search-result">
-                {feedResult.map((item, idx) => {
-                    return(<>
-                        <table>
-                            <tr>
-                              <td>
-                                {idx%3===0?
-                                  <Image 
-                                    boxSize='120px'
-                                    objectFit='cover'
-                                    src={`https://i8a806.p.ssafy.io/runstory/feed/`+item.feedFiles[0].filePath}
-                                    alt='no-img'
-                                    borderRadius={5}/>:""}
-                              </td>
-                              <td>
-                                {idx%3===1?
-                                  <Image 
-                                    boxSize='120px'
-                                    objectFit='cover'
-                                    src={`https://i8a806.p.ssafy.io/runstory/feed/`+item.feedFiles[0].filePath}
-                                    alt='no-img'
-                                    borderRadius={5}/>:""}
-                              </td>
-                              <td>
-                              {idx%3===2?
-                                  <Image 
-                                    boxSize='120px'
-                                    objectFit='cover'
-                                    src={`https://i8a806.p.ssafy.io/runstory/feed/`+item.feedFiles[0].filePath}
-                                    alt='no-img'
-                                    borderRadius={5}/>:""}
-                              </td>
-                            </tr>
-                        </table>
-                        
-                    </>)
-            })}
+          <table border="1" className="imgs-table">
+          {feedResult.map((item, idx) => {
+            return(
+              <tr>
+              {item.map((i) => {
+                return(
+                  <td>
+                    <Image
+                    boxSize='120px'
+                    objectFit='cover'
+                    overflow='none'
+                    src={`https://i8a806.p.ssafy.io/runstory/feeds/`+i.feedFiles[0].filePath}
+                    alt='x'
+                    borderRadius={5}/>
+                  </td>
+                )
+              })}
+              </tr>
+            )
+          })}
+          </table>
         </div>
         
         // <div className="feed-search-result">
@@ -165,13 +140,7 @@ const FeedSearchResult = ({keyword}) => {
         //             alt='Dan Abramov'
         //             borderRadius={5}
         //         /></td>
-        //             <td><Image
-        //             boxSize='120px'
-        //             objectFit='cover'
-        //             src='https://bit.ly/dan-abramov'
-        //             alt='Dan Abramov'
-        //             borderRadius={5}
-        //         /></td>
+                    
         //         </tr>
         //     </table>
         // </div>
