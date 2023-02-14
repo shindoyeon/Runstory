@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 import './Feed.css';
 import {
     Card, // chakra-ui의 Card로 피드 하나를 구성할 것임
@@ -16,41 +17,28 @@ import {
     CardFooter,
     useDisclosure
   } from '@chakra-ui/react';
-import axios from 'axios';
+import axios from '../api/axios';
 
 function Comment({comments, feedId}) {
     const [comment, setComment] = useState([]);
-
     const { isOpen, onOpen, onClose } = useDisclosure();
-
+    const navigate = useNavigate();
+    
     // 댓글 작성
     async function postComment() {
-        await axios.post("http://i8a806.p.ssafy.io/api/comment", {
-            feedId: feedId,
-            content: comment
-        });
+        await axios.post("/feed/comment", {id: feedId, content: comment});
+        window.location.reload();
     }
 
     // 댓글 삭제
     async function deleteComment(commentId) {
-        await axios.delete("http://i8a806.p.ssafy.io/api/comment/"+commentId, {
-            commentId: commentId
-        });
+        await axios.delete("/feed/comment/"+commentId);
+        window.location.reload();
     }
-
-    // 댓글 수정
-    // async function putComment(commentId) {
-    //     await axios.post(""+, {
-    //         commentId: commentId,
-    //         content: comment
-    //     });
-    // }
-
 
     const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
   
     const handleSubmit = (e) => { // 작성 버튼 클릭 시 이벤트 함수
-        alert(`피드번호: ${feedId}, 작성된 내용: ${comment}`); // 데이터 잘 들어왔는지 확인용!!!
         postComment(comment);
     };
     return (
