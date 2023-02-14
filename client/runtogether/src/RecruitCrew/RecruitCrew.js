@@ -7,7 +7,6 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BetweenBodyFooter from '../common/BetweenBodyFooter';
 import RecruitCrewPageMsg from './RecruitCrewPageMsg';
-import ImgUpload from './ImgUpload';
 import ArticleForm from './ArticleForm';
 
 function RecruitCrew() {
@@ -16,7 +15,6 @@ function RecruitCrew() {
       <div>
         <Header></Header>
         <RecruitCrewPageMsg></RecruitCrewPageMsg>
-        <ImgUpload></ImgUpload>
         <ArticleForm></ArticleForm>
         <BetweenBodyFooter></BetweenBodyFooter>
         <Footer></Footer>
