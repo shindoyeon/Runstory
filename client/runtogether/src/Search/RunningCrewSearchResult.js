@@ -10,9 +10,9 @@ import {
 import axioswithH from '../api/axios';
 
 
-const FeedSearchResult = ({keyword}) => {
+const RunningCrewSearchResult = ({keyword}) => {
     // const { isOpen, onOpen, onClose } = useDisclosure()
-    const [feedResult, setFeedResult] = useState([]);
+    const [runningCrewResult, setRunningCrewResult] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -25,16 +25,16 @@ const FeedSearchResult = ({keyword}) => {
                 url: '/search',
                 method: "POST",
                 data: {
-                    type: 1, keyword: keyword, lastId: 1000
+                    type: 2, keyword: keyword, lastId: 1000
                 },
                 header: {
                     Authorization: localStorage.getItem('access-token')
                 }
             });
-            setFeedResult(data.data.data);
+            setRunningCrewResult(data.data.data);
           }
     
-          if (feedResult.length === 0) {
+          if (runningCrewResult.length === 0) {
             return;
           }
         })();
@@ -70,54 +70,49 @@ const FeedSearchResult = ({keyword}) => {
 
     return (
         <div className="user-search-result">
-                {feedResult.map((item, idx) => {
-                    return(<>
-                        <table>
-                            <tr>
-                              <td>
-                                {idx%3===0?
-                                  <Image 
-                                    boxSize='120px'
-                                    objectFit='cover'
-                                    src={`https://i8a806.p.ssafy.io/runstory/feed/`+item.feedFiles[0].filePath}
-                                    alt='no-img'
-                                    borderRadius={5}/>:""}
-                              </td>
-                              <td>
-                                {idx%3===1?
-                                  <Image 
-                                    boxSize='120px'
-                                    objectFit='cover'
-                                    src={`https://i8a806.p.ssafy.io/runstory/feed/`+item.feedFiles[0].filePath}
-                                    alt='no-img'
-                                    borderRadius={5}/>:""}
-                              </td>
-                              <td>
-                              {idx%3===2?
-                                  <Image 
-                                    boxSize='120px'
-                                    objectFit='cover'
-                                    src={`https://i8a806.p.ssafy.io/runstory/feed/`+item.feedFiles[0].filePath}
-                                    alt='no-img'
-                                    borderRadius={5}/>:""}
-                              </td>
-                            </tr>
-                        </table>
-                        
-                    </>)
+                {runningCrewResult.map((item) => {
+                    return(
+                        <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
+                        <CardHeader>
+                            {console.log(item)}
+                            {item.profileImgFileName===null?
+                            <Image
+                            boxSize='50px'
+                            objectFit='cover'
+                            object-position='top'
+                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                            alt='no image'
+                            borderRadius='50%'
+                            />
+                            :
+                            <Image
+                                boxSize='50px'
+                                objectFit='cover'
+                                object-position='top'
+
+                                src={`https://i8a806.p.ssafy.io/runstory/user/`+item.profileImgFileName}
+                                alt='no image'
+                                borderRadius='50%'
+                            />}
+                            
+                            
+                        </CardHeader>
+                        <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
+                            {item.userNickname}
+                        </CardBody>
+                    </Card>)
             })}
         </div>
-        
         // <div className="feed-search-result">
         //     <table border="1" className='imgs-table'>
         //         <tr>
         //             <td>
-                        // <Image
-                            // boxSize='120px'
-                            // objectFit='cover'
-                            // src='https://bit.ly/dan-abramov'
-                            // alt='Dan Abramov'
-                            // borderRadius={5}
+        //                 <Image
+        //                     boxSize='120px'
+        //                     objectFit='cover'
+        //                     src='https://bit.ly/dan-abramov'
+        //                     alt='Dan Abramov'
+        //                     borderRadius={5}
         //             /></td>
         //             <td><Image
         //             boxSize='120px'
@@ -178,4 +173,4 @@ const FeedSearchResult = ({keyword}) => {
     );
 }
 
-export default FeedSearchResult;
+export default RunningCrewSearchResult;
