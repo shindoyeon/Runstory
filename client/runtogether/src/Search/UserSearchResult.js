@@ -14,32 +14,36 @@ const UserSearchResult = ({keyword}) => {
     const [isMore, setIsMore] = useState(true);
     const [arr, setArr] = useState([]);
     var startIdx = 0;
-
+    useEffect(() => {
+      (async () => {
+        // const data = null;
+        if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
+          alert("로그인이 필요한 페이지입니다.")
+        }
+      })();
+    }, []);
+    
     useEffect(() => {
         (async () => {
           // const data = null;
-          if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
-            alert("로그인이 필요한 페이지입니다.")
-          }
-          else { //회원 조회 시
-            const data = await axioswithH({
-                url: '/search',
-                method: "POST",
-                data: {
-                    type: 0, keyword: keyword, lastId: 1000
-                },
-                header: {
-                    Authorization: localStorage.getItem('access-token')
-                }
-            });
-            setUserResult(data.data.data);
-            setArr(Array.from(userResult.slice(startIdx, startIdx + 5)));
-          }
+          const data = await axioswithH({
+            url: '/search',
+            method: "POST",
+            data: {
+              type: 0, keyword: keyword, lastId: 1000
+            },
+            header: {
+              Authorization: localStorage.getItem('access-token')
+            }
+        });
+        setUserResult(data.data.data);
+        setArr(Array.from(userResult.slice(startIdx, startIdx + 5)));
+          
     
-          if (userResult.length === 0) {
-            setIsMore(false);
-            return;
-          }
+        if (userResult.length === 0) {
+          setIsMore(false);
+          return;
+        }
         })();
       }, [userResult.length, keyword]);
 
