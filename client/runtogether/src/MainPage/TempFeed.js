@@ -34,7 +34,6 @@ export default function TempFeed() {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setState((prev) => ({
@@ -78,6 +77,8 @@ export default function TempFeed() {
             `https://i8a806.p.ssafy.io/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
+          console.log(state.center);
+          console.log(data[0].data.data);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
         setrunningCrew(data[1].data.data);
@@ -97,7 +98,7 @@ export default function TempFeed() {
           )
           ]);
           console.log(state.center);
-          console.log(data[1].data.data);
+          console.log(data[0].data.data);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
         setrunningCrew(data[1].data.data);
