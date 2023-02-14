@@ -21,10 +21,10 @@ import BetweenBodyFooter from '../common/BetweenBodyFooter';
 import './Feed.css'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'; 
-import { useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import {Link} from 'react-router-dom'
+import {Link,useParams} from 'react-router-dom'
+// import {  } from 'react-router-dom';
 
 
 // 개인피드페이지 -> 사용자 본인이면 햄버거 / 타인의 피드페이지면 햄버거x 팔로우, 차단버튼
@@ -33,8 +33,7 @@ import {Link} from 'react-router-dom'
 const Profile = () => {
     const accessToken = localStorage.getItem("access-token");
 
-    const location = useLocation();
-    const userId = location.state.userId;
+    const {userId} = useParams();
 
     const {isOpen, onOpen, onClose} = useDisclosure();
 

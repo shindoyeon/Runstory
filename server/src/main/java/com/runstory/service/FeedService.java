@@ -233,7 +233,10 @@ public class FeedService {
      * @return
      */
     public List<SimpleFeedResDto> searchByHashtag(String keyword, Long lastFeedId, int size){
-        Long hashtagId = hashtagRepository.findHashtagByHashtagName(keyword).getHashtagId();
+        Hashtag hashtag = hashtagRepository.findHashtagByHashtagName(keyword);
+        if(hashtag == null)
+            return null;
+        Long hashtagId = hashtag.getHashtagId();
         PageRequest pageRequest = PageRequest.of(0, size);
         //해시태그에 맞는 피드 아이디 리스트를 가져온다.
         List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findByHashtag_HashtagIdAndFeedNotNull(hashtagId);

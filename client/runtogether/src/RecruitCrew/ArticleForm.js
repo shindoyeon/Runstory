@@ -180,7 +180,7 @@ const ArticleForm = () => {
         method: "post", data: formData,
         headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${accessToken}` } });
 
-        // navigate("/running-crew-list");
+        navigate("/running-crew-list");
     }
 
     return (
