@@ -7,17 +7,18 @@ import java.util.List;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class RunningCrewReqDto {
     private Long id;
     private String crewName;
     private String runningContent;
     private String startLocation;
     private String endLocation;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private String startTime;
+    private String endTime;
     private float startLongitude;
     private float startLatitude;
     private float endLongitude;
@@ -36,5 +37,5 @@ public class RunningCrewReqDto {
     // SelectedHashTag에 들어가기 위한 dto
     private List<Long> hastag;
 
-
+    MultipartFile runningImg;
 }
