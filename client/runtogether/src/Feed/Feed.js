@@ -19,7 +19,8 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BetweenBodyFooter from '../common/BetweenBodyFooter';
 import './Feed.css'
-import axios from 'axios';
+import axios from '../api/axios';
+
 import {useNavigate} from 'react-router-dom'; 
 import { useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,8 +39,8 @@ const Profile = () => {
 
     const {isOpen, onOpen, onClose} = useDisclosure();
 
-    const [following, setFollowing] = useState(0);
     const [follower, setFollower] = useState(0);
+    const [following, setFollowing] = useState(0);
     const [followingStatus, setFollowingStatus] = useState(false);
     const [followId , setFollowId] = useState(null);    
     const [isMypage, setIsMypage] = useState(false);
@@ -88,11 +89,7 @@ const Profile = () => {
     useEffect(() => {
         (async () => {
             const data = await axios.get(
-                "https://i8a806.p.ssafy.io/api/user",{
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                    }
-                }
+                "/user"
             );
             if(data.data.data.userSeq === userId){
                 setIsMypage(true);
@@ -129,7 +126,7 @@ const Profile = () => {
     })
     
     const navigateFollow = () => { // 클릭 시 팔로우리스트페이지로 이동
-        navigate("/feed/follow");
+        navigate("https://i8a806.p.ssafy.io/api/feed/follow");
       };
 
     // 로그아웃
@@ -189,11 +186,11 @@ const Profile = () => {
                         { !isMypage && followingStatus && <div className='unfollow-btn' onClick={follow}>언팔로우</div> }
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
-                        <button onClick={{navigateFollow}} style={{display: 'block'}}>
+                        <button onClick={navigateFollow} style={{display: 'block'}}>
                             <div className="follower">{follower}</div>
                             <div className="follower">팔로워</div>
                         </button>
-                        <div onClick={{navigateFollow}} style={{display: 'block'}}>
+                        <div onClick={navigateFollow} style={{display: 'block'}}>
                             <div className="following">{following}</div>
                             <div className="following">팔로잉</div>
                         </div>

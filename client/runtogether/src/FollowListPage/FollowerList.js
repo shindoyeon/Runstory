@@ -8,7 +8,9 @@ import {
 } from '@chakra-ui/react';
 import "./FollowerList.css"
 
-// 나를 팔로우하고 있는 사람의 리스트
+// 나를 팔로우하고 있는 사람의 리스트 
+// UserFollower, UserFollwing의 모임
+
 const FollowerList= () => {
   const followers = [
     {
@@ -23,7 +25,7 @@ const FollowerList= () => {
     },
     {
         author: 'songheew',
-        profileImg: 'https://bit.ly/dan-abramov',
+        profileImg: 'https://bit.ly/da5n-abramov',
         content: '닉네임3'
     },
     {
