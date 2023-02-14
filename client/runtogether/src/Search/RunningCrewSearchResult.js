@@ -64,7 +64,7 @@ const RunningCrewSearchResult = ({keyword}) => {
                     boxSize='120px'
                     objectFit='cover'
                     overflow='none'
-                    src={`https://i8a806.p.ssafy.io/runstory/feeds/`+i.feedFiles[0].filePath}
+                    src={`https://i8a806.p.ssafy.io/runstory/running/`+i.imgFileName}
                     alt='x'
                     borderRadius={5}/>
                   </td>

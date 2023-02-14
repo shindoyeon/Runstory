@@ -82,68 +82,6 @@ const FeedSearchResult = ({keyword}) => {
           })}
           </table>
         </div>
-        
-        // <div className="feed-search-result">
-        //     <table border="1" className='imgs-table'>
-        //         <tr>
-        //             <td>
-                        // <Image
-                            // boxSize='120px'
-                            // objectFit='cover'
-                            // src='https://bit.ly/dan-abramov'
-                            // alt='Dan Abramov'
-                            // borderRadius={5}
-        //             /></td>
-        //             <td><Image
-        //             boxSize='120px'
-        //             objectFit='cover'
-        //             src='https://bit.ly/dan-abramov'
-        //             alt='Dan Abramov'
-        //             borderRadius={5}
-        //         /></td>
-        //         <td><Image
-        //             boxSize='120px'
-        //             objectFit='cover'
-        //             src='https://bit.ly/dan-abramov'
-        //             alt='Dan Abramov'
-        //             borderRadius={5}
-        //         /></td>
-        //         </tr>
-        //         <tr>
-        //             <td><Image
-        //             boxSize='120px'
-        //             objectFit='cover'
-        //             src='https://bit.ly/dan-abramov'
-        //             alt='Dan Abramov'
-        //             borderRadius={5}
-        //         /></td>
-        //             <td><Image
-        //             boxSize='120px'
-        //             objectFit='cover'
-        //             src='https://bit.ly/dan-abramov'
-        //             alt='Dan Abramov'
-        //             borderRadius={5}
-        //         /></td>
-        //         <td><Image
-        //             boxSize='120px'
-        //             objectFit='cover'
-        //             src='https://bit.ly/dan-abramov'
-        //             alt='Dan Abramov'
-        //             borderRadius={5}
-        //         /></td>
-        //         </tr>
-        //         <tr>
-        //             <td><Image
-        //             boxSize='120px'
-        //             objectFit='cover'
-        //             src='https://bit.ly/dan-abramov'
-        //             alt='Dan Abramov'
-        //             borderRadius={5}
-        //         /></td>
-                    
-        //         </tr>
-        //     </table>
-        // </div>
     );
 }
 
