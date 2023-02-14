@@ -14,7 +14,7 @@ import {
   import './Feed.css';
   import Comment from './Comment';
   import axios from '../api/axios';
-  import { Link } from 'react-router-dom';
+  import { NavLink, Link } from 'react-router-dom';
 
   function FeedCard(props) {
     const feed = props.feed;
@@ -95,6 +95,7 @@ import {
                     {feed.feedFiles.map((item2, idx) => {
                         var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
                         return(
+                            <NavLink to={"/feed/detail/" + feed.feedId}>
                             <Image
                                 border='1px solid #CBD9E7'
                                 margin='0 auto'
@@ -104,6 +105,7 @@ import {
                                 src={fileSrc}
                                 alt=""
                             />
+                            </NavLink>
                         )
                     })}
                             {/* 내용 */}
