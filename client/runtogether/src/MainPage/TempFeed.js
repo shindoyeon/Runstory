@@ -137,7 +137,9 @@ export default function TempFeed() {
           <div className='slide'>
             <div className='imgs'>
               {
-                <SliderImg runningCrew={runningCrew.slice(0, 4)}></SliderImg>
+                <SliderImg runningCrew={runningCrew.slice(0, 4)}>
+                  {console.log("MAIN: " + runningCrew.slice(0, 4))}
+                </SliderImg>
               }
             </div>
             <div className='imgs'>
@@ -172,7 +174,7 @@ export default function TempFeed() {
           </div>
         </Slider>}
       </div>
-
+      
       <div className='entire-feed'>
         {feeds.length===0?<div style={{ textAlign: "center", fontWeight: "light" }}>
               <div>

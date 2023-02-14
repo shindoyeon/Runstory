@@ -1,61 +1,136 @@
 import React, {useState, useEffect} from 'react';
-
+import Slider from 'react-slick'
+import "./Swiper.css";
+import SliderTitle from "../MainPage/SliderTitle"
+import SliderImg from "./SliderImg"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./Swiper.css";
 import axios from 'axios';
-import SliderImg from "./SliderImg"
+import axiosH from "../api/axios"
 
 const Swiper = () => { 
-  const [info, setInfo] = useState([]);
-  const [infoTitle, setInfoTitle] = useState([]);
-  const [isLogined, setIsLogined] = useState();
-  
-  // 러닝 메인 조회
+  const [info, setInfo] = useState([])
+  const [state, setState] = useState({
+    center: {
+      lat: 33.450701,
+      lng: 126.570667,
+    },
+    errMsg: null,
+    isLoading: true,
+  });
+
   useEffect(() => {
-    if(localStorage.getItem('access-token') === null) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            },
+            isLoading: false,
+          }))
+        },
+        (err) => {
+          setState((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }))
+        }
+      )
+    } else {
+      setState((prev) => ({
+        ...prev,
+        errMsg: "geolocation을 사용할수 없어요..",
+        isLoading: false,
+      }))
+    }
+    if (localStorage.getItem("access-token") === null) {  // 비회원 조회 시
       return;
     }
-    else {
-    (async () => {
-      const data = await axios.get("https://i8a806.p.ssafy.io/api/running", {
-        headers: {
-          Authorization: localStorage.getItem('access-token')
-        },
-        params: {
-          "latitude" : 37.5034, // 검색 키워드
-          "longitude": 127.05,
-        }
-    })
+    else { // 회원 조회 시
+      (async () => {
+        const data = await axiosH({
+          url: `https://i8a806.p.ssafy.io/api/running?latitude=${state.center.lat}&longitude=${state.center.lng}`,
+          method: "GET",
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("access-token")}`
+          }
+        })
+        setInfo(data.data.data)
+        // setSlicedInfo(sliceData(Object.values(data.data.data[0])))
+      })()
+    }
+  }, [state.isLoading]);
+
+  function sliceData(data) {
+    const tempArr = [];
+    for(let i = 0; i < data.length; i+=4) {
+      tempArr.push(data.slice(i, i+4))
+    }
+    return tempArr;
+  }
+
+  // Slide Setting
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 200,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    vertical : false,
+  };
 
 
 
-
-  //     const data = await axios.get(
-  //   "http://i8a806.p.ssafy.io/api/running",
-  //   {latitude: 36, longitude: 127}
-  // );
-      setInfo(data.data.data);
-      setInfoTitle(Object.keys(data.data.data))
-    })()};
-  }, []);
-
-    return (
-      <div className='swiper-slide'>
-      {infoTitle.map((item, idx) => {
-          return (
-            <>
-              {/* 해시태그 제목 출력 */}
-              <div className='filter-box'>
-                  <div className='filter'># {item}</div>
+  return (
+    <>
+    {
+      info.map((item) => {
+        return(
+        <>
+        {(Object.keys(item).map((k) => {
+          return(
+            <div className='filter-box'>
+                  <div className='filter'># {k}</div>
               </div>
-              {/* 해당 해시태그 이미지들 출력 */}
-              <SliderImg hashtag={item} info={info}></SliderImg>
-            </>
-            );
-         })}
+          )
+          }))
+        }
+        
+        <>
+        {(Object.values(item)).map((runningCrew, idx) => {
+          return(
+      <div className='swiper-slide'>
+        {runningCrew===null?null:<Slider {...settings}>
+          {sliceData(runningCrew).map((s) => {
+            return(
+          <div className='slide'>
+            <div className='imgs'>
+              {
+                <SliderImg runningCrew={s}></SliderImg>
+              }
+            </div>
+            <div className='imgs'>
+              {
+                <SliderTitle runningCrew={s}></SliderTitle>
+              }
+            </div>
+          </div>
+          )})}
+        </Slider>}
       </div>
-    );
+          )
+  })}
+  </>
+        </>
+        )
+      })
+    }  
+    </>
+  )
 }
 
 export default Swiper;
