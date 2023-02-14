@@ -93,7 +93,7 @@ const Profile = () => {
                     }
                 }
             );
-            if(data.data.data.userSeq === userId){
+            if(data.data.data.userSeq == userId){
                 setIsMypage(true);
             }   
         })();
@@ -196,7 +196,7 @@ const Profile = () => {
                 </div>
             </Box>
             <Divider></Divider>
-            <ProfileFeed></ProfileFeed>
+            <ProfileFeed userId={userId}></ProfileFeed>
             <Footer></Footer>
         </div >
     )

@@ -71,7 +71,7 @@ const FeedSearchResult = ({keyword}) => {
                   <NavLink to={"/running/detail/" + item.feedId}> 
                   <td>
                     <Image
-                    boxSize='120px'
+                    boxSize='100px'
                     objectFit='cover'
                     overflow='none'
                     src={`https://i8a806.p.ssafy.io/runstory/feeds/`+i.feedFiles[0].filePath}
