@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {NavLink} from "react-router-dom";
 import {
     Image, Card, CardBody, CardHeader, Spinner
   } from '@chakra-ui/react';
@@ -8,27 +9,28 @@ import axioswithH from '../api/axios';
 const UserSearchResult = ({keyword}) => {
     // console.log(userResult)
     const [userResult, setUserResult] = useState([]);
+    useEffect(() => {
+      (async () => {
+        if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
+          alert("로그인이 필요한 페이지입니다.")
+        }
+      })();
+    }, [keyword]);
 
     useEffect(() => {
         (async () => {
-          // const data = null;
-          if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
-            alert("로그인이 필요한 페이지입니다.")
-          }
-          else { //회원 조회 시
-            const data = await axioswithH({
-                url: '/search',
-                method: "POST",
-                data: {
-                    type: 0, keyword: keyword, lastId: 1000
-                },
-                header: {
-                    Authorization: localStorage.getItem('access-token')
-                }
-            });
-            setUserResult(data.data.data);
-          }
-    
+          
+          const data = await axioswithH({
+            url: '/search',
+            method: "POST",
+            data: {
+              type: 0, keyword: keyword, lastId: 1000
+            },
+            header: {
+              Authorization: localStorage.getItem('access-token')
+            }
+        });
+        setUserResult(data.data.data);
         })();
       }, [keyword]);
 
@@ -50,10 +52,13 @@ const UserSearchResult = ({keyword}) => {
         <div className="user-search-result">
           {userResult.length===0?<p id='no-result' style={{display: 'none'}}>검색 결과가 없습니다</p>:""}
                 {userResult.map((item) => {
+                  // console.log("유저 아이디 : "+item.userId)
                     return(
                       <>
+                        <NavLink to={"/feed/" + item.userId}>
                         <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
                         <CardHeader>
+
                             {item.profileImgFileName===null?
                             <Image
                               boxSize='50px'
@@ -74,12 +79,12 @@ const UserSearchResult = ({keyword}) => {
                                 borderRadius='50%'
                             />}
                             
-                            
                         </CardHeader>
                         <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
                             {item.userNickname}
                         </CardBody>
                     </Card>
+                    </NavLink>
                   </>
                 )
             })}
