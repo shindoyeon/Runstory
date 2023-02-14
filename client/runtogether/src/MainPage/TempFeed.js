@@ -21,21 +21,61 @@ export default function TempFeed() {
   const [runningCrew, setrunningCrew] = useState([]);
   const [isMore, setIsMore] = useState(true);
   const [arr, setArr] = useState([]);
+  const [state, setState] = useState({
+    center: {
+      lat: 33.450701,
+      lng: 126.570667,
+    },
+    errMsg: null,
+    isLoading: true,
+  })
+
   var startIdx = 0;
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            },
+            isLoading: false,
+          }))
+        },
+        (err) => {
+          setState((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }))
+        }
+      )
+    } else {
+      // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+      setState((prev) => ({
+        ...prev,
+        errMsg: "geolocation을 사용할수 없어요..",
+        isLoading: false,
+      }))
+    }
+  }, [])
 
   useEffect(() => {
     const size = 1000;
     const lastfeedid = Number.MAX_SAFE_INTEGER + 1;
-    
     (async () => {
       // const data = null;
       if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
         const data = await axios.all(
           [axios.get(
-            `https://i8a806.p.ssafy.io/api/main/feed?lastfeedid=${lastfeedid}&size=${size}`,
+            `https://i8a806.p.ssafy.io/api/main/feed?lastfeedid=${lastfeedid}&size=${size}`
           ),
           axios.get(
-            "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/main/running-hashtag"
+            `https://i8a806.p.ssafy.io/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
         setFeeds(data[0].data.data);
@@ -53,9 +93,11 @@ export default function TempFeed() {
           }
           ),
           axios.get(
-            "https://03836d92-057f-45bb-a900-061584777196.mock.pstmn.io/main/running-hashtag"
+            `https://i8a806.p.ssafy.io/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
+          console.log(state.center);
+          console.log(data[1].data.data);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
         setrunningCrew(data[1].data.data);
@@ -98,7 +140,7 @@ export default function TempFeed() {
   return (
     <>
       <div className='swiper-slide'>
-        <Slider {...settings}>
+        {runningCrew===null?null:<Slider {...settings}>
           <div className='slide'>
             <div className='imgs'>
               {
@@ -135,7 +177,7 @@ export default function TempFeed() {
               }
             </div>
           </div>
-        </Slider>
+        </Slider>}
       </div>
 
       <div className='entire-feed'>
