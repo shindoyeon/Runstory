@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './FeedSearchResult.css';
+import {NavLink} from "react-router-dom";
 import {
     Image,
     useDisclosure,
@@ -59,6 +60,7 @@ const RunningCrewSearchResult = ({keyword}) => {
               <tr>
               {item.map((i) => {
                 return(
+                  <NavLink to={"/running/detail/" + item.runningId}>
                   <td>
                     <Image
                     boxSize='120px'
@@ -68,6 +70,7 @@ const RunningCrewSearchResult = ({keyword}) => {
                     alt='x'
                     borderRadius={5}/>
                   </td>
+                  </NavLink>
                 )
               })}
               </tr>

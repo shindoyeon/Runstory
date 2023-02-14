@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {NavLink} from "react-router-dom";
 import {
     Image, Card, CardBody, CardHeader, Spinner
   } from '@chakra-ui/react';
@@ -51,10 +52,13 @@ const UserSearchResult = ({keyword}) => {
         <div className="user-search-result">
           {userResult.length===0?<p id='no-result' style={{display: 'none'}}>검색 결과가 없습니다</p>:""}
                 {userResult.map((item) => {
+                  // console.log("유저 아이디 : "+item.userId)
                     return(
                       <>
+                        <NavLink to={"/feed/" + item.userId}>
                         <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
                         <CardHeader>
+
                             {item.profileImgFileName===null?
                             <Image
                               boxSize='50px'
@@ -75,12 +79,12 @@ const UserSearchResult = ({keyword}) => {
                                 borderRadius='50%'
                             />}
                             
-                            
                         </CardHeader>
                         <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
                             {item.userNickname}
                         </CardBody>
                     </Card>
+                    </NavLink>
                   </>
                 )
             })}

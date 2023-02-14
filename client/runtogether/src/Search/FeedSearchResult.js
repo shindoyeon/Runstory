@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './FeedSearchResult.css';
+import {NavLink} from "react-router-dom";
 import {
     Image,
     useDisclosure,
@@ -65,7 +66,9 @@ const FeedSearchResult = ({keyword}) => {
             return(
               <tr>
               {item.map((i) => {
+                //피드 상세 주소로 다시 맞춰줘야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 return(
+                  <NavLink to={"/running/detail/" + item.feedId}> 
                   <td>
                     <Image
                     boxSize='120px'
@@ -75,13 +78,16 @@ const FeedSearchResult = ({keyword}) => {
                     alt='x'
                     borderRadius={5}/>
                   </td>
+                  </NavLink>
                 )
               })}
+              
               </tr>
             )
           })}
           </table>
         </div>
+        
     );
 }
 

@@ -70,7 +70,7 @@ const Footer = () => {
                     </ButtonGroup>
                 </Collapse>
                 {isLogined?
-                <Link to='/feed' state={{userId: userId}}> 
+                <Link to={"/feed/"+userId}> 
                   <div className='my-page'>
                   <FontAwesomeIcon icon={faUser} /></div>
                 </Link>
