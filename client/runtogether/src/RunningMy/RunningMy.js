@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import {Box, Button, Spacer} from '@chakra-ui/react';
-import { HStack } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import {HStack, Box, Button, Spacer, Heading, Stack, StackDivider, Text, Image, Divider, ButtonGroup} from '@chakra-ui/react';
 import axios from '../api/axios'
+import RunningCard from './RunningCard';
+import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 
 function RunningDetail(){
-    const {feedId} = useParams();
     const [mycrews, setMycrews] = useState([]);
     const [joincrews, setJoincrews] = useState([]);
     const [dibscrews, setDibscrews] = useState([]);
@@ -17,15 +16,15 @@ function RunningDetail(){
             const url = "running/mycrew/reservation";
             const data = await axios.get(url)
                 .then(function(response) {
-                    setMycrews(response.data.data[0])
-                    setJoincrews(response.data.data[1])
-                    setDibscrews(response.data.data[2])
-                    setPastcrews(response.data.data[3])
+                    setMycrews(response.data.data[0].mycrew)
+                    setJoincrews(response.data.data[1].joincrew)
+                    setDibscrews(response.data.data[2].dibscrew)
+                    setPastcrews(response.data.data[3].pastcrew)
                     console.log(response.data.data)
                     console.log("성공");
                 })
                 .catch(function(error) {
-                    console.log("실패");
+                    console.log("실패")
                 })
         })();
     }, []);
@@ -43,16 +42,43 @@ function RunningDetail(){
     //             console.log("실패");
     //         })
     // }
-
+    
     return (
-    <div style={{marginBottom: "15%"}}>
+        <div style={{marginBottom: "15%"}}>
         <Header></Header>
-        <div>
-            {/* {
+        <div style={{marginTop: "20%"}}>
+            <p style={{textDecoration:"underline"}}>내가 만든 크루</p>
+            <div>
+            {
                 mycrews.map(function(mycrew){
-                    <div>{mycrew.crewName}</div>
+                    return RunningCard(mycrew)
                 })
-            } */}
+            }
+            </div>
+            <div>
+            <p style={{textDecoration:"underline"}}>내가 가입한 크루</p>
+            {
+                joincrews.map(function(joincrew) {
+                    return RunningCard(joincrew)
+                })
+            }
+            </div>
+            <div>
+            <p style={{textDecoration:"underline"}}>내가 찜한 크루</p>
+            {
+                dibscrews.map(function(dibcrew) {
+                    return RunningCard(dibcrew)
+                })
+            }
+            </div>
+            <div>
+            <p style={{textDecoration:"underline"}}>내가 뛴 크루</p>
+            {
+                pastcrews.map(function(pastcrew) {
+                    return RunningCard(pastcrew)
+                })
+            }
+            </div>
         </div>
       <Footer></Footer>
     </div>

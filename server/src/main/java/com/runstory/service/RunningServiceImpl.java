@@ -314,7 +314,7 @@ public class RunningServiceImpl implements RunningService {
                     }
                     break;
 
-                case "dibcrew":
+                case "dibscrew":
                     List<RunningDibs> runningDibs = runningDibsRepository.findAllByUser(user);
                     for (RunningDibs runningDib : runningDibs){
                         runnings.add(runningDib.getRunning());
