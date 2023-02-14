@@ -10,10 +10,10 @@ import {
 import axioswithH from '../api/axios';
 
 
-const FeedSearchResult = ({keyword}) => {
+const RunningCrewSearchResult = ({keyword}) => {
     // const { isOpen, onOpen, onClose } = useDisclosure()
-    const [feedResult, setFeedResult] = useState([]);
-    const [arr, setArr] = useState([]);
+    const [runningCrewResult, setRunningCrewResult] = useState([]);
+
     useEffect(() => {
         (async () => {
           // const data = null;
@@ -25,43 +25,36 @@ const FeedSearchResult = ({keyword}) => {
                 url: '/search',
                 method: "POST",
                 data: {
-                    type: 1, keyword: keyword, lastId: 1000
+                    type: 2, keyword: keyword, lastId: 1000
                 },
                 header: {
                     Authorization: localStorage.getItem('access-token')
                 }
             });
-            var temp = sliceFeedResult(data.data.data);
-            setFeedResult(temp);
+            var temp = sliceRunningCrewResult(data.data.data);
+            setRunningCrewResult(temp);
           }
     
-          if (feedResult.length === 0) {
+          if (runningCrewResult.length === 0) {
             return;
           }
         })();
       }, [keyword]);
-
-    // feed result 3개씩 slice
-    function sliceFeedResult(data) {
+      
+      // running crew result 3개씩 slice
+    function sliceRunningCrewResult(data) {
       const tempArr = [];
       for(let i = 0; i < data.length; i+=3) {
         tempArr.push(data.slice(i, i+3))
       }
       return tempArr;
     }
-        
-          // var row = `<tr>
-          //             <td>${data[i].이름}</td>
-          //             <td>${data[i].나이}</td>
-          //             <td>${data[i].성별}</td>
-          //            </tr>`
-          // table.innerHTML += row
-      
+
 
     return (
         <div className="user-search-result">
           <table border="1" className="imgs-table">
-          {feedResult.map((item, idx) => {
+          {runningCrewResult.map((item, idx) => {
             return(
               <tr>
               {item.map((i) => {
@@ -71,7 +64,7 @@ const FeedSearchResult = ({keyword}) => {
                     boxSize='120px'
                     objectFit='cover'
                     overflow='none'
-                    src={`https://i8a806.p.ssafy.io/runstory/feeds/`+i.feedFiles[0].filePath}
+                    src={`https://i8a806.p.ssafy.io/runstory/running/`+i.imgFileName}
                     alt='x'
                     borderRadius={5}/>
                   </td>
@@ -85,4 +78,4 @@ const FeedSearchResult = ({keyword}) => {
     );
 }
 
-export default FeedSearchResult;
+export default RunningCrewSearchResult;
