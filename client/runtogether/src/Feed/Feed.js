@@ -50,7 +50,7 @@ const Profile = () => {
     // useEffect(() => {
        
     // })
-
+    
     useEffect(() => {
         if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
             navigate("/user/login");
@@ -93,7 +93,7 @@ const Profile = () => {
                     }
                 }
             );
-            if(data.data.data.userSeq === userId){
+            if(data.data.data.userSeq == userId){
                 setIsMypage(true);
             }   
         })();
