@@ -22,10 +22,10 @@ import './Feed.css'
 import axios from '../api/axios';
 
 import {useNavigate} from 'react-router-dom'; 
-import { useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import {Link} from 'react-router-dom'
+import {Link,useParams} from 'react-router-dom'
+// import {  } from 'react-router-dom';
 
 
 // 개인피드페이지 -> 사용자 본인이면 햄버거 / 타인의 피드페이지면 햄버거x 팔로우, 차단버튼
@@ -34,8 +34,7 @@ import {Link} from 'react-router-dom'
 const Profile = () => {
     const accessToken = localStorage.getItem("access-token");
 
-    const location = useLocation();
-    const userId = location.state.userId;
+    const {userId} = useParams();
 
     const {isOpen, onOpen, onClose} = useDisclosure();
 
@@ -91,7 +90,7 @@ const Profile = () => {
             const data = await axios.get(
                 "/user"
             );
-            if(data.data.data.userSeq === userId){
+            if(data.data.data.userSeq == userId){
                 setIsMypage(true);
             }   
         })();
@@ -198,7 +197,7 @@ const Profile = () => {
                 </div>
             </Box>
             <Divider></Divider>
-            <ProfileFeed></ProfileFeed>
+            <ProfileFeed userId={userId}></ProfileFeed>
             <Footer></Footer>
         </div >
     )

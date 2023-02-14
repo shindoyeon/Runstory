@@ -59,7 +59,7 @@ const ArticleForm = () => {
           method: "post", data: formData,
           headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${accessToken}` } });
 
-      return data;
+    navigate("/");
     }
 
     // const handleButtonClick = e => {

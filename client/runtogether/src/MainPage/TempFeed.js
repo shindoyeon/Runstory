@@ -34,7 +34,6 @@ export default function TempFeed() {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setState((prev) => ({
@@ -68,7 +67,6 @@ export default function TempFeed() {
     const size = 1000;
     const lastfeedid = Number.MAX_SAFE_INTEGER + 1;
     (async () => {
-      // const data = null;
       if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
         const data = await axios.all(
           [axios.get(
@@ -78,6 +76,7 @@ export default function TempFeed() {
             `https://i8a806.p.ssafy.io/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
+          console.log(state.center);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
         setrunningCrew(data[1].data.data);
@@ -97,15 +96,9 @@ export default function TempFeed() {
           )
           ]);
           console.log(state.center);
-          console.log(data[1].data.data);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
         setrunningCrew(data[1].data.data);
-      }
-
-      if (feeds.length === 0) {
-        setIsMore(false);
-        return;
       }
     })();
   }, [feeds.length]);
@@ -181,6 +174,12 @@ export default function TempFeed() {
       </div>
 
       <div className='entire-feed'>
+        {feeds.length===0?<div style={{ textAlign: "center", fontWeight: "light" }}>
+              <div>
+                모든 피드를 확인했습니다
+              </div>
+              <FontAwesomeIcon className='refresh' icon={faArrowRotateRight} onClick={refreshToHome}></FontAwesomeIcon>
+            </div>:
         <InfiniteScroll
           dataLength={arr.length}
           next={loadMore}
@@ -195,7 +194,6 @@ export default function TempFeed() {
             </div>
           }
         >
-
           {arr.map((feed, idx) => {
             return (
               <div height="50vh" margin='0 auto' marginTop='5%' key={idx}>
@@ -204,6 +202,7 @@ export default function TempFeed() {
             )
           })}
         </InfiniteScroll>
+        }
       </div>
     </>
   );
