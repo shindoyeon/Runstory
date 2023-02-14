@@ -46,7 +46,7 @@ function App() {
                     <Route path='/running-crew-list' element={<RunningCrewList />} />
                     <Route path='/create-running-crew' element={<RecruitCrew />} />
                     <Route path='/search' element={<Search />} />
-                    <Route path='/feed' element={<Feed />} />
+                    <Route path='/feed/:userId' element={<Feed />} />
                     <Route path='/feed/follow' element={<FollowPage />} />
                     <Route path='/setting-intro' element={<SettingIntro />} />
                     <Route path='/setting-alarm' element={<AlarmSetting />} />
