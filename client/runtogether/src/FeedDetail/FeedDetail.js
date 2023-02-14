@@ -22,10 +22,10 @@ function RunningDetail(){
                 .then(function(response) {
                     setFeeds(response.data.data);
                     setHashtags(response.data.data.selectedHashtags)
-                    setFeedcomments(response.data.data.feedComments)
-                    setFeedfiles(response.data.data.feedFiles)
-                    console.log(response);
+                    setFeedcomments(response.data.data.feedComments[0])
+                    setFeedfiles(response.data.data.feedFiles[0])
                     console.log(response.data.data)
+                    console.log(response.data.data.feedFiles[0].filePath)
                     console.log("성공");
                 })
                 .catch(function(error) {
@@ -33,16 +33,46 @@ function RunningDetail(){
                 })
         })();
     }, []);
-    // var url = "https://i8a806.p.ssafy.io/runstory/running/" + runnings.imgFileName;
-    // var reservation = `https://i8a806.p.ssafy.io/api/running/${runningId}/reservations`;
+    var profileurl = "https://i8a806.p.ssafy.io/runstory/user/" + feeds.profileImgFileName;
+    var feedurl = "https://i8a806.p.ssafy.io/runstory/feeds/" + feedfiles.filePath;
     // var dibsurl = `https://i8a806.p.ssafy.io/api/running/${runningId}/dibs`;
 
     return (
     <div style={{marginBottom: "15%"}}>
-      <Header></Header>
-      <div>
-        {feeds.userNickname}
-      </div>
+        <Header></Header>
+        <div style={{marginTop:"15%", borderBottom:"5%"}}>
+            <HStack spacing='24px'>
+                <img alt="" src={profileurl} width="8%" height="10%"/>
+                <p>{feeds.userNickname}</p>
+                <p>{feeds.regdate}</p>
+            </HStack>
+        </div>
+        <div>
+            <img alt = {feedfiles.filePath} src = {feedurl} />
+        </div>
+        <div style={{marginTop:"5%"}}>
+                <HStack spacing='24px'>
+                    { hashtags.map(function(r){
+                        console.log(r.hashtag.hashtagName)
+                        return (<div style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}>{r.hashtag.hashtagName}</div>)
+                    })}
+                </HStack>
+        </div>
+        <div>
+            {feeds.feedLikeCnt}명이 좋아합니다.
+        </div>
+        <div>
+            {feeds.content}
+        </div>
+        <div>
+            <p style={{textDecoration: "underline"}}>댓글</p>
+        </div>
+        <div>
+            <HStack spacing='24px'>
+                <p>{feedcomments.userId}</p>
+               <p>{feedcomments.content}</p>
+            </HStack>
+        </div>
         {/* <div style={{marginTop:"15%", marginLeft:"6%", marginRight:"6%"}}>
             <div>
             <p>러닝 크루 상세</p>
