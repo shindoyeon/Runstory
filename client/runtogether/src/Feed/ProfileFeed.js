@@ -42,7 +42,7 @@ const ProfileFeed = (props) => {
 
   return (
     // <ChakraProvider>
-    <div className='wrapper' style={{maxHeight: '60vh', overflow: 'scroll'}}>
+    <div className='wrapper' style={{maxHeight: '60vh', overflow: 'scroll' ,float: 'right'}}>
       <table border="1" className='imgs-table'>
       {feedResult.map((item, idx) => {
             return(
