@@ -50,7 +50,7 @@ const Profile = () => {
     // useEffect(() => {
        
     // })
-    
+
     useEffect(() => {
         if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
             navigate("/user/login");
@@ -196,7 +196,7 @@ const Profile = () => {
                 </div>
             </Box>
             <Divider></Divider>
-            <ProfileFeed></ProfileFeed>
+            <ProfileFeed userId={userId}></ProfileFeed>
             <Footer></Footer>
         </div >
     )
