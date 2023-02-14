@@ -4,16 +4,10 @@ import {
   } from '@chakra-ui/react';
 import './UserSearchResult.css';
 import axioswithH from '../api/axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
-import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 const UserSearchResult = ({keyword}) => {
     // console.log(userResult)
     const [userResult, setUserResult] = useState([]);
-    const [isMore, setIsMore] = useState(true);
-    const [arr, setArr] = useState([]);
-    var startIdx = 0;
 
     useEffect(() => {
         (async () => {
@@ -33,15 +27,10 @@ const UserSearchResult = ({keyword}) => {
                 }
             });
             setUserResult(data.data.data);
-            setArr(Array.from(userResult.slice(startIdx, startIdx + 5)));
           }
     
-          if (userResult.length === 0) {
-            setIsMore(false);
-            return;
-          }
         })();
-      }, [userResult.length, keyword]);
+      }, [keyword]);
 
     // async function getUserSearchResult(keyword) {
     //     const data = await axioswithH({
@@ -57,40 +46,22 @@ const UserSearchResult = ({keyword}) => {
     //     return data.data.data;
     // }
 
-    // 무한 스크롤을 하기 위함
-    function loadMore() {
-        startIdx = arr.length;
-        var endIdx = startIdx + 5;
-        if (arr.length === userResult.length || userResult.length === 0) {
-            setIsMore(false);
-            return;
-        }
-        setTimeout(() => {
-        setArr(arr.concat(Array.from(userResult.slice(startIdx, endIdx))));
-        }, 1500);
-    };
-
     return (
         <div className="user-search-result">
-        <InfiniteScroll
-          dataLength={arr.length}
-          next={loadMore}
-          hasMore={isMore}
-          loader={<p style={{ textAlign: "center" }}><Spinner textAlign={'center'} /></p>}
-        >
-                {arr.map((item) => {
+          {userResult.length===0?<p id='no-result' style={{display: 'none'}}>검색 결과가 없습니다</p>:""}
+                {userResult.map((item) => {
                     return(
+                      <>
                         <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
                         <CardHeader>
-                            {console.log(item)}
                             {item.profileImgFileName===null?
                             <Image
-                            boxSize='50px'
-                            objectFit='cover'
-                            object-position='top'
-                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                            alt='no image'
-                            borderRadius='50%'
+                              boxSize='50px'
+                              objectFit='cover'
+                              object-position='top'
+                              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                              alt='no image'
+                              borderRadius='50%'
                             />
                             :
                             <Image
@@ -108,9 +79,10 @@ const UserSearchResult = ({keyword}) => {
                         <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
                             {item.userNickname}
                         </CardBody>
-                    </Card>)
+                    </Card>
+                  </>
+                )
             })}
-            </InfiniteScroll>
         </div>
     );
 }

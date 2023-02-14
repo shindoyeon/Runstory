@@ -32,15 +32,13 @@ public class MainController {
     @ApiOperation(value = "상단바 러닝 모임 조회", notes = "")
     public BaseResponse<?> getRunningCrewByToday (@RequestParam float latitude, @RequestParam float longitude){
         List <RunningMainResDto> result = new ArrayList<>();
-        List<RunningMainResDto> runnings1 = runningService.findByToday();
-        RunningMainResDto today = (runnings1.size()==0)?null:runnings1.get(0);
-        System.out.println("크루네임: "+today.getCrewName());
-        result.add(today);
-        List<RunningMainResDto> runnings2 = runningService.findByLocation(latitude, longitude);
-        RunningMainResDto location = (runnings2.size()==0)?null:runnings2.get(0);
-        System.out.println("크루네임: "+location.getCrewName());
-        result.add(location);
-        return BaseResponse.success(null);
+        List<RunningMainResDto> today = runningService.findByToday();
+        if(today!=null) result.addAll(today);
+
+        List<RunningMainResDto> location = runningService.findByLocation(latitude, longitude);
+        if(location!=null)  result.addAll(location);
+        System.out.println("결과값: "+result.size());
+        return BaseResponse.success(result);
     }
 
     @GetMapping("/user-feed")

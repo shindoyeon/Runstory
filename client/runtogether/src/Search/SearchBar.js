@@ -19,6 +19,7 @@ import axioswithH from '../api/axios';
 // import SearchResult from "./SearchResult";
 import UserSearchResult from './UserSearchResult';
 import FeedSearchResult from './FeedSearchResult';
+import RunningCrewSearchResult from './RunningCrewSearchResult';
 
 const SearchBar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -131,7 +132,7 @@ const SearchBar = () => {
                         <FeedSearchResult keyword={searchKeyword}></FeedSearchResult>
                     </TabPanel>
                     <TabPanel>
-                        <FeedSearchResult keyword={searchKeyword}></FeedSearchResult>
+                        <RunningCrewSearchResult keyword={searchKeyword}></RunningCrewSearchResult>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
