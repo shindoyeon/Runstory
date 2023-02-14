@@ -63,7 +63,7 @@ const RunningCrewSearchResult = ({keyword}) => {
                   <NavLink to={"/running/detail/" + item.runningId}>
                   <td>
                     <Image
-                    boxSize='120px'
+                    boxSize='100px'
                     objectFit='cover'
                     overflow='none'
                     src={`https://i8a806.p.ssafy.io/runstory/running/`+i.imgFileName}
