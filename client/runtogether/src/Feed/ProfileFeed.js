@@ -50,8 +50,8 @@ const ProfileFeed = (props) => {
               {item.map((i) => {
                 //피드 상세 주소로 다시 맞춰줘야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 return(
-                  <NavLink to={"/feed/detail/" + i.feedId}> 
                   <td>
+                    <NavLink to={"/feed/detail/" + i.feedId}> 
                     <Image
                     boxSize='100px'
                     objectFit='cover'
@@ -59,8 +59,8 @@ const ProfileFeed = (props) => {
                     src={`https://i8a806.p.ssafy.io/runstory/feeds/`+i.feedFiles[0].filePath}
                     alt='x'
                     borderRadius={5}/>
+                    </NavLink>
                   </td>
-                  </NavLink>
                 )
               })}
               
