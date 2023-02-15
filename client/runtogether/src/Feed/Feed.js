@@ -61,7 +61,14 @@ const Profile = () => {
         (async () => { // 피드 주인
             const data = await axios.get(
                 "https://i8a806.p.ssafy.io/api/feed/profile/" + userId,
-            );
+            ).catch(function(error) {
+                console.log("실패");
+                console.log(error);
+                navigate("/");
+            });
+
+            console.log("피드 주인 : "+data.status)
+
             setFeedMaster(data.data.data)
             setLevel(data.data.data.level);
             setNickname(data.data.data.userNickName);
