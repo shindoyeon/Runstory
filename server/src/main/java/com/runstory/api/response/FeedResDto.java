@@ -44,7 +44,7 @@ public class FeedResDto {
         this.updatedate = feed.getUpdatedate();
         this.feedFiles = feed.getFeedFiles().stream().map(f-> new FeedFileDto(f)).collect(Collectors.toList());
         this.feedLikeId = feedLike==null?null:feedLike.getFeedLikeId();
-        this.feedLikeCnt = feed.getFeedLikes().size();
+        this.feedLikeCnt = (feed.getFeedLikes()==null?0:feed.getFeedLikes().size());
         this.feedComments = feed.getFeedComments().stream().map(c -> new FeedCommentDto(c)).collect(Collectors.toList());
         this.selectedHashtags = feed.getSelectedHashtags().stream().map(h -> new SelectedHashtagDto(h)).collect(Collectors.toList());
     }
