@@ -46,7 +46,7 @@ const ChattingRoom = ({yourSeq, yourNickname, yourProfileImg}) => {
       // setMyNickname(data.data.data.userNickname);
 
       console.log("yourNickname : "+yourNickname+" yourSeq : "+yourSeq)
-
+      
       const room = await axios.get(
         `https://i8a806.p.ssafy.io/api/chatroom/createroom/${yourSeq}`, {
         // `http://localhost:8080/chatroom/createroom/${yourSeq}`, {
@@ -168,7 +168,7 @@ const ChattingRoom = ({yourSeq, yourNickname, yourProfileImg}) => {
                     {chatMessages && chatMessages.length > 0 && (
                         <>
                             {chatMessages.map((_chatMessage, index) => (
-                                _chatMessage.userSeq==mySeq?<MsgByMe msg={_chatMessage.message} sender={_chatMessage.sender} src={myProfileImg}></MsgByMe>
+                                _chatMessage.userSeq==mySeq?<MsgByMe msg={_chatMessage.message} sender={"나"} src={myProfileImg}></MsgByMe>
                             :
                             <MsgByOther msg={_chatMessage.message} sender={_chatMessage.sender} src={yourProfileImg}></MsgByOther>
                                 

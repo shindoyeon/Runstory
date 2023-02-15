@@ -1,5 +1,6 @@
 package com.runstory.api.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.runstory.api.response.BaseResponse;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.chat.ChatRoom;
@@ -53,6 +54,10 @@ public class ChatRoomController {
         // 이미 만든 채팅방이 있는지 확인
         User my = userRepository.findByUserSeq(myId);
         User user = userRepository.findByUserSeq(userId);
+
+        if(user == null){
+            return BaseResponse.fail();
+        }
 
         HashSet<Long> set = new HashSet<>();
         List<ChatRoomUser> myChattingList = chatRoomUserRepository.findByUser(my);
