@@ -1,5 +1,6 @@
 package com.runstory.api.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.runstory.api.response.BaseResponse;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.chat.ChatRoom;
@@ -49,7 +50,9 @@ public class ChatRoomController {
     public BaseResponse<?> createRoom(@ApiIgnore Authentication authentication, @PathVariable Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Long myId = userDetails.getUserSeq();
-
+        if(userId == null){
+            return BaseResponse.fail();
+        }
         // 이미 만든 채팅방이 있는지 확인
         User my = userRepository.findByUserSeq(myId);
         User user = userRepository.findByUserSeq(userId);
