@@ -50,12 +50,14 @@ public class ChatRoomController {
     public BaseResponse<?> createRoom(@ApiIgnore Authentication authentication, @PathVariable Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Long myId = userDetails.getUserSeq();
-        if(userId == null){
-            return BaseResponse.fail();
-        }
+
         // 이미 만든 채팅방이 있는지 확인
         User my = userRepository.findByUserSeq(myId);
         User user = userRepository.findByUserSeq(userId);
+
+        if(user == null){
+            return BaseResponse.fail();
+        }
 
         HashSet<Long> set = new HashSet<>();
         List<ChatRoomUser> myChattingList = chatRoomUserRepository.findByUser(my);
