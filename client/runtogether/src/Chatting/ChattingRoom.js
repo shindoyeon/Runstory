@@ -62,8 +62,8 @@ const ChattingRoom = ({yourSeq, yourNickname, yourProfileImg}) => {
   
     const connect = () => {
       client.current = new StompJs.Client({
-        // brokerURL: "wss://i8a806.p.ssafy.io/api/ws-stomp", // 웹소켓 서버로 직접 접속
-        brokerURL: "ws://localhost:8080/ws-stomp", // 웹소켓 서버로 직접 접속
+        brokerURL: "wss://i8a806.p.ssafy.io/api/ws-stomp", // 웹소켓 서버로 직접 접속
+        // brokerURL: "ws://localhost:8080/ws-stomp", // 웹소켓 서버로 직접 접속
         connectHeaders: {
           "Authorization": localStorage.getItem("access-token")
         },
