@@ -50,7 +50,7 @@ public class RunningController {
         runningMainResDtos.add(hashMap);
         System.out.println(runningMainResDtos.size());
         HashMap<String, List<RunningMainResDto>> nowHash = new HashMap<>();
-        hashMap.put("now", runningservice.findByToday());
+        nowHash.put("now", runningservice.findByToday());
         runningMainResDtos.add(nowHash);
         return BaseResponse.success(runningMainResDtos);
     }

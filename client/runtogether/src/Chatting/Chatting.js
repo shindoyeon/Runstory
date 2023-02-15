@@ -3,15 +3,15 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import ChattingRoomList from './ChattingRoomList';
 import ChattingPageMsg from './ChattingPageMsg';
-import ChattingRoom from './ChattingRoom';
+// import ChattingRoom from './ChattingRoom';
 
 function Chatting() {
     return (
           <div>
             <Header></Header>
             <ChattingPageMsg></ChattingPageMsg>
-            {/* <ChattingRoomList></ChattingRoomList> */}
-            <ChattingRoom></ChattingRoom>
+            <ChattingRoomList></ChattingRoomList>
+            {/* <ChattingRoom></ChattingRoom> */}
             <Footer></Footer>
           </div>
       );

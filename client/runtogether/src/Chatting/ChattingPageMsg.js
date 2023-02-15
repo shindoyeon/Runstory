@@ -10,9 +10,9 @@ const ChattingPageMsg = () => {
             <div className='header-left'>
                 <p className='chatting-title'>채팅</p>
             </div>
-            <div className='header-right'>
+            {/* <div className='header-right'>
                 <Link to='/create-running-crew'><div className='post-btn'>채팅방 생성 <FontAwesomeIcon icon={faArrowAltCircleRight} /></div></Link>
-            </div>
+            </div> */}
         </div>
     );
 }
