@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './ChattingPageMsg.css';
 import {Card, CardHeader, Image} from '@chakra-ui/react';
 
-const MsgByOther = ({msg, sender}) => {
+const MsgByOther = ({msg, sender, src}) => {
     return (
         <Card  width='100%' mt='10px' display='flex' variant='filled' backgroundColor="#FFF0F5" border="2px solid #FFE4E1">
             <CardHeader>
@@ -13,7 +13,7 @@ const MsgByOther = ({msg, sender}) => {
                     <Image
                         boxSize='30px'
                         objectFit='cover'
-                        src='https://image.ajunews.com/content/image/2022/09/08/20220908144348563350.png'
+                        src={src}
                         alt='no image'
                         borderRadius={100}
                     />

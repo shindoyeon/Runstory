@@ -11,7 +11,7 @@ import MsgByOther from './MsgByOther'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'; 
 
-const ChattingRoom = ({yourSeq, yourNickname}) => {
+const ChattingRoom = ({yourSeq, yourNickname, yourProfileImg}) => {
     const client = useRef({});
     const [chatMessages, setChatMessages] = useState([]);
     const [message, setMessage] = useState("");
@@ -19,7 +19,8 @@ const ChattingRoom = ({yourSeq, yourNickname}) => {
 
     // 내정보
     const [mySeq, setMySeq] = useState(1);
-    const [myNickname, setMyNickname] = useState("닉네임");
+    const [myNickname, setMyNickname] = useState("나");
+    const [myProfileImg, setMyProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
 
     // 상대방 정보
     // const [yourSeq, setYourSeq] = useState(0);
@@ -42,7 +43,7 @@ const ChattingRoom = ({yourSeq, yourNickname}) => {
       )
       console.log(data.data.data);
       setMySeq(data.data.data.userSeq);
-      setMyNickname(data.data.data.userNickname);
+      // setMyNickname(data.data.data.userNickname);
 
       console.log("yourNickname : "+yourNickname+" yourSeq : "+yourSeq)
 
@@ -62,7 +63,7 @@ const ChattingRoom = ({yourSeq, yourNickname}) => {
     const connect = () => {
       client.current = new StompJs.Client({
         brokerURL: "wss://i8a806.p.ssafy.io/api/ws-stomp", // 웹소켓 서버로 직접 접속
-        // brokerURL: "ws://localhost:8080/api/ws-stomp", // 웹소켓 서버로 직접 접속
+        // brokerURL: "ws://localhost:8080/ws-stomp", // 웹소켓 서버로 직접 접속
         connectHeaders: {
           "Authorization": localStorage.getItem("access-token")
         },
@@ -167,9 +168,9 @@ const ChattingRoom = ({yourSeq, yourNickname}) => {
                     {chatMessages && chatMessages.length > 0 && (
                         <>
                             {chatMessages.map((_chatMessage, index) => (
-                                _chatMessage.userSeq==mySeq?<MsgByMe msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByMe>
+                                _chatMessage.userSeq==mySeq?<MsgByMe msg={_chatMessage.message} sender={_chatMessage.sender} src={myProfileImg}></MsgByMe>
                             :
-                            <MsgByOther msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByOther>
+                            <MsgByOther msg={_chatMessage.message} sender={_chatMessage.sender} src={yourProfileImg}></MsgByOther>
                                 
                             ))}
                         </>
