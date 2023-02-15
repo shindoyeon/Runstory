@@ -24,6 +24,11 @@ public class UserBlockService {
         List<UserBlockDto> result = blockUsers.stream().map(b->new UserBlockDto(b)).collect(Collectors.toList());
         return result;
     }
+
+    public UserBlock findUserBlock(Long myUserId, Long yourUserId){
+        UserBlock userBlock = userBlockRepository.findByUserUserSeqAndBlockedUserSeq(myUserId, yourUserId);
+        return userBlock;
+    }
     @Transactional
     public UserBlock saveUserBlock(Long myUserId, Long blockUserId){
         User user = userRepository.findByUserSeq(myUserId);

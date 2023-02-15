@@ -34,15 +34,25 @@ const ProfileFeed = (props) => {
     // feed result 3개씩 slice
     function sliceFeedResult(data) {
       const tempArr = [];
+      
       for(let i = 0; i < data.length; i+=3) {
         tempArr.push(data.slice(i, i+3))
       }
-      return tempArr;
+    console.log(tempArr[0])
+    if(tempArr[0].length===1) {
+      tempArr[0].push({feedId: -1, feedFiles: [{filePath: ""}]})
+      tempArr[0].push({feedId: -1, feedFiles: [{filePath: ""}]})
+    }
+    else if(tempArr[0].length===2) {
+      tempArr[0].push({feedId: -1, feedFiles: [{filePath: ""}]})
+    }
+    console.log(tempArr)
+    return tempArr;
     }
 
   return (
     // <ChakraProvider>
-    <div className='wrapper' style={{maxHeight: '60vh', overflow: 'scroll' ,float: 'right'}}>
+    <div className='wrapper' style={{maxHeight: '60vh', overflow: 'scroll', marginTop: '3%'}}>
       <table border="1" className='imgs-table'>
       {feedResult.map((item, idx) => {
             return(
@@ -51,6 +61,11 @@ const ProfileFeed = (props) => {
                 //피드 상세 주소로 다시 맞춰줘야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 return(
                   <td>
+                    {i.feedId===-1?
+                    <div style={{width: '100px', height: '100px'}}>
+                    </div>
+                    
+                    :
                     <NavLink to={"/feed/detail/" + i.feedId}> 
                     <Image
                     boxSize='100px'
@@ -58,8 +73,11 @@ const ProfileFeed = (props) => {
                     overflow='none'
                     src={`https://i8a806.p.ssafy.io/runstory/feeds/`+i.feedFiles[0].filePath}
                     alt='x'
-                    borderRadius={5}/>
+                    borderRadius={5}
+                    style={{border: '0.5px solid #8a8a8a'}}/>
                     </NavLink>
+                    }
+                    
                   </td>
                 )
               })}

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface UserBlockRepository extends JpaRepository<UserBlock, Long> {
     List<UserBlock> findByUserUserSeq(Long userId);
+    UserBlock findByUserUserSeqAndBlockedUserSeq(Long myUserId, Long yourUserId);
 }
