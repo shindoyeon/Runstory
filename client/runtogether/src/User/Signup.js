@@ -140,7 +140,7 @@ const Signup = (props) => {
         formData.append('roleType', "USER");
         formData.append('regType', "LOCAL");
         formData.append('hashtags', Array.from(selectedHashtagsId));
-
+        formData.append('profileImg', file);
         const data = axios({
              url: 'https://i8a806.p.ssafy.io/api/user/signup',
               method: "POST", data: formData,
@@ -219,38 +219,6 @@ const Signup = (props) => {
         }
         pwcheck.innerText = "❌비밀번호 확인란을 다시 확인해주세요."
     }, [password, password2])
-
-    // 닉네임 중복 체크 axios
-    // async function duplicateCheck(nickname) {
-    //     const data = await axios.get("https://i8a806.p.ssafy.io/api/user/nickname/"+nickname);
-    //     return data;
-    // }
-
-    // 닉네임 유효성 체크
-    // useEffect(() => {
-    //     const data = duplicateCheck(nickname);
-    //     var nicknameCheck = document.getElementById("nickname-check");
-    //     if(nickname === undefined) {
-    //         nicknameCheck.innerText = ""
-    //         return;
-    //     }
-    //     console.log(data)
-    //     if(data.message === 'SUCCESS') {
-    //         nicknameCheck.innerText = "";
-    //     }
-    //     else {
-    //         nicknameCheck.innerText = "❌이미 존재하는 닉네임입니다."
-    //     }
-    //     if(USER_REGEX.test(nickname)) {
-    //         nicknameCheck.innerText = "";
-    //     }
-    //     else {
-    //         nicknameCheck.innerText = "❌아이디는 4~24자여야합니다."
-    //         return;
-    //     }
-        
-    // }, [nickname])
-
 
     // 나이 표시해주기
     useEffect(() => {
@@ -412,10 +380,10 @@ const Signup = (props) => {
             {/* <div style={{marginLeft: '10%', textAlign: 'center', border: '1px solid #6A6A6A', width: '35%', color: '#6A6A6A', display: 'none'}} id='auth-email'></div> */}
             <Input required id='email-input' border='1px solid #6A6A6A' width="80%" size='xs' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='이메일'/>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호</div>
-            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='비밀번호' value={password} ps={2} mb={3} onChange={handlePasswordChange} />
+            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='비밀번호' value={password} type='password' ps={2} mb={3} onChange={handlePasswordChange} />
             <p style={{marginLeft: '10%', textAlign: 'left'}} id='pw-valid-check'></p>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호 확인</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='비밀번호 재입력' value={password2} ps={2} mb={3} onChange={handlePassword2Change} />
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='비밀번호 재입력' value={password2} type='password' ps={2} mb={3} onChange={handlePassword2Change} />
             <p style={{marginLeft: '10%', textAlign: 'left'}} id='pwcheck'></p>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>이름</div>
             <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='이름' value={name} ps={2} mb={3} onChange={handleNameChange} />
