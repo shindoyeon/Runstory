@@ -27,13 +27,13 @@ function SliderImg({runningCrew}) {
           })
         
         setRunningCrewInfo(data.data.data)
+        console.log(data.data.data)
     }
 
     function openModal(e) {
         getModalInfo(e.target.id)
         onOpen();
     }
-
 
     return (
         <>
@@ -52,9 +52,11 @@ function SliderImg({runningCrew}) {
                         <Button colorScheme='red' mr={3} onClick={onClose}>
                             닫기
                         </Button>
-                        <Button>
-                            자세히 보러가기
-                        </Button>
+                        <NavLink className='aNav' to={"/running/detail/" + runningCrewInfo.id}>
+                            <Button>
+                                자세히 보러가기
+                            </Button>
+                        </NavLink>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

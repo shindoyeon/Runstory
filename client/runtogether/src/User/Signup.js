@@ -142,7 +142,7 @@ const Signup = (props) => {
         formData.append('hashtags', Array.from(selectedHashtagsId));
 
         const data = axios({
-             url: 'http://localhost:8080/api/user/signup',
+             url: 'https://i8a806.p.ssafy.io/api/user/signup',
               method: "POST", data: formData,
             headers: { 'Content-Type': 'multipart/form-data' } });
         };
@@ -296,7 +296,6 @@ const Signup = (props) => {
             }
         }
         reader.readAsDataURL(e.target.files[0])
-        console.log(e.target.files[0])
     }
     
     const handleComplete = (data) => {
@@ -314,8 +313,11 @@ const Signup = (props) => {
           fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
         }
     
-        console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-      };
+        setAddress(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+        var addressInput = document.getElementById('address-input');
+        addressInput.placeholder = fullAddress;
+        onAddressClose();
+    };
     
       const handleSearch = (data) => {
         // console.log(data);
@@ -430,7 +432,7 @@ const Signup = (props) => {
                 </Stack>
                 </RadioGroup>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>주소</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onClick={onAddressOpen} readOnly />
+            <Input border='1px solid #6A6A6A' id="address-input" width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onClick={onAddressOpen} readOnly />
             <div style={{marginLeft: '10%', textAlign: 'left'}}>나이</div>
             <div style={{marginLeft: '10%', textAlign: 'left'}} id='current-age'></div>
             <Slider
