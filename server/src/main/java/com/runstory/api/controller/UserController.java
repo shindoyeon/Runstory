@@ -63,7 +63,7 @@ public class UserController {
 			return ResponseEntity.ok(BaseResponse.fail());
 		}
 		// 프로필 사진 변경
-//		userService.changeUserImage(true,user.getUserId(),registerInfo.getProfileImg());
+		userService.changeUserImage(true,user.getUserId(),registerInfo.getProfileImg());
 		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
