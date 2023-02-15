@@ -239,7 +239,7 @@ public class FeedController {
 
     @DeleteMapping("/comment/recomment/{recommentid}")
     @ApiOperation(value = "피드 대댓글 삭제")
-    public BaseResponse<?> deleteFeedReComment(@ApiIgnore Authentication authentication,@PathVariable("recommentid") Long recommentId){
+    public BaseResponse<?> deleteFeedReComment(@ApiIgnore Authentication authentication, @PathVariable("recommentid") Long recommentId){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = feedService.deleteFeedReComment(recommentId, userSeq);
         if (id == null){
@@ -251,7 +251,7 @@ public class FeedController {
 
     @GetMapping("/comment/{feedid}")
     @ApiOperation(value = "피드 댓글 상세조회")
-    public BaseResponse<?> getFeedDetail(@PathVariable("feedid") Long feedId){
+    public BaseResponse<?> getFeedCommentDetail(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId){
         List<FeedCommentDto> result = feedService.getFeedDetail(feedId);
         return BaseResponse.success(result);
     }

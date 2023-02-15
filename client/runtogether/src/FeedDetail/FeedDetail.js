@@ -1,11 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import {Box, Button, Spacer} from '@chakra-ui/react';
+import {Box, Button, Spacer, Divider, Image, useDisclosure,
+Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
+ModalBody, Card, CardBody, CardFooter, ModalFooter, Input, Avatar} from '@chakra-ui/react';
 import { HStack } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import axios from '../api/axios'
 import Hashtags from "./Hashtags";
+import BetweenBodyFooter from "../common/BetweenBodyFooter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
+import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import axiosH from '../api/axios'
 
 function RunningDetail(){
     const {feedId} = useParams();
@@ -15,6 +21,10 @@ function RunningDetail(){
     const [user, setUser] = useState([]);
     const [feedfiles, setFeedfiles] = useState([]);
     const [isComment, setIsComment] = useState("");
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    const [comment, setComment] = useState("");
+    const [isLiked, setIsLiked] = useState()
+
     useEffect(() => {
         (async () => {
             const url = "feed/detail/" + feedId;
@@ -30,8 +40,14 @@ function RunningDetail(){
                         setIsComment("true")
                         setUser(response.data.data.feedComments[0].simpleUserResDto)
                     }
+                    if(response.data.data.feedLikeId===null) {
+                        setIsLiked(false);
+                    }
+                    else {
+                        setIsLiked(true);
+                    }
                     // setUser(response.data.data.feedComments[0].simpleUserResDto)
-                    console.log(response.data.data)
+                    // console.log(response.data.data)
                     console.log("성공");
                 })
                 .catch(function(error) {
@@ -54,37 +70,94 @@ function RunningDetail(){
             })
     }
 
+    async function postLike(feedId) {
+        await axiosH({
+            url: "/feed/feed-like/"+feedId,
+            method: "POST"
+        });
+        setIsLiked(true)
+    }
+
+    async function deleteLike(feedId) {
+        await axiosH({
+            url: "/feed/feed-unlike/"+feedId,
+            method: "DELETE"
+        });
+        setIsLiked(false)
+    }
+
+    const clickLike = (feedId) => {
+        // e.preventDefault();
+        var color = document.getElementById(feedId).style.color;
+        if(color==='grey') {
+            document.getElementById(feedId).style.color='red';
+            postLike(feedId);
+            // 좋아요 POST
+        }
+        else {
+            document.getElementById(feedId).style.color='grey';
+            deleteLike(feedId);
+            // 좋아요 DELETE
+        }
+    }
+
     return (
     <div style={{marginBottom: "15%"}}>
         <Header></Header>
-        <div style={{marginTop:"15%", borderBottom:"5%"}}>
-            <HStack spacing='24px'>
-                <img alt="" src={profileurl} width="8%" height="10%"/>
-                <p>{feeds.userNickname}</p>
-                <p>{feeds.regdate}</p>
-            </HStack>
+        <BetweenBodyFooter></BetweenBodyFooter>
+        <div style={{marginBottom: '3%'}}>
+            <div style={{width: "80%", margin: '0 auto', display: 'flex'}}>
+                <NavLink to={"/feed/" + feeds.userId}>
+                    <Avatar name='author-profile-img' src={profileurl} style={{border: "1px dotted #6A6A6A", marginRight: '3%'}} />
+                </NavLink>
+                {/* <img alt="" src={profileurl} width="8%" height="10%"/> */}
+                <div style={{display: 'block'}}>
+                    <div className="user-nickname">{feeds.regdate} 날의 피드</div>
+                    <div style={{fontSize: "12px"}}>written by {feeds.userNickname}</div>
+                </div>
+            </div>
         </div>
-        <div>
-            <img alt = {feedfiles.filePath} src = {feedurl} />
+        <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
+        <div style={{marginTop: '3%'}}>
+            <div style={{width: '100%', margin: '0 auto'}}>
+                {feedurl===null? "":
+                    <Image
+                        border='1px solid #CBD9E7'
+                        margin='0 auto'
+                        marginTop='10px'
+                        width='80%'
+                        borderRadius='lg'
+                        src={feedurl}
+                        alt={feedurl}
+                    />
+                } 
+            </div>
+            <div style={{marginTop:"1%", marginLeft: "10%"}}>
+                { hashtags.map(function(r){
+                    return (<div className="hashtag-selected"># {r.hashtag.hashtagName}</div>)
+                })}
+            </div>  
         </div>
-        <div style={{marginTop:"5%"}}>
-                <HStack spacing='24px'>
-                    { hashtags.map(function(r){
-                        return (<div style={{textAlign:"center", background: "rgb(192,192,192)", paddingLeft: "3%", paddingRight:"3%", borderRadius:"30px"}}>{r.hashtag.hashtagName}</div>)
-                    })}
-                </HStack>
+        <div style={{width: '80%', marginLeft: "10%"}}>       
+                {!isLiked?
+                <div style={{display: 'flex', height: '40px', justifyContent: 'end'}}>
+                    <div style={{lineHeight: '40px', fontSize: '14px'}}>{feeds.feedLikeCnt}명이 이 피드를 좋아합니다.</div>
+                    <FontAwesomeIcon className='like' icon={faHeart} id={feeds.feedId} style={{ color: 'grey', fontSize: '25px'}} onClick={()=>{clickLike(feeds.feedId)}}/>
+                </div>
+                :
+                <div style={{display: 'flex', height: '40px', justifyContent: 'end'}}>
+                    {feeds.feedLikeCnt===0? <div style={{lineHeight: '40px', fontSize: '14px'}}>내가 이 피드를 좋아합니다.</div>:
+                    <div style={{lineHeight: '40px', fontSize: '14px'}}>나 외에 {feeds.feedLikeCnt}명이 이 피드를 좋아합니다.</div>}
+                    
+                    <FontAwesomeIcon className='like' icon={faHeart} id={feeds.feedId} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold'}} onClick={()=>{clickLike(feeds.feedId)}}/>
+                </div>}
+            
         </div>
-        <div>
-            {feeds.feedLikeCnt}명이 좋아합니다.
-        </div>
-        <div>
-            {feeds.content}
-        </div>
-        <div>
-            <p style={{textDecoration: "underline"}}>댓글</p>
-        </div>
-        <p>{isComment}</p>
-        <p>{console.log({isComment}.isComment)}</p>
+        <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
+        <div style={{width: '80%', marginLeft: '10%', marginTop: '3%', marginBottom: '5%', fontSize: '16px'}}>{feeds.content}</div>
+       
+        <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
+        {/* <p>{console.log({isComment}.isComment)}</p> */}
         <div>
         {
             {isComment}.isComment === "true" ?

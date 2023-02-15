@@ -14,7 +14,7 @@ import {
   import './Feed.css';
   import Comment from './Comment';
   import axios from '../api/axios';
-  import { Link } from 'react-router-dom';
+  import { NavLink, Link } from 'react-router-dom';
 
   function FeedCard(props) {
     const feed = props.feed;
@@ -79,7 +79,7 @@ import {
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header' > 
                         <div className='card-header-left'>
-                            <Link to={"/feed"} state={{userId: feed.userId}}>
+                            <Link to={"/feed/"+feed.userId}>
                                 <Image
                                     borderRadius='full'
                                     boxSize='40px'
@@ -95,6 +95,7 @@ import {
                     {feed.feedFiles.map((item2, idx) => {
                         var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
                         return(
+                            <NavLink to={"/feed/detail/" + feed.feedId}>
                             <Image
                                 border='1px solid #CBD9E7'
                                 margin='0 auto'
@@ -104,6 +105,7 @@ import {
                                 src={fileSrc}
                                 alt=""
                             />
+                            </NavLink>
                         )
                     })}
                             {/* 내용 */}
