@@ -24,7 +24,7 @@ import axios from 'axios';
 const ArticleForm = () => {
     const accessToken = localStorage.getItem("access-token");
 
-    const [value, setValue] = useState('1'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
+    const [value, setValue] = useState("PUBLIC"); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
     const [content, setContent] = useState(""); // 피드 내용
     const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set()); // 해시태그
     const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set()); // 해시태그

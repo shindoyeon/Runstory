@@ -70,6 +70,23 @@ const Swiper = () => {
     for(let i = 0; i < data.length; i+=4) {
       tempArr.push(data.slice(i, i+4))
     }
+    if(tempArr[tempArr.length - 1] != undefined){
+      if(tempArr[tempArr.length - 1].length % 4 === 0) {
+        return tempArr;
+      }
+      else if(tempArr[tempArr.length - 1].length % 4 ===1) {
+        tempArr[tempArr.length - 1].push({runningId: -1})
+        tempArr[tempArr.length - 1].push({runningId: -1})
+        tempArr[tempArr.length - 1].push({runningId: -1})
+      }
+      else if(tempArr[tempArr.length - 1].length % 4===2) {
+        tempArr[tempArr.length - 1].push({runningId: -1})
+        tempArr[tempArr.length - 1].push({runningId: -1})  
+      }
+      else {
+        tempArr[tempArr.length - 1].push({runningId: -1})  
+      }
+    }
     return tempArr;
   }
 

@@ -16,7 +16,7 @@ const Header = () => {
     return (
         <ChakraProvider theme={theme}>
             <header className='header'>
-              <div className='left-header'><Link to='/'><Image className='logo' src={ImageFile}/></Link></div>
+              <div className='left-header'><Link to='/'><Image className='logo' src={ImageFile} style={{textAlign: 'left'}}/></Link></div>
               <div className='right-header'>
                 <div className='notice'><Link to="/notice"><FontAwesomeIcon icon={faHeart} /></Link></div>
                 <div className='chat'><Link to="/chatting"><FontAwesomeIcon icon={faCommentDots} /></Link></div>
