@@ -63,7 +63,7 @@ function FeedDetail() {
     var commenturl = "https://i8a806.p.ssafy.io/runstory/user/" + user.profileImgFileName;
 
     function GotoComment() {
-        const url = `running/${feedId}/comment`;
+        const url = `/feed/comment/${feedId}`;
         axios.get(url)
             .then(function (response) {
                 console.log("성공");
@@ -148,12 +148,10 @@ function FeedDetail() {
                     </div>
                     :
                     <div style={{ display: 'flex', height: '40px', justifyContent: 'end' }}>
-                        {feeds.feedLikeCnt === 0 ? null :
-                            <div style={{ lineHeight: '40px', fontSize: '14px' }}>{feeds.feedLikeCnt}명이 이 피드를 좋아합니다.</div>}
-
+                        {feeds.feedLikeCnt === 0 ? <div style={{ lineHeight: '40px', fontSize: '14px' }}>내가 이 피드를 좋아합니다.</div> :
+                            <div style={{ lineHeight: '40px', fontSize: '14px' }}>나 외에 {feeds.feedLikeCnt}명이 이 피드를 좋아합니다.</div>}
                         <FontAwesomeIcon className='like' icon={faHeart} id={feeds.feedId} style={{ color: 'red', fontSize: '25px', fontWeight: 'bold' }} onClick={() => { clickLike(feeds.feedId) }} />
                     </div>}
-
             </div>
             <div style={{ width: '80%', marginLeft: "10%" }}>
                 <Divider m={'0 auto'} orientation='horizontal'></Divider>
@@ -171,9 +169,9 @@ function FeedDetail() {
                                     <p>{user.userNickname}</p>
                                     <p>{feedcomments.content}</p>
                                     <p>{feedcomments.regdate}</p>
-                                    <div>
-                                        <div style={{ width: "80%", marginLeft: '10%', marginTop: "7%" }} onClick={GotoComment}>💬 댓글 보기</div>
-                                    </div>
+                                    <NavLink to={"/feed/detail/"+feedId+"/comment"}>
+                                        <div style={{ width: "80%", marginLeft: '10%', marginTop: "7%" }}>💬 댓글 보기</div>
+                                        </NavLink>
                                 </HStack>
                             </div>)
                             :
