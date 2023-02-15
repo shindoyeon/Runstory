@@ -13,7 +13,7 @@ import {
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import SliderImg from "./SliderImg.js";
+import SliderImg from "../RunningCrewList/SliderImg.js";
 import SliderTitle from "./SliderTitle.js"
 
 export default function TempFeed() {
@@ -121,6 +121,31 @@ export default function TempFeed() {
     window.location.replace("/")
   }
 
+  function sliceData(data) {
+    const tempArr = [];
+    for(let i = 0; i < data.length; i+=4) {
+      tempArr.push(data.slice(i, i+4))
+    }
+    if(tempArr[tempArr.length - 1] != undefined){
+      if(tempArr[tempArr.length - 1].length % 4 === 0) {
+        return tempArr;
+      }
+      else if(tempArr[tempArr.length - 1].length % 4 ===1) {
+        tempArr[tempArr.length - 1].push({runningId: -1})
+        tempArr[tempArr.length - 1].push({runningId: -1})
+        tempArr[tempArr.length - 1].push({runningId: -1})
+      }
+      else if(tempArr[tempArr.length - 1].length % 4===2) {
+        tempArr[tempArr.length - 1].push({runningId: -1})
+        tempArr[tempArr.length - 1].push({runningId: -1})  
+      }
+      else {
+        tempArr[tempArr.length - 1].push({runningId: -1})  
+      }
+    }
+    return tempArr;
+  }
+
   // Slide Setting
   const settings = {
     dots: false,
@@ -134,11 +159,26 @@ export default function TempFeed() {
     <>
       <div className='swiper-slide'>
         {runningCrew===null?null:<Slider {...settings}>
+        {sliceData(runningCrew).map((s) => {
+            return(
           <div className='slide'>
             <div className='imgs'>
               {
+                <SliderImg runningCrew={s}></SliderImg>
+              }
+            </div>
+            <div className='imgs'>
+              {
+                <SliderTitle runningCrew={s}></SliderTitle>
+              }
+            </div>
+          </div>
+          )})}
+          {/* <div className='slide'>
+            <div className='imgs'>
+
+              {
                 <SliderImg runningCrew={runningCrew.slice(0, 4)}>
-                  {console.log("MAIN: " + runningCrew.slice(0, 4))}
                 </SliderImg>
               }
             </div>
@@ -171,7 +211,7 @@ export default function TempFeed() {
                 <SliderTitle runningCrew={runningCrew.slice(8, 12)}></SliderTitle>
               }
             </div>
-          </div>
+          </div> */}
         </Slider>}
       </div>
       
