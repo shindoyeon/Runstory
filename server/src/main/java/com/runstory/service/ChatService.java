@@ -129,6 +129,8 @@ public class ChatService {
     public List<ChatListDto> getUserChatRoomList(Long userSeq){
 
         User user = userRepository.findByUserSeq(userSeq);
+//        if(user == null)
+//            return null;
 
         List<ChatRoomUser> list = user.getRooms(); //내가 포함 된 채팅 리스트
         List<ChatRoom> chatRoomList = new ArrayList<>();

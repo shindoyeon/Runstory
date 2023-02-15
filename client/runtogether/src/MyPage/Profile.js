@@ -8,11 +8,14 @@ import {
   SliderTrack, SliderFilledTrack,
   Tooltip, SliderThumb, RadioGroup
 } from '@chakra-ui/react';
-import axioswithH from '../api/axios'
+import DaumPostcode from 'react-daum-postcode';
+import axioswithH from '../api/axios';
+import axios from 'axios';
 
 function UpsideProfile() {
-  const {isOpen: isModifyOpen, onOpen: onModifyOpen, onClose: onModifyClose} = useDisclosure();  
+  const { isOpen: isAddressOpen, onOpen: onAddressOpen, onClose: onAddressClose } = useDisclosure()
 
+  const [isModifyMode, setIsModifyMode] = useState(false);
   const [file, setFile] = useState();
   const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const [userId, setUserId] = useState();
@@ -49,6 +52,7 @@ function UpsideProfile() {
       setPhoneNum(data.data.data.phoneNum)
       setAddress(data.data.data.address)
       setAge(data.data.data.age)
+      setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName)
       setFileUrl("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName)
     })();
   }, []);
@@ -76,61 +80,154 @@ function UpsideProfile() {
     console.log(e.target.files[0])
   }
 
-  return (
-    <div>
-      <Modal isOpen={isModifyOpen} onClose={onModifyClose} size='xs' scrollBehavior='inside' isCentered>
-          <ModalOverlay />
-          <ModalContent>
-              <ModalHeader>정보 수정</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <form>
-              <div style={{textAlign: 'center'}}>
-                <Avatar 
-                    src={profileImg}
-                    isCentered
-                    size={'xl'} 
-                    onClick={()=>{fileInput.current.click()}}/>
-                <input 
-                    type='file' 
-                    style={{display:'none'}}
-                    accept='image/jpg,impge/png,image/jpeg' 
-                    name='profile_img'
-                    onChange={imgChange}
-                    ref={fileInput}/>
+  // 수정모드 전환
+  function modeChange() {
+    if(isModifyMode) {
+      const formData = new FormData();
+        formData.append('userId', userId);
+        // formData.append('userPwd', password);
+        formData.append('userName', name);
+        formData.append('userNickname', nickname);
+        formData.append('emailAuth', true);
+        formData.append('phoneNum', phoneNum);
+        formData.append('gender', gender);
+        formData.append('address', address);
+        formData.append('age', age);
+        formData.append('roleType', "USER");
+        formData.append('regType', "LOCAL");
+        // formData.append('hashtags', Array.from(selectedHashtagsId));
+        formData.append('profileImg', file);
+        const data = axios({
+             url: 'https://i8a806.p.ssafy.io/api/user/signup',
+              method: "PUT", data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' } });
+          }
+          setIsModifyMode(!isModifyMode)
+        }
+        
+        async function delAccount() {
+          const data = await axioswithH({
+            url: '/user',
+            method: "DELETE"
+        });  
+      }
+
+  const handleNicknameChange = ({ target: { value } }) => setNickname(value);
+  const handleNameChange = ({ target: { value } }) => setName(value);
+  const handlePhoneNumChange = ({ target: { value } }) => setPhoneNum(value);
+
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+    // console.log(data);
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    setAddress(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    var addressInput = document.getElementById('address-input');
+    addressInput.placeholder = fullAddress;
+    onAddressClose();
+  };
+
+  const handleSearch = (data) => {
+    // console.log(data);
+  };
+
+  return (<>
+      <Modal isOpen={isAddressOpen} onClose={onAddressClose} size='xs' isCentered>
+        <ModalOverlay />
+        <ModalContent>
+            <ModalHeader>주소 검색</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody style={{margin: '0 auto', width: '100%', overflow: 'scroll'}}>
+                <div style={{overflow: 'scroll', fontSize: '12px'}}>
+                    <DaumPostcode className="postmodal" onComplete={handleComplete} onSearch={handleSearch}></DaumPostcode>
+                </div>
+            </ModalBody>
+        </ModalContent>
+    </Modal>
+      {isModifyMode?
+      <form>
+      <div>
+      <div style={{display: 'flex', margin: '0 auto', height: '15vh'}}>
+        <div style={{textAlign: 'left', width: "30%", marginLeft: "5%", lineHeight: '15vh'}}>
+          <Avatar 
+              src={profileImg}
+              isCentered
+              size={'xl'}
+              onClick={()=>{fileInput.current.click()}}/>
+          <input 
+              type='file' 
+              style={{display:'none'}}
+              accept='image/jpg,impge/png,image/jpeg' 
+              name='profile_img'
+              onChange={imgChange}
+              ref={fileInput}/>
+        </div>
+        <div style={{display: 'block', width: "60%"}}>
+          <div style={{display: "flex", justifyContent: "start", width: "100%", marginLeft: "5%", height: '40%', marginTop: '5%'}}>
+            <div style={{fontSize: "19px", marginTop: '5%'}}>
+              {userId}
             </div>
-            <div style={{textAlign: 'center', marginBottom: '10px'}}>프로필 사진을 설정해보세요!</div>
-            <div style={{textAlign: 'left'}}>이메일</div>
-            {/* <div style={{marginLeft: '10%', textAlign: 'center', border: '1px solid #6A6A6A', width: '35%', color: '#6A6A6A', display: 'none'}} id='auth-email'></div> */}
-            <Input required id='email-input' border='1px solid #6A6A6A' width="100%" size='xs' variant='outline' readOnly ps={2} mb={3} value={userId}/>
-            {/* <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호</div>
-            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='비밀번호' value={password} ps={2} mb={3} onChange={handlePasswordChange} /> */}
-            <div style={{textAlign: 'left'}}>이름</div>
-            <Input border='1px solid #6A6A6A' width='100%' size='xs' variant='outline' placeholder='이름' value={name} ps={2} mb={3}/>
-            <div style={{textAlign: 'left'}}>닉네임</div>
-            <Input border='1px solid #6A6A6A' width='100%' size='xs' variant='outline' placeholder='닉네임' value={nickname} ps={2} mb={3}/>
-            <div style={{textAlign: 'left'}}>전화번호</div>
-            <Input border='1px solid #6A6A6A' type='number' width='100%' size='xs' variant='outline' placeholder='전화번호' value={phoneNum} ps={2} mb={3}/>
-            <div style={{textAlign: 'left'}}>성별</div>
-            <RadioGroup onChange={setGender} value={gender} mb={2}>
-                <Stack direction='row' style={{marginTop: '5px', marginLeft: '10%'}}>
+            <div style={{marginLeft: "4%" ,fontSize: "14px", marginTop: '7%'}}>
+              Lv.{level}
+            </div>
+          </div>
+          <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+            <div>Exp. </div>
+            <Progress hasStripe size='lg' value={experience/1000} colorScheme={'pink'} style={{width: '70%', borderRadius: '10px', marginTop: '2.5%', marginLeft: '3%'}}/>
+          </div>
+          <div style={{textAlign: 'right', marginRight: '10%', fontSize: '12px'}}>{experience} / 100000 </div>
+        </div>
+      </div>
+      <Divider style={{marginTop: '3%', marginBottom: '7%', width: '90%', marginLeft: '5%'}}></Divider>
+      <div style={{marginLeft: '5%', marginRight: '5%'}}>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>아이디</div>
+          <div style={{width: '40%', marginLeft: '15%'}}>{userId}</div>
+        </div>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>닉네임</div>
+          <input style={{width: '40%', marginLeft: '15%', border: '1px solid #6a6a6a', borderRadius: '10px'}} value={nickname} onChange={handleNicknameChange}/>
+        </div>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>이름</div>
+          <input style={{width: '40%', marginLeft: '15%', border: '1px solid #6a6a6a', borderRadius: '10px'}} value={name} onChange={handleNameChange} />
+        </div>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '22%', textAlign: 'left'}}>성별</div>
+          <div style={{width: '40%', marginLeft: '15%'}}>
+            <RadioGroup onChange={setGender} value={gender=="1"?"1":"2"} mb={2}>
+                <Stack direction='row'>
                     <Radio value='1' size='sm' colorScheme={"pink"}>남성</Radio>
                     <Radio style={{marginLeft: '10px'}} value='2' size='sm' colorScheme={"pink"}>여성</Radio>
                 </Stack>
             </RadioGroup>
-            <div style={{textAlign: 'left'}}>주소</div>
-            <Input border='1px solid #6A6A6A' width='100%' size='xs' variant='outline' value={address} ps={2} mb={3} />
-            <div style={{marginLeft: '10%', textAlign: 'left'}}>나이</div>
-            <div style={{marginLeft: '10%', textAlign: 'left'}} id='current-age'></div>
-            <Slider
+          </div>
+        </div>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>나이</div>
+          <div style={{width: '40%', marginLeft: '15%'}}>
+          <Slider
                 w='100%'
                 textAlign={'left'}
                 id='slider'
-                defaultValue={0}
+                defaultValue={age}
                 min={0}
                 max={100}
                 colorScheme='pink'
-                value={age}
                 onChange={(v) => setAge(v)}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
@@ -143,29 +240,39 @@ function UpsideProfile() {
                     bg='teal.500'
                     color='white'
                     placement='top'
+                    isOpen={showTooltip}
                     label={`${age} 세`}
                 >
                 <SliderThumb />
                 </Tooltip>
             </Slider>
-            {/* <div id='current-age'></div> */}
-            </form>
-              </ModalBody>
-
-              <ModalFooter>
-                  <Button colorScheme='red' mr={3} onClick={onModifyClose}>
-                      닫기
-                  </Button>
-                  <Button>
-                      수정하기
-                  </Button>
-              </ModalFooter>
-          </ModalContent>
-      </Modal>
+            {age} 세
+          </div>
+        </div>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>핸드폰 번호</div>
+          <input style={{width: '40%', marginLeft: '15%', border: '1px solid #6a6a6a', borderRadius: '10px'}} value={phoneNum} type="tel" onChange={handlePhoneNumChange}/>
+        </div>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>주소</div>
+          <input id="address-input" style={{width: '40%', marginLeft: '15%', border: '1px solid #6a6a6a', borderRadius: '10px'}} placeholder='상세주소' value={address} onClick={onAddressOpen} readOnly />
+        </div>
+      <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+      </div>
+      <div style={{marginTop: "3%"}}>
+        <div className="del-btn" style={{marginRight: '5%'}} onClick={delAccount}>회원 탈퇴</div>
+        <div className="save-btn" type='button' onClick={modeChange}>저장</div>
+      </div>
+    </div>
+    </form>
+      :
+    <div>
       <div style={{display: 'flex', margin: '0 auto', height: '15vh'}}>
         <div style={{textAlign: 'left', width: "30%", marginLeft: "5%", lineHeight: '15vh'}}>
           <Avatar 
-              src={fileUrl}
+              src={profileImg}
               isCentered
               size={'xl'} />
         </div>
@@ -224,10 +331,12 @@ function UpsideProfile() {
       <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
       </div>
       <div style={{marginTop: "3%"}}>
-        <div className="del-btn" style={{marginRight: '5%'}}>회원 탈퇴</div>
-        <div className="save-btn" type='button' onClick={onModifyOpen}>회원 정보 수정하기</div>
+        <div className="del-btn" style={{marginRight: '5%'}} onClick={delAccount}>회원 탈퇴</div>
+        <div className="save-btn" type='button' onClick={modeChange}>수정</div>
       </div>
     </div>
+  }
+  </>
   );
 }
 
