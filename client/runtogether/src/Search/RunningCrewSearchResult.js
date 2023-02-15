@@ -60,7 +60,7 @@ const RunningCrewSearchResult = ({keyword}) => {
               <tr>
               {item.map((i) => {
                 return(
-                  <NavLink to={"/running/detail/" + item.runningId}>
+                  <NavLink to={"/running/detail/" + i.runningId}>
                   <td>
                     <Image
                     boxSize='100px'
