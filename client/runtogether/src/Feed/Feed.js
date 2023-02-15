@@ -25,7 +25,7 @@ import {useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import {Link,useParams} from 'react-router-dom'
-// import {  } from 'react-router-dom';
+import ChattingRoom from '../Chatting/ChattingRoom';
 
 
 // 개인피드페이지 -> 사용자 본인이면 햄버거 / 타인의 피드페이지면 햄버거x 팔로우, 차단버튼
@@ -48,9 +48,6 @@ const Profile = () => {
     const [nickname, setNickname] = useState();
     const [profileImg, setProfileImg] = useState();
     const navigate = useNavigate();
-    // useEffect(() => {
-       
-    // })
 
     useEffect(() => {
         if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
@@ -183,6 +180,7 @@ const Profile = () => {
                         {nickname} 님의 피드
                         { !isMypage && !followingStatus && <div className='follow-btn' onClick={follow}>팔로우</div> }
                         { !isMypage && followingStatus && <div className='unfollow-btn' onClick={follow}>언팔로우</div> }
+                        <ChattingRoom yourSeq={userId} yourNickname={nickname}></ChattingRoom>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
                         <button onClick={navigateFollow} style={{display: 'block'}}>
@@ -193,7 +191,9 @@ const Profile = () => {
                             <div className="following">{following}</div>
                             <div className="following">팔로잉</div>
                         </div>
+                        
                     </div>
+                    
                 </div>
             </Box>
             <Divider></Divider>

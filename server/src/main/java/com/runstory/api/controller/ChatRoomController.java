@@ -45,8 +45,8 @@ public class ChatRoomController {
 
     // 채팅방 생성
     // 채팅방 생성 후 다시 / 로 return
-    @PostMapping("/createroom")
-    public BaseResponse<?> createRoom(@ApiIgnore Authentication authentication, @RequestParam Long userId) {
+    @GetMapping("/createroom/{userId}")
+    public BaseResponse<?> createRoom(@ApiIgnore Authentication authentication, @PathVariable Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Long myId = userDetails.getUserSeq();
 
@@ -63,7 +63,7 @@ public class ChatRoomController {
         for (ChatRoomUser room : myChattingList){
             if(set.contains(room.getChatRoom().getChatRoomId())){
                 // 이미 채팅방이 존재하는 경우
-                return BaseResponse.customSuccess(404,"이미 존재하는 방입니다.",room.getChatRoom());
+                return BaseResponse.customSuccess(404,"이미 존재하는 방입니다.",room.getChatRoom().getChatRoomId());
             }
         }
 
