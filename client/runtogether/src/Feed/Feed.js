@@ -25,6 +25,7 @@ import {useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import {Link,useParams} from 'react-router-dom'
+import ChattingRoom from '../Chatting/ChattingRoom';
 // import {  } from 'react-router-dom';
 
 
