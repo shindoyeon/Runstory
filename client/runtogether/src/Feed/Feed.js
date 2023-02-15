@@ -19,7 +19,8 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BetweenBodyFooter from '../common/BetweenBodyFooter';
 import './Feed.css'
-import axios from 'axios';
+import axios from '../api/axios';
+
 import {useNavigate} from 'react-router-dom'; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -37,8 +38,8 @@ const Profile = () => {
 
     const {isOpen, onOpen, onClose} = useDisclosure();
 
-    const [following, setFollowing] = useState(0);
     const [follower, setFollower] = useState(0);
+    const [following, setFollowing] = useState(0);
     const [followingStatus, setFollowingStatus] = useState(false);
     const [followId , setFollowId] = useState(null);    
     const [isMypage, setIsMypage] = useState(false);
@@ -87,11 +88,7 @@ const Profile = () => {
     useEffect(() => {
         (async () => {
             const data = await axios.get(
-                "https://i8a806.p.ssafy.io/api/user",{
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access-token")}`
-                    }
-                }
+                "/user"
             );
             if(data.data.data.userSeq == userId){
                 setIsMypage(true);
@@ -127,6 +124,10 @@ const Profile = () => {
         setFollowingStatus(!followingStatus);
     })
     
+    const navigateFollow = () => { // 클릭 시 팔로우리스트페이지로 이동
+        navigate("/feed/follow/"+userId);
+    };
+
     // 로그아웃
     function logout() {
         localStorage.removeItem('access-token');
@@ -171,7 +172,7 @@ const Profile = () => {
             </Modal>
             <Header></Header>
             <p style={{textAlign: 'right', marginRight: '5%', marginBottom: '10px', marginTop: '55px', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></p>
-            <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '100px', marginBottom: '10px'}}>
+            <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px'}}>
                 <Avatar 
                     isCentered
                     size={'xl'}
@@ -184,11 +185,11 @@ const Profile = () => {
                         { !isMypage && followingStatus && <div className='unfollow-btn' onClick={follow}>언팔로우</div> }
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
-                        <div style={{display: 'block'}}>
+                        <button onClick={navigateFollow} style={{display: 'block'}}>
                             <div className="follower">{follower}</div>
                             <div className="follower">팔로워</div>
-                        </div>
-                        <div style={{display: 'block'}}>
+                        </button>
+                        <div onClick={navigateFollow} style={{display: 'block'}}>
                             <div className="following">{following}</div>
                             <div className="following">팔로잉</div>
                         </div>
