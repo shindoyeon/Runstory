@@ -250,10 +250,8 @@ const Profile = () => {
                 <div className='info' style={{display: 'block', textAlign: 'center', paddingLeft: '5%'}}> 
                     <div className='user-nickname' style={{fontSize: '20px'}}>
                         {nickname} 님의 피드
-                        { !isMypage && !followingStatus && <div className='follow-btn' onClick={follow}>팔로우</div> }
-                        { !isMypage && followingStatus && <div className='unfollow-btn' onClick={follow}>언팔로우</div> }
-                        {/* { !isMypage && <ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom> } */}
-                        <ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom>
+                        { !isMypage && !followingStatus && <><div className='follow-btn' onClick={follow}>팔로우</div><ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom></>}
+                        { !isMypage && followingStatus && <><div className='unfollow-btn' onClick={follow}>언팔로우</div><ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom></>}
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
                         <button onClick={navigateFollow} style={{display: 'block'}}>
