@@ -15,7 +15,7 @@ import SettingIntro from './SettingIntro/SettingIntro';
 import AlarmSetting from './SettingAlarm/AlarmSetting';
 import UserBlockList from './SettingBlock/SettingBlock';
 import Question from './SettingQuestion/SettingQuestion';
-import MyPage from './SettingMyPage/SettingMyPage';
+// import MyPage from './SettingMyPage/SettingMyPage';
 import Login from './User/Login';
 import Register from './User/Signup';
 import FindPwd from './User/FindPassword';
@@ -28,6 +28,7 @@ import Oauth from "./User/OAuthRedirectHandler";
 import FeedDetail from "./FeedDetail/FeedDetail";
 import FeedComment from "./FeedComment/FeedComment";
 import RunningMy from "./RunningMy/RunningMy"
+import MyPage from './MyPage/MyPage'
 
 // import Feed from './Feed/Feed';
 
@@ -63,6 +64,7 @@ function App() {
                     <Route path='/feed/detail/:feedId' element={<FeedDetail />} />
                     <Route path='/feed/detail/:feedId/comment' element={<FeedComment />} />
                     <Route path='/running/my' element={<RunningMy />} />
+                    <Route path='/mypage' element={<MyPage />} />
                 </Routes>
             </BrowserRouter>
             {/* <MainPage></MainPage> */}
