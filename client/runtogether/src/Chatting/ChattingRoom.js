@@ -47,8 +47,8 @@ const ChattingRoom = ({yourSeq, yourNickname}) => {
       console.log("yourNickname : "+yourNickname+" yourSeq : "+yourSeq)
 
       const room = await axios.get(
-        // "https://i8a806.p.ssafy.io/api/chatroom/createroom", {userId:yourSeq}, {
-        `http://localhost:8080/chatroom/createroom/${yourSeq}`, {
+        `https://i8a806.p.ssafy.io/api/chatroom/createroom/${yourSeq}`, {
+        // `http://localhost:8080/chatroom/createroom/${yourSeq}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
