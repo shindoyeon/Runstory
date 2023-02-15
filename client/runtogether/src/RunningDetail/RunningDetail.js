@@ -3,7 +3,7 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import {Box, Button, Spacer, Image, Divider, Modal, useDisclosure,
 ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
-ModalBody, Card, CardBody, CardFooter, ModalFooter, Input} from '@chakra-ui/react';
+ModalBody, Card, CardBody, CardFooter, ModalFooter, Input, position} from '@chakra-ui/react';
 import { HStack } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import axios from '../api/axios'
@@ -40,17 +40,28 @@ function RunningDetail(){
 
     const {isOpen, onOpen, onClose} = useDisclosure();
 
-    function Authentication() {
-        const url = `running/${runningId}/valid`;
-        axios.get(url)
-            .then(function(response) {
-                console.log("성공");
-                window.location.replace("/running/detail/" + runningId)
-            })
-            .catch(function(error) {
-                console.log("실패");
-            })
-
+    function Authentication(startLatitude, startLongitude) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    if (Math.abs(position.coords.latitude - startLatitude) <= 2 && Math.abs(position.coords.longitude - startLongitude) <= 1){
+                        const url = `running/${runningId}/valid`;
+                        axios.get(url)
+                            .then(function(response) {
+                                console.log("성공");
+                                window.location.replace("/running/detail/" + runningId)
+                            })
+                            .catch(function(error) {
+                                console.log("실패");
+                            })
+                  }else{
+                    console.log("당신은 밖에 있습니다.")
+                  }
+                }
+            )
+        }else{
+            console.log("위치를 찍으시기 바랍니다.")
+        }
     }
 
     const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
@@ -127,7 +138,7 @@ function RunningDetail(){
                     <BooleanRunning Something={runnings.dibs} truevalue="찜 취소" falsevalue= "찜하기" api={dibsurl} id = {runningId}/>
                     {runnings.validation 
                         ? null
-                        : <button className="follow-btn" onClick={Authentication}> 인증 </button>
+                        : <button className="follow-btn" onClick={() => Authentication(runnings.startLatitude, runnings.startLongitude)}> 인증 </button>
                     }
                 </div>
                 <div style={{fontSize: "12px"}}>written by {runnings.userNickName}</div>
@@ -191,5 +202,6 @@ function RunningDetail(){
     </div>
   );
 }
+
 
 export default RunningDetail;
