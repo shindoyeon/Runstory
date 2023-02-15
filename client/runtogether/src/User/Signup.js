@@ -351,12 +351,6 @@ const Signup = (props) => {
                             <DaumPostcode className="postmodal" onComplete={handleComplete} onSearch={handleSearch}></DaumPostcode>
                         </div>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button colorScheme='red' size='sm' mr={3} onClick={onHashtagClose}>
-                            취소
-                        </Button>
-                        <Button variant='ghost' size='sm' mr={3} onClick={saveHashtag}>완료</Button>
-                    </ModalFooter>
                 </ModalContent>
             </Modal>
             <div style={{width: '80%', margin: '0 auto', marginTop: '80px', marginBottom: '5px', fontSize: '30px', textAlign: 'center'}}>RUNSTORY</div>
@@ -398,7 +392,7 @@ const Signup = (props) => {
                     <Radio value='1' size='sm' colorScheme={"pink"}>남성</Radio>
                     <Radio style={{marginLeft: '10px'}} value='2' size='sm' colorScheme={"pink"}>여성</Radio>
                 </Stack>
-                </RadioGroup>
+            </RadioGroup>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>주소</div>
             <Input border='1px solid #6A6A6A' id="address-input" width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onClick={onAddressOpen} readOnly />
             <div style={{marginLeft: '10%', textAlign: 'left'}}>나이</div>

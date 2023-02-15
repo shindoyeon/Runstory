@@ -10,6 +10,8 @@ function MainPage() {
       <Header></Header>
       <BetweenBodyFooter></BetweenBodyFooter>
       <Profile></Profile>
+      <BetweenBodyFooter></BetweenBodyFooter>
+      {/* <BetweenBodyFooter></BetweenBodyFooter> */}
       <Footer></Footer>
     </div>
   );
