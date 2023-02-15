@@ -30,8 +30,6 @@ import FeedComment from "./FeedComment/FeedComment";
 import RunningMy from "./RunningMy/RunningMy"
 import MyPage from './MyPage/MyPage'
 
-// import Feed from './Feed/Feed';
-
 import "./App.css";
 
 function App() {

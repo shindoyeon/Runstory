@@ -49,15 +49,12 @@ const Profile = () => {
     const [nickname, setNickname] = useState();
     const [profileImg, setProfileImg] = useState();
     const navigate = useNavigate();
-    // useEffect(() => {
-       
-    // })
 
     useEffect(() => {
+        setTimeout(() => {
         if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
             navigate("/user/login");
         }
-
         (async () => { // 피드 주인
             const data = await axios.get(
                 "https://i8a806.p.ssafy.io/api/feed/profile/" + userId,
@@ -72,10 +69,9 @@ const Profile = () => {
                 setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
             }
         })();
-
-
+    }, 100);
     }, []);
-    
+ 
     useEffect(() => {
         (async () => {
             const data = await axios.get(
@@ -95,27 +91,20 @@ const Profile = () => {
 
     useEffect(() => {
         (async () => {
-            const data = await axios.get(
-                "/user"
-            );
+            const data = await axios.get("/user");
             if(data.data.data.userSeq == userId){
                 setIsMypage(true);
             }   
         })();
-
     }, []);
-
-
         
     const follow =  (async () => {
         //아직 팔로우 안 한 경우
-        
         if(!followingStatus){
                 const data = await axios.post(
                     "https://i8a806.p.ssafy.io/api/feed/follow/" + userId, {},{
                         headers: {
                             Authorization: `Bearer ${accessToken}`
-
                         }
                     }
                 );
@@ -127,20 +116,19 @@ const Profile = () => {
             await axios.delete(
                 "https://i8a806.p.ssafy.io/api/feed/follow/" + followId
             );
-
             setFollowId(null);
         }
         setFollowingStatus(!followingStatus);
     })
     
     const navigateFollow = () => { // 클릭 시 팔로우리스트페이지로 이동
-        navigate("/feed/follow/"+userId);
+        window.location.replace("/feed/follow/"+userId);
     };
 
     // 로그아웃
     function logout() {
         localStorage.removeItem('access-token');
-        navigate("/");
+        window.location.replace("/");
     }
 
     function Blocked(Id) {
@@ -181,23 +169,23 @@ const Profile = () => {
                     <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
                         <div style={{width: '100%'}}>
                             <Divider mt='5px' w='100%' mb='5px'/>
-                            <Link to="/setting-block">
+                            <a href='/setting-block'>
                                 <div style={{fontSize:'20px', textAlign: 'center'}}> 
                                     차단설정
                                 </div>
-                            </Link>
+                            </a>
                             <Divider mt='5px' w='100%' mb='5px'/>
-                            <Link to="/setting-alarm">
+                            <a href='/setting-alarm'>
                                 <div style={{fontSize:'20px', textAlign: 'center'}}> 
                                     알림설정
                                 </div>
-                            </Link>
+                            </a>
                             <Divider mt='5px' w='100%' mb='5px'/>
-                            <Link to="/setting-question">
+                            <a to='/setting-question'>
                                 <div style={{fontSize:'20px', textAlign: 'center'}}> 
                                     문의하기
                                 </div>
-                            </Link>
+                            </a>
                             <Divider mt='5px' w='100%' mb='5px'/>
                             <div style={{fontSize:'20px', textAlign: 'center', color: 'red'}} onClick={logout}> 
                                 로그아웃
