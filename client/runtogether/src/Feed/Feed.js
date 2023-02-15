@@ -23,7 +23,7 @@ import axios from '../api/axios';
 
 import {useNavigate} from 'react-router-dom'; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear } from "@fortawesome/free-solid-svg-icons";
 import {Link,useParams} from 'react-router-dom'
 import ChattingRoom from '../Chatting/ChattingRoom';
 // import {  } from 'react-router-dom';
@@ -234,7 +234,13 @@ const Profile = () => {
                 }
             </Modal>
             <Header></Header>
-            <p style={{textAlign: 'right', marginRight: '5%', marginBottom: '10px', marginTop: '55px', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></p>
+            <BetweenBodyFooter></BetweenBodyFooter>
+            {console.log(feedMaster)}
+            {/* {console.log(userId)} */}
+            {isMypage && <div style={{display: 'flex', justifyContent: "right"}}>
+                <div style={{textAlign: 'right', marginRight: '3%', fontSize: '20px'}}><FontAwesomeIcon icon={faGear} /></div>
+                <div style={{textAlign: 'right', marginRight: '5%', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
+            </div>}
             <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px'}}>
                 <Avatar 
                     isCentered
@@ -265,6 +271,7 @@ const Profile = () => {
             </Box>
             <Divider></Divider>
             <ProfileFeed userId={userId}></ProfileFeed>
+            <Divider></Divider>
             <Footer></Footer>
         </div >
     )
