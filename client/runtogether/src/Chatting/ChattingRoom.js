@@ -11,7 +11,7 @@ import MsgByOther from './MsgByOther'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'; 
 
-const ChattingRoom = () => {
+const ChattingRoom = ({yourSeq, yourNickname}) => {
     const client = useRef({});
     const [chatMessages, setChatMessages] = useState([]);
     const [message, setMessage] = useState("");
@@ -22,10 +22,11 @@ const ChattingRoom = () => {
     const [myNickname, setMyNickname] = useState("닉네임");
 
     // 상대방 정보
-    const [yourSeq, setYourSeq] = useState(0);
-    const [yourNickname, setYourNickname] = useState("상대방 닉네임");
+    // const [yourSeq, setYourSeq] = useState(0);
+    // const [yourNickname, setYourNickname] = useState("상대방 닉네임");
 
     const navigate = useNavigate();
+    const [roomId, setRoomId] = useState(0);
 
     useEffect(async () => {
       if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
@@ -42,9 +43,21 @@ const ChattingRoom = () => {
       console.log(data.data.data);
       setMySeq(data.data.data.userSeq);
       setMyNickname(data.data.data.userNickname);
+
+      console.log("yourNickname : "+yourNickname+" yourSeq : "+yourSeq)
+
+      const room = await axios.get(
+        // "https://i8a806.p.ssafy.io/api/chatroom/createroom", {userId:yourSeq}, {
+        `http://localhost:8080/chatroom/createroom/${yourSeq}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }
+      )
+      setRoomId(room.data.data);
     }, []);
 
-    const roomId = 4;
+    
   
     const connect = () => {
       client.current = new StompJs.Client({
@@ -134,7 +147,7 @@ const ChattingRoom = () => {
 
     return (
         <>
-        <Button onClick={openModal} marginLeft="50px" marginTop="100px" >채팅창 열기</Button>
+        <Button onClick={openModal} >채팅</Button>
         <Modal
                 isCentered
                 onClose={closeModal}
