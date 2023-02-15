@@ -55,9 +55,9 @@ public class ChatRoomController {
         User my = userRepository.findByUserSeq(myId);
         User user = userRepository.findByUserSeq(userId);
 
-        if(user == null){
-            return BaseResponse.fail();
-        }
+//        if(user == null){
+//            return BaseResponse.fail();
+//        }
 
         HashSet<Long> set = new HashSet<>();
         List<ChatRoomUser> myChattingList = chatRoomUserRepository.findByUser(my);
