@@ -175,7 +175,7 @@ const Profile = () => {
             </Modal>
             <Header></Header>
             <p style={{textAlign: 'right', marginRight: '5%', marginBottom: '10px', marginTop: '55px', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></p>
-            <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '100px', marginBottom: '10px'}}>
+            <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px'}}>
                 <Avatar 
                     isCentered
                     size={'xl'}
