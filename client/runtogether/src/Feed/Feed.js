@@ -64,9 +64,14 @@ const Profile = () => {
             setFeedMaster(data.data.data)
             setLevel(data.data.data.level);
             setNickname(data.data.data.userNickName);
-            setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
-            console.log(data.data.data)
+            if(null == (data.data.data.profileImgFileName)){
+                setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+            }else{
+                setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
+            }
         })();
+
+
     }, []);
     
     useEffect(() => {
@@ -139,7 +144,7 @@ const Profile = () => {
         <div>
             <Modal isOpen={isOpen} onClose={onClose} size='xs' isCentered>
                 <ModalOverlay />
-                { 
+                {
                     isMypage ?
 
                 <ModalContent>
@@ -179,7 +184,7 @@ const Profile = () => {
                         <div style={{width: '100%'}}>
                             <Divider mt='5px' w='100%' mb='5px'/>
                             <Link to="/setting-block">
-                                <div style={{fontSize:'20px', textAlign: 'center'}}> 
+                                <div style={{fontSize:'20px', textAlign: 'center'}}>
                                     차단하기
                                 </div>
                             </Link>
@@ -191,7 +196,7 @@ const Profile = () => {
             </Modal>
             <Header></Header>
             <p style={{textAlign: 'right', marginRight: '5%', marginBottom: '10px', marginTop: '55px', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></p>
-            <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '100px', marginBottom: '10px'}}>
+            <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px'}}>
                 <Avatar 
                     isCentered
                     size={'xl'}
@@ -202,6 +207,8 @@ const Profile = () => {
                         {nickname} 님의 피드
                         { !isMypage && !followingStatus && <div className='follow-btn' onClick={follow}>팔로우</div> }
                         { !isMypage && followingStatus && <div className='unfollow-btn' onClick={follow}>언팔로우</div> }
+                        {/* { !isMypage && <ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom> } */}
+                        <ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
                         <button onClick={navigateFollow} style={{display: 'block'}}>
@@ -212,7 +219,9 @@ const Profile = () => {
                             <div className="following">{following}</div>
                             <div className="following">팔로잉</div>
                         </div>
+
                     </div>
+
                 </div>
             </Box>
             <Divider></Divider>

@@ -6,31 +6,64 @@ import {
   } from '@chakra-ui/react';
 import './ChattingRoomList.css';
 import * as StompJs from "@stomp/stompjs";
-import * as SockJS from "sockjs-client";
-// import SockJsClient from 'react-stomp';
 import MsgByMe from './MsgByMe'
 import MsgByOther from './MsgByOther'
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom'; 
 
-const ChattingRoom = () => {
+const ChattingRoom = ({yourSeq, yourNickname, yourProfileImg}) => {
     const client = useRef({});
     const [chatMessages, setChatMessages] = useState([]);
     const [message, setMessage] = useState("");
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    // useEffect(() => {
-    //   connect();
-  
-    //   return () => disconnect();
-    // }, []);
+    // 내정보
+    const [mySeq, setMySeq] = useState(1);
+    const [myNickname, setMyNickname] = useState("나");
+    const [myProfileImg, setMyProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
 
-    const userSeq = 1;
-    const roomId = 4;
-    const userNickname = "날다람쥐222";
+    // 상대방 정보
+    // const [yourSeq, setYourSeq] = useState(0);
+    // const [yourNickname, setYourNickname] = useState("상대방 닉네임");
+
+    const navigate = useNavigate();
+    const [roomId, setRoomId] = useState(0);
+
+    useEffect(async () => {
+      if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
+        navigate("/user/login");
+      }
+
+      const data = await axios.get(
+        "https://i8a806.p.ssafy.io/api/user",{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }
+      )
+      console.log(data.data.data);
+      setMySeq(data.data.data.userSeq);
+      // setMyNickname(data.data.data.userNickname);
+
+      console.log("yourNickname : "+yourNickname+" yourSeq : "+yourSeq)
+
+      const room = await axios.get(
+        `https://i8a806.p.ssafy.io/api/chatroom/createroom/${yourSeq}`, {
+        // `http://localhost:8080/chatroom/createroom/${yourSeq}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        }
+      )
+      setRoomId(room.data.data);
+    }, []);
+
+    
   
     const connect = () => {
       client.current = new StompJs.Client({
         brokerURL: "wss://i8a806.p.ssafy.io/api/ws-stomp", // 웹소켓 서버로 직접 접속
-        // brokerURL: "ws://localhost:8080/api/ws-stomp", // 웹소켓 서버로 직접 접속
+        // brokerURL: "ws://localhost:8080/ws-stomp", // 웹소켓 서버로 직접 접속
         connectHeaders: {
           "Authorization": localStorage.getItem("access-token")
         },
@@ -72,9 +105,9 @@ const ChattingRoom = () => {
         destination: "/pub/sendMessage",
         body: JSON.stringify({
                 type: "ENTER",
-                userSeq:userSeq,
+                userSeq:mySeq,
                 roomId: roomId,
-                sender:userNickname,
+                sender:myNickname,
                 message: message,
                 time:date
             }),
@@ -91,9 +124,9 @@ const ChattingRoom = () => {
       destination: "/pub/enterUser",
       body: JSON.stringify({
               type: "TALK",
-              userSeq:userSeq,
+              userSeq:yourSeq,
               roomId: roomId,
-              sender:userNickname,
+              sender:yourNickname,
               message: "",
               time:""
           }),
@@ -115,7 +148,7 @@ const ChattingRoom = () => {
 
     return (
         <>
-        <Button onClick={openModal} marginLeft="50px" marginTop="100px" >채팅창 열기</Button>
+        <Button onClick={openModal} >채팅</Button>
         <Modal
                 isCentered
                 onClose={closeModal}
@@ -128,16 +161,16 @@ const ChattingRoom = () => {
                     
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>{userNickname} 님과의 채팅방</ModalHeader>
+                    <ModalHeader>{yourNickname} 님과의 채팅방</ModalHeader>
                     <ModalCloseButton />
 
                     <ModalBody>
                     {chatMessages && chatMessages.length > 0 && (
                         <>
                             {chatMessages.map((_chatMessage, index) => (
-                                _chatMessage.userSeq===userSeq?<MsgByMe msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByMe>
+                                _chatMessage.userSeq==mySeq?<MsgByMe msg={_chatMessage.message} sender={_chatMessage.sender} src={myProfileImg}></MsgByMe>
                             :
-                            <MsgByOther msg={_chatMessage.message} sender={_chatMessage.sender}></MsgByOther>
+                            <MsgByOther msg={_chatMessage.message} sender={_chatMessage.sender} src={yourProfileImg}></MsgByOther>
                                 
                             ))}
                         </>

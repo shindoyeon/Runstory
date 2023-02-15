@@ -181,6 +181,13 @@ public class FeedController {
         return BaseResponse.success(null);
     }
 
+    @GetMapping("/block/check/{userid}")
+    @ApiOperation(value = "사용자 차단 여부 조회")
+    public BaseResponse isBlockUser(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        UserBlock result = userBlockService.findUserBlock(userDetails.getUserSeq(), userId);
+        return BaseResponse.success(result);
+    }
 
     @GetMapping("/block/list")
     @ApiOperation(value = "차단 사용자 리스트 조회")
