@@ -61,8 +61,14 @@ const Profile = () => {
             setFeedMaster(data.data.data)
             setLevel(data.data.data.level);
             setNickname(data.data.data.userNickName);
-            setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
+            if(null == (data.data.data.profileImgFileName)){
+                setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+            }else{
+                setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
+            }
         })();
+
+
     }, []);
     
     useEffect(() => {
@@ -180,7 +186,8 @@ const Profile = () => {
                         {nickname} 님의 피드
                         { !isMypage && !followingStatus && <div className='follow-btn' onClick={follow}>팔로우</div> }
                         { !isMypage && followingStatus && <div className='unfollow-btn' onClick={follow}>언팔로우</div> }
-                        <ChattingRoom yourSeq={userId} yourNickname={nickname}></ChattingRoom>
+                        {/* { !isMypage && <ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom> } */}
+                        <ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
                         <button onClick={navigateFollow} style={{display: 'block'}}>
