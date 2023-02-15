@@ -29,6 +29,7 @@ import FeedDetail from "./FeedDetail/FeedDetail";
 import FeedComment from "./FeedComment/FeedComment";
 import RunningMy from "./RunningMy/RunningMy"
 import MyPage from './MyPage/MyPage'
+import Landing from './common/SplashPage'
 
 // import Feed from './Feed/Feed';
 
@@ -40,6 +41,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<MainPage />} />
+                    <Route path='/landing' element={<Landing />} />
                     <Route path='/user/login' element={<Login />} />
                     <Route path='/oauth/callback/kakao' element={<Oauth />} />
                     <Route path='/user/signup' element={<Register />} />
