@@ -65,6 +65,7 @@ const Profile = () => {
             setLevel(data.data.data.level);
             setNickname(data.data.data.userNickName);
             setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
+            console.log(data.data.data)
         })();
     }, []);
     
@@ -138,8 +139,10 @@ const Profile = () => {
         <div>
             <Modal isOpen={isOpen} onClose={onClose} size='xs' isCentered>
                 <ModalOverlay />
+                { 
+                    isMypage ?
+
                 <ModalContent>
-                    {/* <ModalHeader>⚙</ModalHeader> */}
                     <ModalCloseButton />
                     <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
                         <div style={{width: '100%'}}>
@@ -169,6 +172,22 @@ const Profile = () => {
                         </div>
                     </ModalBody>
                     </ModalContent>
+                    :
+                    <ModalContent>
+                    <ModalCloseButton />
+                    <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
+                        <div style={{width: '100%'}}>
+                            <Divider mt='5px' w='100%' mb='5px'/>
+                            <Link to="/setting-block">
+                                <div style={{fontSize:'20px', textAlign: 'center'}}> 
+                                    차단하기
+                                </div>
+                            </Link>
+                        </div>
+                    </ModalBody>
+                    </ModalContent>
+
+                }
             </Modal>
             <Header></Header>
             <p style={{textAlign: 'right', marginRight: '5%', marginBottom: '10px', marginTop: '55px', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></p>
