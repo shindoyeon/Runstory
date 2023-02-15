@@ -17,7 +17,7 @@ import {
   Input
 } from '@chakra-ui/react'
 
-function SearchLocation({tmap}) {
+function SearchLocation({tmap, type}) {
   const Tmapv2 = window.Tmapv2;
   const [keyword, setKeyword] = useState("");
 
@@ -71,7 +71,7 @@ return (
                   {result.map((item, idx) => {
                     var id = item.frontLat + " " + item.frontLon
                     return(
-                      <Tr id={id} onClick={panLoc}>
+                          <Tr id={id} onClick={panLoc}>
                               <Td id={id} textAlign={'center'}>{idx+1}</Td>
                               <Td id={id} textAlign={'center'}>{item.name}</Td>
                               <Td id={id} textAlign={'center'}>{item.upperAddrName} {item.middleAddrName} {item.lowerAddrName} {item.roadName}</Td>
