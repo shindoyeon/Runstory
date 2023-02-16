@@ -1,11 +1,13 @@
 import React from 'react';
 import './FollowListPageMsg.css'
+import { useNavigate } from 'react-router-dom';
 
 const FollowPageMsg = () => {
+    const navigate = useNavigate();
   return (
       <div className="follow-header">
-          <div className='follow-header-left'>
-              <p className='follow-title'>팔로우 관리</p>
+          <div className='follow-header-left' onClick={() => navigate(-1)}>
+              <p className='follow-title'>←</p>
           </div>
       </div>
   );
