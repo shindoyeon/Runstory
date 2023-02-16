@@ -138,8 +138,6 @@ public class Running {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.startTime = LocalDateTime.parse(runningCrewReqDto.getStartTime(), formatter);
         this.endTime = LocalDateTime.parse(runningCrewReqDto.getEndTime(), formatter);
-//        this.startTime = LocalDateTime.now();
-//        this.endTime = LocalDateTime.now();
         this.distance = runningCrewReqDto.getDistance();
         this.user = user;
     }
@@ -158,8 +156,6 @@ public class Running {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.startTime = LocalDateTime.parse(runningCrewReqDto.getStartTime(), formatter);
         this.endTime = LocalDateTime.parse(runningCrewReqDto.getEndTime(), formatter);
-//        this.startTime = LocalDateTime.now();
-//        this.endTime = LocalDateTime.now();
         this.distance = runningCrewReqDto.getDistance();
     }
 }
