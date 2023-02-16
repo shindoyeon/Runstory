@@ -11,6 +11,7 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
+    HStack,
 } from '@chakra-ui/react';
 import Info from './Info'
 import ProfileFeed from './ProfileFeed';
@@ -48,6 +49,7 @@ const Profile = () => {
     const [level, setLevel] = useState();
     const [nickname, setNickname] = useState();
     const [profileImg, setProfileImg] = useState();
+    const [levelImg, setLevelImg] = useState(); // 레벨 이미지를 확인한다.
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -76,6 +78,19 @@ const Profile = () => {
             }else{
                 setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
             }
+            
+            // Level별 이미지를 보내주는 것
+            if (data.data.data.level === 0){
+                setLevelImg("https://i8a806.p.ssafy.io/level/맨발.png")
+            }else if(data.data.data.level === 1){
+                setLevelImg("https://i8a806.p.ssafy.io/level/짚신.png")
+            }else if(data.data.data.level === 2){
+                setLevelImg("https://i8a806.p.ssafy.io/level/고무신.png")
+            }else if(data.data.data.level === 3){
+                setLevelImg("https://i8a806.p.ssafy.io/level/캔버스.png")
+            }else if(data.data.data.level === 4){
+                setLevelImg("https://i8a806.p.ssafy.io/level/날개.png")
+            }
         })();
     }, 500);
     }, []);
@@ -89,6 +104,7 @@ const Profile = () => {
                     }
                 }
             );
+
             
             setFollowId(data.data.data.followId);
             setFollowing(data.data.data.follwingCnt);
@@ -232,9 +248,13 @@ const Profile = () => {
             <BetweenBodyFooter></BetweenBodyFooter>
             {console.log(feedMaster)}
             {/* {console.log(userId)} */}
-            <div style={{display: 'flex', justifyContent: "right"}}>
-                <div style={{textAlign: 'right', marginRight: '3%', fontSize: '20px'}}><FontAwesomeIcon icon={faGear} /></div>
-                <div style={{textAlign: 'right', marginRight: '5%', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
+            <div style={{display: 'flex', justifyContent: "right", marginRight:"5%"}}>
+                <HStack>
+                    <a href='/mypage'>
+                        <div style={{textAlign: 'right', marginRight: '3%', fontSize: '20px'}}><FontAwesomeIcon icon={faGear} /></div>
+                    </a>
+                    <div style={{textAlign: 'right', marginRight: '5%', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
+                </HStack>
             </div>
             <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px'}}>
                 <Avatar 
@@ -243,11 +263,18 @@ const Profile = () => {
                     src={profileImg}
                     style={{border: '2px solid #6A6A6A'}} />
                 <div className='info' style={{display: 'block', textAlign: 'center', paddingLeft: '5%'}}> 
-                    <div className='user-nickname' style={{fontSize: '20px'}}>
-                        {nickname} 님의 피드
+                    <div className='user-nickname' style={{fontSize: '20px', marginTop:"5%"}}>
+                        <HStack>
+                            <Avatar 
+                            isCentered
+                            size={'sm'}
+                            src={levelImg}
+                            style={{marginRight:"5%"}} />
+                            <p style={{marginRight:"5%"}}>{nickname}</p>
+                            <ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom>
+                        </HStack>
                         { !isMypage && !followingStatus && <><div className='follow-btn' onClick={follow}>팔로우</div></>}
                         { !isMypage && followingStatus && <><div className='unfollow-btn' onClick={follow}>언팔로우</div></>}
-                        <ChattingRoom yourSeq={userId} yourNickname={nickname} yourProfileImg={profileImg}></ChattingRoom>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '10px'}}>
                         <button onClick={navigateFollow} style={{display: 'block'}}>
