@@ -4,6 +4,8 @@ import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.feed.entity.Feed;
 import com.runstory.domain.feed.entity.FeedComment;
+import com.runstory.domain.feed.entity.FeedLike;
+import com.runstory.domain.feed.entity.FeedRecomment;
 import com.runstory.domain.running.Running;
 import com.runstory.domain.running.RunningDibs;
 import com.runstory.domain.running.RunningUser;
@@ -103,6 +105,10 @@ public class User {
     private List<UserBlock> userBlocks = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<FeedComment> feedComments = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<FeedRecomment> feedReComments = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<FeedLike> feedLikes = new ArrayList<>();
     public void UserExperienceUpdate(int level,int distance){
         this.level = level;
         this.experience = distance;
