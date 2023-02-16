@@ -11,6 +11,7 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
+    HStack,
 } from '@chakra-ui/react';
 import Info from './Info'
 import ProfileFeed from './ProfileFeed';
@@ -18,13 +19,13 @@ import ProfileMsg from './ProfileMsg';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BetweenBodyFooter from '../common/BetweenBodyFooter';
-import './Feed.css';
+import './Feed.css'
 import axios from '../api/axios';
 
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faGear } from "@fortawesome/free-solid-svg-icons";
-import { Link, useParams } from 'react-router-dom'
+import {Link,useParams} from 'react-router-dom'
 import ChattingRoom from '../Chatting/ChattingRoom';
 // import {  } from 'react-router-dom';
 
@@ -35,19 +36,20 @@ import ChattingRoom from '../Chatting/ChattingRoom';
 const Profile = () => {
     const accessToken = localStorage.getItem("access-token");
 
-    const { userId } = useParams();
+    const {userId} = useParams();
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const {isOpen, onOpen, onClose} = useDisclosure();
 
     const [follower, setFollower] = useState(0);
     const [following, setFollowing] = useState(0);
     const [followingStatus, setFollowingStatus] = useState(false);
-    const [followId, setFollowId] = useState(null);
+    const [followId , setFollowId] = useState(null);
     const [isMypage, setIsMypage] = useState(false);
     const [feedMaster, setFeedMaster] = useState([]);
     const [level, setLevel] = useState();
     const [nickname, setNickname] = useState();
     const [profileImg, setProfileImg] = useState();
+    const [levelImg, setLevelImg] = useState(); // 레벨 이미지를 확인한다.
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -59,20 +61,35 @@ const Profile = () => {
             (async () => { // 피드 주인
                 const data = await axios.get(
                     "https://i8a806.p.ssafy.io/api/feed/profile/" + userId,
-                ).catch(function (error) {
+                ).catch(function(error) {
                     console.log("실패");
                     console.log(error);
                     navigate("/main");
                 });
 
+                console.log("피드 주인 : "+data.status)
+
                 setFeedMaster(data.data.data)
                 setLevel(data.data.data.level);
                 setNickname(data.data.data.userNickName);
                 console.log(data.data.data)
-                if ("" == (data.data.data.profileImgFileName)) {
+                if("" == (data.data.data.profileImgFileName)){
                     setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
-                } else {
-                    setProfileImg("http://i8a806.p.ssafy.io/runstory/user/" + data.data.data.profileImgFileName);
+                }else{
+                    setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
+                }
+
+                // Level별 이미지를 보내주는 것
+                if (data.data.data.level === 0){
+                    setLevelImg("https://i8a806.p.ssafy.io/level/맨발.png")
+                }else if(data.data.data.level === 1){
+                    setLevelImg("https://i8a806.p.ssafy.io/level/짚신.png")
+                }else if(data.data.data.level === 2){
+                    setLevelImg("https://i8a806.p.ssafy.io/level/고무신.png")
+                }else if(data.data.data.level === 3){
+                    setLevelImg("https://i8a806.p.ssafy.io/level/캔버스.png")
+                }else if(data.data.data.level === 4){
+                    setLevelImg("https://i8a806.p.ssafy.io/level/날개.png")
                 }
             })();
         }, 500);
@@ -82,11 +99,13 @@ const Profile = () => {
         (async () => {
             const data = await axios.get(
                 "https://i8a806.p.ssafy.io/api/feed/followstatus/" + userId, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
                 }
-            }
             );
+
+
             setFollowId(data.data.data.followId);
             setFollowing(data.data.data.follwingCnt);
             setFollower(data.data.data.follwerCnt);
@@ -97,21 +116,21 @@ const Profile = () => {
     useEffect(() => {
         (async () => {
             const data = await axios.get("/user");
-            if (data.data.data.userSeq == userId) {
+            if(data.data.data.userSeq == userId){
                 setIsMypage(true);
             }
         })();
     }, []);
 
-    const follow = (async () => {
+    const follow =  (async () => {
         //아직 팔로우 안 한 경우
-        if (!followingStatus) {
+        if(!followingStatus){
             const data = await axios.post(
-                "https://i8a806.p.ssafy.io/api/feed/follow/" + userId, {}, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
+                "https://i8a806.p.ssafy.io/api/feed/follow/" + userId, {},{
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
                 }
-            }
             );
             // followid 저장하기
             setFollowId(data.data.data);
@@ -127,7 +146,7 @@ const Profile = () => {
     })
 
     const navigateFollow = () => { // 클릭 시 팔로우리스트페이지로 이동
-        window.location.replace("/feed/follow/" + userId);
+        window.location.replace("/feed/follow/"+userId);
     };
 
     // 로그아웃
@@ -139,11 +158,11 @@ const Profile = () => {
     function Blocked(Id) {
         const url = "feed/block/" + Id;
         axios.post(url)
-            .then(function (response) {
+            .then(function(response) {
                 console.log("성공");
                 window.location.replace("/feed/" + Id)
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.log("실패");
             })
 
@@ -152,11 +171,11 @@ const Profile = () => {
     function UnBlocked(Id, userId) {
         const url = "feed/unblock/" + Id;
         axios.delete(url)
-            .then(function (response) {
+            .then(function(response) {
                 console.log("성공");
                 window.location.replace("/feed/" + userId)
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.log("실패");
             })
 
@@ -170,31 +189,31 @@ const Profile = () => {
                     isMypage ?
                         <ModalContent>
                             <ModalCloseButton />
-                            <ModalBody style={{ margin: '0 auto', width: '100%', marginTop: '30px' }}>
-                                <div style={{ width: '100%' }}>
-                                    <Divider mt='5px' w='100%' mb='5px' />
+                            <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
+                                <div style={{width: '100%'}}>
+                                    <Divider mt='5px' w='100%' mb='5px'/>
                                     <a href='/setting-block'>
-                                        <div style={{ fontSize: '20px', textAlign: 'center' }}>
+                                        <div style={{fontSize:'20px', textAlign: 'center'}}>
                                             차단설정
                                         </div>
                                     </a>
-                                    <Divider mt='5px' w='100%' mb='5px' />
+                                    <Divider mt='5px' w='100%' mb='5px'/>
                                     <a href='/setting-alarm'>
-                                        <div style={{ fontSize: '20px', textAlign: 'center' }}>
+                                        <div style={{fontSize:'20px', textAlign: 'center'}}>
                                             알림설정
                                         </div>
                                     </a>
-                                    <Divider mt='5px' w='100%' mb='5px' />
-                                    <a to='/setting-question'>
-                                        <div style={{ fontSize: '20px', textAlign: 'center' }}>
+                                    <Divider mt='5px' w='100%' mb='5px'/>
+                                    <a href='/setting-question'>
+                                        <div style={{fontSize:'20px', textAlign: 'center'}}>
                                             문의하기
                                         </div>
                                     </a>
-                                    <Divider mt='5px' w='100%' mb='5px' />
-                                    <div style={{ fontSize: '20px', textAlign: 'center', color: 'red' }} onClick={logout}>
+                                    <Divider mt='5px' w='100%' mb='5px'/>
+                                    <div style={{fontSize:'20px', textAlign: 'center', color: 'red'}} onClick={logout}>
                                         로그아웃
                                     </div>
-                                    <Divider mt='5px' w='100%' mb='5px' />
+                                    <Divider mt='5px' w='100%' mb='5px'/>
                                 </div>
                             </ModalBody>
                         </ModalContent>
@@ -202,10 +221,10 @@ const Profile = () => {
                         feedMaster.isBlocked ?
                             <ModalContent>
                                 <ModalCloseButton />
-                                <ModalBody style={{ margin: '0 auto', width: '100%', marginTop: '30px' }}>
-                                    <div style={{ width: '100%' }}>
-                                        <Divider mt='5px' w='100%' mb='5px' />
-                                        <button onClick={() => UnBlocked(feedMaster.blockId, userId)} style={{ fontSize: '20px', textAlign: 'center' }}>
+                                <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
+                                    <div style={{width: '100%'}}>
+                                        <Divider mt='5px' w='100%' mb='5px'/>
+                                        <button onClick={() => UnBlocked(feedMaster.blockId, userId)} style={{fontSize:'20px', textAlign: 'center'}}>
                                             차단 취소
                                         </button>
                                     </div>
@@ -214,10 +233,10 @@ const Profile = () => {
                             :
                             <ModalContent>
                                 <ModalCloseButton />
-                                <ModalBody style={{ margin: '0 auto', width: '100%', marginTop: '30px' }}>
-                                    <div style={{ width: '100%' }}>
-                                        <Divider mt='5px' w='100%' mb='5px' />
-                                        <button onClick={() => Blocked(userId)} style={{ fontSize: '20px', textAlign: 'center' }}>
+                                <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
+                                    <div style={{width: '100%'}}>
+                                        <Divider mt='5px' w='100%' mb='5px'/>
+                                        <button onClick={() => Blocked(userId)} style={{fontSize:'20px', textAlign: 'center'}}>
                                             차단하기
                                         </button>
                                     </div>
@@ -228,6 +247,7 @@ const Profile = () => {
             <Header></Header>
             <BetweenBodyFooter></BetweenBodyFooter>
             {console.log(feedMaster)}
+            {/* {console.log(userId)} */}
             <div style={{ display: 'flex', justifyContent: "right" }}>
                 <div style={{ textAlign: 'right', marginRight: '3%', fontSize: '20px' }}><FontAwesomeIcon icon={faGear} /></div>
                 <div style={{ textAlign: 'right', marginRight: '3%', fontSize: '20px' }}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
