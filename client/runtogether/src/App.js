@@ -31,8 +31,6 @@ import RunningMy from "./RunningMy/RunningMy"
 import MyPage from './MyPage/MyPage'
 import Landing from './common/SplashPage'
 
-// import Feed from './Feed/Feed';
-
 import "./App.css";
 
 function App() {

@@ -6,12 +6,10 @@ import axioswithH from '../api/axios';
 import {NavLink} from "react-router-dom";
 
 const ProfileFeed = (props) => {
-    // const { isOpen, onOpen, onClose } = useDisclosure()
     const [feedResult, setFeedResult] = useState([]);
     const [arr, setArr] = useState([]);
     useEffect(() => {
         (async () => {
-          // const data = null;
           if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
             alert("로그인이 필요한 페이지입니다.")
           }
@@ -20,7 +18,6 @@ const ProfileFeed = (props) => {
                 url: '/feed/'+(props.userId),
                 method: "GET"
             });
-            // console.log("data : "+data.data.data[0].content)
             var temp = sliceFeedResult(data.data.data);
             setFeedResult(temp);
           }
@@ -38,7 +35,7 @@ const ProfileFeed = (props) => {
       for(let i = 0; i < data.length; i+=3) {
         tempArr.push(data.slice(i, i+3))
       }
-    console.log(tempArr[0])
+
     if(tempArr[0].length===1) {
       tempArr[0].push({feedId: -1, feedFiles: [{filePath: ""}]})
       tempArr[0].push({feedId: -1, feedFiles: [{filePath: ""}]})
@@ -58,15 +55,13 @@ const ProfileFeed = (props) => {
             return(
               <tr>
               {item.map((i) => {
-                //피드 상세 주소로 다시 맞춰줘야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 return(
                   <td>
                     {i.feedId===-1?
                     <div style={{width: '100px', height: '100px'}}>
                     </div>
-                    
                     :
-                    <NavLink to={"/feed/detail/" + i.feedId}> 
+                    <a href={`/feed/detail/${i.feedId}`}> 
                     <Image
                     boxSize='100px'
                     objectFit='cover'
@@ -75,9 +70,8 @@ const ProfileFeed = (props) => {
                     alt='x'
                     borderRadius={5}
                     style={{border: '0.5px solid #8a8a8a'}}/>
-                    </NavLink>
-                    }
-                    
+                    </a>
+                    }     
                   </td>
                 )
               })}

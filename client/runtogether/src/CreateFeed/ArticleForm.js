@@ -18,8 +18,6 @@ import {
     useDisclosure
   } from '@chakra-ui/react';
 import axios from 'axios';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 
 const ArticleForm = () => {
     const accessToken = localStorage.getItem("access-token");

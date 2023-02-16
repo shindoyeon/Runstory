@@ -64,9 +64,12 @@ function SliderImg({runningCrew}) {
             {
                 runningCrew.map((crew, idx) => {
                     return(<>
-                        <NavLink className='aNav'>
-                            <img className='img' src={`https://i8a806.p.ssafy.io/runstory/running/`+crew.imgFileName} id={crew.runningId} onClick={openModal} alt="" />
-                        </NavLink>
+                    {crew.runningId === -1?
+                    <div style={{display: 'hidden', width: '100%'}}></div>
+                    :
+                    <NavLink className='aNav'>
+                        <img className='img' src={`https://i8a806.p.ssafy.io/runstory/running/`+crew.imgFileName} id={crew.runningId} onClick={openModal} alt="" />
+                    </NavLink>}
                         </>);
                       })
                 }
