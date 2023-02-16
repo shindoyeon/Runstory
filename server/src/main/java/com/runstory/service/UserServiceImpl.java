@@ -201,6 +201,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public String changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception{
 		User user = userRepository.findByUserId(userId);
+//		System.out.println("사진 변경 :"+user);
 		// 수정하는 경우 기존 파일 삭제
 //		if (!isRegistered) {
 //			File file = new File(user.getProfileImgFilePath());
@@ -279,15 +280,17 @@ public class UserServiceImpl implements UserService {
 		selectedHashtagRepository.deleteSelectedHashtagByUserId(userSeq);
 
 		List<Long> list = userRegisterPostReq.getHashtags();
-		// 새로운 해시태그 추가
-		for(Long hashtagId : list){
-			Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
-			SelectedHashtag selectedHashtag = new SelectedHashtag();
+		if(list != null){
+			// 새로운 해시태그 추가
+			for(Long hashtagId : list){
+				Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
+				SelectedHashtag selectedHashtag = new SelectedHashtag();
 
-			selectedHashtag.setHashtag(hashtag);
-			selectedHashtag.setUser(user);
-			selectedHashtag.setHashtagType(HashtagType.valueOf("USER"));
-			selectedHashtagRepository.save(selectedHashtag);
+				selectedHashtag.setHashtag(hashtag);
+				selectedHashtag.setUser(user);
+				selectedHashtag.setHashtagType(HashtagType.valueOf("USER"));
+				selectedHashtagRepository.save(selectedHashtag);
+			}
 		}
 	}
 }
