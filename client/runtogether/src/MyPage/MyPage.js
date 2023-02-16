@@ -11,7 +11,7 @@ function MainPage() {
       <BetweenBodyFooter></BetweenBodyFooter>
       <Profile></Profile>
       <BetweenBodyFooter></BetweenBodyFooter>
-      {/* <BetweenBodyFooter></BetweenBodyFooter> */}
+      <BetweenBodyFooter></BetweenBodyFooter>
       <Footer></Footer>
     </div>
   );
