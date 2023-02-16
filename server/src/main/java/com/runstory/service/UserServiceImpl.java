@@ -4,12 +4,16 @@ import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
 import com.runstory.api.response.SimpleUserResDto;
 import com.runstory.common.util.FileUtil;
+import com.runstory.domain.chat.ChatRoom;
+import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.RegType;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
+import com.runstory.repository.ChatRoomRepository;
+import com.runstory.repository.ChatRoomUserRepository;
 import com.runstory.repository.HashtagRepository;
 import com.runstory.repository.SelectedHashtagRepository;
 import com.runstory.repository.UserRepository;
@@ -37,6 +41,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired PasswordEncoder passwordEncoder;
 	@Autowired HashtagRepository hashtagRepository;
 	@Autowired SelectedHashtagRepository selectedHashtagRepository;
+	@Autowired ChatRoomRepository chatRoomRepository;
+	@Autowired ChatRoomUserRepository chatRoomUserRepository;
 
 	@Override
 	@Transactional
@@ -150,6 +156,17 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findByUserId(userId);
 		selectedHashtagRepository.deleteSelectedHashtagByUserId(user.getUserSeq());
 
+		//채팅방 삭제
+		List<ChatRoomUser> list = chatRoomUserRepository.findByUser(user);
+		for(ChatRoomUser chatRoomUser : list){
+			ChatRoom chatRoom = chatRoomUser.getChatRoom();
+			List<ChatRoomUser> chatRoomUsers = chatRoomUserRepository.findByChatRoom(chatRoom);
+			for(ChatRoomUser cru : chatRoomUsers){
+				chatRoomUserRepository.delete(cru);
+			}
+			chatRoomRepository.deleteById(chatRoom.getChatRoomId());
+		}
+		//채팅방 유저 삭제
 		userRepository.deleteUserByUserId(userId);
 	}
 
