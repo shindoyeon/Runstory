@@ -30,4 +30,6 @@ public interface UserService {
 	void changeUserHashtage(String userId, List<Long> list);
 	String getToken(String userId);
 	List<SimpleUserResDto> searchByUserNickname(String userNickname, Long lastUserId, int size);
+
+	void changeUserAllInfo(Long userSeq, UserRegisterPostReq userRegisterPostReq) throws Exception;
 }
