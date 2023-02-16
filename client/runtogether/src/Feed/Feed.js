@@ -61,7 +61,7 @@ const Profile = () => {
             ).catch(function(error) {
                 console.log("실패");
                 console.log(error);
-                navigate("/");
+                navigate("/main");
             });
 
             console.log("피드 주인 : "+data.status)

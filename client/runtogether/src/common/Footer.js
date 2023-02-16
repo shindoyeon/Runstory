@@ -42,42 +42,42 @@ const Footer = () => {
         <ChakraProvider theme={theme}>  
             <header className='footer'>
                 <div className='home'><FontAwesomeIcon icon={faHome} onClick={refreshToHome} /></div>
-                <NavLink to='/running-crew-list'><div className='gather'><FontAwesomeIcon icon={faUserGroup} /></div></NavLink>
+                <a href='/running-crew-list'><div className='gather'><FontAwesomeIcon icon={faUserGroup} /></div></a>
                 {/* <Link to='/create-feed'> */}
                   <div className='post' onClick={onToggle}><FontAwesomeIcon icon={faCirclePlus} />
           
                   </div>
                   
                 {/* </Link> */}
-                <NavLink to="/search"><div className='navigate'><FontAwesomeIcon icon={faMagnifyingGlass} /></div></NavLink>
+                <a href="/search"><div className='navigate'><FontAwesomeIcon icon={faMagnifyingGlass} /></div></a>
                 <Collapse in={isOpen} animateOpacity className='collapse'>
                   <ButtonGroup className='btn-group'>
-                      <NavLink to='/create-running-crew'>
+                      <a href='/create-running-crew'>
                         <Button size='sm' className='running-crew-write' bg='#F4EBEB'>
                           러닝 크루 모집
                         </Button>
-                      </NavLink>
-                      <NavLink to='/create-feed'>
+                      </a>
+                      <a href='/create-feed'>
                         <Button size='sm' className='feed-write' bg='#F4EBEB'>
                           피드 작성
                         </Button>
-                      </NavLink>
-                      <NavLink to='/draw-map'>
+                      </a>
+                      <a href='/draw-map'>
                         <Button size='sm' className='map-draw' bg='#F4EBEB'>
                           지도 그리기
                         </Button>
-                      </NavLink>
+                      </a>
                     </ButtonGroup>
                 </Collapse>
                 {isLogined?
-                <NavLink to={`/feed/${userId}`}> 
+                <a href={`/feed/${userId}`}> 
                   <div className='my-page'>
                   <FontAwesomeIcon icon={faUser} /></div>
-                </NavLink>
+                </a>
                 :
-                <NavLink to='/user/login'> 
+                <a href='/user/login'> 
                   <div className='my-page'><FontAwesomeIcon icon={faUser} /></div>
-                </NavLink>
+                </a>
                 }
             </header>
         </ChakraProvider>
