@@ -7,13 +7,13 @@ import {
     ModalBody, Card, CardBody, CardFooter, ModalFooter, Input, Avatar
 } from '@chakra-ui/react';
 import { HStack } from '@chakra-ui/react';
-import { useParams, NavLink } from 'react-router-dom';
+import { useParams, NavLink, Navigate } from 'react-router-dom';
 import axios from '../api/axios'
 import Hashtags from "./Hashtags";
 import BetweenBodyFooter from "../common/BetweenBodyFooter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome 사용
 import { faComment } from "@fortawesome/free-regular-svg-icons";
-import { faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear, faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import axiosH from '../api/axios'
 
 function FeedDetail() {
@@ -27,8 +27,10 @@ function FeedDetail() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [comment, setComment] = useState("");
     const [isLiked, setIsLiked] = useState()
+    const [isMypage, setIsMypage] = useState(false);
 
     useEffect(() => {
+        setTimeout(() => {
         (async () => {
             const url = "feed/detail/" + feedId;
             const data = await axios.get(url)
@@ -49,13 +51,24 @@ function FeedDetail() {
                     else {
                         setIsLiked(true);
                     }
-                    // setUser(response.data.data.feedComments[0].simpleUserResDto)
-                    // console.log(response.data.data)
-                    console.log("성공");
                 })
                 .catch(function (error) {
                     console.log("실패");
                 })
+        })();
+    }, 500);
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const data = await axios.get("/user");
+            console.log("본인여부 조회: " + data.data.data.userNickname);
+            console.log("data: " + data.data.data.userSeq);
+            console.log("feeds: " + feeds.userId);
+            if (data.data.data.userSeq == feeds.userId) {
+                console.log("내피드임");
+                setIsMypage(true);
+            }
         })();
     }, []);
 
@@ -65,18 +78,6 @@ function FeedDetail() {
         var profileurl = "https://i8a806.p.ssafy.io/runstory/user/" + feeds.profileImgFileName;
     }
     var feedurl = "https://i8a806.p.ssafy.io/runstory/feeds/" + feedfiles.filePath;
-    var commenturl = "https://i8a806.p.ssafy.io/runstory/user/" + user.profileImgFileName;
-    console.log("url주소 : " + profileurl);
-    function GotoComment() {
-        const url = `/feed/comment/${feedId}`;
-        axios.get(url)
-            .then(function (response) {
-                console.log("성공");
-            })
-            .catch(function (error) {
-                console.log("실패");
-            })
-    }
 
     async function postLike(feedId) {
         await axiosH({
@@ -90,8 +91,22 @@ function FeedDetail() {
         await axiosH({
             url: "/feed/feed-unlike/" + feedId,
             method: "DELETE"
-        });
+        }).then(function (response) {
+            console.log("성공");
+        })
+            .catch(function (error) {
+                console.log("실패");
+            });
         setIsLiked(false)
+    }
+
+    async function deleteFeed(feedId) {
+        await axiosH({
+            url: "/feed/" + feedId,
+            method: "DELETE"
+        }).then(function (response) {
+            window.location.re();
+        });
     }
 
     const clickLike = (feedId) => {
@@ -111,19 +126,37 @@ function FeedDetail() {
 
     return (
         <div style={{ marginBottom: "15%" }}>
+            <Modal isOpen={isOpen} onClose={onClose} size='xs' isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalCloseButton />
+                    <ModalBody style={{ margin: '0 auto', width: '100%', marginTop: '30px' }}>
+                        <div style={{ width: '100%' }}>
+                            <Divider mt='5px' w='100%' mb='5px' />
+                            <button onClick={() => deleteFeed(feedId)} style={{ fontSize: '20px', textAlign: 'center' }}>
+                                삭제
+                            </button>
+                        </div>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
             <Header></Header>
             <BetweenBodyFooter></BetweenBodyFooter>
-            <div style={{ marginBottom: '3%' }}>
-                <div style={{ width: "80%", margin: '0 auto', display: 'flex' }}>
-                    <NavLink to={"/feed/" + feeds.userId}>
-                        <Avatar name='author-profile-img' src={profileurl} style={{ border: "1px dotted #6A6A6A", marginRight: '3%' }} />
-                    </NavLink>
-                    {/* <img alt="" src={profileurl} width="8%" height="10%"/> */}
-                    <div style={{ display: 'block', marginLeft: "3px" }}>
-                        <div style={{ fontSize: "15px" }}>{feeds.userNickname}</div>
-                    </div>
+            {
+                isMypage ?
+                    <div style={{ display: 'flex', justifyContent: "right" }}>
+                        <div style={{ textAlign: 'right', marginRight: '10%', fontSize: '20px' }}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
+                    </div> : null}
+            <div style={{ width: "80%", margin: '0 auto', display: 'flex' }}>
+                <NavLink to={"/feed/" + feeds.userId}>
+                    <Avatar name='author-profile-img' src={profileurl} style={{ border: "1px dotted #6A6A6A", marginRight: '3%' }} />
+                </NavLink>
+                {/* <img alt="" src={profileurl} width="8%" height="10%"/> */}
+                <div style={{ display: 'block', marginLeft: "3px" }}>
+                    <div style={{ fontSize: "15px" }}>{feeds.userNickname}</div>
                 </div>
             </div>
+            {/* </div> */}
             <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
             <div style={{ marginTop: '3%' }}>
                 <div style={{ width: '100%', margin: '0 auto' }}>
