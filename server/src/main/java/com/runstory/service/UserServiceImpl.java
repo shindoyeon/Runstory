@@ -18,6 +18,7 @@ import com.runstory.repository.HashtagRepository;
 import com.runstory.repository.SelectedHashtagRepository;
 import com.runstory.repository.UserRepository;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -101,6 +102,12 @@ public class UserServiceImpl implements UserService {
 	public UserDto getUserInfoByUserId(String userId) {
 		User user = userRepository.findByUserId(userId);
 		UserDto userDto = new UserDto(user);
+		List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findAllByUser(user);
+		List<Long> hashtags = new ArrayList<>();
+		for(SelectedHashtag hashtag : selectedHashtags){
+			hashtags.add(hashtag.getHashtag().getHashtagId());
+		}
+		userDto.setHashtags(hashtags);
 		return userDto;
 	}
 
@@ -243,5 +250,41 @@ public class UserServiceImpl implements UserService {
 		Page<User> users = userRepository.findByUserNicknameContainsAndUserSeqLessThanOrderByUserSeqDesc(userNickname, lastUserId, pageRequest);
 		List<SimpleUserResDto> result = users.stream().map(u->new SimpleUserResDto(u)).collect(Collectors.toList());
 		return result;
+	}
+
+	@Override
+	@Transactional
+	public void changeUserAllInfo(Long userSeq, UserRegisterPostReq userRegisterPostReq)
+		throws Exception {
+		User user = userRepository.findByUserId(userRegisterPostReq.getUserId());
+
+		//닉네임, 이름, 성별, 나이, 핸드폰 번호, 주소, 해시택
+		user.setUserName(userRegisterPostReq.getUserName());
+		user.setUserNickname(userRegisterPostReq.getUserNickname());
+		user.setGender(userRegisterPostReq.getGender());
+		user.setAge(userRegisterPostReq.getAge());
+		user.setPhoneNum(userRegisterPostReq.getPhoneNum());
+		user.setAddress(userRegisterPostReq.getAddress());
+
+		userRepository.save(user);
+
+		// 프로필 사진 변경
+		//String changeUserImage(boolean isRegistered, String userId, MultipartFile image)
+		String result = changeUserImage(true, userRegisterPostReq.getUserId(),userRegisterPostReq.getProfileImg());
+		System.out.println("프로필 사진 변경 : "+result);
+		//기존 해시태그 삭제
+		selectedHashtagRepository.deleteSelectedHashtagByUserId(userSeq);
+
+		List<Long> list = userRegisterPostReq.getHashtags();
+		// 새로운 해시태그 추가
+		for(Long hashtagId : list){
+			Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
+			SelectedHashtag selectedHashtag = new SelectedHashtag();
+
+			selectedHashtag.setHashtag(hashtag);
+			selectedHashtag.setUser(user);
+			selectedHashtag.setHashtagType(HashtagType.valueOf("USER"));
+			selectedHashtagRepository.save(selectedHashtag);
+		}
 	}
 }
