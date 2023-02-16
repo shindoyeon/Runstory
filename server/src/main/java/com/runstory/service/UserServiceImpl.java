@@ -256,7 +256,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void changeUserAllInfo(Long userSeq, UserRegisterPostReq userRegisterPostReq)
 		throws Exception {
-		User user = userRepository.findByUserId(userRegisterPostReq.getUserId());
+		User user = userRepository.findByUserSeq(userSeq);
 
 		//닉네임, 이름, 성별, 나이, 핸드폰 번호, 주소, 해시택
 		user.setUserName(userRegisterPostReq.getUserName());
@@ -268,10 +268,13 @@ public class UserServiceImpl implements UserService {
 
 		userRepository.save(user);
 
-		// 프로필 사진 변경
-		//String changeUserImage(boolean isRegistered, String userId, MultipartFile image)
-		String result = changeUserImage(true, userRegisterPostReq.getUserId(),userRegisterPostReq.getProfileImg());
-		System.out.println("프로필 사진 변경 : "+result);
+		if(userRegisterPostReq.getProfileImg() != null){
+			// 프로필 사진 변경
+			//String changeUserImage(boolean isRegistered, String userId, MultipartFile image)
+			String result = changeUserImage(true, userRegisterPostReq.getUserId(),userRegisterPostReq.getProfileImg());
+			System.out.println("프로필 사진 변경 : "+result);
+		}
+
 		//기존 해시태그 삭제
 		selectedHashtagRepository.deleteSelectedHashtagByUserId(userSeq);
 
