@@ -9,20 +9,20 @@ import {
 
 
 const Landing = () => {
+  const [isLoading, setIsLoading] = useState(true)
+  
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
 
+  const timeout = () => {
+		setTimeout(() => {
+			navigate('/main');
+		}, 3000);
+	};
 
   useEffect(() => {
     setVisible(true);
   }, []);
-
-  const timeout = () => {
-    setTimeout(() => {
-      navigate("/");
-
-    }, 4000);
-  };
 
   useEffect(() => {
     timeout();
@@ -34,14 +34,15 @@ const Landing = () => {
 
   return (
     <ChakraProvider>
-      <Image
+      <iframe src="https://giphy.com/embed/Tgxr8pn069Sf7mgv0e" style={{width: '100vw', height: '100vh'}} frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+      {/* <Image
         // className={visible ? IamgeFile["logo-main"] : IamgeFile["logo-main-hide"]}
         src={IamgeFile}
         justifyContent='center'
         mt='30%'
         ml='11%'
         width={300} height={450}
-      />
+      /> */}
     </ChakraProvider>
   ); 
 }

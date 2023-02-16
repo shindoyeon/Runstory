@@ -135,9 +135,8 @@ public class Running {
         this.endLatitude = runningCrewReqDto.getEndLatitude();
         this.endLongitude = runningCrewReqDto.getEndLongitude();
         this.endLocation = runningCrewReqDto.getEndLocation();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        this.startTime = LocalDateTime.parse(runningCrewReqDto.getStartTime(), formatter);
-        this.endTime = LocalDateTime.parse(runningCrewReqDto.getEndTime(), formatter);
+        this.startTime = runningCrewReqDto.getStartTime();
+        this.endTime = runningCrewReqDto.getEndTime();
         this.distance = runningCrewReqDto.getDistance();
         this.user = user;
     }
@@ -153,9 +152,8 @@ public class Running {
         this.endLatitude = runningCrewReqDto.getEndLatitude();
         this.endLongitude = runningCrewReqDto.getEndLongitude();
         this.endLocation = runningCrewReqDto.getEndLocation();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        this.startTime = LocalDateTime.parse(runningCrewReqDto.getStartTime(), formatter);
-        this.endTime = LocalDateTime.parse(runningCrewReqDto.getEndTime(), formatter);
+        this.startTime = runningCrewReqDto.getStartTime();
+        this.endTime = runningCrewReqDto.getEndTime();
         this.distance = runningCrewReqDto.getDistance();
     }
 }

@@ -53,7 +53,8 @@ const Profile = () => {
     useEffect(() => {
         setTimeout(() => {
         if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
-            navigate("/user/login");
+            window.location.replace('/user/login')
+            return;
         }
         (async () => { // 피드 주인
             const data = await axios.get(
@@ -61,7 +62,7 @@ const Profile = () => {
             ).catch(function(error) {
                 console.log("실패");
                 console.log(error);
-                navigate("/");
+                navigate("/main");
             });
 
             console.log("피드 주인 : "+data.status)
@@ -76,7 +77,7 @@ const Profile = () => {
                 setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
             }
         })();
-    }, 100);
+    }, 500);
     }, []);
  
     useEffect(() => {
@@ -170,7 +171,6 @@ const Profile = () => {
                 <ModalOverlay />
                 {
                     isMypage ?
-
                 <ModalContent>
                     <ModalCloseButton />
                     <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
@@ -232,10 +232,10 @@ const Profile = () => {
             <BetweenBodyFooter></BetweenBodyFooter>
             {console.log(feedMaster)}
             {/* {console.log(userId)} */}
-            {isMypage && <div style={{display: 'flex', justifyContent: "right"}}>
+            <div style={{display: 'flex', justifyContent: "right"}}>
                 <div style={{textAlign: 'right', marginRight: '3%', fontSize: '20px'}}><FontAwesomeIcon icon={faGear} /></div>
                 <div style={{textAlign: 'right', marginRight: '5%', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
-            </div>}
+            </div>
             <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px'}}>
                 <Avatar 
                     isCentered

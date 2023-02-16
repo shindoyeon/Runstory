@@ -18,10 +18,10 @@ const RunningCrewSearchResult = ({keyword}) => {
     useEffect(() => {
         (async () => {
           // const data = null;
-          if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
-            alert("로그인이 필요한 페이지입니다.")
-          }
-          else { //회원 조회 시
+          // if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
+          //   alert("로그인이 필요한 페이지입니다.")
+          // }
+          // else { //회원 조회 시
             const data = await axioswithH({
                 url: '/search',
                 method: "POST",
@@ -34,7 +34,7 @@ const RunningCrewSearchResult = ({keyword}) => {
             });
             var temp = sliceRunningCrewResult(data.data.data);
             setRunningCrewResult(temp);
-          }
+          // }
     
           if (runningCrewResult.length === 0) {
             return;

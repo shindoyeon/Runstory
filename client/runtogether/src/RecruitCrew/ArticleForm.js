@@ -83,7 +83,7 @@ const ArticleForm = () => {
     const handleDateChange = ({ target: { value } }) => setDate(value); 
     
     const navigateHome = () => { // 취소 클릭 시 홈으로 가기 위함
-      navigate("/");
+      navigate("/main");
     };
 
     // 남자 수 입력을 위한 부분
@@ -229,7 +229,7 @@ const ArticleForm = () => {
         method: "post", data: formData,
         headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${accessToken}` } });
 
-        navigate("/running-crew-list");
+        window.location.replace("/running-crew-list");
     }
 
     // 출발지 장소 검색 API
