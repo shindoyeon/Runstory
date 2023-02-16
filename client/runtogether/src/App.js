@@ -30,6 +30,7 @@ import FeedComment from "./FeedComment/FeedComment";
 import RunningMy from "./RunningMy/RunningMy"
 import MyPage from './MyPage/MyPage'
 import Landing from './common/SplashPage'
+import RunningComment from './RunningCrewComment/RunningComment'
 import ErrorPage from './404/ErrorPage';
 
 import "./App.css";
@@ -65,6 +66,7 @@ function App() {
                     <Route path='/chatting' element={<Chatting />} />
                     <Route path='/feed/detail/:feedId' element={<FeedDetail />} />
                     <Route path='/feed/detail/:feedId/comment' element={<FeedComment />} />
+                    <Route path='/running/detail/:runningId/comment' element={<RunningComment />} />
                     <Route path='/running/my' element={<RunningMy />} />
                     <Route path='/mypage' element={<MyPage />} />
                     <Route path='/errorpage' element={<ErrorPage />} />
