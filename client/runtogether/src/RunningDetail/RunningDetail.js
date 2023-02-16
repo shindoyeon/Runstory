@@ -10,6 +10,7 @@ import axios from '../api/axios'
 import BooleanRunning from "./BooleanRunning";
 import BetweenBodyFooter from "../common/BetweenBodyFooter";
 import axiosH from '../api/axios'
+import { NavLink } from 'react-router-dom';
 
 
 function RunningDetail(){
@@ -232,9 +233,9 @@ function RunningDetail(){
                     <div style={{fontSize: '14px', marginBottom: "5%"}}>시간: {runnings.startTime} - {runnings.endTime}</div>
                 </div>
                 <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
-                <div>
-                    <div style={{width: "80%", marginLeft: '10%', marginTop: "7%" }} onClick={onOpen}>💬 댓글 보기</div>
-                </div>
+                <NavLink to={"/running/detail/" + runnings.id + "/comment"}>
+                    <div style={{ marginTop: "5%" }}>💬 댓글 보기</div>
+                </NavLink>
                 <div>
                     {/* {
                     comments.map(function(comment){
