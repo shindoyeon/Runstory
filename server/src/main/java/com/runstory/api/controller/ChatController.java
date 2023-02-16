@@ -57,19 +57,18 @@ public class ChatController {
 //            messageDetailDtoList.add(messageDetailDto);
             chatMessageRepository.save(chatMessageDto);
         }else{
-            if(chatRoomList.get() != null){
-                List<MessageDetailDto> messageDetailDtoList = chatRoomList.get().getMessage();
-                for (MessageDetailDto message : messageDetailDtoList){
-                    System.out.println(message.getMessage());
-                    System.out.println("user seq : "+message.getUserSeq());
+            List<MessageDetailDto> messageDetailDtoList = chatRoomList.get().getMessage();
+            for (MessageDetailDto message : messageDetailDtoList){
+                System.out.println(message.getMessage());
+                System.out.println("user seq : "+message.getUserSeq());
 
-                    User user = userRepository.findByUserSeq(message.getUserSeq());
+                User user = userRepository.findByUserSeq(message.getUserSeq());
 
-//                System.out.println("test");
-                    ChatDto newChat = new ChatDto(MessageType.TALK,chat.getRoomId(),message.getUserSeq(),user.getUserNickname(),message.getMessage(),message.getTime());
-                    template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), newChat);
-                }
+//              System.out.println("test");
+                ChatDto newChat = new ChatDto(MessageType.TALK,chat.getRoomId(),message.getUserSeq(),user.getUserNickname(),message.getMessage(),message.getTime());
+                template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), newChat);
             }
+
         }
     }
 
@@ -87,10 +86,7 @@ public class ChatController {
             chatMessageRepository.save(chatMessageDto);
         }else{
             ChatMessageDto prevChatMessage = chatRoomList.get();
-            List<MessageDetailDto> messageDetailDtoList = new ArrayList<>();
-            if(prevChatMessage != null){
-                messageDetailDtoList = prevChatMessage.getMessage();
-            }
+            List<MessageDetailDto> messageDetailDtoList = prevChatMessage.getMessage();
             messageDetailDtoList.add(messageDetailDto);
             chatMessageRepository.save(prevChatMessage);
         }
