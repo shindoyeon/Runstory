@@ -7,7 +7,6 @@ import './UserSearchResult.css';
 import axioswithH from '../api/axios';
 
 const UserSearchResult = ({keyword}) => {
-    // console.log(userResult)
     const [userResult, setUserResult] = useState([]);
     useEffect(() => {
       (async () => {
@@ -33,20 +32,6 @@ const UserSearchResult = ({keyword}) => {
         setUserResult(data.data.data);
         })();
       }, [keyword]);
-
-    // async function getUserSearchResult(keyword) {
-    //     const data = await axioswithH({
-    //         url: '/search',
-    //         method: "POST",
-    //         data: {
-    //             type: 0, keyword: keyword, lastId: 1000
-    //         },
-    //         header: {
-    //             Authorization: localStorage.getItem('access-token')
-    //         }
-    //     });
-    //     return data.data.data;
-    // }
 
     return (
         <div className="user-search-result">

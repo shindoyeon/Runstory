@@ -1,15 +1,26 @@
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 import ChatBot from 'react-simple-chatbot';
-
+const theme = {
+    background: '#ffffff',
+    headerBgColor: '#CBD9E7',
+    headerFontColor: '#6a6a6a',
+    headerFontSize: '15px',
+    botBubbleColor: '#CBD9E7',
+    botFontColor: '#6a6a6a',
+    userBubbleColor: '#EEB6B6',
+    userFontColor: '#6a6a6a',
+  };
 const ChattingBot = () => {
     return (
+        <ThemeProvider theme={theme}>
         <ChatBot 
-        botAvatar="https://t.pimg.jp/058/210/521/5/58210521.jpg" 
-        botDelay="1300" 
-        userAvatar="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-        placeholder=""
-        hideSubmitButton="true"
-        headerTitle="RUNSTORY 챗봇 🏃‍♂️🏃‍♀️"
+            botAvatar="https://t.pimg.jp/058/210/521/5/58210521.jpg" 
+            botDelay="1300" 
+            userAvatar="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            placeholder=""
+            hideSubmitButton="true"
+            headerTitle="RUNSTORY 챗봇 🏃‍♂️🏃‍♀️"
             steps={[
                 {
                 id: '1',
@@ -72,6 +83,7 @@ const ChattingBot = () => {
                 }
             ]}
         />
+        </ThemeProvider>
     );
 }
 

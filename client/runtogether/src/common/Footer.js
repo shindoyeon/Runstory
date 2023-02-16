@@ -54,12 +54,12 @@ const Footer = () => {
                   <ButtonGroup className='btn-group'>
                       <NavLink to='/create-running-crew'>
                         <Button size='sm' className='running-crew-write' bg='#F4EBEB'>
-                          러닝 크루 모집글 작성하기
+                          러닝 크루 모집
                         </Button>
                       </NavLink>
                       <NavLink to='/create-feed'>
                         <Button size='sm' className='feed-write' bg='#F4EBEB'>
-                          피드 작성하기
+                          피드 작성
                         </Button>
                       </NavLink>
                       <NavLink to='/draw-map'>
