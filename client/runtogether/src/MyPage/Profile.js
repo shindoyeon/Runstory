@@ -87,29 +87,31 @@ function UpsideProfile() {
         // formData.append('userPwd', password);
         formData.append('userName', name);
         formData.append('userNickname', nickname);
-        formData.append('emailAuth', true);
+        // formData.append('emailAuth', true);
         formData.append('phoneNum', phoneNum);
         formData.append('gender', gender);
         formData.append('address', address);
         formData.append('age', age);
-        formData.append('roleType', "USER");
-        formData.append('regType', "LOCAL");
+        // formData.append('roleType', "USER");
+        // formData.append('regType', "LOCAL");
         // formData.append('hashtags', Array.from(selectedHashtagsId));
         formData.append('profileImg', file);
         const data = axioswithH({
-             url: 'https://i8a806.p.ssafy.io/api/user/signup',
-              method: "PUT", data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' } });
-          }
-          setIsModifyMode(!isModifyMode)
-        }
+            url: 'https://i8a806.p.ssafy.io/api/user',
+            // url: 'http://localhost:8080/user',
+            method: "PUT", data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' } 
+        });
+    }
+    setIsModifyMode(!isModifyMode)
+  }
         
-        async function delAccount() {
-          const data = await axioswithH({
-            url: '/user',
-            method: "DELETE"
-        });  
-      }
+  async function delAccount() {
+      const data = await axioswithH({
+        url: '/user',
+        method: "DELETE"
+    });  
+  }
 
   const handleNicknameChange = ({ target: { value } }) => setNickname(value);
   const handleNameChange = ({ target: { value } }) => setName(value);

@@ -249,7 +249,7 @@ const Profile = () => {
             {console.log(feedMaster)}
             {/* {console.log(userId)} */}
             <div style={{ display: 'flex', justifyContent: "right" }}>
-                <div style={{ textAlign: 'right', marginRight: '3%', fontSize: '20px' }}><FontAwesomeIcon icon={faGear} /></div>
+                <div style={{ textAlign: 'right', marginRight: '3%', fontSize: '20px' }}><a href="/mypage"><FontAwesomeIcon icon={faGear} /></a></div>
                 <div style={{ textAlign: 'right', marginRight: '3%', fontSize: '20px' }}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
             </div>
             <Box direction={{ base: 'row' }} style={{ display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px' }}>
