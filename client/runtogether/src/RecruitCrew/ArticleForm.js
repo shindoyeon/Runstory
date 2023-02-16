@@ -64,6 +64,7 @@ const ArticleForm = () => {
     const [startPlace, setStartPlace] = useState(""); // 시작 위치
     const [endPlace, setEndPlace] = useState(""); // 종료 위치
     const [image, setImage] = useState([]);
+    const [preview, setPreview] = useState([]);
     const [manCount, setManCount] = useState(0);
     const [womenCount, setWomenCount] = useState(0);
     const [count, setCount] = useState(0); //성별 무관
@@ -384,7 +385,7 @@ const ArticleForm = () => {
         </ModalContent>
       </Modal>
         <form className='article-form' onSubmit={handleSubmit}>
-            <ImgUpload image={image} setImage={setImage}></ImgUpload>
+            <ImgUpload image={image} setImage={setImage} preview={preview} setPreview={setPreview}></ImgUpload>
             <HashTag selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></HashTag>
             <div className='title'>크루명</div>
             <input className='title-input' placeholder='제목을 입력해주세요' onChange={handleCrewNameChange} type='text'></input>
@@ -431,7 +432,7 @@ const ArticleForm = () => {
                 <div className='man-input'>
                     <FontAwesomeIcon icon={faPerson} className='man-icon' />
                     <HStack>
-                      <div className='man-number' style={{width: '70px'}}>&nbsp;남자 수</div>
+                      <div className='man-number' style={{width: '90px'}}>&nbsp;남자 수</div>
                       <Button {...decMan} size='xs' variant='link'>-</Button>
                       <Input {...inputMan} size='xs' id="man-input" textAlign={'center'} width='30%' onChange={handleManCountChange}/>
                       <Button {...incMan} size='xs' variant='link'>+</Button>
@@ -441,7 +442,7 @@ const ArticleForm = () => {
                 <div className='woman-input'>
                     <FontAwesomeIcon icon={faPersonDress} className='woman-icon' />
                     <HStack>
-                      <div className='woman-number' style={{width: '70px'}}>&nbsp;여자 수</div>
+                      <div className='woman-number' style={{width: '90px'}}>&nbsp;여자 수</div>
                       <Button {...decWoman} size='xs' variant='link'>-</Button>
                       <Input {...inputWoman} size='xs' id="woman-input" textAlign={'center'} width='30%'onChange={handleWomenCountChange}/>
                       <Button {...incWoman} size='xs' variant='link'>+</Button>
@@ -450,7 +451,7 @@ const ArticleForm = () => {
                 <div className='whoever-input'>
                     <FontAwesomeIcon icon={faQuestion} className='whoever-icon' />
                     <HStack>
-                      <div className='whoever-number' style={{width: '70px'}}>&nbsp;성별 무관 수</div>
+                      <div className='whoever-number' style={{width: '90px'}}>&nbsp;성별 무관 수</div>
                       <Button {...decWhoever} size='xs' variant='link'>-</Button>
                       <Input {...inputWhoever} size='xs' id="whoever-input" textAlign={'center'} width='30%'onChange={handleCountChange}/>
                       <Button {...incWhoever} size='xs' variant='link'>+</Button>
