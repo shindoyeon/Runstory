@@ -3,6 +3,7 @@ package com.runstory.domain.user.dto;
 import com.runstory.domain.user.RegType;
 import com.runstory.domain.user.RoleType;
 import com.runstory.domain.user.entity.User;
+import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,7 @@ public class UserDto {
     private String profileImgFilePath;
     private String profileImgFileName;
     private RegType regType;
+    private List<Long> hashtags;
     private LocalDateTime regdate;
     private LocalDateTime updatedate;
 
