@@ -141,10 +141,18 @@ const Signup = (props) => {
         formData.append('regType', "LOCAL");
         formData.append('hashtags', Array.from(selectedHashtagsId));
         formData.append('profileImg', file);
-        const data = axios({
-             url: 'https://i8a806.p.ssafy.io/api/user/signup',
-              method: "POST", data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' } });
+        
+        try {
+            const data = axios({
+                url: 'https://i8a806.p.ssafy.io/api/user/signup',
+                method: "POST", data: formData,
+                headers: { 'Content-Type': 'multipart/form-data'} });
+            window.location.replace("/");
+            
+        } catch (error) {
+            alert("회원가입 실패")
+        }
+
         };
 
     // 인증 코드 이메일 전송

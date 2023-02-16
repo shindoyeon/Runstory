@@ -20,7 +20,7 @@ const FollowingList= ({followList}) => {
       {followings.map((item, idx) => {
         return (
         <>
-        <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
+        <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' alignItems='center'>
                 
                 <CardHeader>
                 <NavLink to={"/feed/" + item.userId} width='100%'> 

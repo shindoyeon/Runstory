@@ -16,7 +16,7 @@ import {
     CardBody,
     CardFooter,
     useDisclosure
-  } from '@chakra-ui/react';
+} from '@chakra-ui/react';
 import axios from '../api/axios';
 
 function Comment({comments, feedId}) {
@@ -37,7 +37,7 @@ function Comment({comments, feedId}) {
     }
 
     const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
-  
+
     const handleSubmit = (e) => { // 작성 버튼 클릭 시 이벤트 함수
         postComment(comment);
     };
@@ -50,6 +50,13 @@ function Comment({comments, feedId}) {
                 <ModalBody border='2px' borderColor='gray.200'>
                     <div className="comments">
                         {comments.map((item, idx) => {
+                        let img = item.simpleUserResDto.profileImgFileName;
+                        let profileImgUrl = null;
+                        if(img == null){
+                            profileImgUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+                        }else{
+                            profileImgUrl = "https://i8a806.p.ssafy.io/runstory/user/" +item.simpleUserResDto.profileImgFileName;
+                        }
                         return(
                             <Card direction={{base: 'row'}} width='100%' margin='0 auto' mt='10px' key={idx}>
                                 <CardBody alignItems='center'>
@@ -57,8 +64,7 @@ function Comment({comments, feedId}) {
                                         <Image
                                             borderRadius='full'
                                             boxSize='30px'
-                                            src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
-                                            alt='Dan Abramov'
+                                            src={profileImgUrl}
                                         />
                                         <div className='comment-nickname'>{item.userNickname}</div>
                                     </div>
