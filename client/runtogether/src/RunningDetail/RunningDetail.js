@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import axios from '../api/axios'
 import BooleanRunning from "./BooleanRunning";
 import BetweenBodyFooter from "../common/BetweenBodyFooter";
+import axiosH from '../api/axios'
 
 
 function RunningDetail(){
@@ -17,6 +18,17 @@ function RunningDetail(){
     const [hashtags, setHashtags] = useState([]);
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState("");
+    const [isMyPost, setIsMyPost] = useState(false);
+    const [isModifyMode, setIsModifyMode] = useState(false);
+    const [userSeq, setUserSeq] = useState();
+
+    useEffect(() => {
+        (async () => {
+            console.log("runnings: ", runnings)
+            const data = await axiosH.get("/user");
+            setUserSeq(data.data.data.userSeq)
+        })();
+    }, []);
 
     useEffect(() => {
         (async () => {
@@ -34,6 +46,7 @@ function RunningDetail(){
                 })
         })();
     }, []);
+
     var url = "https://i8a806.p.ssafy.io/runstory/running/" + runnings.imgFileName;
     var reservation = `https://i8a806.p.ssafy.io/api/running/${runningId}/reservations`;
     var dibsurl = `https://i8a806.p.ssafy.io/api/running/${runningId}/dibs`;

@@ -70,7 +70,7 @@ const Profile = () => {
             setLevel(data.data.data.level);
             setNickname(data.data.data.userNickName);
             console.log(data.data.data)
-            if(null == (data.data.data.profileImgFileName)){
+            if("" == (data.data.data.profileImgFileName)){
                 setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
             }else{
                 setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
@@ -170,7 +170,6 @@ const Profile = () => {
                 <ModalOverlay />
                 {
                     isMypage ?
-
                 <ModalContent>
                     <ModalCloseButton />
                     <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
@@ -232,10 +231,10 @@ const Profile = () => {
             <BetweenBodyFooter></BetweenBodyFooter>
             {console.log(feedMaster)}
             {/* {console.log(userId)} */}
-            {isMypage && <div style={{display: 'flex', justifyContent: "right"}}>
+            <div style={{display: 'flex', justifyContent: "right"}}>
                 <div style={{textAlign: 'right', marginRight: '3%', fontSize: '20px'}}><FontAwesomeIcon icon={faGear} /></div>
                 <div style={{textAlign: 'right', marginRight: '5%', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
-            </div>}
+            </div>
             <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px'}}>
                 <Avatar 
                     isCentered
