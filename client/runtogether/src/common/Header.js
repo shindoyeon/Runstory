@@ -46,7 +46,7 @@ const Header = () => {
                 <div className='left-header'>
                     <button onClick={openClose}><FontAwesomeIcon icon={faCircleQuestion} /></button>
                 </div>
-                <a href='/'><Image className='logo' src={ImageFile} style={{textAlign: 'center'}}/></a>
+                <a href='/main'><Image className='logo' src={ImageFile} style={{textAlign: 'center'}}/></a>
                 <div className='right-header'>
                     <div className='notice'><a href="/notice"><FontAwesomeIcon icon={faHeart} /></a></div>
                     <div className='chat'><a href="/chatting"><FontAwesomeIcon icon={faCommentDots} /></a></div>

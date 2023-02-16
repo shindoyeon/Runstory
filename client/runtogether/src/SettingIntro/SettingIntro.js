@@ -27,7 +27,7 @@ const SettingIntro = () => {
   };
   const navigateLogout = () => {
     localStorage.removeItem('access-token');
-    navigate("/");
+    navigate("/main");
   };
 
   return (

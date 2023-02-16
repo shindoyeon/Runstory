@@ -83,7 +83,7 @@ const ArticleForm = () => {
     const handleDateChange = ({ target: { value } }) => setDate(value); 
     
     const navigateHome = () => { // 취소 클릭 시 홈으로 가기 위함
-      navigate("/");
+      navigate("/main");
     };
 
     // 남자 수 입력을 위한 부분

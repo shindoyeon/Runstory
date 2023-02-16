@@ -57,7 +57,7 @@ const ArticleForm = () => {
           method: "post", data: formData,
           headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${accessToken}` } });
 
-    navigate("/");
+    navigate("/main");
     }
 
     // const handleButtonClick = e => {
@@ -71,7 +71,7 @@ const ArticleForm = () => {
     const navigate = useNavigate();
  
     const navigateHome = () => {
-      navigate("/");
+      navigate("/main");
     };
 
     return (

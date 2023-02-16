@@ -8,13 +8,13 @@ import axioswithH from '../api/axios';
 
 const UserSearchResult = ({keyword}) => {
     const [userResult, setUserResult] = useState([]);
-    useEffect(() => {
-      (async () => {
-        if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
-          alert("로그인이 필요한 페이지입니다.")
-        }
-      })();
-    }, [keyword]);
+    // useEffect(() => {
+    //   (async () => {
+    //     if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
+    //       alert("로그인이 필요한 페이지입니다.")
+    //     }
+    //   })();
+    // }, [keyword]);
 
     useEffect(() => {
         (async () => {
