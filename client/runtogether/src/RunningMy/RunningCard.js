@@ -5,6 +5,7 @@ import {HStack, Box, Button, Spacer, Heading, Stack, StackDivider, Text, Image, 
 import axios from '../api/axios'
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 
+
 function RunningDetail(props){
     var api = "https://i8a806.p.ssafy.io/runstory/running/" + props.imgFileName;
     return(
