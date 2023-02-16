@@ -3,6 +3,7 @@ package com.runstory.domain.user.entity;
 import com.runstory.api.request.RunningCrewReqDto;
 import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.feed.entity.Feed;
+import com.runstory.domain.feed.entity.FeedComment;
 import com.runstory.domain.running.Running;
 import com.runstory.domain.running.RunningDibs;
 import com.runstory.domain.running.RunningUser;
@@ -88,13 +89,20 @@ public class User {
     private List<ChatRoomUser> rooms = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private  List<Feed> feeds = new ArrayList<>();
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Running> runnings = new ArrayList<>();
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<RunningDibs> runningDibs = new ArrayList<>();
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "from")
+    private List<Follow> followings = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "to")
+    private List<Follow> followers = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "blocked")
+    private List<UserBlock> userBlocked = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<UserBlock> userBlocks = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<FeedComment> feedComments = new ArrayList<>();
     public void UserExperienceUpdate(int level,int distance){
         this.level = level;
         this.experience = distance;
