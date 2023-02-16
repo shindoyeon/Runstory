@@ -154,6 +154,7 @@ public class ChatService {
                 chatListDto.setUserSeq(opponent.getUserSeq());
                 chatListDto.setUserNickname(opponent.getUserNickname());
                 chatListDto.setProfileImgFilePath(opponent.getProfileImgFilePath());
+                chatListDto.setProfileImgFileName(opponent.getProfileImgFileName());
                 result.add(chatListDto);
             }
         }
