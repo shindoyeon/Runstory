@@ -162,8 +162,10 @@ public class UserServiceImpl implements UserService {
 			ChatRoom chatRoom = chatRoomUser.getChatRoom();
 			List<ChatRoomUser> chatRoomUsers = chatRoomUserRepository.findByChatRoom(chatRoom);
 			for(ChatRoomUser cru : chatRoomUsers){
+				System.out.println("삭제 챗룸유저 : "+cru.getChatRoomUserId());
 				chatRoomUserRepository.delete(cru);
 			}
+			System.out.println("삭제 챗방 : "+chatRoom.getChatRoomId());
 			chatRoomRepository.deleteById(chatRoom.getChatRoomId());
 		}
 		//채팅방 유저 삭제
