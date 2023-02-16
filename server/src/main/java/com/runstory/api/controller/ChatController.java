@@ -51,10 +51,10 @@ public class ChatController {
         if(!chatRoomList.isPresent()){
             List<MessageDetailDto> messageDetailDtoList = new ArrayList<>();
             ChatMessageDto chatMessageDto = new ChatMessageDto(chat.getRoomId(),messageDetailDtoList);
-            chat.setMessage("채팅방이 생성됐습니다.");
-            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
-            MessageDetailDto messageDetailDto = new MessageDetailDto(chat.getUserSeq(),chat.getMessage(),chat.getTime());
-            messageDetailDtoList.add(messageDetailDto);
+//            chat.setMessage("채팅방이 생성됐습니다.");
+//            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+//            MessageDetailDto messageDetailDto = new MessageDetailDto(chat.getUserSeq(),chat.getMessage(),chat.getTime());
+//            messageDetailDtoList.add(messageDetailDto);
             chatMessageRepository.save(chatMessageDto);
         }else{
             List<MessageDetailDto> messageDetailDtoList = chatRoomList.get().getMessage();
@@ -85,7 +85,10 @@ public class ChatController {
             chatMessageRepository.save(chatMessageDto);
         }else{
             ChatMessageDto prevChatMessage = chatRoomList.get();
-            List<MessageDetailDto> messageDetailDtoList = prevChatMessage.getMessage();
+            List<MessageDetailDto> messageDetailDtoList = new ArrayList<>();
+            if(prevChatMessage.getMessage() != null){
+                messageDetailDtoList = prevChatMessage.getMessage();
+            }
             messageDetailDtoList.add(messageDetailDto);
             chatMessageRepository.save(prevChatMessage);
         }
