@@ -21,6 +21,7 @@ function RunningDetail(){
     const [isMyPost, setIsMyPost] = useState(false);
     const [isModifyMode, setIsModifyMode] = useState(false);
     const [userSeq, setUserSeq] = useState();
+    const [date, setDate] = useState();
 
     useEffect(() => {
         (async () => {
@@ -38,8 +39,10 @@ function RunningDetail(){
                     setRunnings(response.data.data);
                     setHashtags(response.data.data.selectedHashtags)
                     setComments(response.data.data.runningboardcomments)
+                    setDate(response.data.data.endTime.substring(0,10))
                     console.log(response);
-                    console.log("성공");
+                    console.log(response.data.data.endTime.substring(0,10))
+                    console.log("성공"); 
                 })
                 .catch(function(error) {
                     console.log("실패");
@@ -53,23 +56,57 @@ function RunningDetail(){
 
     const {isOpen, onOpen, onClose} = useDisclosure();
 
-    function Authentication(startLatitude, startLongitude) {
+    function getDistance(lat1, lon1, lat2, lon2) {
+        if ((lat1 == lat2) && (lon1 == lon2))
+            return 0;
+    
+        var radLat1 = Math.PI * lat1 / 180;
+        var radLat2 = Math.PI * lat2 / 180;
+        var theta = lon1 - lon2;
+        var radTheta = Math.PI * theta / 180;
+        var dist = Math.sin(radLat1) * Math.sin(radLat2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radTheta);
+        if (dist > 1)
+            dist = 1;
+    
+        dist = Math.acos(dist);
+        dist = dist * 180 / Math.PI;
+        dist = dist * 60 * 1.1515 * 1.609344 * 1000;
+        if (dist < 100) dist = Math.round(dist / 10) * 10;
+        else dist = Math.round(dist / 100) * 100;
+    
+        return dist;
+    }
+
+    function Authentication(startLatitude, startLongitude, date) {
+        console.log(date)
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    if (Math.abs(position.coords.latitude - startLatitude) <= 2 && Math.abs(position.coords.longitude - startLongitude) <= 1){
+                    var today = new Date();
+                    var year = today.getFullYear();
+                    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+                    var day = ('0' + today.getDate()).slice(-2);
+                    var dateString = year + '-' + month  + '-' + day;
+                    console.log(position.coords.latitude)
+                    console.log(startLatitude)
+                    console.log(position.coords.longitude)
+                    console.log(startLongitude)
+                    console.log(dateString)
+                    console.log(date)
+                    console.log(getDistance(position.coords.latitude, position.coords.longitude, startLatitude, startLongitude))
+                    if (getDistance(position.coords.latitude, position.coords.longitude, startLatitude, startLongitude) < 2000 && dateString === date){
                         const url = `running/${runningId}/valid`;
                         axios.get(url)
                             .then(function(response) {
                                 console.log("성공");
-                                window.location.replace("/running/detail/" + runningId)
+                                // window.location.replace("/running/detail/" + runningId)
                             })
                             .catch(function(error) {
                                 console.log("실패");
                             })
-                  }else{
-                    console.log("당신은 밖에 있습니다.")
-                  }
+                        }else{
+                            console.log("당신은 밖에 있습니다.")
+                        }
                 }
             )
         }else{
@@ -151,7 +188,7 @@ function RunningDetail(){
                     <BooleanRunning Something={runnings.dibs} truevalue="찜 취소" falsevalue= "찜하기" api={dibsurl} id = {runningId}/>
                     {runnings.validation 
                         ? null
-                        : <button className="follow-btn" onClick={() => Authentication(runnings.startLatitude, runnings.startLongitude)}> 인증 </button>
+                        : <button className="follow-btn" onClick={() => Authentication(runnings.startLatitude, runnings.startLongitude, date)}> 인증 </button>
                     }
                 </div>
                 <div style={{fontSize: "12px"}}>written by {runnings.userNickName}</div>
