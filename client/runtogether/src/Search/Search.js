@@ -17,7 +17,7 @@ function Search() {
   const navigate = useNavigate();
   useEffect(() => {
     if(localStorage.getItem('access-token')===null) {
-      navigate("/user/login")
+      window.location.replace("/user/login")
     }
   }, [])
   return (

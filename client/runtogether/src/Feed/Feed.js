@@ -53,7 +53,8 @@ const Profile = () => {
     useEffect(() => {
         setTimeout(() => {
         if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
-            navigate("/user/login");
+            window.location.replace('/user/login')
+            return;
         }
         (async () => { // 피드 주인
             const data = await axios.get(
@@ -76,7 +77,7 @@ const Profile = () => {
                 setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
             }
         })();
-    }, 100);
+    }, 500);
     }, []);
  
     useEffect(() => {
