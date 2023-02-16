@@ -31,6 +31,7 @@ import RunningMy from "./RunningMy/RunningMy"
 import MyPage from './MyPage/MyPage'
 import Landing from './common/SplashPage'
 import RunningComment from './RunningCrewComment/RunningComment'
+import ErrorPage from './404/ErrorPage';
 
 import "./App.css";
 
@@ -68,6 +69,7 @@ function App() {
                     <Route path='/running/detail/:runningId/comment' element={<RunningComment />} />
                     <Route path='/running/my' element={<RunningMy />} />
                     <Route path='/mypage' element={<MyPage />} />
+                    <Route path='/errorpage' element={<ErrorPage />} />
                 </Routes>
             </BrowserRouter>
             {/* <MainPage></MainPage> */}
