@@ -9,4 +9,5 @@ public class ChatListDto {
     private Long userSeq;
     private String userNickname;
     private String profileImgFilePath;
+    private String profileImgFileName;
 }
