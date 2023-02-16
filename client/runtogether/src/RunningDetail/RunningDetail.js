@@ -87,19 +87,12 @@ function RunningDetail(){
                     var month = ('0' + (today.getMonth() + 1)).slice(-2);
                     var day = ('0' + today.getDate()).slice(-2);
                     var dateString = year + '-' + month  + '-' + day;
-                    console.log(position.coords.latitude)
-                    console.log(startLatitude)
-                    console.log(position.coords.longitude)
-                    console.log(startLongitude)
-                    console.log(dateString)
-                    console.log(date)
-                    console.log(getDistance(position.coords.latitude, position.coords.longitude, startLatitude, startLongitude))
                     if (getDistance(position.coords.latitude, position.coords.longitude, startLatitude, startLongitude) < 2000 && dateString === date){
                         const url = `running/${runningId}/valid`;
                         axios.get(url)
                             .then(function(response) {
                                 console.log("성공");
-                                // window.location.replace("/running/detail/" + runningId)
+                                window.location.replace("/running/detail/" + runningId)
                             })
                             .catch(function(error) {
                                 console.log("실패");
@@ -112,6 +105,18 @@ function RunningDetail(){
         }else{
             console.log("위치를 찍으시기 바랍니다.")
         }
+    }
+
+    function runningDelete(runningId) {
+        const runningurl = "/running/detail/" + runningId;
+        axios.delete(runningurl)
+        .then(function(response) {
+            console.log("성공");
+            window.location.replace("/running/my")
+        })
+        .catch(function(error) {
+            console.log("실패");
+        })    
     }
 
     const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
@@ -184,7 +189,12 @@ function RunningDetail(){
                 <div style={{width: "80%", margin: '0 auto'}}>
                     <div className="user-nickname">
                         {runnings.crewName}
-                        <BooleanRunning Something={runnings.runner} truevalue="예약 취소" falsevalue= "예약하기" api={reservation} id = {runningId}/>
+                        {
+                            runnings.creater ?
+                            <button className="cancle-btn" onClick={() => runningDelete(runningId)}> 삭제하기 </button>
+                            :
+                            <BooleanRunning Something={runnings.runner} truevalue="예약 취소" falsevalue= "예약하기" api={reservation} id = {runningId}/>
+                        }
                         <BooleanRunning Something={runnings.dibs} truevalue="찜 취소" falsevalue= "찜하기" api={dibsurl} id = {runningId}/>
                         {runnings.validation
                             ? null
