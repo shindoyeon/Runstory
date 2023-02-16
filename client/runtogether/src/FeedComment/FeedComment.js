@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import { Avatar, Box, Button, ChakraProvider, Spacer } from '@chakra-ui/react';
+import { Avatar, Box, Button, ChakraProvider, Spacer, Input } from '@chakra-ui/react';
 import { HStack } from '@chakra-ui/react';
 import { NavLink, useParams } from 'react-router-dom';
 import axios from '../api/axios'
@@ -10,6 +10,12 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 function RunningDetail() {
     const { feedId } = useParams();
     const [comments, setComments] = useState([]);
+    const [commentContent, setCommentContent] = useState("");
+    const [recommentContent, setRecommentContent] = useState("");
+
+    
+    const handleCommentContentChange = ({ target: { value } }) => setCommentContent(value); // 댓글 작성 시 내용 설정
+    const handleRecommentContentChange = ({ target: { value } }) => setRecommentContent(value); // 답글 작성 시 내용 설정
 
     useEffect(() => {
         (async () => {
@@ -29,11 +35,43 @@ function RunningDetail() {
     // var feedurl = "https://i8a806.p.ssafy.io/runstory/feeds/" + feedfiles.filePath;
     // var commentsurl = "https://i8a806.p.ssafy.io/runstory/user/" + user.profileImgFileName;
 
+    // 댓글 작성
+    async function postComment() {
+        await axios.post("/feed/comment", {id: feedId, content: commentContent});
+        window.location.reload();
+    }
+
+    // 답글 작성
+    async function postRecomment(commentId) {
+        await axios.post("/feed/recomment", {id: commentId, content: recommentContent});
+        window.location.reload();
+    }
+
+    // 댓글 삭제
+    async function deleteComment(commentId) {
+        await axios.delete("/feed/comment/"+commentId);
+        window.location.reload();
+    }
+
+    const handleSubmit = (e) => { // 작성 버튼 클릭 시 이벤트 함수
+        postComment(commentContent);
+    };    
+
+    const handleSubmit2 = (commentId, e) => { // 작성 버튼 클릭 시 이벤트 함수
+        console.log(commentId)
+        postRecomment(commentId, recommentContent);
+    };    
+
+    function openRecomment(commentId) {
+        var recommentForm = document.getElementById(commentId);
+        recommentForm.style.display = 'block';
+    }
+
     return (
         <ChakraProvider>
             <Header></Header>
             <div className='block-title'>
-                <div style={{ marginTop: "15%", borderBottom: "5%" }}>
+                <div style={{ marginTop: "15%", borderBottom: "5%", maxHeight: '77vh', overflow: 'scroll'}}>
                     <div style={{ marginBottom: "5%" }}>
                         댓글
                     </div>
@@ -58,6 +96,19 @@ function RunningDetail() {
                                         <div style={{ paddingLeft: "10%" }}>
                                             {r.content}
                                         </div>
+                                        <div style={{marginLeft: '10%'}} onClick={()=>openRecomment(r.feedCommentId)}>
+                                            {console.log(r)}
+                                            ↪ 답글 달기
+                                        </div>
+                                        <form margin='0 auto' className='recomment-form' id={r.feedCommentId}
+                                            onSubmit={(e)=>{handleSubmit2(r.feedCommentId, e)}} style={{display: 'none'}}>
+                                            <Input className='comment-input' placeholder='답글을 입력해주세요' type='text' size='xs' width={'80%'}
+                                            name='recomment'
+                                            value={recommentContent}
+                                            onChange={handleRecommentContentChange}
+                                            ></Input>
+                                            <Button className='submit-btn' type='submit' margin-left='2%' size='xs'><p>등록</p></Button>
+                                        </form>
                                     </div>
                                     <hr style={{ margin: "10px" }} />
                                     <div>
@@ -80,6 +131,7 @@ function RunningDetail() {
                                                         <div style={{ marginLeft: "30%" }}>
                                                             {recomment.content}
                                                         </div>
+                                                        
                                                     </div>
                                                     {/* {recomment.regdate} */}
                                                 </div>
@@ -91,6 +143,15 @@ function RunningDetail() {
                             )
                         })}
                 </div>
+                <form margin='0 auto' className='comment-form'
+                    onSubmit={(e)=>{handleSubmit(e)}} style={{position: 'fixed', bottom: '60px'}}>
+                        <Input className='comment-input' placeholder='댓글을 입력해주세요' type='text' size='xs' width={'80%'}
+                        name='comment'
+                        value={commentContent}
+                        onChange={handleCommentContentChange}
+                        ></Input>
+                        <Button className='submit-btn' type='submit' margin-left='2%' size='xs'><p>등록</p></Button>
+                    </form>
             </div>
             <Footer></Footer>
         </ChakraProvider>
