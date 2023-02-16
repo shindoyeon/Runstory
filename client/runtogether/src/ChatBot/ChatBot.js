@@ -38,7 +38,8 @@ const ChattingBot = () => {
                     {value: 'running-crew', label: '러닝 크루가 뭐야?', trigger: 'about-running-crew'},
                     {value: 'feed', label: '피드가 뭐야?', trigger: 'about-feed'},
                     {value: 'how-to-auth', label: '인증은 어떤 방식으로 해?', trigger: 'auth-way'},
-                    {value: 'level', label: '인증하면 뭐가 좋아?', trigger: 'why-auth'}
+                    {value: 'level', label: '인증하면 뭐가 좋아?', trigger: 'why-auth'},
+                    {value: 'how-to-search', label: '검색은 어떻게 진행해?', trigger: 'why-search'},
                 ]
                 },
                 {
@@ -110,6 +111,26 @@ const ChattingBot = () => {
                     id: 'anything-else',
                     message: '이외에 또 궁금한 것이 있으신가요?',
                     trigger: 'yes-or-no'
+                },
+                {
+                    id: 'why-search',
+                    message: '검색 기능은 유저 / 피드 / 러닝크루 세가지를 찾을 수 있습니다.',
+                    trigger: 'why-search2'
+                },
+                {
+                    id: 'why-search2',
+                    message: '유저 검색은 유저 닉네임 중 일부를 검색하면 찾을 수 있습니다.',
+                    trigger: 'why-search3'
+                },
+                {
+                    id: 'why-search3',
+                    message: '피드 검색은 해시태그를 통해서 검색하여 찾을 수 있습니다.',
+                    trigger: 'why-search4'
+                },
+                {
+                    id: 'why-search4',
+                    message: '러닝 크루는 크루명을 통하여 검색하여 찾을 수 있습니다.',
+                    trigger: 'anything-else'
                 },
                 {
                     id: 'yes-or-no',
