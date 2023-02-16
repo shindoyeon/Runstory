@@ -85,7 +85,10 @@ public class ChatController {
             chatMessageRepository.save(chatMessageDto);
         }else{
             ChatMessageDto prevChatMessage = chatRoomList.get();
-            List<MessageDetailDto> messageDetailDtoList = prevChatMessage.getMessage();
+            List<MessageDetailDto> messageDetailDtoList = new ArrayList<>();
+            if(prevChatMessage.getMessage() != null){
+                messageDetailDtoList = prevChatMessage.getMessage();
+            }
             messageDetailDtoList.add(messageDetailDto);
             chatMessageRepository.save(prevChatMessage);
         }
