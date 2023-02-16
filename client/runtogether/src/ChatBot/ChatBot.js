@@ -25,13 +25,20 @@ const ChattingBot = () => {
                 {
                 id: '1',
                 message: 'RUNSTORY에 오신 것을 환영합니다! 무엇을 도와드릴까요?',
-                trigger: 'help',
+                trigger: '2',
+                },
+                {
+                id: '2',
+                message: 'RUNSTORY는 같이 러닝 크루를 구하거나 추천 받고, 인증도 가능하며, 피드를 게시할 수 있는 산책 전용 SNS입니다!',
+                trigger: 'help'
                 },
                 {
                 id: 'help',
                 options: [
                     {value: 'running-crew', label: '러닝 크루가 뭐야?', trigger: 'about-running-crew'},
                     {value: 'feed', label: '피드가 뭐야?', trigger: 'about-feed'},
+                    {value: 'how-to-auth', label: '인증은 어떤 방식으로 해?', trigger: 'auth-way'},
+                    {value: 'level', label: '인증하면 뭐가 좋아?', trigger: 'why-auth'}
                 ]
                 },
                 {
@@ -67,6 +74,36 @@ const ChattingBot = () => {
                 {
                     id: 'about-feed4',
                     message: "여러 사람들과 소통하며 운동 취미 생활을 공유해보세요!",
+                    trigger: 'anything-else'
+                },
+                {
+                    id: 'auth-way',
+                    message: '산책 인증은 출발지에서 인증 버튼을 누름으로써 이루어져요!',
+                    trigger: 'auth-way2'
+                },
+                {
+                    id: 'auth-way2',
+                    message: '출발지에서 1.5km 이내가 아닐 경우 인증이 불가합니다!',
+                    trigger: 'anything-else'
+                },
+                {
+                    id: 'why-auth',
+                    message: '인증을 하면 산책한 거리만큼 경험치가 올라요!',
+                    trigger: 'why-auth2'
+                },
+                {
+                    id: 'why-auth2',
+                    message: '경험치가 어느 정도 올라가면 레벨업이 됩니다!',
+                    trigger: 'why-auth3'
+                },
+                {
+                    id: 'why-auth3',
+                    message: '레벨업에 따라 맨발→짚신→고무신→캔버스→날개신 아이콘이 개인 피드 페이지에 나타납니다!',
+                    trigger: 'why-auth4'
+                },
+                {
+                    id: 'why-auth4',
+                    message: '경험치를 쌓아 친구들과 경쟁해보세요!',
                     trigger: 'anything-else'
                 },
                 {

@@ -17,6 +17,9 @@ function SliderImg({runningCrew}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [runningCrewInfo, setRunningCrewInfo] = useState([]);
 
+    if (isOpen && localStorage.getItem("access-token") === null) {  // 비회원 조회 시
+        window.location.replace('/user/login')
+    }
     async function getModalInfo(runningCrewId) {
         const data =  await axiosH({
             url: `https://i8a806.p.ssafy.io/api/running/detail/${runningCrewId}`,
@@ -29,6 +32,7 @@ function SliderImg({runningCrew}) {
         setRunningCrewInfo(data.data.data)
         console.log(data.data.data)
     }
+
 
     function openModal(e) {
         getModalInfo(e.target.id)
