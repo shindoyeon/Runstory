@@ -34,7 +34,7 @@ function UpsideProfile() {
 
   useEffect(() => {
     if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
-        navigate("/user/login");
+        window.location.replace("/user/login");
     }
 
     (async () => { // 피드 주인

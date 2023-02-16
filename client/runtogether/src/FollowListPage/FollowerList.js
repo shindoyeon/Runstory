@@ -24,7 +24,7 @@ const FollowerList= ({followerList}) => {
         console.log("item : "+item);
         return (
         <>
-        <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
+        <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex'alignItems='center'>
 
                 <NavLink to={"/feed/" + item.userId} width='100%'> 
                 <CardHeader float={'left'}>

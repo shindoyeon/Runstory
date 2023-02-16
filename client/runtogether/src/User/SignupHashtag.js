@@ -15,7 +15,7 @@ function RegisterHashtag() {
 
   const navigate = useNavigate(); // navigate 변수 생성
   const navigateHome = () => { // 취소 클릭 시 홈으로 가기 위함
-    navigate("/");
+    navigate("/main");
   };
 
   return (

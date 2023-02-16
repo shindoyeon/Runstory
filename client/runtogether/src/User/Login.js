@@ -36,7 +36,7 @@ const Login = () => {
     
     const navigate = useNavigate(); // navigate 변수 생성
     const navigateHome = () => { // 취소 클릭 시 홈으로 가기 위함
-      navigate("/");
+      navigate("/main");
     };
 
     const handleSubmit = async (e) => {
@@ -51,7 +51,7 @@ const Login = () => {
                 const ACCESS_TOKEN = data.accessToken;
                 console.log(ACCESS_TOKEN);
                 localStorage.setItem("access-token", ACCESS_TOKEN);
-                navigate("/");
+                navigate("/main");
             } catch (err) {
                 if (!err?.response) {
                     setErrMsg('에러');
@@ -70,7 +70,7 @@ const Login = () => {
         <ChakraProvider>
         <Header></Header>
             {success ? (
-                navigate('/')
+                window.location.replace('/main')
             ) : (
                 <section className='LoginSection' style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
