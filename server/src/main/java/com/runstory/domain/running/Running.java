@@ -136,8 +136,8 @@ public class Running {
         this.endLocation = runningCrewReqDto.getEndLocation();
 //        this.startTime = runningCrewReqDto.getStartTime();
 //        this.endTime = runningCrewReqDto.getEndTime();
-        this.startTime = LocalDateTime.now();
-        this.endTime = LocalDateTime.now();
+        this.startTime = runningCrewReqDto.getStartTime();
+        this.endTime = runningCrewReqDto.getEndTime();
         this.distance = runningCrewReqDto.getDistance();
         this.user = user;
     }
@@ -155,8 +155,8 @@ public class Running {
         this.endLocation = runningCrewReqDto.getEndLocation();
 //        this.startTime = runningCrewReqDto.getStartTime();
 //        this.endTime = runningCrewReqDto.getEndTime();
-        this.startTime = LocalDateTime.now();
-        this.endTime = LocalDateTime.now();
+        this.startTime = runningCrewReqDto.getStartTime();
+        this.endTime = runningCrewReqDto.getEndTime();
         this.distance = runningCrewReqDto.getDistance();
     }
 }

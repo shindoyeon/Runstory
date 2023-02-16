@@ -17,8 +17,8 @@ public class RunningCrewReqDto {
     private String runningContent;
     private String startLocation;
     private String endLocation;
-    private String startTime;
-    private String endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private float startLongitude;
     private float startLatitude;
     private float endLongitude;
