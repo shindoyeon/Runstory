@@ -30,9 +30,9 @@ const BooleanRunning = (props) => {
     }
 
     if (props.Something) {
-        return <div onClick={() => Canceled()} className="unfollow-btn">{props.truevalue}</div>;
+        return <div onClick={() => Canceled()} className="cancle-btn">{props.truevalue}</div>;
     } else {
-        return <div onClick={() => Join()} className="follow-btn">{props.falsevalue}</div>;
+        return <div onClick={() => Join()} className="join-btn">{props.falsevalue}</div>;
     }
 }
 export default BooleanRunning

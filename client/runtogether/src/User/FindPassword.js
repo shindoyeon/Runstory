@@ -9,7 +9,7 @@ import Footer from '../common/Footer';
 import  {useNavigate} from 'react-router-dom'; 
 
 
-const FINDPWD_URL = 'http://localhost:8080/api/user/find/pwd';
+const FINDPWD_URL = 'https://i8a806.p.ssafy.io/api/user/find/pwd';
 
 const Login = () => {
     const userRef = useRef();

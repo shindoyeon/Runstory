@@ -36,6 +36,7 @@ function RunningDetail(){
         const tempArr = [];
         for(let i = 0; i < data.length; i+=4) {
           tempArr.push(data.slice(i, i+4))
+          console.log(data.slice(i, i+4))
         }
         if(tempArr[tempArr.length - 1] != undefined){
             console.log(tempArr)

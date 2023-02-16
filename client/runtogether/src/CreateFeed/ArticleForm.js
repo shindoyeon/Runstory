@@ -22,15 +22,14 @@ import axios from 'axios';
 const ArticleForm = () => {
     const accessToken = localStorage.getItem("access-token");
 
-    const [value, setValue] = useState('1'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
+    const [value, setValue] = useState('PUBLIC'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
     const [content, setContent] = useState(""); // 피드 내용
     const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set()); // 해시태그
     const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set()); // 해시태그
-    // const [files, setFiles] = useState<File[]>([]);
-    // const fileInput = React.useRef(null); // 사진
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [image, setImage] = useState([]);
+    const [preview, setPreview] = useState([]);
     
 
     const handleContentChange = ({ target: { value } }) => setContent(value); // 글 작성 시 content 설정
@@ -38,8 +37,6 @@ const ArticleForm = () => {
     const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
         event.preventDefault();
         var selectedHashTags = Array.from(selectedHashtagsId)
-        // console.log(selectedHashTags)
-        alert(`작성된 내용: ${content}, 공개범위: ${value}, 해시태그: ${selectedHashTags}`); // 데이터 잘 들어왔는지 확인용!!!
         registerFeed(content, value, selectedHashTags);
     };
 
@@ -77,12 +74,12 @@ const ArticleForm = () => {
     return (
       // enctype="multipart/form-data"
        <form className='article-form' onSubmit={handleSubmit}>   
-            <ImgUpload image={image} setImage={setImage}></ImgUpload>
+            <ImgUpload image={image} setImage={setImage} preview={preview} setPreview={setPreview}></ImgUpload>
             <HashTag selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></HashTag>
             <div className='content-and-range'>
             <div className='content' type='text'>CONTENT</div>
                 <div className='range'>
-                    <RadioGroup onChange={setValue} value={value} className='radio-range' colorScheme={'pink'}>
+                    <RadioGroup onChange={setValue} value='PUBLIC' className='radio-range' colorScheme={'pink'}>
                         <Radio size='sm' value='PUBLIC' mx={1} defaultChecked>전체 공개</Radio>
                         <Radio size='sm' value='FRIEND' mx={1}>팔로워 공개</Radio>
                         <Radio size='sm' value='PRIVATE' mx={1}>비공개</Radio>

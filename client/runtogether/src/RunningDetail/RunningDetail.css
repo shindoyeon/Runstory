@@ -1,4 +1,4 @@
-.follow-btn {
+.join-btn {
     margin-left: 2.5%;
     margin-top: 2%;
     color: #6A6A6A;
@@ -12,7 +12,7 @@
     line-height: 13px;
 }
 
-.unfollow-btn {
+.cancle-btn {
     margin-left: 2.5%;
     margin-top: 2%;
     color: #6A6A6A;

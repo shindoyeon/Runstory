@@ -30,7 +30,6 @@ function UpsideProfile() {
   const [fileUrl, setFileUrl] = useState();
   const fileInput = useRef(null);
   const [showTooltip, setShowTooltip] = useState(false)
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
@@ -97,7 +96,7 @@ function UpsideProfile() {
         formData.append('regType', "LOCAL");
         // formData.append('hashtags', Array.from(selectedHashtagsId));
         formData.append('profileImg', file);
-        const data = axios({
+        const data = axioswithH({
              url: 'https://i8a806.p.ssafy.io/api/user/signup',
               method: "PUT", data: formData,
             headers: { 'Content-Type': 'multipart/form-data' } });
@@ -172,20 +171,17 @@ function UpsideProfile() {
               onChange={imgChange}
               ref={fileInput}/>
         </div>
-        <div style={{display: 'block', width: "60%"}}>
+        <div style={{display: 'block', width: "60%", fontSize: '10px'}}>
           <div style={{display: "flex", justifyContent: "start", width: "100%", marginLeft: "5%", height: '40%', marginTop: '5%'}}>
             <div style={{fontSize: "19px", marginTop: '5%'}}>
               {userId}
-            </div>
-            <div style={{marginLeft: "4%" ,fontSize: "14px", marginTop: '7%'}}>
-              Lv.{level}
             </div>
           </div>
           <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
             <div>Exp. </div>
             <Progress hasStripe size='lg' value={experience/1000} colorScheme={'pink'} style={{width: '70%', borderRadius: '10px', marginTop: '2.5%', marginLeft: '3%'}}/>
           </div>
-          <div style={{textAlign: 'right', marginRight: '10%', fontSize: '12px'}}>{experience} / 100000 </div>
+          <div style={{textAlign: 'right', marginRight: '10%', fontSize: '12px'}}>Lv.{level}&nbsp;&nbsp;&nbsp;{experience}/100000</div>
         </div>
       </div>
       <Divider style={{marginTop: '3%', marginBottom: '7%', width: '90%', marginLeft: '5%'}}></Divider>
@@ -281,15 +277,12 @@ function UpsideProfile() {
             <div style={{fontSize: "19px", marginTop: '5%'}}>
               {userId}
             </div>
-            <div style={{marginLeft: "4%" ,fontSize: "14px", marginTop: '7%'}}>
-              Lv.{level}
-            </div>
           </div>
           <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
             <div>Exp. </div>
             <Progress hasStripe size='lg' value={experience/1000} colorScheme={'pink'} style={{width: '70%', borderRadius: '10px', marginTop: '2.5%', marginLeft: '3%'}}/>
           </div>
-          <div style={{textAlign: 'right', marginRight: '10%', fontSize: '12px'}}>{experience} / 100000 </div>
+          <div style={{textAlign: 'right', marginRight: '10%', fontSize: '12px'}}>Lv.{level}&nbsp;&nbsp;&nbsp;{experience}/100000</div>
         </div>
       </div>
       <Divider style={{marginTop: '3%', marginBottom: '7%', width: '90%', marginLeft: '5%'}}></Divider>
@@ -328,7 +321,11 @@ function UpsideProfile() {
           <div style={{width: '20%', textAlign: 'left'}}>주소</div>
           <div style={{width: '40%', marginLeft: '15%'}}>{address}</div>
         </div>
-      <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>해시태그</div>
+          <div style={{width: '40%', marginLeft: '15%'}}>{address}</div>
+        </div>
       </div>
       <div style={{marginTop: "3%"}}>
         <div className="del-btn" style={{marginRight: '5%'}} onClick={delAccount}>회원 탈퇴</div>

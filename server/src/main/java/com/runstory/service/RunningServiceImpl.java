@@ -101,9 +101,11 @@ public class RunningServiceImpl implements RunningService {
             HashMap<String, List<RunningMainResDto>> hash = new HashMap<>();
             List<RunningMainResDto> runningMainResDtos = new ArrayList<>();
             for (SelectedHashtag selectedHashtag1 : selectedHashtags){
-                if (selectedHashtag1.getRunning() != null){
-                    RunningMainResDto runningMainResDto = new RunningMainResDto(selectedHashtag1.getRunning());
-                    runningMainResDtos.add(runningMainResDto);
+                for (Running running: runninglist){
+                    if (selectedHashtag1.getRunning() != null && selectedHashtag1.getRunning().getRunningId() == running.getRunningId()){
+                        RunningMainResDto runningMainResDto = new RunningMainResDto(selectedHashtag1.getRunning());
+                        runningMainResDtos.add(runningMainResDto);
+                    }
                 }
             }
             hash.put(hashtag.getHashtagName(), runningMainResDtos);
