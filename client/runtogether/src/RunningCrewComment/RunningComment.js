@@ -6,7 +6,7 @@ import { HStack } from '@chakra-ui/react';
 import { NavLink, useParams } from 'react-router-dom';
 import axios from '../api/axios'
 import { ChevronRightIcon } from '@chakra-ui/icons';
-
+import RunningCrewCommentPageMsg from './RunningCrewCommentPageMsg'
 function RunningDetail() {
     const { runningId } = useParams();
     const [comments, setComments] = useState([]);
@@ -52,11 +52,9 @@ function RunningDetail() {
     return (
         <ChakraProvider>
             <Header></Header>
+            <RunningCrewCommentPageMsg></RunningCrewCommentPageMsg>
             <div className='block-title'>
-                <div style={{ marginTop: "15%", borderBottom: "5%", maxHeight: '77vh', overflow: 'scroll'}}>
-                    <div style={{ marginBottom: "5%" }}>
-                        댓글
-                    </div>
+                <div style={{ borderBottom: "5%", maxHeight: '77vh', overflow: 'scroll'}}>
                     {
                         comments.map(function (r) {
                             var url = "https://i8a806.p.ssafy.io/runstory/user/" + r.profileImgFileName;

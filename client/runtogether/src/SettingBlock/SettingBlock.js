@@ -43,8 +43,8 @@ function UserBlockList() {
   return (
     <ChakraProvider>
       <Header></Header>
-      <div className='block-title'>
-          차단설정
+      <div className='block-title' onClick={()=>navigate(-1)}>
+          ←
       </div>
       <div style={{margin:"20px"}}>
       {

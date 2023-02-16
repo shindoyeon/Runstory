@@ -3,14 +3,14 @@ import Header from '../common/Header';
 import Footer from '../common/Footer';
 import BetweenBodyFooter from '../common/BetweenBodyFooter';
 import Swiper from './Swiper'
-import RunningCrewPageMsg from './RunningCrewPageMsg';
+import RunningCrewListPageMsg from './RunningCrewListPageMsg';
 
 
 function RunningCrewList() {
   return (
       <div style={{width: '90%'}}>
         <Header></Header>
-        <RunningCrewPageMsg></RunningCrewPageMsg>
+        <RunningCrewListPageMsg></RunningCrewListPageMsg>
         <Swiper></Swiper>
         <BetweenBodyFooter></BetweenBodyFooter>
         <Footer></Footer>
