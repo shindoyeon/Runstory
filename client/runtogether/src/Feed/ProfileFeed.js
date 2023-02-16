@@ -12,7 +12,7 @@ const ProfileFeed = (props) => {
     useEffect(() => {
         (async () => {
           if (localStorage.getItem("access-token") === null) {  //비회원 조회 시
-            navigate('/user/login')
+            window.location.replace('/user/login')
           }
           else { //회원 조회 시
             const data = await axioswithH({

@@ -16,7 +16,7 @@ const Footer = () => {
   const [isLogined, setIsLogined] = useState(false);
   const [userId, setUserId] = useState();
   function refreshToHome() {
-    window.location.replace("/")
+    window.location.replace("/main")
   }
 
   useEffect(() => {
