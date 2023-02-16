@@ -70,7 +70,7 @@ const Profile = () => {
             setLevel(data.data.data.level);
             setNickname(data.data.data.userNickName);
             console.log(data.data.data)
-            if(null == (data.data.data.profileImgFileName)){
+            if("" == (data.data.data.profileImgFileName)){
                 setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
             }else{
                 setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName);
