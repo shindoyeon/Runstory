@@ -3,6 +3,7 @@ package com.runstory.domain.running;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
@@ -134,10 +135,9 @@ public class Running {
         this.endLatitude = runningCrewReqDto.getEndLatitude();
         this.endLongitude = runningCrewReqDto.getEndLongitude();
         this.endLocation = runningCrewReqDto.getEndLocation();
-//        this.startTime = runningCrewReqDto.getStartTime();
-//        this.endTime = runningCrewReqDto.getEndTime();
-        this.startTime = runningCrewReqDto.getStartTime();
-        this.endTime = runningCrewReqDto.getEndTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.startTime = LocalDateTime.parse(runningCrewReqDto.getStartTime(), formatter);
+        this.endTime = LocalDateTime.parse(runningCrewReqDto.getEndTime(), formatter);
         this.distance = runningCrewReqDto.getDistance();
         this.user = user;
     }
@@ -153,10 +153,9 @@ public class Running {
         this.endLatitude = runningCrewReqDto.getEndLatitude();
         this.endLongitude = runningCrewReqDto.getEndLongitude();
         this.endLocation = runningCrewReqDto.getEndLocation();
-//        this.startTime = runningCrewReqDto.getStartTime();
-//        this.endTime = runningCrewReqDto.getEndTime();
-        this.startTime = runningCrewReqDto.getStartTime();
-        this.endTime = runningCrewReqDto.getEndTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.startTime = LocalDateTime.parse(runningCrewReqDto.getStartTime(), formatter);
+        this.endTime = LocalDateTime.parse(runningCrewReqDto.getEndTime(), formatter);
         this.distance = runningCrewReqDto.getDistance();
     }
 }
