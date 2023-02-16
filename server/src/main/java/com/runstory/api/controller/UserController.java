@@ -177,7 +177,16 @@ public class UserController {
 		//일치하지 않는 정보
 		return ResponseEntity.ok(BaseResponse.fail());
 	}
+	@PutMapping("/user") //회원 전체 정보 수정
+	public ResponseEntity<?> changeUserInfo(@ApiIgnore Authentication authentication, @RequestBody UserRegisterPostReq userRegisterPostReq)
+		throws Exception {
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+		Long userSeq = userDetails.getUserSeq();
 
+		userService.changeUserAllInfo(userSeq,userRegisterPostReq);
+
+		return ResponseEntity.ok(BaseResponse.success(null));
+	}
 	@PutMapping("/nickname")
 	@ApiOperation(value = "닉네임 변경", notes = "회원의 닉네임을 변경 해준다.")
 	@ApiResponses({
