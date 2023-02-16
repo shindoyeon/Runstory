@@ -91,11 +91,6 @@ function Comment({comments, feedId}) {
                                         </ModalContent>
                                     </Modal>                                
                                 </CardFooter>
-                                {item.feedRecomments.map((item2, idx2) => {
-                                    return(
-                                        <>{item2.user}{item2.content}</>
-                                    )
-                                })}
                             </Card>
                             )
                         })}

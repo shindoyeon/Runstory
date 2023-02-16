@@ -22,12 +22,10 @@ import axios from 'axios';
 const ArticleForm = () => {
     const accessToken = localStorage.getItem("access-token");
 
-    const [value, setValue] = useState('1'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
+    const [value, setValue] = useState('PUBLIC'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
     const [content, setContent] = useState(""); // 피드 내용
     const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set()); // 해시태그
     const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set()); // 해시태그
-    // const [files, setFiles] = useState<File[]>([]);
-    // const fileInput = React.useRef(null); // 사진
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [image, setImage] = useState([]);
@@ -38,8 +36,6 @@ const ArticleForm = () => {
     const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
         event.preventDefault();
         var selectedHashTags = Array.from(selectedHashtagsId)
-        // console.log(selectedHashTags)
-        alert(`작성된 내용: ${content}, 공개범위: ${value}, 해시태그: ${selectedHashTags}`); // 데이터 잘 들어왔는지 확인용!!!
         registerFeed(content, value, selectedHashTags);
     };
 

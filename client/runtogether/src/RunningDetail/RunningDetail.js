@@ -151,7 +151,7 @@ function RunningDetail(){
                     <BooleanRunning Something={runnings.dibs} truevalue="찜 취소" falsevalue= "찜하기" api={dibsurl} id = {runningId}/>
                     {runnings.validation 
                         ? null
-                        : <button className="follow-btn" onClick={() => Authentication(runnings.startLatitude, runnings.startLongitude)}> 인증 </button>
+                        : <button className="cancle-btn" onClick={() => Authentication(runnings.startLatitude, runnings.startLongitude)}> 인증 </button>
                     }
                 </div>
                 <div style={{fontSize: "12px"}}>written by {runnings.userNickName}</div>

@@ -18,9 +18,6 @@ import {
 
   function FeedCard(props) {
     const feed = props.feed;
-    // console.log(feed)
-    // var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
-    
 
     async function postLike(feedId) {
         await axios({
@@ -37,7 +34,6 @@ import {
     }
 
     const clickLike = (feedId) => {
-        // e.preventDefault();
         var color = document.getElementById(feedId).style.color;
         if(color==='grey') {
             document.getElementById(feedId).style.color='red';
@@ -67,6 +63,7 @@ import {
     // 모달창을 열기 위한 변수
     const { isOpen, onOpen, onClose } = useDisclosure();
     const comments = feed.feedComments;
+
     if(feed.profileImgFileName == null){//기본 프로필인 경우
         var profileurl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
     }else{
@@ -83,13 +80,13 @@ import {
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header' > 
                         <div className='card-header'>
-                            <a href={`/feed/${feed.userId}`} >
+                            <Link to={"/feed/"+feed.userId} >
                                 <Image
                                     borderRadius='full'
                                     boxSize='40px'
                                     src={profileurl}
                                     />
-                            </a>
+                            </Link>
                             <div className='nickname'>{feed.userNickname}</div>
                         </div>
                     </CardHeader>
