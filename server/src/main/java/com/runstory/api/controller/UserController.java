@@ -264,4 +264,21 @@ public class UserController {
 		}
 		return ResponseEntity.ok(BaseResponse.success(newImageName));
 	}
+
+	@GetMapping("/isMe/{userSeq}")
+	@ApiOperation(value = "토큰이랑 seq번호 체크", notes = "")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+		@ApiResponse(code = 401, message = "인증 실패"),
+		@ApiResponse(code = 404, message = "사용자 없음"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public BaseResponse<?> isMe(@ApiIgnore Authentication authentication, @PathVariable Long userSeq) {
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+		User user = userDetails.getUser();
+		if(user.getUserSeq() == userSeq)
+			return BaseResponse.success(true);
+
+		return BaseResponse.fail();
+	}
 }
