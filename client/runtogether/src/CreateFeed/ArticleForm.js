@@ -31,6 +31,7 @@ const ArticleForm = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [image, setImage] = useState([]);
+    const [preview, setPreview] = useState([]);
     
 
     const handleContentChange = ({ target: { value } }) => setContent(value); // 글 작성 시 content 설정
@@ -77,12 +78,12 @@ const ArticleForm = () => {
     return (
       // enctype="multipart/form-data"
        <form className='article-form' onSubmit={handleSubmit}>   
-            <ImgUpload image={image} setImage={setImage}></ImgUpload>
+            <ImgUpload image={image} setImage={setImage} preview={preview} setPreview={setPreview}></ImgUpload>
             <HashTag selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></HashTag>
             <div className='content-and-range'>
             <div className='content' type='text'>CONTENT</div>
                 <div className='range'>
-                    <RadioGroup onChange={setValue} value={value} className='radio-range' colorScheme={'pink'}>
+                    <RadioGroup onChange={setValue} value='PUBLIC' className='radio-range' colorScheme={'pink'}>
                         <Radio size='sm' value='PUBLIC' mx={1} defaultChecked>전체 공개</Radio>
                         <Radio size='sm' value='FRIEND' mx={1}>팔로워 공개</Radio>
                         <Radio size='sm' value='PRIVATE' mx={1}>비공개</Radio>

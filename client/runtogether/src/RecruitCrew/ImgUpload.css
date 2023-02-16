@@ -1,9 +1,9 @@
 .upload-box {
     width: 90%;
     background-color: rgba(230, 226, 226, 0.7);
-    height: 7vh;
+    height: 6vh;
     margin: 0 auto;
-    margin-top: 5px;
+    /* margin-top: 5px; */
     text-align: center;
     line-height: 7vh;
     border-radius: 10px;

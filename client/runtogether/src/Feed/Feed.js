@@ -204,7 +204,7 @@ const Profile = () => {
                                 </div>
                             </a>
                             <Divider mt='5px' w='100%' mb='5px'/>
-                            <a to='/setting-question'>
+                            <a href='/setting-question'>
                                 <div style={{fontSize:'20px', textAlign: 'center'}}> 
                                     문의하기
                                 </div>
