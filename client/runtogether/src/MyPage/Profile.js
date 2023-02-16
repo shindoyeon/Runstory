@@ -41,6 +41,7 @@ function UpsideProfile() {
           url: '/user',
           method: "GET"
       });
+      console.log(data.data.data)
       setUserId(data.data.data.userId)
       setNickname(data.data.data.userNickname)
       setName(data.data.data.userName)
@@ -320,7 +321,11 @@ function UpsideProfile() {
           <div style={{width: '20%', textAlign: 'left'}}>주소</div>
           <div style={{width: '40%', marginLeft: '15%'}}>{address}</div>
         </div>
-      <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>해시태그</div>
+          <div style={{width: '40%', marginLeft: '15%'}}>{address}</div>
+        </div>
       </div>
       <div style={{marginTop: "3%"}}>
         <div className="del-btn" style={{marginRight: '5%'}} onClick={delAccount}>회원 탈퇴</div>
