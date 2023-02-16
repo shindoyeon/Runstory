@@ -170,7 +170,6 @@ const Profile = () => {
                 <ModalOverlay />
                 {
                     isMypage ?
-
                 <ModalContent>
                     <ModalCloseButton />
                     <ModalBody style={{margin: '0 auto', width: '100%', marginTop: '30px'}}>
@@ -232,10 +231,10 @@ const Profile = () => {
             <BetweenBodyFooter></BetweenBodyFooter>
             {console.log(feedMaster)}
             {/* {console.log(userId)} */}
-            {isMypage && <div style={{display: 'flex', justifyContent: "right"}}>
+            <div style={{display: 'flex', justifyContent: "right"}}>
                 <div style={{textAlign: 'right', marginRight: '3%', fontSize: '20px'}}><FontAwesomeIcon icon={faGear} /></div>
                 <div style={{textAlign: 'right', marginRight: '5%', fontSize: '20px'}}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
-            </div>}
+            </div>
             <Box direction={{base: 'row'}} style={{display: 'flex', width: '95%', margin: '0 auto', height: '120px', marginBottom: '10px'}}>
                 <Avatar 
                     isCentered
