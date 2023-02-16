@@ -177,7 +177,7 @@ public class UserController {
 		//일치하지 않는 정보
 		return ResponseEntity.ok(BaseResponse.fail());
 	}
-	@PutMapping("/user") //회원 전체 정보 수정
+	@PutMapping() //회원 전체 정보 수정
 	public ResponseEntity<?> changeUserInfo(@ApiIgnore Authentication authentication, @RequestBody UserRegisterPostReq userRegisterPostReq)
 		throws Exception {
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
