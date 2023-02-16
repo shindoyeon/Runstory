@@ -79,7 +79,7 @@ const ArticleForm = () => {
             <div className='content-and-range'>
             <div className='content' type='text'>CONTENT</div>
                 <div className='range'>
-                    <RadioGroup onChange={setValue} value='PUBLIC' className='radio-range' colorScheme={'pink'}>
+                    <RadioGroup onChange={setValue} value={value} className='radio-range' colorScheme={'pink'}>
                         <Radio size='sm' value='PUBLIC' mx={1} defaultChecked>전체 공개</Radio>
                         <Radio size='sm' value='FRIEND' mx={1}>팔로워 공개</Radio>
                         <Radio size='sm' value='PRIVATE' mx={1}>비공개</Radio>

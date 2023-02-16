@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // fontawesome
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { faBars, faGear, faShare, faHeart, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import axiosH from '../api/axios'
+import FeedDetailPageMsg from './FeedDetailPageMsg';
 
 function FeedDetail() {
     const { feedId } = useParams();
@@ -141,7 +142,7 @@ function FeedDetail() {
                 </ModalContent>
             </Modal>
             <Header></Header>
-            <BetweenBodyFooter></BetweenBodyFooter>
+            <FeedDetailPageMsg></FeedDetailPageMsg>
             {
                 isMypage ?
                     <div style={{ display: 'flex', justifyContent: "right" }}>

@@ -2,10 +2,10 @@ import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { Link } from 'react-router-dom';
-import './ChattingPageMsg.css';
+import './MyPageMsg.css';
 import { useNavigate } from 'react-router-dom';
 
-const ChattingPageMsg = () => {
+const MyPageMsg = () => {
     const navigate = useNavigate();
     return (
         <div className="chatting-room-header">
@@ -19,4 +19,4 @@ const ChattingPageMsg = () => {
     );
 }
 
-export default ChattingPageMsg;
+export default MyPageMsg;

@@ -6,13 +6,15 @@ import {
   ChakraProvider,
 } from '@chakra-ui/react';
 import './AlarmSetting.css'
+import { useNavigate } from 'react-router-dom';
 
 const AlarmSetting = () => {
+  const navigate = useNavigate();
   return (
     <ChakraProvider>
       <Header></Header>
-      <div className='alarm-intro-title'>
-          알림설정
+      <div className='alarm-intro-title' onClick={()=>navigate(-1)}>
+          ←
       </div>
       <Alarm></Alarm>
       <Footer></Footer>

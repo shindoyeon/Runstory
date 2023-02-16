@@ -10,6 +10,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderTitle from "../MainPage/SliderTitle"
 import SliderImg from "../RunningCrewList/SliderImg"
+import RunningMyPageMsg from './RunningMyPageMsg'
 
 function RunningDetail(){
     const [mycrews, setMycrews] = useState([]);
@@ -86,7 +87,8 @@ function RunningDetail(){
     return (
         <div>
         <Header></Header>
-        <div style={{marginTop: "20%"}}>
+        <RunningMyPageMsg></RunningMyPageMsg>
+        <div>
             <div style={{marginLeft: '3%'}} className='filter-box'><div className='filter'>내가 만든 크루</div></div>
             <div>
                 {
