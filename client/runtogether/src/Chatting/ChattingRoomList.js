@@ -24,6 +24,9 @@ const ChattingRoomList = () => {
         
     }, []);
 
+    let defaultImg = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+    let imageBaseUrl = "https://i8a806.p.ssafy.io/runstory/user/";
+
     return (
         <div className="chatting-list">
             
@@ -32,10 +35,11 @@ const ChattingRoomList = () => {
                     <>
                 <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
                     <CardHeader>
+                        {console.log(item)}
                         <Image
                             boxSize='50px'
                             objectFit='cover'
-                            src={item.profileImgFilePath}
+                            src={item.profileImgFileName==null?defaultImg:imageBaseUrl+item.profileImgFileName}
                             alt='Dan Abramov'
                             borderRadius={100}
                         />
@@ -44,7 +48,7 @@ const ChattingRoomList = () => {
                         {item.userNickname} 님과의 채팅
                     </CardBody>
                     
-                    <ChattingRoom yourSeq={item.userSeq} yourNickname={item.userNickname} yourProfileImg={item.profileImgFilePath}></ChattingRoom>
+                    <ChattingRoom yourSeq={item.userSeq} yourNickname={item.userNickname} yourProfileImg={item.profileImgFileName==null?defaultImg:imageBaseUrl+item.profileImgFileName}></ChattingRoom>
                 </Card>
                 </>)
                 })}

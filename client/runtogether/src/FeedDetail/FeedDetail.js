@@ -58,10 +58,15 @@ function FeedDetail() {
                 })
         })();
     }, []);
-    var profileurl = "https://i8a806.p.ssafy.io/runstory/user/" + feeds.profileImgFileName;
+    
+    if(feeds.profileImgFileName == null){//기본 프로필인 경우
+        var profileurl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+    }else{
+        var profileurl = "https://i8a806.p.ssafy.io/runstory/user/" + feeds.profileImgFileName;
+    }
     var feedurl = "https://i8a806.p.ssafy.io/runstory/feeds/" + feedfiles.filePath;
     var commenturl = "https://i8a806.p.ssafy.io/runstory/user/" + user.profileImgFileName;
-
+    console.log("url주소 : "+profileurl);
     function GotoComment() {
         const url = `/feed/comment/${feedId}`;
         axios.get(url)
