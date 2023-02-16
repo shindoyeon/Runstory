@@ -5,6 +5,11 @@ import {HStack, Box, Button, Spacer, Heading, Stack, StackDivider, Text, Image, 
 import axios from '../api/axios'
 import RunningCard from './RunningCard';
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import Slider from 'react-slick'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import SliderTitle from "../MainPage/SliderTitle"
+import SliderImg from "../RunningCrewList/SliderImg"
 
 function RunningDetail(){
     const [mycrews, setMycrews] = useState([]);
@@ -20,14 +25,48 @@ function RunningDetail(){
                     setJoincrews(response.data.data[1].joincrew)
                     setDibscrews(response.data.data[2].dibscrew)
                     setPastcrews(response.data.data[3].pastcrew)
-                    console.log(response.data.data)
-                    console.log("성공");
                 })
                 .catch(function(error) {
                     console.log("실패")
                 })
         })();
     }, []);
+
+    function sliceData(data) {
+        const tempArr = [];
+        for(let i = 0; i < data.length; i+=4) {
+          tempArr.push(data.slice(i, i+4))
+        }
+        if(tempArr[tempArr.length - 1] != undefined){
+            console.log(tempArr)
+          if(tempArr[tempArr.length - 1].length % 4 === 0) {
+            return tempArr;
+          }
+          else if(tempArr[tempArr.length - 1].length % 4 ===1) {
+            tempArr[tempArr.length - 1].push({runningId: -1})
+            tempArr[tempArr.length - 1].push({runningId: -1})
+            tempArr[tempArr.length - 1].push({runningId: -1})
+          }
+          else if(tempArr[tempArr.length - 1].length % 4===2) {
+            tempArr[tempArr.length - 1].push({runningId: -1})
+            tempArr[tempArr.length - 1].push({runningId: -1})  
+          }
+          else {
+            tempArr[tempArr.length - 1].push({runningId: -1})  
+          }
+        }
+        return tempArr;
+      }
+
+      // Slide Setting
+      const settings = {
+        dots: false,
+        infinite: false,
+        speed: 200,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        vertical : false,
+      };
     // var profileurl = "https://i8a806.p.ssafy.io/runstory/user/" + feeds.profileImgFileName;
     // var feedurl = "https://i8a806.p.ssafy.io/runstory/feeds/" + feedfiles.filePath;
     // var commenturl = "https://i8a806.p.ssafy.io/runstory/user/" + user.profileImgFileName;
@@ -44,40 +83,110 @@ function RunningDetail(){
     // }
     
     return (
-        <div style={{marginBottom: "15%"}}>
+        <div>
         <Header></Header>
         <div style={{marginTop: "20%"}}>
-            <p style={{textDecoration:"underline"}}>내가 만든 크루</p>
+            <div style={{marginLeft: '3%'}} className='filter-box'><div className='filter'>내가 만든 크루</div></div>
             <div>
-            {
-                mycrews.map(function(mycrew){
-                    return RunningCard(mycrew)
-                })
-            }
+                {
+                    mycrews===null?null:
+                    <Slider {...settings}>
+                        {sliceData(mycrews).map((s) => {
+                            return(
+                                <div className="slide">
+                                    <div className='imgs'>
+                                        {
+                                            <SliderImg runningCrew={s}></SliderImg>
+                                        }
+                                    </div>
+                                    <div className='imgs'>
+                                        {
+                                            <SliderTitle runningCrew={s}></SliderTitle>
+                                        }
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </Slider>
+                }
             </div>
             <div>
-            <p style={{textDecoration:"underline"}}>내가 가입한 크루</p>
-            {
-                joincrews.map(function(joincrew) {
-                    return RunningCard(joincrew)
-                })
-            }
+            <div style={{marginLeft: '3%'}} className='filter-box'><div className='filter'>내가 가입한 크루</div></div>
+            <div>
+                {
+                    joincrews===null?null:
+                    <Slider {...settings}>
+                        {sliceData(joincrews).map((s) => {
+                            return(
+                                <div className="slide">
+                                    <div className='imgs'>
+                                        {
+                                            <SliderImg runningCrew={s}></SliderImg>
+                                        }
+                                    </div>
+                                    <div className='imgs'>
+                                        {
+                                            <SliderTitle runningCrew={s}></SliderTitle>
+                                        }
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </Slider>
+                }
+            </div>
             </div>
             <div>
-            <p style={{textDecoration:"underline"}}>내가 찜한 크루</p>
-            {
-                dibscrews.map(function(dibcrew) {
-                    return RunningCard(dibcrew)
-                })
-            }
+            <div style={{marginLeft: '3%'}} className='filter-box'><div className='filter'>내가 찜한 크루</div></div>
+            <div>
+                {
+                    dibscrews===null?null:
+                    <Slider {...settings}>
+                        {sliceData(dibscrews).map((s) => {
+                            return(
+                                <div className="slide">
+                                    <div className='imgs'>
+                                        {
+                                            <SliderImg runningCrew={s}></SliderImg>
+                                        }
+                                    </div>
+                                    <div className='imgs'>
+                                        {
+                                            <SliderTitle runningCrew={s}></SliderTitle>
+                                        }
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </Slider>
+                }
+            </div>
             </div>
             <div>
-            <p style={{textDecoration:"underline"}}>내가 뛴 크루</p>
-            {
-                pastcrews.map(function(pastcrew) {
-                    return RunningCard(pastcrew)
-                })
-            }
+            <div style={{marginLeft: '3%'}} className='filter-box'><div className='filter'>내가 뛴 크루</div></div>
+            <div>
+                {
+                    pastcrews===null?null:
+                    <Slider {...settings}>
+                        {sliceData(pastcrews).map((s) => {
+                            return(
+                                <div className="slide">
+                                    <div className='imgs'>
+                                        {
+                                            <SliderImg runningCrew={s}></SliderImg>
+                                        }
+                                    </div>
+                                    <div className='imgs'>
+                                        {
+                                            <SliderTitle runningCrew={s}></SliderTitle>
+                                        }
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </Slider>
+                }
+            </div>
             </div>
         </div>
       <Footer></Footer>
