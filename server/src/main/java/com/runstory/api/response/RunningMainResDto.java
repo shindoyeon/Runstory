@@ -12,9 +12,7 @@ public class RunningMainResDto {
     private String imgFilePath;
     private String imgFileName;
     private String crewName;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
     private float distance;
     private String startLocation;
