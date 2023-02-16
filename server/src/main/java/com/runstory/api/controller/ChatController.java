@@ -49,13 +49,13 @@ public class ChatController {
         Optional<ChatMessageDto> chatRoomList = chatMessageRepository.findById(chat.getRoomId());
 
         if(!chatRoomList.isPresent()){
-            List<MessageDetailDto> messageDetailDtoList = new ArrayList<>();
-            ChatMessageDto chatMessageDto = new ChatMessageDto(chat.getRoomId(),messageDetailDtoList);
+//            List<MessageDetailDto> messageDetailDtoList = new ArrayList<>();
+//            ChatMessageDto chatMessageDto = new ChatMessageDto(chat.getRoomId(),messageDetailDtoList);
 //            chat.setMessage("채팅방이 생성됐습니다.");
 //            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
 //            MessageDetailDto messageDetailDto = new MessageDetailDto(chat.getUserSeq(),chat.getMessage(),chat.getTime());
 //            messageDetailDtoList.add(messageDetailDto);
-            chatMessageRepository.save(chatMessageDto);
+//            chatMessageRepository.save(chatMessageDto);
         }else{
             List<MessageDetailDto> messageDetailDtoList = chatRoomList.get().getMessage();
             for (MessageDetailDto message : messageDetailDtoList){
@@ -64,7 +64,6 @@ public class ChatController {
 
                 User user = userRepository.findByUserSeq(message.getUserSeq());
 
-//              System.out.println("test");
                 ChatDto newChat = new ChatDto(MessageType.TALK,chat.getRoomId(),message.getUserSeq(),user.getUserNickname(),message.getMessage(),message.getTime());
                 template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), newChat);
             }
