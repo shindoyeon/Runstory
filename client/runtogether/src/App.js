@@ -38,7 +38,8 @@ function App() {
         <ChakraProvider theme={theme} className='body'>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={<MainPage />} />
+                    <Route path='/' element={<Landing />} />
+                    <Route path='/main' element={<MainPage />} />
                     <Route path='/landing' element={<Landing />} />
                     <Route path='/user/login' element={<Login />} />
                     <Route path='/oauth/callback/kakao' element={<Oauth />} />

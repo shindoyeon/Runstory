@@ -56,7 +56,7 @@ const Login = () => {
         <ChakraProvider>
         <Header></Header>
             {success ? (
-                Navigate('/')
+                window.location.replace('/main')
             ) : (
                 <section className='LoginSection' style={{width : '90%'}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>

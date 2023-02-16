@@ -83,13 +83,13 @@ import {
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header' > 
                         <div className='card-header'>
-                            <Link to={"/feed/"+feed.userId} >
+                            <a href={`/feed/${feed.userId}`} >
                                 <Image
                                     borderRadius='full'
                                     boxSize='40px'
                                     src={profileurl}
                                     />
-                            </Link>
+                            </a>
                             <div className='nickname'>{feed.userNickname}</div>
                         </div>
                     </CardHeader>
