@@ -282,7 +282,9 @@ function UpsideProfile() {
         <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
         <div style={{display: 'flex', justifyContent: 'center'}}>
           <div style={{width: '20%', textAlign: 'left'}}>해시태그</div>
-          <Hashtag style={{width: '120%'}} selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></Hashtag>
+          <div style={{width: '55%'}} >
+          <Hashtag  selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></Hashtag>
+          </div>
         </div>
       <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
       </div>
