@@ -44,7 +44,7 @@ function RunningDetail() {
 
     // 답글 작성
     async function postRecomment(commentId) {
-        await axios.post("/feed/recomment", {id: commentId, content: recommentContent});
+        await axios.post("/feed/comment/recomment", {id: commentId, content: recommentContent});
         window.location.reload();
     }
 
@@ -59,12 +59,13 @@ function RunningDetail() {
     };    
 
     const handleSubmit2 = (commentId, e) => { // 작성 버튼 클릭 시 이벤트 함수
-        // console.log(commentId)
+        console.log(commentId)
         
         postRecomment(commentId, recommentContent);
     };    
 
     function openRecomment(commentId) {
+        console.log(commentId)
         var recommentForm = document.getElementById(commentId);
         if(recommentForm.style.display==='block') {
             recommentForm.style.display = 'none'
