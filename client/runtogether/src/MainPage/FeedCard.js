@@ -95,7 +95,7 @@ import {
                     {feed.feedFiles.map((item2, idx) => {
                         var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
                         return(
-                            <a to={"/feed/detail/" + feed.feedId}>
+                            <a href={"/feed/detail/" + feed.feedId}>
                             <Image
                                 border='1px solid #CBD9E7'
                                 margin='0 auto'
