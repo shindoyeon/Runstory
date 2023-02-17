@@ -44,8 +44,10 @@ const ChattingRoomList = () => {
                             borderRadius={100}
                         />
                     </CardHeader>
-                    <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
-                        {item.userNickname} 님과의 채팅
+                    <CardBody display='flex' textAlign={'left'} fontWeight={'bold'} style={{overflow: 'auto'}} >
+                        <div style={{ width: '120px', textOverflow: 'ellipsis'}}>
+                        {item.userNickname}
+                        </div>
                     </CardBody>
                     
                     <ChattingRoom yourSeq={item.userSeq} yourNickname={item.userNickname} yourProfileImg={item.profileImgFileName==null?defaultImg:imageBaseUrl+item.profileImgFileName}></ChattingRoom>
