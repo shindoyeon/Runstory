@@ -28,7 +28,7 @@ const FollowPage= () => {
         const data = await axios.get(
             "https://i8a806.p.ssafy.io/api/feed/follow/" + userId,
         );
-        console.log(data.data.data);
+        // console.log(data.data.data);
         const follow = data.data.data.followings;
         // follow.map((f)=>{
         //   console.log(f)

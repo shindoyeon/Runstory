@@ -87,7 +87,7 @@ import {
                                     src={profileurl}
                                     />
                             </Link>
-                            <div className='nickname'>{feed.userNickname}</div>
+                            <div className='nickname' style={{whiteSpace: 'nowrap'}}>{feed.userNickname}</div>
                         </div>
                     </CardHeader>
                     {/* 피드 내용 */}
@@ -95,7 +95,7 @@ import {
                     {feed.feedFiles.map((item2, idx) => {
                         var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
                         return(
-                            <NavLink to={"/feed/detail/" + feed.feedId}>
+                            <a to={"/feed/detail/" + feed.feedId}>
                             <Image
                                 border='1px solid #CBD9E7'
                                 margin='0 auto'
@@ -105,7 +105,7 @@ import {
                                 src={fileSrc}
                                 alt=""
                             />
-                            </NavLink>
+                            </a>
                         )
                     })}
                             {/* 내용 */}

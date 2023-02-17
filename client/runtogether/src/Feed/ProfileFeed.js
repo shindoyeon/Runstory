@@ -44,7 +44,7 @@ const ProfileFeed = (props) => {
     else if(tempArr[0].length===2) {
       tempArr[0].push({feedId: -1, feedFiles: [{filePath: ""}]})
     }
-    console.log(tempArr)
+    // console.log(tempArr)
     return tempArr;
     }
 

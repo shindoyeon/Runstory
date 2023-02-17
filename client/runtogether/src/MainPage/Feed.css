@@ -52,9 +52,13 @@
 }
 
 .comment-nickname {
+    width: 3000%;
     height: 30px;
     line-height: 30px;
     margin-left: 3%;
+    white-space: nowrap;
+
+ 
     /* font-weight: bold; */
 }
 

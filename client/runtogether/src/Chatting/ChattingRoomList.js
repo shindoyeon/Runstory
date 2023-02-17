@@ -19,7 +19,7 @@ const ChattingRoomList = () => {
             }
         )
 
-        console.log("data : "+JSON.stringify(data.data.data) )
+        // console.log("data : "+JSON.stringify(data.data.data) )
         setChatting(data.data.data);
         
     }, []);
@@ -35,7 +35,7 @@ const ChattingRoomList = () => {
                     <>
                 <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>
                     <CardHeader>
-                        {console.log(item)}
+                        {/* {console.log(item)} */}
                         <Image
                             boxSize='50px'
                             objectFit='cover'
@@ -44,8 +44,10 @@ const ChattingRoomList = () => {
                             borderRadius={100}
                         />
                     </CardHeader>
-                    <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
-                        {item.userNickname} 님과의 채팅
+                    <CardBody display='flex' textAlign={'left'} fontWeight={'bold'} style={{overflow: 'auto'}} >
+                        <div style={{ width: '120px', textOverflow: 'ellipsis'}}>
+                        {item.userNickname}
+                        </div>
                     </CardBody>
                     
                     <ChattingRoom yourSeq={item.userSeq} yourNickname={item.userNickname} yourProfileImg={item.profileImgFileName==null?defaultImg:imageBaseUrl+item.profileImgFileName}></ChattingRoom>

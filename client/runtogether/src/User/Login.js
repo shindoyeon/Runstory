@@ -17,7 +17,7 @@ import  {useNavigate} from 'react-router-dom';
 const LOGIN_URL = 'https://i8a806.p.ssafy.io/api/auth/login';
 
 const Login = () => {
-    console.log("login");
+    // console.log("login");
     const userRef = useRef();
     const errRef = useRef();
 
@@ -49,7 +49,7 @@ const Login = () => {
                 {headers: { 'Content-Type': 'application/json' }});
                 const data = response.data.data;
                 const ACCESS_TOKEN = data.accessToken;
-                console.log(ACCESS_TOKEN);
+                // console.log(ACCESS_TOKEN);
                 localStorage.setItem("access-token", ACCESS_TOKEN);
                 navigate("/main");
             } catch (err) {

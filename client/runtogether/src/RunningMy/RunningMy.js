@@ -28,7 +28,7 @@ function RunningDetail(){
                     setPastcrews(response.data.data[3].pastcrew)
                 })
                 .catch(function(error) {
-                    console.log("실패")
+                    // console.log("실패")
                 })
         })();
     }, []);
@@ -37,10 +37,10 @@ function RunningDetail(){
         const tempArr = [];
         for(let i = 0; i < data.length; i+=4) {
           tempArr.push(data.slice(i, i+4))
-          console.log(data.slice(i, i+4))
+        //   console.log(data.slice(i, i+4))
         }
         if(tempArr[tempArr.length - 1] != undefined){
-            console.log(tempArr)
+            // console.log(tempArr)
           if(tempArr[tempArr.length - 1].length % 4 === 0) {
             return tempArr;
           }

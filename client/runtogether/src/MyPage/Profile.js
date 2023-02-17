@@ -11,12 +11,13 @@ import {
 import DaumPostcode from 'react-daum-postcode';
 import axioswithH from '../api/axios';
 import axios from 'axios';
+import Hashtag from '../CreateFeed/HashTag'
 
 function UpsideProfile() {
   const { isOpen: isAddressOpen, onOpen: onAddressOpen, onClose: onAddressClose } = useDisclosure()
 
   const [isModifyMode, setIsModifyMode] = useState(false);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(null);
   const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const [userId, setUserId] = useState();
   const [level, setLevel] = useState();
@@ -31,17 +32,22 @@ function UpsideProfile() {
   const fileInput = useRef(null);
   const [showTooltip, setShowTooltip] = useState(false)
 
+  const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set());
+  const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set());
+  const [hashtags, setHashtags] = useState([]);
+
   useEffect(() => {
     if (localStorage.getItem("access-token") === null) { // 비회원 -> 로그인
         window.location.replace("/user/login");
     }
-
-    (async () => { // 피드 주인
+    
+    (async () => { 
+      
       const data = await axioswithH({
           url: '/user',
           method: "GET"
       });
-      console.log(data.data.data)
+      // console.log(data.data.data)
       setUserId(data.data.data.userId)
       setNickname(data.data.data.userNickname)
       setName(data.data.data.userName)
@@ -51,14 +57,28 @@ function UpsideProfile() {
       setPhoneNum(data.data.data.phoneNum)
       setAddress(data.data.data.address)
       setAge(data.data.data.age)
+      setHashtags(data.data.data.hashtags)
       setProfileImg("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName)
       setFileUrl("http://i8a806.p.ssafy.io/runstory/user/"+data.data.data.profileImgFileName)
+      
+      let hashtagDict = {};
+      const res = await axios({url: 'https://i8a806.p.ssafy.io/api/feed/hashtag', method: "GET"});
+      res.data.data.map((v)=>{
+        // console.log(v)
+        hashtagDict[v.hashtagId] = v.hashtagName;
+      })
+
+      var temp = "";
+      data.data.data.hashtags.map((hashtag)=>{
+        temp += hashtagDict[hashtag] + " / "
+      })
+
+      temp = temp.slice(0, -3);
+      setSelectedHashtagsName(temp);
     })();
-  }, []);
 
-  function modify() {
-
-  }
+  }, [selectedHashtagsId]);
+  
 
   // 프로필 사진 변경
   const imgChange = (e) => {
@@ -76,7 +96,7 @@ function UpsideProfile() {
         }
     }
     reader.readAsDataURL(e.target.files[0])
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
   }
 
   // 수정모드 전환
@@ -94,7 +114,7 @@ function UpsideProfile() {
         formData.append('age', age);
         // formData.append('roleType', "USER");
         // formData.append('regType', "LOCAL");
-        // formData.append('hashtags', Array.from(selectedHashtagsId));
+        formData.append('hashtags', Array.from(selectedHashtagsId));
         formData.append('profileImg', file);
         const data = axioswithH({
             url: 'https://i8a806.p.ssafy.io/api/user',
@@ -102,6 +122,8 @@ function UpsideProfile() {
             method: "PUT", data: formData,
             headers: { 'Content-Type': 'multipart/form-data' } 
         });
+        
+        window.location.reload();
     }
     setIsModifyMode(!isModifyMode)
   }
@@ -257,6 +279,13 @@ function UpsideProfile() {
           <div style={{width: '20%', textAlign: 'left'}}>주소</div>
           <input id="address-input" style={{width: '40%', marginLeft: '15%', border: '1px solid #6a6a6a', borderRadius: '10px'}} placeholder='상세주소' value={address} onClick={onAddressOpen} readOnly />
         </div>
+        <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{width: '20%', textAlign: 'left'}}>해시태그</div>
+          <div style={{width: '55%'}} >
+          <Hashtag  selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></Hashtag>
+          </div>
+        </div>
       <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
       </div>
       <div style={{marginTop: "3%"}}>
@@ -326,7 +355,7 @@ function UpsideProfile() {
         <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
         <div style={{display: 'flex', justifyContent: 'center'}}>
           <div style={{width: '20%', textAlign: 'left'}}>해시태그</div>
-          <div style={{width: '40%', marginLeft: '15%'}}>{address}</div>
+          <div style={{width: '40%', marginLeft: '15%'}}>{selectedHashtagsName}</div>
         </div>
       </div>
       <div style={{marginTop: "3%"}}>
