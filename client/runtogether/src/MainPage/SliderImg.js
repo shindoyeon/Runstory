@@ -2,7 +2,7 @@ import {NavLink} from "react-router-dom";
 function SliderImg({runningCrew}) {
     return (
         <>
-        {console.log(runningCrew)}
+        {/* {console.log(runningCrew)} */}
             {
                 runningCrew.map((crew, idx) => {
                     return(

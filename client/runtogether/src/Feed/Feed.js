@@ -62,17 +62,17 @@ const Profile = () => {
                 const data = await axios.get(
                     "https://i8a806.p.ssafy.io/api/feed/profile/" + userId,
                 ).catch(function(error) {
-                    console.log("실패");
-                    console.log(error);
+                    // console.log("실패");
+                    // console.log(error);
                     navigate("/main");
                 });
 
-                console.log("피드 주인 : "+data.status)
+                // console.log("피드 주인 : "+data.status)
 
                 setFeedMaster(data.data.data)
                 setLevel(data.data.data.level);
                 setNickname(data.data.data.userNickName);
-                console.log(data.data.data)
+                // console.log(data.data.data)
                 if("" == (data.data.data.profileImgFileName)){
                     setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
                 }else{
@@ -159,11 +159,11 @@ const Profile = () => {
         const url = "feed/block/" + Id;
         axios.post(url)
             .then(function(response) {
-                console.log("성공");
+                // console.log("성공");
                 window.location.replace("/feed/" + Id)
             })
             .catch(function(error) {
-                console.log("실패");
+                // console.log("실패");
             })
 
     }
@@ -172,11 +172,11 @@ const Profile = () => {
         const url = "feed/unblock/" + Id;
         axios.delete(url)
             .then(function(response) {
-                console.log("성공");
+                // console.log("성공");
                 window.location.replace("/feed/" + userId)
             })
             .catch(function(error) {
-                console.log("실패");
+                // console.log("실패");
             })
 
     }
@@ -246,7 +246,7 @@ const Profile = () => {
             </Modal>
             <Header></Header>
             <BetweenBodyFooter></BetweenBodyFooter>
-            {console.log(feedMaster)}
+            {/* {console.log(feedMaster)} */}
             {/* {console.log(userId)} */}
             <div style={{ display: 'flex', justifyContent: "right" }}>
                 <div style={{ textAlign: 'right', marginRight: '3%', fontSize: '20px' }}><a href="/mypage"><FontAwesomeIcon icon={faGear} /></a></div>

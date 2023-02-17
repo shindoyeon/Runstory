@@ -30,7 +30,7 @@ function SliderImg({runningCrew}) {
           })
         
         setRunningCrewInfo(data.data.data)
-        console.log(data.data.data)
+        // console.log(data.data.data)
     }
 
 

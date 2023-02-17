@@ -21,11 +21,11 @@ function RunningDetail() {
             const data = await axios.get(url)
                 .then(function (response) {
                     setComments(response.data.data.runningboardcomments);
-                    console.log(response.data.data.runningboardcomments)
-                    console.log("성공");
+                    // console.log(response.data.data.runningboardcomments)
+                    // console.log("성공");
                 })
                 .catch(function (error) {
-                    console.log("실패");
+                    // console.log("실패");
                 })
         })();
     }, []);

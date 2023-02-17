@@ -27,7 +27,7 @@ function RunningDetail(){
 
     useEffect(() => {
         (async () => {
-            console.log("runnings: ", runnings)
+            // console.log("runnings: ", runnings)
             const data = await axiosH.get("/user");
             setUserSeq(data.data.data.userSeq)
         })();
@@ -42,12 +42,12 @@ function RunningDetail(){
                     setHashtags(response.data.data.selectedHashtags)
                     setComments(response.data.data.runningboardcomments)
                     setDate(response.data.data.endTime.substring(0,10))
-                    console.log(response);
-                    console.log(response.data.data.endTime.substring(0,10))
-                    console.log("성공");
+                    // console.log(response);
+                    // console.log(response.data.data.endTime.substring(0,10))
+                    // console.log("성공");
                 })
                 .catch(function(error) {
-                    console.log("실패");
+                    // console.log("실패");
                 })
         })();
     }, []);
@@ -80,7 +80,7 @@ function RunningDetail(){
     }
 
     function Authentication(startLatitude, startLongitude, date) {
-        console.log(date)
+        // console.log(date)
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -93,19 +93,19 @@ function RunningDetail(){
                         const url = `running/${runningId}/valid`;
                         axios.get(url)
                             .then(function(response) {
-                                console.log("성공");
+                                // console.log("성공");
                                 window.location.replace("/running/detail/" + runningId)
                             })
                             .catch(function(error) {
-                                console.log("실패");
+                                // console.log("실패");
                             })
                     }else{
-                        console.log("당신은 밖에 있습니다.")
+                        // console.log("당신은 밖에 있습니다.")
                     }
                 }
             )
         }else{
-            console.log("위치를 찍으시기 바랍니다.")
+            // console.log("위치를 찍으시기 바랍니다.")
         }
     }
 
@@ -113,11 +113,11 @@ function RunningDetail(){
         const runningurl = "/running/detail/" + runningId;
         axios.delete(runningurl)
         .then(function(response) {
-            console.log("성공");
+            // console.log("성공");
             window.location.replace("/running/my")
         })
         .catch(function(error) {
-            console.log("실패");
+            // console.log("실패");
         })    
     }
 

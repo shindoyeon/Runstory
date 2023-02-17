@@ -76,7 +76,7 @@ export default function TempFeed() {
             `https://i8a806.p.ssafy.io/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
-          console.log(state.center);
+          // console.log(state.center);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
         setrunningCrew(data[1].data.data);
@@ -95,7 +95,7 @@ export default function TempFeed() {
             `https://i8a806.p.ssafy.io/api/main/running?latitude=${state.center.lat}&longitude=${state.center.lng}`
           )
           ]);
-          console.log(state.center);
+          // console.log(state.center);
         setFeeds(data[0].data.data);
         setArr(Array.from(feeds.slice(startIdx, startIdx + 5)));
         setrunningCrew(data[1].data.data);

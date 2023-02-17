@@ -24,11 +24,11 @@ function RunningDetail() {
             const data = await axios.get(url)
                 .then(function (response) {
                     setComments(response.data.data);
-                    console.log(response.data.data)
-                    console.log("성공");
+                    // console.log(response.data.data)
+                    // console.log("성공");
                 })
                 .catch(function (error) {
-                    console.log("실패");
+                    // console.log("실패");
                 })
         })();
     }, []);
@@ -59,7 +59,7 @@ function RunningDetail() {
     };    
 
     const handleSubmit2 = (commentId, e) => { // 작성 버튼 클릭 시 이벤트 함수
-        console.log(commentId)
+        // console.log(commentId)
         
         postRecomment(commentId, recommentContent);
     };    
@@ -102,7 +102,7 @@ function RunningDetail() {
                                             {r.content}
                                         </div>
                                         <div style={{marginLeft: '10%'}} onClick={()=>openRecomment(r.feedCommentId)}>
-                                            {console.log(r)}
+                                            {/* {console.log(r)} */}
                                             ↪ 답글 달기
                                         </div>
                                         <form margin='0 auto' className='recomment-form' id={r.feedCommentId}

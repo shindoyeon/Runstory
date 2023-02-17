@@ -54,7 +54,7 @@ function FeedDetail() {
                     }
                 })
                 .catch(function (error) {
-                    console.log("실패");
+                    // console.log("실패");
                 })
         })();
     }, 500);
@@ -63,11 +63,11 @@ function FeedDetail() {
     useEffect(() => {
         (async () => {
             const data = await axios.get("/user");
-            console.log("본인여부 조회: " + data.data.data.userNickname);
-            console.log("data: " + data.data.data.userSeq);
-            console.log("feeds: " + feeds.userId);
+            // console.log("본인여부 조회: " + data.data.data.userNickname);
+            // console.log("data: " + data.data.data.userSeq);
+            // console.log("feeds: " + feeds.userId);
             if (data.data.data.userSeq == feeds.userId) {
-                console.log("내피드임");
+                // console.log("내피드임");
                 setIsMypage(true);
             }
         })();
@@ -93,10 +93,10 @@ function FeedDetail() {
             url: "/feed/feed-unlike/" + feedId,
             method: "DELETE"
         }).then(function (response) {
-            console.log("성공");
+            // console.log("성공");
         })
             .catch(function (error) {
-                console.log("실패");
+                // console.log("실패");
             });
         setIsLiked(false)
     }
