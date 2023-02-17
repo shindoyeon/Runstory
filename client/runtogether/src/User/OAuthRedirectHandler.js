@@ -12,7 +12,7 @@ const OAuth2RedirectHandler = () => {
       const response = await axios({url: `/auth/login/kakao?code=${code}`, method: "GET"});
       const ACCESS_TOKEN = response.data.data.accessToken;
       localStorage.setItem("access-token", ACCESS_TOKEN);
-      navigate("/");
+      navigate("/main");
     } catch (error) {
       console.error(error);
     } 

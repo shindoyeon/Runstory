@@ -14,13 +14,10 @@ import {
   import './Feed.css';
   import Comment from './Comment';
   import axios from '../api/axios';
-  import { Link } from 'react-router-dom';
+  import { NavLink, Link } from 'react-router-dom';
 
   function FeedCard(props) {
     const feed = props.feed;
-    // console.log(feed)
-    // var fileSrc = feed.feedFiles[0].fileName+feed.feedFiles[0].filePath;
-    
 
     async function postLike(feedId) {
         await axios({
@@ -37,7 +34,6 @@ import {
     }
 
     const clickLike = (feedId) => {
-        // e.preventDefault();
         var color = document.getElementById(feedId).style.color;
         if(color==='grey') {
             document.getElementById(feedId).style.color='red';
@@ -68,6 +64,11 @@ import {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const comments = feed.feedComments;
 
+    if(feed.profileImgFileName == null){//기본 프로필인 경우
+        var profileurl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+    }else{
+        var profileurl = "https://i8a806.p.ssafy.io/runstory/user/" + feed.profileImgFileName;
+    }
     return (
     <div height="50vh" margin='0 auto'>
         <ChakraProvider height='5vh'>
@@ -78,13 +79,12 @@ import {
         <Card className='card' variant='outline' boxShadow='rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;'>
                     {/* 피드의 윗부분 (유저 아이디, 프로필 이미지, 공유 버튼)*/}
                     <CardHeader className='card-header' > 
-                        <div className='card-header-left'>
-                            <Link to={"/feed"} state={{userId: feed.userId}}>
+                        <div className='card-header'>
+                            <Link to={"/feed/"+feed.userId} >
                                 <Image
                                     borderRadius='full'
                                     boxSize='40px'
-                                    src={feed.profileImgFilePath}
-                                    alt='Dan Abramov'
+                                    src={profileurl}
                                     />
                             </Link>
                             <div className='nickname'>{feed.userNickname}</div>
@@ -95,6 +95,7 @@ import {
                     {feed.feedFiles.map((item2, idx) => {
                         var fileSrc = "http://i8a806.p.ssafy.io/runstory/feeds/"+item2.filePath
                         return(
+                            <NavLink to={"/feed/detail/" + feed.feedId}>
                             <Image
                                 border='1px solid #CBD9E7'
                                 margin='0 auto'
@@ -104,6 +105,7 @@ import {
                                 src={fileSrc}
                                 alt=""
                             />
+                            </NavLink>
                         )
                     })}
                             {/* 내용 */}

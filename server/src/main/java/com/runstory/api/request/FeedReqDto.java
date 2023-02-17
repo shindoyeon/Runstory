@@ -6,6 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class FeedReqDto {
@@ -15,6 +16,7 @@ public class FeedReqDto {
     private PublicScope publicScope;
     private LocalDateTime regdate;
     private LocalDateTime updatedate;
+    MultipartFile[] files;
 
     @Override
     public String toString() {

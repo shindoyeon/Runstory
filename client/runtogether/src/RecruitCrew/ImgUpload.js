@@ -4,56 +4,48 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 
-const ImgUpload = () => {
+const ImgUpload = (props) => {
     const fileInput = React.useRef(null);
 
     const handleButtonClick = e => {
         fileInput.current.click();
     };
 
-    function deleteImg() {
-      console.log("삭제")
+    const deleteImg = (index) => {
+      const imgArr = (props.image).filter((item, idx) => idx !== index)
+      const imgNameArr = (props.preview).filter((item, idx) => idx !== index )
+    
+      props.setImage([...imgArr])
+      props.setPreview([...imgNameArr])
     }
 
     const handleChange = e => {
-      var reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload = event => {
-        var preview = new Image();
-        preview.src = event.target.result;
-        preview.style.width = '90%';
-        preview.style.height = '50vh';
-        preview.style.margin = '0 auto';
-        preview.style.marginBottom = '10px';
-        preview.style.objectFit = 'fill';
-        preview.style.border = '1px solid #616161';
-        preview.style.overflow = 'hidden';
-        preview.style.borderRadius = '5%';
-        var previewBox = document.getElementById('preview-box');
-        previewBox.style.display = 'inline';
-        previewBox.appendChild(preview);
-        // var deleteImg = document.createElement('div')
-        // deleteImg.textContent = '삭제';
-        // deleteImg.id = preview.src;
-        // deleteImg.style.borderRadius = "20px";
-        // deleteImg.style.fontWeight = "bold";
-        // deleteImg.style.backgroundColor = "#EEB6B6";
-        // deleteImg.style.textAlign = "center";
-        // deleteImg.style.width = "10%";
-        // deleteImg.style.height = "20px";
-        // deleteImg.style.lineHeight = "20px";
-        // deleteImg.style.fontSize = "14px";
-        // deleteImg.style.color = "#6A6A6A";
-        // deleteImg.style.margin = "0 auto";
-        // deleteImg.style.marginBottom = "20px";
-        // deleteImg.onclick(deleteImg());
-        // previewBox.appendChild(deleteImg);
+      let reader = new FileReader()
+      if(e.target.files[0]) {
+        reader.readAsDataURL(e.target.files[0])
+        
+        props.setImage([...(props.image), e.target.files[0]])
       }
-    };
+      reader.onloadend = () => {
+        const previewImgUrl = reader.result
+    
+        if(previewImgUrl) {
+          props.setPreview([...(props.preview), previewImgUrl])
+        }
+      }
+    }
 
   return (
     <React.Fragment>
       <div className='preview-box' id='preview-box' style={{display: 'none'}}></div>
+      {props.preview!=undefined && props.preview.map((item, idx) => {
+        return(<>
+          <img className='preview-box' src={props.preview[idx]} />
+          <div style={{borderRadius: '20px', backgroundColor: '#EEB6B6', textAlign: 'center', width: '10%', height: '20px', lineHeight: '20px',
+        fontSize: '14px', margin: '0 auto', marginBottom: '20px', fontWeight: 'bold'}} onClick={() => deleteImg(idx)}>삭제</div>
+          </>
+        )
+      })}
       <div className='upload-box' id='upload-box' onClick={handleButtonClick}><FontAwesomeIcon icon={faPlusCircle} /></div>
       <input type="file"
             accept="image/*"

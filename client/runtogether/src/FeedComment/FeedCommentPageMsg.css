@@ -1,5 +1,5 @@
-.running-crew-header {
-    width: 110%;
+.chatting-room-header {
+    width: 100%;
     display: flex;
     margin-top: 60px;
 }
@@ -16,10 +16,9 @@
     line-height: 100%;
 }
 
-.running-crew-title {
-    font-size: 13px;
+.chatting-title {
+    font-size: 20px;
     font-weight: bold;
-    text-decoration: underline;
     color: #6A6A6A;
 }
 

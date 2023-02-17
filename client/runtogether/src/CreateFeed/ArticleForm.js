@@ -18,17 +18,18 @@ import {
     useDisclosure
   } from '@chakra-ui/react';
 import axios from 'axios';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 
 const ArticleForm = () => {
-    const [value, setValue] = useState('1'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
+    const accessToken = localStorage.getItem("access-token");
+
+    const [value, setValue] = useState('PUBLIC'); // 공개 범위 (1: 전체공개, 2: 친구공개, 3: 비공개)
     const [content, setContent] = useState(""); // 피드 내용
     const [selectedHashtagsId, setSelectedHashtagsId] = useState(new Set()); // 해시태그
     const [selectedHashtagsName, setSelectedHashtagsName] = useState(new Set()); // 해시태그
-    // const [files, setFiles] = useState<File[]>([]);
-    // const fileInput = React.useRef(null); // 사진
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [image, setImage] = useState([]);
+    const [preview, setPreview] = useState([]);
     
 
     const handleContentChange = ({ target: { value } }) => setContent(value); // 글 작성 시 content 설정
@@ -36,22 +37,24 @@ const ArticleForm = () => {
     const handleSubmit = (event) => { // 작성 버튼 클릭 시 이벤트 함수
         event.preventDefault();
         var selectedHashTags = Array.from(selectedHashtagsId)
-        // console.log(selectedHashTags)
-        alert(`작성된 내용: ${content}, 공개범위: ${value}, 해시태그: ${selectedHashTags}`); // 데이터 잘 들어왔는지 확인용!!!
-        console.log(registerFeed(content, value, selectedHashTags))
+        registerFeed(content, value, selectedHashTags);
     };
 
     async function registerFeed(content, value, selectedHashTags) {
       const formData = new FormData();
-      var temp = {'content': content, 'publicScope': value, 'selectedHashTags': selectedHashTags}
-      formData.append('files', [""]);
-      formData.append('feed', temp)
+      // var temp = {'content': content, 'publicScope': value, 'selectedHashTags': selectedHashTags}
+      console.log("이미지 : "+image)
+      image.forEach((file)=>formData.append('files', file))
+      formData.append('content', content);
+      formData.append('publicScope', value);
+      formData.append('selectedHashTags', selectedHashTags);
       const data = await axios({
-          url: 'http://i8a806.p.ssafy.io/api/feed',
-          method: "POST", data: formData,
-          headers: { 'Content-Type': 'multipart/form-data' } });
+          url: 'https://i8a806.p.ssafy.io/api/feed',
+          // url: 'http://localhost:8080/feed',            
+          method: "post", data: formData,
+          headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${accessToken}` } });
 
-      return data;
+    navigate("/main");
     }
 
     // const handleButtonClick = e => {
@@ -65,12 +68,13 @@ const ArticleForm = () => {
     const navigate = useNavigate();
  
     const navigateHome = () => {
-      navigate("/");
+      navigate("/main");
     };
 
     return (
-        <form className='article-form' onSubmit={handleSubmit}>
-            <ImgUpload></ImgUpload>
+      // enctype="multipart/form-data"
+       <form className='article-form' onSubmit={handleSubmit}>   
+            <ImgUpload image={image} setImage={setImage} preview={preview} setPreview={setPreview}></ImgUpload>
             <HashTag selectedHashtagsId={selectedHashtagsId} selectedHashtagsName={selectedHashtagsName}></HashTag>
             <div className='content-and-range'>
             <div className='content' type='text'>CONTENT</div>

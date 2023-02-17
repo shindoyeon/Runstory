@@ -28,11 +28,13 @@ public class RunningController {
 
     @PostMapping(value = "") // RunningCrew 생성
     @ApiOperation(value = "Running Crew Create")
-    public BaseResponse<?> createRunningCrew(@ApiIgnore Authentication authentication, @RequestPart(value = "running") RunningCrewReqDto runningCrewReqDto, @RequestPart(value = "img") MultipartFile runningImg) throws Exception{
+    public BaseResponse<?> createRunningCrew(@ApiIgnore Authentication authentication, RunningCrewReqDto runningCrewReqDto) throws Exception{
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
-        System.out.println(runningImg);
+//        System.out.println("이미지 : "+runningCrewReqDto.getRunningImg());
+//        System.out.println("크루명 : "+runningCrewReqDto.getCrewName());
+        System.out.println(runningCrewReqDto.toString());
         Long userSeq = userDetails.getUserSeq(); // 로그인된 유저 Seq를 들고 온다.
-        runningservice.createRunningCrew(runningCrewReqDto, userSeq, runningImg);
+        runningservice.createRunningCrew(runningCrewReqDto, userSeq, runningCrewReqDto.getRunningImg());
         return BaseResponse.success("모임이 추가되었습니다.");
     }
 
@@ -48,15 +50,15 @@ public class RunningController {
         runningMainResDtos.add(hashMap);
         System.out.println(runningMainResDtos.size());
         HashMap<String, List<RunningMainResDto>> nowHash = new HashMap<>();
-        hashMap.put("now", runningservice.findByToday());
+        nowHash.put("now", runningservice.findByToday());
         runningMainResDtos.add(nowHash);
         return BaseResponse.success(runningMainResDtos);
     }
 
 
     /*
-    * 여기서부터는 상세페이지에 관한 내용
-    * */
+     * 여기서부터는 상세페이지에 관한 내용
+     * */
     @GetMapping("/detail/{runningid}") // 상세페이지를 Read
     public BaseResponse<?> runningdetail(@ApiIgnore Authentication authentication,@PathVariable Long runningid, HttpServletRequest request){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();

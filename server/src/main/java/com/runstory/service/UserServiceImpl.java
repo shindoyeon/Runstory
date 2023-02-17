@@ -4,16 +4,21 @@ import com.runstory.api.request.UserFindDto;
 import com.runstory.api.request.UserRegisterPostReq;
 import com.runstory.api.response.SimpleUserResDto;
 import com.runstory.common.util.FileUtil;
+import com.runstory.domain.chat.ChatRoom;
+import com.runstory.domain.chat.ChatRoomUser;
 import com.runstory.domain.hashtag.HashtagType;
 import com.runstory.domain.hashtag.entity.Hashtag;
 import com.runstory.domain.hashtag.entity.SelectedHashtag;
 import com.runstory.domain.user.RegType;
 import com.runstory.domain.user.dto.UserDto;
 import com.runstory.domain.user.entity.User;
+import com.runstory.repository.ChatRoomRepository;
+import com.runstory.repository.ChatRoomUserRepository;
 import com.runstory.repository.HashtagRepository;
 import com.runstory.repository.SelectedHashtagRepository;
 import com.runstory.repository.UserRepository;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +42,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired PasswordEncoder passwordEncoder;
 	@Autowired HashtagRepository hashtagRepository;
 	@Autowired SelectedHashtagRepository selectedHashtagRepository;
+	@Autowired ChatRoomRepository chatRoomRepository;
+	@Autowired ChatRoomUserRepository chatRoomUserRepository;
 
 	@Override
 	@Transactional
@@ -95,6 +102,12 @@ public class UserServiceImpl implements UserService {
 	public UserDto getUserInfoByUserId(String userId) {
 		User user = userRepository.findByUserId(userId);
 		UserDto userDto = new UserDto(user);
+		List<SelectedHashtag> selectedHashtags = selectedHashtagRepository.findAllByUser(user);
+		List<Long> hashtags = new ArrayList<>();
+		for(SelectedHashtag hashtag : selectedHashtags){
+			hashtags.add(hashtag.getHashtag().getHashtagId());
+		}
+		userDto.setHashtags(hashtags);
 		return userDto;
 	}
 
@@ -150,6 +163,19 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findByUserId(userId);
 		selectedHashtagRepository.deleteSelectedHashtagByUserId(user.getUserSeq());
 
+		//채팅방 삭제
+		List<ChatRoomUser> list = chatRoomUserRepository.findByUser(user);
+		for(ChatRoomUser chatRoomUser : list){
+			ChatRoom chatRoom = chatRoomUser.getChatRoom();
+			List<ChatRoomUser> chatRoomUsers = chatRoomUserRepository.findByChatRoom(chatRoom);
+			for(ChatRoomUser cru : chatRoomUsers){
+				System.out.println("삭제 챗룸유저 : "+cru.getChatRoomUserId());
+				chatRoomUserRepository.delete(cru);
+			}
+			System.out.println("삭제 챗방 : "+chatRoom.getChatRoomId());
+			chatRoomRepository.deleteById(chatRoom.getChatRoomId());
+		}
+		//채팅방 유저 삭제
 		userRepository.deleteUserByUserId(userId);
 	}
 
@@ -175,6 +201,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public String changeUserImage(boolean isRegistered, String userId, MultipartFile image) throws Exception{
 		User user = userRepository.findByUserId(userId);
+//		System.out.println("사진 변경 :"+user);
 		// 수정하는 경우 기존 파일 삭제
 //		if (!isRegistered) {
 //			File file = new File(user.getProfileImgFilePath());
@@ -224,5 +251,46 @@ public class UserServiceImpl implements UserService {
 		Page<User> users = userRepository.findByUserNicknameContainsAndUserSeqLessThanOrderByUserSeqDesc(userNickname, lastUserId, pageRequest);
 		List<SimpleUserResDto> result = users.stream().map(u->new SimpleUserResDto(u)).collect(Collectors.toList());
 		return result;
+	}
+
+	@Override
+	@Transactional
+	public void changeUserAllInfo(Long userSeq, UserRegisterPostReq userRegisterPostReq)
+		throws Exception {
+		User user = userRepository.findByUserSeq(userSeq);
+
+		//닉네임, 이름, 성별, 나이, 핸드폰 번호, 주소, 해시택
+		user.setUserName(userRegisterPostReq.getUserName());
+		user.setUserNickname(userRegisterPostReq.getUserNickname());
+		user.setGender(userRegisterPostReq.getGender());
+		user.setAge(userRegisterPostReq.getAge());
+		user.setPhoneNum(userRegisterPostReq.getPhoneNum());
+		user.setAddress(userRegisterPostReq.getAddress());
+
+		userRepository.save(user);
+
+		if(userRegisterPostReq.getProfileImg() != null){
+			// 프로필 사진 변경
+			//String changeUserImage(boolean isRegistered, String userId, MultipartFile image)
+			String result = changeUserImage(true, userRegisterPostReq.getUserId(),userRegisterPostReq.getProfileImg());
+			System.out.println("프로필 사진 변경 : "+result);
+		}
+
+		//기존 해시태그 삭제
+		selectedHashtagRepository.deleteSelectedHashtagByUserId(userSeq);
+
+		List<Long> list = userRegisterPostReq.getHashtags();
+		if(list != null){
+			// 새로운 해시태그 추가
+			for(Long hashtagId : list){
+				Hashtag hashtag = hashtagRepository.findHashtagByHashtagId(hashtagId);
+				SelectedHashtag selectedHashtag = new SelectedHashtag();
+
+				selectedHashtag.setHashtag(hashtag);
+				selectedHashtag.setUser(user);
+				selectedHashtag.setHashtagType(HashtagType.valueOf("USER"));
+				selectedHashtagRepository.save(selectedHashtag);
+			}
+		}
 	}
 }

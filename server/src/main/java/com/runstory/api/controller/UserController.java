@@ -63,7 +63,7 @@ public class UserController {
 			return ResponseEntity.ok(BaseResponse.fail());
 		}
 		// 프로필 사진 변경
-//		userService.changeUserImage(true,user.getUserId(),registerInfo.getProfileImg());
+		userService.changeUserImage(true,user.getUserId(),registerInfo.getProfileImg());
 		return ResponseEntity.ok(BaseResponse.success(null));
 	}
 
@@ -177,7 +177,16 @@ public class UserController {
 		//일치하지 않는 정보
 		return ResponseEntity.ok(BaseResponse.fail());
 	}
+	@PutMapping(consumes = {"multipart/form-data"}) //회원 전체 정보 수정
+	public ResponseEntity<?> changeUserInfo(@ApiIgnore Authentication authentication, UserRegisterPostReq userRegisterPostReq)
+		throws Exception {
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+		Long userSeq = userDetails.getUserSeq();
 
+		userService.changeUserAllInfo(userSeq,userRegisterPostReq);
+
+		return ResponseEntity.ok(BaseResponse.success(null));
+	}
 	@PutMapping("/nickname")
 	@ApiOperation(value = "닉네임 변경", notes = "회원의 닉네임을 변경 해준다.")
 	@ApiResponses({
@@ -263,5 +272,22 @@ public class UserController {
 			System.out.println("에러 : "+e);
 		}
 		return ResponseEntity.ok(BaseResponse.success(newImageName));
+	}
+
+	@GetMapping("/isMe/{userSeq}")
+	@ApiOperation(value = "토큰이랑 seq번호 체크", notes = "")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+		@ApiResponse(code = 401, message = "인증 실패"),
+		@ApiResponse(code = 404, message = "사용자 없음"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public BaseResponse<?> isMe(@ApiIgnore Authentication authentication, @PathVariable Long userSeq) {
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+		User user = userDetails.getUser();
+		if(user.getUserSeq() == userSeq)
+			return BaseResponse.success(true);
+
+		return BaseResponse.fail();
 	}
 }

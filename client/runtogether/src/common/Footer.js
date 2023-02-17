@@ -8,7 +8,7 @@ import { Button, Collapse, useDisclosure } from '@chakra-ui/react'
 import "./Footer.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faUserGroup, faCirclePlus, faMagnifyingGlass, faUser } from "@fortawesome/free-solid-svg-icons";
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 const Footer = () => {
@@ -16,7 +16,7 @@ const Footer = () => {
   const [isLogined, setIsLogined] = useState(false);
   const [userId, setUserId] = useState();
   function refreshToHome() {
-    window.location.replace("/")
+    window.location.replace("/main")
   }
 
   useEffect(() => {
@@ -42,42 +42,42 @@ const Footer = () => {
         <ChakraProvider theme={theme}>  
             <header className='footer'>
                 <div className='home'><FontAwesomeIcon icon={faHome} onClick={refreshToHome} /></div>
-                <Link to='/running-crew-list'><div className='gather'><FontAwesomeIcon icon={faUserGroup} /></div></Link>
+                <a href='/running-crew-list'><div className='gather'><FontAwesomeIcon icon={faUserGroup} /></div></a>
                 {/* <Link to='/create-feed'> */}
                   <div className='post' onClick={onToggle}><FontAwesomeIcon icon={faCirclePlus} />
           
                   </div>
                   
                 {/* </Link> */}
-                <Link to="/search"><div className='navigate'><FontAwesomeIcon icon={faMagnifyingGlass} /></div></Link>
+                <a href="/search"><div className='navigate'><FontAwesomeIcon icon={faMagnifyingGlass} /></div></a>
                 <Collapse in={isOpen} animateOpacity className='collapse'>
                   <ButtonGroup className='btn-group'>
-                      <Link to='/create-running-crew'>
+                      <a href='/create-running-crew'>
                         <Button size='sm' className='running-crew-write' bg='#F4EBEB'>
-                          러닝 크루 모집글 작성하기
+                          러닝 크루 모집
                         </Button>
-                      </Link>
-                      <Link to='/create-feed'>
+                      </a>
+                      <a href='/create-feed'>
                         <Button size='sm' className='feed-write' bg='#F4EBEB'>
-                          피드 작성하기
+                          피드 작성
                         </Button>
-                      </Link>
-                      <Link to='/draw-map'>
+                      </a>
+                      <a href='/draw-map'>
                         <Button size='sm' className='map-draw' bg='#F4EBEB'>
                           지도 그리기
                         </Button>
-                      </Link>
+                      </a>
                     </ButtonGroup>
                 </Collapse>
                 {isLogined?
-                <Link to='/feed' state={{userId: userId}}> 
+                <a href={`/feed/${userId}`}> 
                   <div className='my-page'>
                   <FontAwesomeIcon icon={faUser} /></div>
-                </Link>
+                </a>
                 :
-                <Link to='/user/login'> 
+                <a href='/user/login'> 
                   <div className='my-page'><FontAwesomeIcon icon={faUser} /></div>
-                </Link>
+                </a>
                 }
             </header>
         </ChakraProvider>

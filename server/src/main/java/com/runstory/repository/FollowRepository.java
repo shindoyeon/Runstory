@@ -8,8 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
-    @Query("select f from Follow f where (f.from.userSeq = :myUserId and f.to.userSeq = :yourUserId) " +
-            "or (f.from.userSeq = :yourUserId and f.to.userSeq = :myUserId)")
+    @Query("select f from Follow f where (f.from.userSeq = :myUserId and f.to.userSeq = :yourUserId)")
     public Follow findFollowStatus(@Param("myUserId") Long myUserId,@Param("yourUserId") Long yourUserId);
 
     @Query("select f from Follow f where f.from.userSeq = :userId")

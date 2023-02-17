@@ -3,6 +3,7 @@ package com.runstory.api.controller;
 import com.runstory.api.request.FeedCommentReqDto;
 import com.runstory.api.request.FeedReqDto;
 import com.runstory.api.response.BaseResponse;
+import com.runstory.api.response.FeedResDto;
 import com.runstory.api.response.SimpleFeedResDto;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.feed.dto.FeedCommentDto;
@@ -24,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 import com.runstory.service.UserBlockService;
 
@@ -56,9 +56,7 @@ public class FeedController {
     public BaseResponse<?> getUserFeed(@ApiIgnore Authentication authentication, @PathVariable("userid") Long userId){
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Boolean isMe = (userId==userDetails.getUserSeq());
-        System.out.println("isMe: "+isMe);
         List<FeedDto> feedDtos = feedService.findByUserId(userDetails.getUserSeq(), userId, isMe);
-
         List<SimpleFeedResDto> result= feedDtos.stream().map(f->new SimpleFeedResDto(f)).collect(Collectors.toList());
 
         return BaseResponse.success(result);
@@ -83,12 +81,16 @@ public class FeedController {
     @GetMapping("/profile/{userid}")
     @ApiOperation(value = "사용자 프로필 조회", notes = "사용자 닉네임, 레벨, 프로필 사진")
     public BaseResponse<?> getProfile(@ApiIgnore Authentication authentication,@PathVariable("userid") Long userId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         User user = userService.getUserProfileByUserSeq(userId);
+        UserBlock userBlock = userBlockService.findUserBlock(userDetails.getUserSeq(), userId);
         Map<String, Object> profile = new HashMap<>();
         profile.put("userNickName", user.getUserNickname());
         profile.put("level", user.getLevel());
         profile.put("profileImgFilePath", user.getProfileImgFilePath());
         profile.put("profileImgFileName", user.getProfileImgFileName());
+        profile.put("isBlocked", (userBlock==null?false:true));
+        profile.put("blockId",(userBlock==null)?null:userBlock.getBlockId());
         return BaseResponse.success(profile);
     }
 
@@ -125,12 +127,20 @@ public class FeedController {
         return BaseResponse.success(hashtags);
     }
 
+    @GetMapping("/detail/{feedid}")
+    @ApiOperation(value = "피드 상세 조회")
+    public BaseResponse<?> getFeedDetail(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId){
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
+        FeedResDto result = feedService.findByFeedId(userDetails.getUserSeq(),feedId);
+        return BaseResponse.success(result);
+    }
+
     @PostMapping("")
     @ApiOperation(value = "피드 등록")
-    public BaseResponse<?> createFeed(@ApiIgnore Authentication authentication, @RequestPart FeedReqDto feed, @RequestPart MultipartFile [] files) throws IOException {
+    public BaseResponse<?> createFeed(@ApiIgnore Authentication authentication,FeedReqDto feed) throws IOException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         feed.setUserId(userDetails.getUserSeq());
-        Feed result = feedService.saveFeed(feed, files);
+        Feed result = feedService.saveFeed(feed,feed.getFiles());
         return BaseResponse.success(null);
     }
 
@@ -172,7 +182,6 @@ public class FeedController {
         feedService.deleteFeedLike(feedId,userDetails.getUserSeq());
         return BaseResponse.success(null);
     }
-
 
     @GetMapping("/block/list")
     @ApiOperation(value = "차단 사용자 리스트 조회")
@@ -231,7 +240,7 @@ public class FeedController {
 
     @DeleteMapping("/comment/recomment/{recommentid}")
     @ApiOperation(value = "피드 대댓글 삭제")
-    public BaseResponse<?> deleteFeedReComment(@ApiIgnore Authentication authentication,@PathVariable("recommentid") Long recommentId){
+    public BaseResponse<?> deleteFeedReComment(@ApiIgnore Authentication authentication, @PathVariable("recommentid") Long recommentId){
         Long userSeq = ((CustomUserDetails) authentication.getDetails()).getUserSeq();
         Long id = feedService.deleteFeedReComment(recommentId, userSeq);
         if (id == null){
@@ -243,7 +252,7 @@ public class FeedController {
 
     @GetMapping("/comment/{feedid}")
     @ApiOperation(value = "피드 댓글 상세조회")
-    public BaseResponse<?> getFeedDetail(@PathVariable("feedid") Long feedId){
+    public BaseResponse<?> getFeedCommentDetail(@ApiIgnore Authentication authentication, @PathVariable("feedid") Long feedId){
         List<FeedCommentDto> result = feedService.getFeedDetail(feedId);
         return BaseResponse.success(result);
     }

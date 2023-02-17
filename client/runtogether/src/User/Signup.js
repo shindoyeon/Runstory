@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import axios from '../common/axios';
+import axios from 'axios';
 import './Signup.css'
 import {
     Input,
@@ -140,13 +140,20 @@ const Signup = (props) => {
         formData.append('roleType', "USER");
         formData.append('regType', "LOCAL");
         formData.append('hashtags', Array.from(selectedHashtagsId));
+        formData.append('profileImg', file);
+        
+        try {
+            const data = axios({
+                url: 'https://i8a806.p.ssafy.io/api/user/signup',
+                method: "POST", data: formData,
+                headers: { 'Content-Type': 'multipart/form-data'} });
+            window.location.replace("/");
+            
+        } catch (error) {
+            alert("회원가입 실패")
+        }
 
-        const data = axios({
-            url: '/user/signup',
-            method: "POST", data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
-    };
+        };
 
     // 인증 코드 이메일 전송
     async function emailAuthSend() {
@@ -154,10 +161,7 @@ const Signup = (props) => {
             alert("❌이메일 형식이 맞지 않습니다.");
             return;
         }
-        const data = await axios({
-            url: `/auth/email?userEmail=${email}`,
-            method: "GET"
-        });
+        const data = await axios.get(`https://i8a806.p.ssafy.io/api/auth/email?userEmail=${email}`);
         setAuthcode(data.data.data.authenticationCode);
     }
 
@@ -224,38 +228,6 @@ const Signup = (props) => {
         pwcheck.innerText = "❌비밀번호 확인란을 다시 확인해주세요."
     }, [password, password2])
 
-    // 닉네임 중복 체크 axios
-    // async function duplicateCheck(nickname) {
-    //     const data = await axios.get("https://i8a806.p.ssafy.io/api/user/nickname/"+nickname);
-    //     return data;
-    // }
-
-    // 닉네임 유효성 체크
-    // useEffect(() => {
-    //     const data = duplicateCheck(nickname);
-    //     var nicknameCheck = document.getElementById("nickname-check");
-    //     if(nickname === undefined) {
-    //         nicknameCheck.innerText = ""
-    //         return;
-    //     }
-    //     console.log(data)
-    //     if(data.message === 'SUCCESS') {
-    //         nicknameCheck.innerText = "";
-    //     }
-    //     else {
-    //         nicknameCheck.innerText = "❌이미 존재하는 닉네임입니다."
-    //     }
-    //     if(USER_REGEX.test(nickname)) {
-    //         nicknameCheck.innerText = "";
-    //     }
-    //     else {
-    //         nicknameCheck.innerText = "❌아이디는 4~24자여야합니다."
-    //         return;
-    //     }
-        
-    // }, [nickname])
-
-
     // 나이 표시해주기
     useEffect(() => {
         var currentAge = document.getElementById("current-age");
@@ -288,7 +260,7 @@ const Signup = (props) => {
     const imgChange = (e) => {
         if(e.target.files[0]){
             setFile(e.target.files[0])
-        }else{ //업로드 취소할 시
+        } else{ //업로드 취소할 시
             setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
             return;
         }
@@ -300,7 +272,6 @@ const Signup = (props) => {
             }
         }
         reader.readAsDataURL(e.target.files[0])
-        console.log(e.target.files[0])
     }
     
     const handleComplete = (data) => {
@@ -318,8 +289,11 @@ const Signup = (props) => {
           fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
         }
     
-        console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-      };
+        setAddress(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+        var addressInput = document.getElementById('address-input');
+        addressInput.placeholder = fullAddress;
+        onAddressClose();
+    };
     
       const handleSearch = (data) => {
         // console.log(data);
@@ -385,12 +359,6 @@ const Signup = (props) => {
                             <DaumPostcode className="postmodal" onComplete={handleComplete} onSearch={handleSearch}></DaumPostcode>
                         </div>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button colorScheme='red' size='sm' mr={3} onClick={onHashtagClose}>
-                            취소
-                        </Button>
-                        <Button variant='ghost' size='sm' mr={3} onClick={saveHashtag}>완료</Button>
-                    </ModalFooter>
                 </ModalContent>
             </Modal>
             <div style={{width: '80%', margin: '0 auto', marginTop: '80px', marginBottom: '5px', fontSize: '30px', textAlign: 'center'}}>RUNSTORY</div>
@@ -414,10 +382,10 @@ const Signup = (props) => {
             {/* <div style={{marginLeft: '10%', textAlign: 'center', border: '1px solid #6A6A6A', width: '35%', color: '#6A6A6A', display: 'none'}} id='auth-email'></div> */}
             <Input required id='email-input' border='1px solid #6A6A6A' width="80%" size='xs' variant='outline' onClick={onEmailOpen} readOnly ps={2} mb={3} placeholder='이메일'/>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호</div>
-            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='비밀번호' value={password} ps={2} mb={3} onChange={handlePasswordChange} />
+            <Input border='1px solid #6A6A6A'  width='80%' size='xs' variant='outline' placeholder='비밀번호' value={password} type='password' ps={2} mb={3} onChange={handlePasswordChange} />
             <p style={{marginLeft: '10%', textAlign: 'left'}} id='pw-valid-check'></p>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>비밀번호 확인</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='비밀번호 재입력' value={password2} ps={2} mb={3} onChange={handlePassword2Change} />
+            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='비밀번호 재입력' value={password2} type='password' ps={2} mb={3} onChange={handlePassword2Change} />
             <p style={{marginLeft: '10%', textAlign: 'left'}} id='pwcheck'></p>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>이름</div>
             <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='이름' value={name} ps={2} mb={3} onChange={handleNameChange} />
@@ -432,9 +400,9 @@ const Signup = (props) => {
                     <Radio value='1' size='sm' colorScheme={"pink"}>남성</Radio>
                     <Radio style={{marginLeft: '10px'}} value='2' size='sm' colorScheme={"pink"}>여성</Radio>
                 </Stack>
-                </RadioGroup>
+            </RadioGroup>
             <div style={{marginLeft: '10%', textAlign: 'left'}}>주소</div>
-            <Input border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onClick={onAddressOpen} readOnly />
+            <Input border='1px solid #6A6A6A' id="address-input" width='80%' size='xs' variant='outline' placeholder='상세주소' value={address} ps={2} mb={3} onClick={onAddressOpen} readOnly />
             <div style={{marginLeft: '10%', textAlign: 'left'}}>나이</div>
             <div style={{marginLeft: '10%', textAlign: 'left'}} id='current-age'></div>
             <Slider

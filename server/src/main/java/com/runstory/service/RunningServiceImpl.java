@@ -47,7 +47,7 @@ public class RunningServiceImpl implements RunningService {
     public void createRunningCrew(RunningCrewReqDto runningCrewReqDto, Long userSeq, MultipartFile runningImg) throws Exception{// User user 현재 유저를 들고와야한다.
         // 유저 전체의 데이터를 들고온다.
         User user = userRepository.findByUserSeq(userSeq);
-//        String path = "/var/lib/runstory"; // /home/ubuntu/images;
+//        String path = "/var/lib/runstory"; // /home/ubuntu/images;x`
 //        String imageFileName = runningImg.getOriginalFilename();
 //        File file = new File(path+imageFileName);
 //        runningImg.transferTo(file);
@@ -101,9 +101,11 @@ public class RunningServiceImpl implements RunningService {
             HashMap<String, List<RunningMainResDto>> hash = new HashMap<>();
             List<RunningMainResDto> runningMainResDtos = new ArrayList<>();
             for (SelectedHashtag selectedHashtag1 : selectedHashtags){
-                if (selectedHashtag1.getRunning() != null){
-                    RunningMainResDto runningMainResDto = new RunningMainResDto(selectedHashtag1.getRunning());
-                    runningMainResDtos.add(runningMainResDto);
+                for (Running running: runninglist){
+                    if (selectedHashtag1.getRunning() != null && selectedHashtag1.getRunning().getRunningId() == running.getRunningId()){
+                        RunningMainResDto runningMainResDto = new RunningMainResDto(selectedHashtag1.getRunning());
+                        runningMainResDtos.add(runningMainResDto);
+                    }
                 }
             }
             hash.put(hashtag.getHashtagName(), runningMainResDtos);
@@ -119,14 +121,13 @@ public class RunningServiceImpl implements RunningService {
         Running running = runningrepository.getById(id);
         RunningDetail runningDetail = runningDetailRepository.getById(id);
         RunningUser runningUser = runningUserRepository.findByRunningAndUser(running, user);
-        Boolean validation;
-        if (runningUser == null){
-            validation = true;
+        if (runningUser == null){ // Table에 존재하지 않는다면
+            RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, true);
+            return runningDetailSumDto;
         }else{
-            validation = runningUser.getAuthentication();
+            RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, runningUser.getAuthentication());
+            return runningDetailSumDto;
         }
-        RunningDetailSumDto runningDetailSumDto = new RunningDetailSumDto(running, runningDetail, userseq, validation);
-        return runningDetailSumDto;
     }
 
     // DetailPage 삭제하기
@@ -315,7 +316,7 @@ public class RunningServiceImpl implements RunningService {
                     }
                     break;
 
-                case "dibcrew":
+                case "dibscrew":
                     List<RunningDibs> runningDibs = runningDibsRepository.findAllByUser(user);
                     for (RunningDibs runningDib : runningDibs){
                         runnings.add(runningDib.getRunning());

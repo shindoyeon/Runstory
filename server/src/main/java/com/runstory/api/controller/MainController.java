@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,19 +27,17 @@ import java.util.stream.Collectors;
 public class MainController {
     private final FeedService feedService;
     private final RunningService runningService;
-    @GetMapping("/running-location")
-    @ApiOperation(value = "현재위치 기반 러닝 모임 조회", notes = "")
-    public BaseResponse<?> getRunningCrewByLocation (@RequestParam float latitude, @RequestParam float longitude){
-        List<RunningMainResDto> runnings = runningService.findByLocation(latitude, longitude);
-        RunningMainResDto result = (runnings.size()==0)?null:runnings.get(0);
-        return BaseResponse.success(result);
-    }
 
-    @GetMapping("/running-today")
-    @ApiOperation(value = "오늘마감 러닝 모임 조회", notes = "")
-    public BaseResponse<?> getRunningCrewByToday (){
-        List<RunningMainResDto> runnings = runningService.findByToday();
-        RunningMainResDto result = (runnings.size()==0)?null:runnings.get(0);
+    @GetMapping("/running")
+    @ApiOperation(value = "상단바 러닝 모임 조회", notes = "")
+    public BaseResponse<?> getRunningCrewByToday (@RequestParam float latitude, @RequestParam float longitude){
+        List <RunningMainResDto> result = new ArrayList<>();
+        List<RunningMainResDto> today = runningService.findByToday();
+        if(today!=null) result.addAll(today);
+
+        List<RunningMainResDto> location = runningService.findByLocation(latitude, longitude);
+        if(location!=null)  result.addAll(location);
+        System.out.println("결과값: "+result.size());
         return BaseResponse.success(result);
     }
 

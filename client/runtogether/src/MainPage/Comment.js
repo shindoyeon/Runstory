@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 import './Feed.css';
 import {
     Card, // chakra-ui의 Card로 피드 하나를 구성할 것임
@@ -15,42 +16,29 @@ import {
     CardBody,
     CardFooter,
     useDisclosure
-  } from '@chakra-ui/react';
-import axios from 'axios';
+} from '@chakra-ui/react';
+import axios from '../api/axios';
 
 function Comment({comments, feedId}) {
     const [comment, setComment] = useState([]);
-
     const { isOpen, onOpen, onClose } = useDisclosure();
-
+    const navigate = useNavigate();
+    
     // 댓글 작성
     async function postComment() {
-        await axios.post("http://i8a806.p.ssafy.io/api/comment", {
-            feedId: feedId,
-            content: comment
-        });
+        await axios.post("/feed/comment", {id: feedId, content: comment});
+        window.location.reload();
     }
 
     // 댓글 삭제
     async function deleteComment(commentId) {
-        await axios.delete("http://i8a806.p.ssafy.io/api/comment/"+commentId, {
-            commentId: commentId
-        });
+        await axios.delete("/feed/comment/"+commentId);
+        window.location.reload();
     }
 
-    // 댓글 수정
-    // async function putComment(commentId) {
-    //     await axios.post(""+, {
-    //         commentId: commentId,
-    //         content: comment
-    //     });
-    // }
-
-
     const handleCommentChange = ({ target: { value } }) => setComment(value); // 댓글 작성 시 내용 설정
-  
+
     const handleSubmit = (e) => { // 작성 버튼 클릭 시 이벤트 함수
-        alert(`피드번호: ${feedId}, 작성된 내용: ${comment}`); // 데이터 잘 들어왔는지 확인용!!!
         postComment(comment);
     };
     return (
@@ -62,6 +50,13 @@ function Comment({comments, feedId}) {
                 <ModalBody border='2px' borderColor='gray.200'>
                     <div className="comments">
                         {comments.map((item, idx) => {
+                        let img = item.simpleUserResDto.profileImgFileName;
+                        let profileImgUrl = null;
+                        if(img == null){
+                            profileImgUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+                        }else{
+                            profileImgUrl = "https://i8a806.p.ssafy.io/runstory/user/" +item.simpleUserResDto.profileImgFileName;
+                        }
                         return(
                             <Card direction={{base: 'row'}} width='100%' margin='0 auto' mt='10px' key={idx}>
                                 <CardBody alignItems='center'>
@@ -69,8 +64,7 @@ function Comment({comments, feedId}) {
                                         <Image
                                             borderRadius='full'
                                             boxSize='30px'
-                                            src='https://w.namu.la/s/40cc83425a4a01e5438c620e76e401e3a633852d65e19254fc99a840c013674ec1565de5b0426fc4c83402b4ef9e3a3dcf963ee0d69684de9305c7c9504d10ffcdc88bfe22624226d9a85b2976abed1f19b59aadee927a4c369d41825ebcf2ad'
-                                            alt='Dan Abramov'
+                                            src={profileImgUrl}
                                         />
                                         <div className='comment-nickname'>{item.userNickname}</div>
                                     </div>
@@ -97,11 +91,6 @@ function Comment({comments, feedId}) {
                                         </ModalContent>
                                     </Modal>                                
                                 </CardFooter>
-                                {item.feedRecomments.map((item2, idx2) => {
-                                    return(
-                                        <>{item2.user}{item2.content}</>
-                                    )
-                                })}
                             </Card>
                             )
                         })}

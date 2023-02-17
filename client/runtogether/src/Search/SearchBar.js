@@ -15,16 +15,18 @@ import {
     Tabs, TabList, TabPanels, Tab, TabPanel
   } from '@chakra-ui/react';
 import axios from '../common/axios';
-import axiosh from '../api/axios';
+import axioswithH from '../api/axios';
 // import SearchResult from "./SearchResult";
 import UserSearchResult from './UserSearchResult';
 import FeedSearchResult from './FeedSearchResult';
+import RunningCrewSearchResult from './RunningCrewSearchResult';
 
 const SearchBar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const [searchType, setSearchType] = useState();
+    const [tabIndex, setTabIndex] = useState(0)
     const [searchKeyword, setSearchKeyword] = useState();
+    const [realKeyword, setRealKeyword] = useState();
     const [userResult, setUserResult] = useState([]);
     const [feedResult, setFeedResult] = useState([]);
     const [runningCrewResult, setRunningCrewResult] = useState([]);
@@ -33,49 +35,43 @@ const SearchBar = () => {
 
     const handleSubmit = (event) => { // 검색 버튼 클릭 시 이벤트 함수
         event.preventDefault();
-        console.log("dd");
+        setRealKeyword(searchKeyword)
         onClose()
-        search(searchKeyword)
     };
 
     function search(keyword) {
         console.log(keyword)
-        // setUserResult(getUserSearchResult(keyword));
-        // setFeedResult(getFeedSearchResult(keyword));
-        // setRunningCrewResult(getRunningCrewSearchResult(keyword));
-    }
-
-    async function getUserSearchResult(keyword) {
-        const data = await axiosh({
-            url: '/search',
-            method: "GET",
-            data:{type: 0,
-                keyword: keyword,
-                lastId: Number.MAX_SAFE_INTEGER + 1},
-        });
-        return data.data;
+        setFeedResult(getFeedSearchResult(keyword));
+        setRunningCrewResult(getRunningCrewSearchResult(keyword));
     }
 
     async function getFeedSearchResult(keyword) {
-        const data = await axiosh({
+        
+        const data = await axioswithH({
             url: '/search',
-            method: "GET",
-            data:{type: 1,
-                keyword: keyword,
-                lastId: Number.MAX_SAFE_INTEGER + 1},
+            method: "POST",
+            data: {
+                type: 1, keyword: keyword, lastId: 1000
+            },
+            header: {
+                Authorization: localStorage.getItem('access-token')
+            }
         });
-        return data.data;
+        console.log(data)
     }
 
     async function getRunningCrewSearchResult(keyword) {
-        const data = await axiosh({
+        const data = await axioswithH({
             url: '/search',
-            method: "GET",
-            data:{type: 2,
-                keyword: keyword,
-                lastId: Number.MAX_SAFE_INTEGER + 1},
+            method: "POST",
+            data: {
+                type: 2, keyword: keyword, lastId: 1000
+            },
+            header: {
+                Authorization: localStorage.getItem('access-token')
+            }
         });
-        return data.data;
+        
     }
 
     const [hashtags, setHashtags] = useState([]);
@@ -119,24 +115,24 @@ const SearchBar = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Input readOnly width='50%' size='m' variant='flushed' placeholder='검색하러가기' textAlign='center' ms={3} onClick={onOpen} />
+            <Input readOnly width='50%' size='m' variant='flushed' placeholder='검색하러가기' value={searchKeyword} textAlign='center' ms={3} onClick={onOpen} />
             <button type='submit'><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
             {/* <SearchResult></SearchResult> */}
-            <Tabs marginTop='15px' colorScheme="pink" isFitted='true'>
+            <Tabs marginTop='15px' colorScheme="pink" isFitted='true' onChange={(index) => setTabIndex(index)}>
                 <TabList>
-                    <Tab>USER</Tab>
-                    <Tab>FEED</Tab>
-                    <Tab>RUNNING CREW</Tab>
+                    <Tab id="user">USER</Tab>
+                    <Tab id="feed">FEED</Tab>
+                    <Tab id="running">RUNNING CREW</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <UserSearchResult userResult={userResult}></UserSearchResult>
+                        <UserSearchResult keyword={realKeyword}></UserSearchResult>
                     </TabPanel>
                     <TabPanel>
-                        <FeedSearchResult feedResult={feedResult}></FeedSearchResult>
+                        <FeedSearchResult keyword={searchKeyword}></FeedSearchResult>
                     </TabPanel>
                     <TabPanel>
-                        <FeedSearchResult feedResult={runningCrewResult}></FeedSearchResult>
+                        <RunningCrewSearchResult keyword={searchKeyword}></RunningCrewSearchResult>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

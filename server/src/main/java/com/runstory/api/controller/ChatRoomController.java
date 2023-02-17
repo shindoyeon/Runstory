@@ -1,5 +1,6 @@
 package com.runstory.api.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.runstory.api.response.BaseResponse;
 import com.runstory.common.auth.CustomUserDetails;
 import com.runstory.domain.chat.ChatRoom;
@@ -45,14 +46,17 @@ public class ChatRoomController {
 
     // 채팅방 생성
     // 채팅방 생성 후 다시 / 로 return
-    @PostMapping("/createroom")
-    public BaseResponse<?> createRoom(@ApiIgnore Authentication authentication, @RequestParam Long userId) {
+    @GetMapping("/createroom/{userId}")
+    public BaseResponse<?> createRoom(@ApiIgnore Authentication authentication, @PathVariable Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getDetails();
         Long myId = userDetails.getUserSeq();
-
         // 이미 만든 채팅방이 있는지 확인
         User my = userRepository.findByUserSeq(myId);
         User user = userRepository.findByUserSeq(userId);
+
+        if(user == null){
+            return BaseResponse.fail();
+        }
 
         HashSet<Long> set = new HashSet<>();
         List<ChatRoomUser> myChattingList = chatRoomUserRepository.findByUser(my);
@@ -63,7 +67,7 @@ public class ChatRoomController {
         for (ChatRoomUser room : myChattingList){
             if(set.contains(room.getChatRoom().getChatRoomId())){
                 // 이미 채팅방이 존재하는 경우
-                return BaseResponse.customSuccess(404,"이미 존재하는 방입니다.",room.getChatRoom());
+                return BaseResponse.customSuccess(404,"이미 존재하는 방입니다.",room.getChatRoom().getChatRoomId());
             }
         }
 
