@@ -66,7 +66,7 @@ function Comment({comments, feedId}) {
                                             boxSize='30px'
                                             src={profileImgUrl}
                                         />
-                                        <div className='comment-nickname'>{item.userNickname}</div>
+                                        <div className='comment-nickname'>{item.simpleUserResDto.userNickname}</div>
                                     </div>
                                     <div className='comment-content'>{item.content}</div>
                                     {/* <div style={{marginTop: '10px', fontSize: '12px'}}>답글 보기</div> */}

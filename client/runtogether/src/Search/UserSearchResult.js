@@ -40,7 +40,7 @@ const UserSearchResult = ({keyword}) => {
                   // console.log("유저 아이디 : "+item.userId)
                     return(
                       <>
-                        <NavLink to={"/feed/" + item.userId}>
+                        <a href={"/feed/" + item.userId}>
                         <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' justifyContent='center' alignItems='center'>      
                         <CardHeader>
 
@@ -69,7 +69,7 @@ const UserSearchResult = ({keyword}) => {
                             {item.userNickname}
                         </CardBody>
                     </Card>
-                    </NavLink>
+                    </a>
                   </>
                 )
             })}

@@ -23,7 +23,7 @@ const FollowingList= ({followList}) => {
         <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex' alignItems='center'>
                 
                 <CardHeader>
-                <NavLink to={"/feed/" + item.userId} width='100%'> 
+                <a to={"/feed/" + item.userId} width='100%'> 
                     <Image
                         boxSize='50px'
                         objectFit='cover'
@@ -31,7 +31,7 @@ const FollowingList= ({followList}) => {
                         alt='Dan Abramov'
                         borderRadius={100}
                     />
-                </NavLink>
+                </a>
                 </CardHeader>
                 <CardBody display='flex' textAlign={'left'} fontWeight={'bold'}>
                     {item.userNickname}
