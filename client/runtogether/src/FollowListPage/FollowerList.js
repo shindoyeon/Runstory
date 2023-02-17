@@ -26,7 +26,7 @@ const FollowerList= ({followerList}) => {
         <>
         <Card direction={{base: 'row'}} width='90%' ms='5%' mt='10px' display='flex'alignItems='center'>
 
-                <NavLink to={"/feed/" + item.userId} width='100%'> 
+                <a href={"/feed/" + item.userId} width='100%'> 
                 <CardHeader float={'left'}>
                     <Image
                         boxSize='50px'
@@ -44,7 +44,7 @@ const FollowerList= ({followerList}) => {
                         <p className='remove'>팔로우 해제</p>
                     </div>
                 </CardFooter> */}
-                </NavLink>
+                </a>
             </Card>
         </>)
             })}

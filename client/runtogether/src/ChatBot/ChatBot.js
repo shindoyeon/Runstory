@@ -40,6 +40,10 @@ const ChattingBot = () => {
                     {value: 'how-to-auth', label: '인증은 어떤 방식으로 해?', trigger: 'auth-way'},
                     {value: 'level', label: '인증하면 뭐가 좋아?', trigger: 'why-auth'},
                     {value: 'how-to-search', label: '검색은 어떻게 진행해?', trigger: 'why-search'},
+                    {value: 'how-to-create-feed', label: '피드등록은 어떻게 해?', trigger: 'make-feed'},
+                    {value: 'how-to-create-crew', label: '러닝크루는 어떻게 만들어?', trigger: 'make-crew'},
+                    {value: 'how-to-chat', label: '채팅은 어떻게 해?', trigger: 'how-chat'},
+
                 ]
                 },
                 {
@@ -132,6 +136,66 @@ const ChattingBot = () => {
                     message: '러닝 크루는 크루명을 통하여 검색하여 찾을 수 있습니다.',
                     trigger: 'anything-else'
                 },
+              {
+                id: 'make-feed',
+                message: '피드를 만들기 위해서는 중간의 +버튼을 눌러주세요!',
+                trigger: 'make-feed2'
+              },
+              {
+                id: 'make-feed2',
+                message: '누를시 3개의 버튼이 뜨게되는데 피드작성 버튼을 눌러주세요.',
+                trigger: 'make-feed3'
+              },
+              {
+                id: 'make-feed3',
+                message: '사진을 추가하시고, 내용, 해시태그를 선택하시고 공개범위를 골라주세요 .',
+                trigger: 'make-feed4'
+              },
+              {
+                id: 'make-feed4',
+                message: '등록을 눌러주시면 피드가 등록되고 내 피드에 가시면 확인하실 수 있습니다.',
+                trigger: 'anything-else'
+              },
+              {
+                id: 'make-crew',
+                message: '러닝크루를 만들기 위해서는 중간의 +버튼을 눌러주세요!',
+                trigger: 'make-crew2'
+              },
+              {
+                id: 'make-crew2',
+                message: '누를시 3개의 버튼이 뜨게되는데 러닝크루 모집 버튼을 눌러주세요.',
+                trigger: 'make-crew3'
+              },
+              {
+                id: 'make-crew3',
+                message: '사진을 추가하시고, 내용, 해시태그를 선택하시고 출발,도착지, 연령대와 인원을 골라주세요 .',
+                trigger: 'make-crew4'
+              },
+              {
+                id: 'make-crew4',
+                message: '등록을 눌러주시면 러닝크루가 등록되고 내 러닝크루에 가시면 확인하실 수 있습니다.',
+                trigger: 'anything-else'
+              },
+              {
+                id: 'how-chat',
+                message: '채팅 기능을 사용하기 위해서는 오른쪽 위의 채팅모양을 눌러주세요.',
+                trigger: 'how-chat2'
+              },
+              {
+                id: 'how-chat2',
+                message: '누를시 채팅 가능한 사람들 명단이 뜨게 됩니다.',
+                trigger: 'how-chat3'
+              },
+              {
+                id: 'how-chat3',
+                message: '그 사람들 중 채팅하고 싶은 사람을 선택합니다 .',
+                trigger: 'how-chat4'
+              },
+              {
+                id: 'how-chat4',
+                message: '그 후 채팅을 진행하시면 됩니다.',
+                trigger: 'anything-else'
+              },
                 {
                     id: 'yes-or-no',
                     options: [
