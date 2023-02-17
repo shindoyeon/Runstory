@@ -20,6 +20,7 @@ import FeedDetailPageMsg from './FeedDetailPageMsg';
 function FeedDetail() {
     const { feedId } = useParams();
     const [feeds, setFeeds] = useState([]);
+    const [userId, setUserId] = useState();
     const [hashtags, setHashtags] = useState([]);
     const [feedcomments, setFeedcomments] = useState([]);
     const [user, setUser] = useState([]);
@@ -31,7 +32,6 @@ function FeedDetail() {
     const [isMypage, setIsMypage] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => {
         (async () => {
             const url = "feed/detail/" + feedId;
             const data = await axios.get(url)
@@ -40,6 +40,8 @@ function FeedDetail() {
                     setHashtags(response.data.data.selectedHashtags)
                     setFeedfiles(response.data.data.feedFiles[0])
                     setFeedcomments(response.data.data.feedComments[0])
+                    setUserId(response.data.data.userId)
+                    
                     if (response.data.data.feedComments.length === 0) {
                         setIsComment("false")
                     } else {
@@ -56,17 +58,20 @@ function FeedDetail() {
                 .catch(function (error) {
                     console.log("실패");
                 })
-        })();
-    }, 500);
+            })();
+        
+
+
+
     }, []);
 
     useEffect(() => {
         (async () => {
             const data = await axios.get("/user");
-            console.log("본인여부 조회: " + data.data.data.userNickname);
-            console.log("data: " + data.data.data.userSeq);
-            console.log("feeds: " + feeds.userId);
-            if (data.data.data.userSeq == feeds.userId) {
+            // console.log("본인여부 조회: " + data.data.data.userNickname);
+            // console.log("data: " + data.data.data.userSeq);
+            // console.log("feeds: " + feeds.userId);
+            if (data.data.userSeq == userId) {
                 console.log("내피드임");
                 setIsMypage(true);
             }
