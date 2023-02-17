@@ -111,7 +111,7 @@ function FeedDetail() {
             url: "/feed/" + feedId,
             method: "DELETE"
         }).then(function (response) {
-            window.location.re();
+            window.location.replace("/feed/"+userId);
         });
     }
 
