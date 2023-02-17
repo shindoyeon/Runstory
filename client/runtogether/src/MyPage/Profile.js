@@ -17,7 +17,7 @@ function UpsideProfile() {
   const { isOpen: isAddressOpen, onOpen: onAddressOpen, onClose: onAddressClose } = useDisclosure()
 
   const [isModifyMode, setIsModifyMode] = useState(false);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(null);
   const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const [userId, setUserId] = useState();
   const [level, setLevel] = useState();
@@ -74,9 +74,7 @@ function UpsideProfile() {
       })
 
       temp = temp.slice(0, -3);
-      // setHashtags(temp);
-      var hashtagInput = document.getElementById('hashtag-input');
-      hashtagInput.placeholder = temp;
+      setSelectedHashtagsName(temp);
     })();
 
   }, [selectedHashtagsId]);
@@ -355,7 +353,7 @@ function UpsideProfile() {
         <Divider style={{marginTop: '3%', marginBottom: '3%', width: '100%'}}></Divider>
         <div style={{display: 'flex', justifyContent: 'center'}}>
           <div style={{width: '20%', textAlign: 'left'}}>해시태그</div>
-          <Input id='hashtag-input' border='1px solid #6A6A6A' width='80%' size='xs' variant='outline' placeholder='' textAlign='left' ps={2} mb={3} readOnly/>
+          <div style={{width: '40%', marginLeft: '15%'}}>{selectedHashtagsName}</div>
         </div>
       </div>
       <div style={{marginTop: "3%"}}>
