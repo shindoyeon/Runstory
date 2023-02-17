@@ -87,7 +87,7 @@ import {
                                     src={profileurl}
                                     />
                             </Link>
-                            <div className='nickname'>{feed.userNickname}</div>
+                            <div className='nickname' style={{whiteSpace: 'nowrap'}}>{feed.userNickname}</div>
                         </div>
                     </CardHeader>
                     {/* 피드 내용 */}

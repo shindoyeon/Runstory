@@ -53,7 +53,7 @@ function RunningDetail() {
         <ChakraProvider>
             <Header></Header>
             <RunningCrewCommentPageMsg></RunningCrewCommentPageMsg>
-            <div className='block-title'>
+            <div>
                 <div style={{ borderBottom: "5%", maxHeight: '77vh', overflow: 'scroll'}}>
                     {
                         comments.map(function (r) {
