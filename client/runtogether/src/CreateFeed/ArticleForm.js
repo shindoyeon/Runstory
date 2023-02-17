@@ -43,7 +43,7 @@ const ArticleForm = () => {
     async function registerFeed(content, value, selectedHashTags) {
       const formData = new FormData();
       // var temp = {'content': content, 'publicScope': value, 'selectedHashTags': selectedHashTags}
-      console.log("이미지 : "+image)
+      // console.log("이미지 : "+image)
       image.forEach((file)=>formData.append('files', file))
       formData.append('content', content);
       formData.append('publicScope', value);

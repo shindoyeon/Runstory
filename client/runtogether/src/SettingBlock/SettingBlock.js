@@ -22,7 +22,7 @@ function UserBlockList() {
         const data = await axios.get(
             "feed/block/list"
         );
-          console.log(data.data.data)
+          // console.log(data.data.data)
           setBlocks(data.data.data)
         })();
   }, []);
@@ -31,11 +31,11 @@ function UserBlockList() {
     const url = "feed/unblock/" + blockuser.blockId;
     axios.delete(url)
         .then(function(response) {
-            console.log("성공");
+            // console.log("성공");
             window.location.replace("/setting-block")
         })
         .catch(function(error) {
-            console.log("실패");
+            // console.log("실패");
         })
 
   }

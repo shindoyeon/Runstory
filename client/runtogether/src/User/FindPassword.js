@@ -37,7 +37,7 @@ const Login = () => {
             const response = await axios.post(FINDPWD_URL,
                 JSON.stringify({ userName, phoneNum, userId }),
                 {headers: { 'Content-Type': 'application/json' }});
-                console.log(response);
+                // console.log(response);
             } catch (err) {
                 if (!err?.response) {
                     setErrMsg('에러');
