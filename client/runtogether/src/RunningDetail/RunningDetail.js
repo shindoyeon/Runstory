@@ -10,6 +10,7 @@ import axios from '../api/axios'
 import BooleanRunning from "./BooleanRunning";
 import BetweenBodyFooter from "../common/BetweenBodyFooter";
 import axiosH from '../api/axios'
+import RunningDetailPageMsg from './RunningDetailPageMsg'
 import { NavLink } from 'react-router-dom';
 
 
@@ -128,7 +129,7 @@ function RunningDetail(){
     return (
         <div>
             <Header></Header>
-            <BetweenBodyFooter></BetweenBodyFooter>
+            <RunningDetailPageMsg></RunningDetailPageMsg>
             <Modal isCentered isOpen={isOpen} onClose={onClose} size='xs' className='modal' scrollBehavior='inside' height={'10vh'}>
                 <ModalOverlay />
                 <ModalContent>
@@ -234,7 +235,7 @@ function RunningDetail(){
                 </div>
                 <Divider w={'80%'} m={'0 auto'} orientation='horizontal'></Divider>
                 <NavLink to={"/running/detail/" + runnings.id + "/comment"}>
-                    <div style={{ marginTop: "5%" }}>💬 댓글 보기</div>
+                    <div style={{ marginTop: "5%", marginLeft: '10%' }}>💬 댓글 보기</div>
                 </NavLink>
                 <div>
                     {/* {
@@ -259,6 +260,7 @@ function RunningDetail(){
                 } */}
                 </div>
             </div>
+            <BetweenBodyFooter></BetweenBodyFooter>
             <Footer></Footer>
         </div>
     );
