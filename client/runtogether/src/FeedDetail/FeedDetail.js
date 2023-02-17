@@ -149,9 +149,9 @@ function FeedDetail() {
                         <div style={{ textAlign: 'right', marginRight: '10%', fontSize: '20px' }}><FontAwesomeIcon onClick={onOpen} icon={faBars} /></div>
                     </div> : null}
             <div style={{ width: "80%", margin: '0 auto', display: 'flex' }}>
-                <NavLink to={"/feed/" + feeds.userId}>
+                <a href={"/feed/" + feeds.userId}>
                     <Avatar name='author-profile-img' src={profileurl} style={{ border: "1px dotted #6A6A6A", marginRight: '3%' }} />
-                </NavLink>
+                </a>
                 {/* <img alt="" src={profileurl} width="8%" height="10%"/> */}
                 <div style={{ display: 'block', marginLeft: "3px" }}>
                     <div style={{ fontSize: "15px" }}>{feeds.userNickname}</div>
@@ -202,6 +202,7 @@ function FeedDetail() {
                     <div style={{ marginTop: "5%" }}>💬 댓글 보기</div>
                 </NavLink>
             </div>
+            <BetweenBodyFooter></BetweenBodyFooter>
             <Footer></Footer>
         </div>
     );

@@ -62,7 +62,7 @@ function RunningDetail() {
                                 <div style={{ paddingLeft: "3%", paddingRight: "3%", borderRadius: "30px", marginBottom: "5%" }}>
                                     <div style={{ borderRadius: "10px", backgroundColor: "#E1EBFF" }}>
                                         <div style={{ borderRadius: "10px", backgroundColor: "#E1EBFF" }}>
-                                            <NavLink to={"/feed/" + r.userId}>
+                                            <a href={"/feed/" + r.userId}>
                                                 <HStack spacing='24px'>
                                                     <Avatar
                                                         isCentered
@@ -71,7 +71,7 @@ function RunningDetail() {
                                                         style={{ border: '2px solid #6A6A6A' }} />
                                                     <div style={{ marginLeft: "5%", marginTop: "0px", fontSize: "13px" }}>{r.userNickName}</div>
                                                 </HStack>
-                                            </NavLink>
+                                            </a>
                                         </div>
                                         <div style={{ paddingLeft: "10%" }}>
                                             {r.content}
