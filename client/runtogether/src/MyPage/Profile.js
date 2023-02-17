@@ -47,7 +47,7 @@ function UpsideProfile() {
           url: '/user',
           method: "GET"
       });
-      console.log(data.data.data)
+      // console.log(data.data.data)
       setUserId(data.data.data.userId)
       setNickname(data.data.data.userNickname)
       setName(data.data.data.userName)
@@ -64,7 +64,7 @@ function UpsideProfile() {
       let hashtagDict = {};
       const res = await axios({url: 'https://i8a806.p.ssafy.io/api/feed/hashtag', method: "GET"});
       res.data.data.map((v)=>{
-        console.log(v)
+        // console.log(v)
         hashtagDict[v.hashtagId] = v.hashtagName;
       })
 
@@ -96,7 +96,7 @@ function UpsideProfile() {
         }
     }
     reader.readAsDataURL(e.target.files[0])
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
   }
 
   // 수정모드 전환

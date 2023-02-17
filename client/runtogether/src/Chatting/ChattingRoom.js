@@ -43,7 +43,7 @@ const ChattingRoom = ({ yourSeq, yourNickname, yourProfileImg }) => {
     )
     setMySeq(data.data.data.userSeq);
 
-    console.log("yourNickname : " + yourNickname + " yourSeq : " + yourSeq)
+    // console.log("yourNickname : " + yourNickname + " yourSeq : " + yourSeq)
 
     const room = await axios.get(
       `https://i8a806.p.ssafy.io/api/chatroom/createroom/${yourSeq}`, {

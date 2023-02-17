@@ -163,9 +163,9 @@ const ArticleForm = () => {
       document.getElementById('start-date-input').value = finalDate;
       document.getElementById('start-time-input').value = finalTime;
       document.getElementById('end-time-input').value = finalTime2;
-      console.log(finalDate)
-      console.log(finalTime)
-      console.log(finalTime2)
+      // console.log(finalDate)
+      // console.log(finalTime)
+      // console.log(finalTime2)
       
     })
 
@@ -183,17 +183,17 @@ const ArticleForm = () => {
       setWomenCount(document.getElementById('woman-input').value)
       setCount(document.getElementById('whoever-input').value)
 
-      console.log(crewName) // 크루명
-      console.log(content) // 내용
-      console.log(document.getElementById('man-input').value) // 남자
-      console.log(document.getElementById('woman-input').value) // 여자
-      console.log(document.getElementById('whoever-input').value) // 성별 무관
-      console.log(startLat, startLng) // 시작 위도 경도
-      console.log(endLat, endLng) // 도착 위도 경도
-      console.log(distance) // 계산된 거리
-      console.log(minAge) // 최소 나이
-      console.log(maxAge) // 최대 나이
-      console.log(date) // 날짜 및 시간
+      // console.log(crewName) // 크루명
+      // console.log(content) // 내용
+      // console.log(document.getElementById('man-input').value) // 남자
+      // console.log(document.getElementById('woman-input').value) // 여자
+      // console.log(document.getElementById('whoever-input').value) // 성별 무관
+      // console.log(startLat, startLng) // 시작 위도 경도
+      // console.log(endLat, endLng) // 도착 위도 경도
+      // console.log(distance) // 계산된 거리
+      // console.log(minAge) // 최소 나이
+      // console.log(maxAge) // 최대 나이
+      // console.log(date) // 날짜 및 시간
 
       image.forEach((file)=>{
         formData.append('runningImg', file)

@@ -40,7 +40,7 @@ const SearchBar = () => {
     };
 
     function search(keyword) {
-        console.log(keyword)
+        // console.log(keyword)
         setFeedResult(getFeedSearchResult(keyword));
         setRunningCrewResult(getRunningCrewSearchResult(keyword));
     }
@@ -57,7 +57,7 @@ const SearchBar = () => {
                 Authorization: localStorage.getItem('access-token')
             }
         });
-        console.log(data)
+        // console.log(data)
     }
 
     async function getRunningCrewSearchResult(keyword) {
