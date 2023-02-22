@@ -77,7 +77,7 @@ Runstory는 말그대로 “**달리는 이야기**”입니다.
 
 ### ✅ 러닝크루 모집 / 예약 기능
 
-![image](https://user-images.githubusercontent.com/68771699/219305392-e09d79df-d782-49cd-8a16-207cbbbb8f9d.png)
+![runningcrew](https://user-images.githubusercontent.com/68771699/219556342-fb851f01-646d-455c-b591-a78a98070286.gif)
 
 - **러닝 모임 작성**
     - 해시태그, 남녀인원, 위치등을 추가하여 러닝 모임 작성이 가능합니다.
@@ -127,7 +127,7 @@ Runstory는 말그대로 “**달리는 이야기**”입니다.
 
 ### ✅ 댓글기능
 
-![image](https://user-images.githubusercontent.com/68771699/219307713-7a9464e8-96f3-46fa-9e69-b041962a76ce.png)
+![comment](https://user-images.githubusercontent.com/68771699/219559659-60aa404f-1575-4c57-a0a7-869d7122c34b.gif)
 
 - 댓글 확인 및 대댓글 작성이 가능합니다.
   
@@ -139,7 +139,7 @@ Runstory는 말그대로 “**달리는 이야기**”입니다.
 
 ### ✅ 채팅 기능
 
-![image](https://user-images.githubusercontent.com/68771699/219362165-32cf5d6d-bd21-4478-9c12-0ec1ab4fee3b.png)
+![chat](https://user-images.githubusercontent.com/68771699/219560181-2d6be864-147b-43f8-b493-8ced022802b0.gif)
 
     
 - 일대일 채팅 및 러닝 크루 단체 채팅방을 통해 사용자들과 소통할 수 있습니다.
@@ -176,9 +176,10 @@ Runstory는 말그대로 “**달리는 이야기**”입니다.
 ### 📎 PPT
 
 
+
 ### 📎 UCC
 
-
+### [UCC링크](https://www.youtube.com/watch?v=d16pkOH0JWI)
 
 ## 📌 5. 프로젝트 산출물
 
@@ -194,7 +195,8 @@ Runstory는 말그대로 “**달리는 이야기**”입니다.
 ![Untitled (3)](https://user-images.githubusercontent.com/68771699/218964261-60046239-e5fe-4dcb-8f0f-a9778d9720da.png)
 
 ### 📎 FIGMA에서 살펴보기!
-[RunStory 스토리보드](https://www.figma.com/file/qjuHNpuMTWCl7JFoUKp1X7/)
+
+### [RunStory 스토리보드](https://www.figma.com/file/qjuHNpuMTWCl7JFoUKp1X7/)
 
 ### 📎 ERD
 
