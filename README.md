@@ -200,7 +200,7 @@ Runstory는 말그대로 “**달리는 이야기**”입니다.
 
 ### 📎 ERD
 
-![Runstory_ERD](https://user-images.githubusercontent.com/68771699/218964285-c5f7a190-5dd6-4935-850c-50a06a96b917.png)
+![Runstory_ERD](https://user-images.githubusercontent.com/24205661/220564008-ffb6fad9-afa0-4bfd-88ea-65329c565169.png)
 
 ### 📎 회의록
 
